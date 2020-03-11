@@ -62,6 +62,15 @@ class Question(db.Model):
     description = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
     __table_args__ = (db.ForeignKeyConstraint([topic_id, lesson_id], [Lesson.topic_id, Lesson.id]),{})
+    choices = db.relationship('QuestionChoices', backref='question')
+
+class QuestionChoices(db.Model):
+    __tablename__ = 'questionchoices'
+    question_id = db.Column(db.Integer, db.ForeignKey('questions.id'), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    description = db.Column(db.Text, nullable=False)
+    is_correct = db.Column(db.Boolean, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.now)
     
 if __name__ == '__main__':
     manager.run()
