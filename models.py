@@ -87,7 +87,7 @@ class Quiz(db.Model):
 
 class QuestionAttempt(db.Model):
     __tablename__ = 'questionattempts'
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
+    student_id = db.Column(db.Integer, db.ForeignKey('students.id'), primary_key=True)
     question_id = db.Column(db.Integer, db.ForeignKey('questions.id'), primary_key=True)
     is_correct = db.Column(db.Boolean, nullable=False)
     duration = db.Column(db.Interval)
