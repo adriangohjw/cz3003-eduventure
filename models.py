@@ -52,6 +52,16 @@ class Lesson(db.Model):
     name = db.Column(db.String(255), nullable=False)
     content = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
+    questions = db.relationship('Question', backref='lesson')
+    
+class Question(db.Model):
+    __tablename__ = 'questions'
+    id = db.Column(db.Integer, primary_key=True)
+    topic_id = db.Column(db.Integer)
+    lesson_id = db.Column(db.Integer)
+    description = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.now)
+    __table_args__ = (db.ForeignKeyConstraint([topic_id, lesson_id], [Lesson.topic_id, Lesson.id]),{})
     
 if __name__ == '__main__':
     manager.run()
