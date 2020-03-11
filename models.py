@@ -102,7 +102,7 @@ class QuizAttempt(db.Model):
     score = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
 
-class Rs_staff_course_teaches(db.Model):
+class Rs_staff_course_teach(db.Model):
     __tablename__ = 'rs_staff_course_teaches'
     staff_id = db.Column(db.Integer, db.ForeignKey('staffs.id'), primary_key=True)
     course_index = db.Column(db.String(255), db.ForeignKey('courses.index'), primary_key=True)
