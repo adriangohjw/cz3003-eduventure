@@ -28,5 +28,10 @@ class Staff(User):
     __tablename__ = 'staffs'
     id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
 
+class Student(User):
+    __tablename__ = 'students'
+    id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
+    matriculation_number = db.Column(db.String(255), unique=True, nullable=False)
+
 if __name__ == '__main__':
     manager.run()
