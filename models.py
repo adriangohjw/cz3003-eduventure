@@ -14,7 +14,10 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 manager = Manager(app)
 
+<<<<<<< HEAD
 manager.add_command('db', MigrateCommand)
 
+=======
+>>>>>>> 990acf09f6d15bee89bf0c357d57f219d368b3ac
 if __name__ == '__main__':
     manager.run()
