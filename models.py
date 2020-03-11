@@ -101,6 +101,14 @@ class QuizAttempt(db.Model):
     quiz_id = db.Column(db.Integer, db.ForeignKey('quizzes.id'), primary_key=True)
     score = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
+
+class Rs_staff_course_teaches(db.Model):
+    __tablename__ = 'rs_staff_course_teaches'
+    staff_id = db.Column(db.Integer, db.ForeignKey('staffs.id'), primary_key=True)
+    course_index = db.Column(db.String(255), db.ForeignKey('courses.index'), primary_key=True)
+    created_at = db.Column(db.DateTime, default=datetime.now)
+    staff = db.relationship('Staff', backref=db.backref('rs_staff_course_teaches', cascade="all, delete-orphan"))
+    course = db.relationship('Course', backref=db.backref('rs_staff_course_teaches', cascade="all, delete-orphan"))
     
 if __name__ == '__main__':
     manager.run()
