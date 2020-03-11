@@ -111,12 +111,12 @@ class Rs_staff_course_teach(db.Model):
     course = db.relationship('Course', backref=db.backref('rs_staff_course_teaches', cascade="all, delete-orphan"))
 
 class Rs_student_course_enrol(db.Model):
-    __tablename__ = 'Rs_student_course_enrols'
+    __tablename__ = 'rs_student_course_enrols'
     student_id = db.Column(db.Integer, db.ForeignKey('students.id'), primary_key=True)
     course_index = db.Column(db.String(255), db.ForeignKey('courses.index'), primary_key=True)
     created_at = db.Column(db.DateTime, default=datetime.now)
     student = db.relationship('Student', backref=db.backref('Rs_student_course_enrols', cascade="all, delete-orphan"))
     course = db.relationship('Course', backref=db.backref('Rs_student_course_enrols', cascade="all, delete-orphan"))
-    
+
 if __name__ == '__main__':
     manager.run()
