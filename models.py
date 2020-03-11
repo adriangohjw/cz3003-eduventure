@@ -33,5 +33,10 @@ class Student(User):
     id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
     matriculation_number = db.Column(db.String(255), unique=True, nullable=False)
 
+class Course(db.Model):
+    __tablename__ = 'courses'
+    index = db.Column(db.String(255), primary_key=True)
+    created_at = db.Column(db.DateTime, default=datetime.now)
+    
 if __name__ == '__main__':
     manager.run()
