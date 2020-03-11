@@ -33,6 +33,7 @@ class Student(User):
     __tablename__ = 'students'
     id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
     matriculation_number = db.Column(db.String(255), unique=True, nullable=False)
+    questions_attempts = db.relationship('QuestionAttempt', backref='student')
 
 class Course(db.Model):
     __tablename__ = 'courses'
@@ -64,6 +65,7 @@ class Question(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.now)
     __table_args__ = (db.ForeignKeyConstraint([topic_id, lesson_id], [Lesson.topic_id, Lesson.id]),{})
     choices = db.relationship('QuestionChoices', backref='question')
+    attempts = db.relationship('QuestionAttempt', backref='question')
 
 class QuestionChoices(db.Model):
     __tablename__ = 'questionchoices'
@@ -81,6 +83,14 @@ class Quiz(db.Model):
     is_fast = db.Column(db.Boolean, nullable=False)
     date_start = db.Column(db.Date, nullable=False)
     date_end = db.Column(db.Date, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.now)
+
+class QuestionAttempt(db.Model):
+    __tablename__ = 'questionattempts'
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
+    question_id = db.Column(db.Integer, db.ForeignKey('questions.id'), primary_key=True)
+    is_correct = db.Column(db.Boolean, nullable=False)
+    duration = db.Column(db.Interval)
     created_at = db.Column(db.DateTime, default=datetime.now)
     
 if __name__ == '__main__':
