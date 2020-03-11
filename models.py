@@ -27,6 +27,7 @@ class User(db.Model):
 class Staff(User):
     __tablename__ = 'staffs'
     id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
+    quizzes = db.relationship('Quiz', backref='staff')
 
 class Student(User):
     __tablename__ = 'students'
@@ -70,6 +71,16 @@ class QuestionChoices(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.Text, nullable=False)
     is_correct = db.Column(db.Boolean, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.now)
+
+class Quiz(db.Model):
+    __tablename__ = 'quizzes'
+    id = db.Column(db.Integer, primary_key=True)
+    staff_id = db.Column(db.Integer, db.ForeignKey('staffs.id'))
+    name = db.Column(db.String(255), nullable=False)
+    is_fast = db.Column(db.Boolean, nullable=False)
+    date_start = db.Column(db.Date, nullable=False)
+    date_end = db.Column(db.Date, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
     
 if __name__ == '__main__':
