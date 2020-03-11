@@ -37,6 +37,12 @@ class Course(db.Model):
     __tablename__ = 'courses'
     index = db.Column(db.String(255), primary_key=True)
     created_at = db.Column(db.DateTime, default=datetime.now)
+
+class Topic(db.Model):
+    __tablename__ = 'topics'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.now)
     
 if __name__ == '__main__':
     manager.run()
