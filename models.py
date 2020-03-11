@@ -5,5 +5,5 @@ from config import Config
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = DB_conn.URI
+app.config['SQLALCHEMY_DATABASE_URI'] = Config.URI
 db = SQLAlchemy(app)
