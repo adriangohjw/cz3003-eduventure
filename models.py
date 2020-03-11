@@ -24,5 +24,9 @@ class User(db.Model):
     name = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
 
+class Staff(User):
+    __tablename__ = 'staffs'
+    id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
+
 if __name__ == '__main__':
     manager.run()
