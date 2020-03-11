@@ -43,6 +43,15 @@ class Topic(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
+    lessons = db.relationship('Lesson', backref='topic')
+
+class Lesson(db.Model):
+    __tablename__ = 'lessons'
+    topic_id = db.Column(db.Integer, db.ForeignKey('topics.id'), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.now)
     
 if __name__ == '__main__':
     manager.run()
