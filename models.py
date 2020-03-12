@@ -126,5 +126,13 @@ class Rs_quiz_course_assign(db.Model):
     quiz = db.relationship('Quiz', backref=db.backref('rs_quiz_course_assigns', cascade="all, delete-orphan"))
     course = db.relationship('Course', backref=db.backref('rs_quiz_course_assigns', cascade="all, delete-orphan"))
 
+class Rs_quiz_question_contain(db.Model):
+    __tablename__ = 'rs_quiz_question_contains'
+    quiz_id = db.Column(db.Integer, db.ForeignKey('quizzes.id'), primary_key=True)
+    question_id = db.Column(db.Integer, db.ForeignKey('questions.id'), primary_key=True)
+    created_at = db.Column(db.DateTime, default=datetime.now)
+    quiz = db.relationship('Quiz', backref=db.backref('rs_quiz_question_contains', cascade="all, delete-orphan"))
+    question = db.relationship('Question', backref=db.backref('rs_quiz_question_contains', cascade="all, delete-orphan"))
+
 if __name__ == '__main__':
     manager.run()
