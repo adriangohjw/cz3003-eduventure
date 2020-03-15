@@ -1,11 +1,10 @@
 from flask import jsonify, request
-from flask_restful import Resource, Api
+from flask_restful import Resource
 
 from models import db, Topic
 from flask.helpers import make_response
 
 import requests
-import bcrypt
 
 def create_topic(name):
     if (name is not None):

@@ -1,11 +1,10 @@
 from flask import jsonify, request
-from flask_restful import Resource, Api
+from flask_restful import Resource
 
 from models import db, Course, Staff
 from flask.helpers import make_response
 
 import requests
-import bcrypt
 
 from .StaffsController import is_staff
 
