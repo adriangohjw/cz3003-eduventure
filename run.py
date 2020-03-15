@@ -16,8 +16,9 @@ if __name__ == "__main__":
     from models import db 
     db.init_app(app)
 
-    from services.core.app import user_bp, staff_bp
+    from services.core.app import user_bp, staff_bp, student_bp
     app.register_blueprint(user_bp, url_prefix='/users')
     app.register_blueprint(staff_bp, url_prefix='/staffs')
+    app.register_blueprint(student_bp, url_prefix='/students')
 
     app.run(port=5000, debug=True)
