@@ -2,7 +2,7 @@ from flask import Blueprint
 from flask_restful import Resource, Api
 from config import Config
 
-from services.core.resources import UsersController, StaffsController, StudentsController
+from services.core.resources import UsersController, StaffsController, StudentsController, CoursesController
 
 user_bp = Blueprint('user', __name__)
 api_user = Api(user_bp)
@@ -16,3 +16,7 @@ api_staff.add_resource(StaffsController.StaffAPI, '/')
 student_bp = Blueprint('student', __name__)
 api_student = Api(student_bp)
 api_student.add_resource(StudentsController.StudentAPI, '/')
+
+course_bp = Blueprint('course', __name__)
+api_course = Api(course_bp)
+api_course.add_resource(CoursesController.CourseAPI, '/')
