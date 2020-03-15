@@ -78,11 +78,17 @@ class Topic(db.Model):
 class Lesson(db.Model):
     __tablename__ = 'lessons'
     topic_id = db.Column(db.Integer, db.ForeignKey('topics.id'), primary_key=True)
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, nullable=True)
     name = db.Column(db.String(255), nullable=False)
     content = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
     questions = db.relationship('Question', backref='lesson')
+
+    def __init__(self, topic_id, id, name, content):
+        self.topic_id = topic_id
+        self.id = id
+        self.name = name
+        self.content = content  
     
 class Question(db.Model):
     __tablename__ = 'questions'
