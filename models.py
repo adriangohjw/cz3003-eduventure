@@ -72,6 +72,9 @@ class Topic(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.now)
     lessons = db.relationship('Lesson', backref='topic')
 
+    def __init__(self, name):
+        self.name = name
+
 class Lesson(db.Model):
     __tablename__ = 'lessons'
     topic_id = db.Column(db.Integer, db.ForeignKey('topics.id'), primary_key=True)
