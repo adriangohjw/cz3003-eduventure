@@ -62,6 +62,9 @@ class Course(db.Model):
     index = db.Column(db.String(255), primary_key=True)
     created_at = db.Column(db.DateTime, default=datetime.now)
 
+    def __init__(self, index):
+        self.index = index
+
 class Topic(db.Model):
     __tablename__ = 'topics'
     id = db.Column(db.Integer, primary_key=True)
