@@ -65,3 +65,31 @@ class UserAPI(Resource):
                     message = "User creation - precondition failed"
                 ), 412
             )
+
+class UserResetPasswordAPI(Resource):
+    def put(self):
+        email = request.args.get('email')
+        old_password = request.args.get('old_password')
+        new_password = request.args.get('new_password')
+        user = User.query.filter_by(email=email).first()
+        if user is not None:  
+            if (authenticate(old_password, user.encrypted_password)):
+                user.encrypted_password = encrypt(new_password)
+                db.session.commit()
+                return make_response(
+                    jsonify (
+                        message = "Password update - successful",
+                    ), 200
+                )
+            else:
+                return make_response(
+                    jsonify (
+                        message = "Password update - unsuccessful"
+                    ), 401
+                )
+        else: 
+            return make_response(
+                jsonify (
+                    message = "no user found"
+                ), 404
+            )

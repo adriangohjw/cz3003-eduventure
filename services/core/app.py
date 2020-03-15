@@ -7,3 +7,4 @@ from services.core.resources import UsersController
 user_bp = Blueprint('user', __name__)
 api_user = Api(user_bp)
 api_user.add_resource(UsersController.UserAPI, '/')
+api_user.add_resource(UsersController.UserResetPasswordAPI, '/reset_password')
