@@ -39,6 +39,11 @@ class Staff(User):
     id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
     quizzes = db.relationship('Quiz', backref='staff')
 
+    def __init__(self, user):
+        self.email = user.email
+        self.encrypted_password = user.encrypted_password
+        self.name = user.name
+
 class Student(User):
     __tablename__ = 'students'
     id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
