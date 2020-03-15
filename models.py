@@ -2,18 +2,17 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from config import Config
-
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
+from sqlalchemy.ext.hybrid import hybrid_property
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = Config.URI
+from run import create_app
+app = create_app()
+
 db = SQLAlchemy(app)
-
 migrate = Migrate(app, db)
-manager = Manager(app)
 
+manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 
 class User(db.Model):
@@ -23,6 +22,17 @@ class User(db.Model):
     encrypted_password = db.Column(db.String(255), nullable=False)
     name = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
+
+    def __init__(self, email, encrypted_password, name):
+        self.email = email 
+        self.encrypted_password = encrypted_password
+        self.name = name
+
+    def get_encrypted_password(self):
+        return self.encrypted_password
+
+    def set_encrypted_password(self, encrypted_password):
+        self.encrypted_password = encrypted_password
 
 class Staff(User):
     __tablename__ = 'staffs'
