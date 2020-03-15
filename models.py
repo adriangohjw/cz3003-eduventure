@@ -51,6 +51,12 @@ class Student(User):
     questions_attempts = db.relationship('QuestionAttempt', backref='student')
     quiz_attempts = db.relationship('QuizAttempt', backref='student')
 
+    def __init__(self, user, matriculation_number):
+        self.email = user.email
+        self.encrypted_password = user.encrypted_password
+        self.name = user.name
+        self.matriculation_number = matriculation_number
+
 class Course(db.Model):
     __tablename__ = 'courses'
     index = db.Column(db.String(255), primary_key=True)
