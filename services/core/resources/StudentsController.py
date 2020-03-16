@@ -4,37 +4,29 @@ from flask_restful import Resource
 from models import Rs_student_course_enrol, Student, User, db
 from flask.helpers import make_response
 
-import requests
-
 from .UsersController import initializeUser
 from ..dao.UsersDAO import userRead
+from ..dao.StudentsDAO import studentCreate, studentRead, studentUpdate
 
-def is_student(col, value):
-    if (col == 'email'):
-        user = User.query.filter_by(email=value).first()
-        return bool(Student.query.filter_by(id=user.id).first())
-    if (col == 'id'):
-        return bool(Student.query.filter_by(id=value).first())
-
-def getStudent(col, value):
-    if (is_student(col=col, value=value)):
-        if (col == 'email'):
-            return Student.query.filter_by(email=value).first()
-        elif (col == 'id'):
-            return Student.query.filter_by(id=value).first()
+def initializeStudent(email, password, matriculation_number):
+    user = initializeUser(email, password)
+    if (user and (matriculation_number is not None)):
+        return Student(user, matriculation_number)
     else:
         return False
 
 class StudentAPI(Resource):
     def get(self):
         email = request.args.get('email')
-        if (is_student(email)):
+        student = studentRead(col='email', value=email)
+        if (student):   # if student exist
             return make_response(
                 jsonify(
-                    message = "User is Student"
+                    message = "User is Student",
+                    matriculation_number = student.matriculation_number
                 ), 200
             )
-        else:
+        else:   # if student does not exist or that user is not a student
             return make_response(
                 jsonify(
                     message = "User is not student / does not exist"
@@ -43,39 +35,45 @@ class StudentAPI(Resource):
 
     def post(self):
         email = request.args.get('email')
-        if (userRead(col='email', value=email)):
-            return make_response(
-                jsonify(
-                    message = "Student already exist"
-                ), 400
-            )
         password = request.args.get('password')
         matriculation_number = request.args.get('matriculation_number')
-        user = initializeUser(email, password)
-        if (user):
-            student = Student(user, matriculation_number=matriculation_number)
-            db.session.add(student)
-            db.session.commit()
-            return make_response(
-                jsonify(
-                    message = "Student creation - successful"
-                ), 200
-            )
-        else:  
+        student = initializeStudent(email, password, matriculation_number)
+        if (studentRead(col='email', value=student.email)): # if existing student
             return make_response(
                 jsonify (
-                    message = "Student creation - precondition failed"
-                ), 412
+                    message = "Student {} already exist".format(student.email)
+                ), 409
             )
+        else:
+            student_create_status = studentCreate(student)
+            if (student_create_status): # if student creation is successful
+                return make_response(
+                    jsonify(
+                        message = "Student creation - successful"
+                    ), 200
+                )
+            else:    # if student creation is unsuccessful
+                return make_response(
+                    jsonify (
+                        message = "Student creation - precondition failed"
+                    ), 412
+                )
 
 
 from .CoursesController import is_course
+from ..dao.StudentsDAO import courseMngCreate, courseMngRead
+
+def initializeRsStudentCourseEnrol(student_id, course_index):
+    if ((student_id is not None) and (course_index is not None)):
+        return Rs_student_course_enrol(student_id, course_index)
+    else:
+        return False
 
 class CourseManagerAPI(Resource):
     def get(self):
         user_email = request.args.get('user_email')
-        student = getStudent(col='email', value=user_email)
-        if (student):
+        student = studentRead(col='email', value=user_email)
+        if (student):   # if rs between student and course found
             return make_response(
                 jsonify(
                     message = "Student and courses found",
@@ -83,7 +81,7 @@ class CourseManagerAPI(Resource):
                     course = student.rs_student_course_enrols
                 )
             )
-        else:
+        else:   # if rs between student and course not found
             return make_response(
                 jsonify(
                     message = "User is not student / does not exist"
@@ -93,27 +91,26 @@ class CourseManagerAPI(Resource):
     def post(self):
         user_email = request.args.get('user_email')
         course_index = request.args.get('course_index')    
-        student = getStudent(col='email', value=user_email)
-        if (student and is_course(index=course_index)):
-            rs = Rs_student_course_enrol.query.filter_by(student_id=student.id).filter_by(course_index=course_index).first()
-            if (bool(rs)):
-                return make_response(
-                    jsonify(
-                        message = "Relationship already exist"
-                    ), 409
-                )
-            else:
-                rs = Rs_student_course_enrol(student_id=student.id, course_index=course_index)
-                db.session.add(rs)
-                db.session.commit()
+        student = studentRead(col='email', value=user_email)
+        rs = courseMngRead(student_id=student.id, course_index=course_index)
+        if (rs):    # rs already exist
+            return make_response(
+                jsonify(
+                    message = "Relationship already exist"
+                ), 409
+            )
+        else:   # rs does not exist yet
+            rs = initializeRsStudentCourseEnrol(student_id=student.id, course_index=course_index)
+            rs_create_status = courseMngCreate(rs)
+            if (rs_create_status):  # successful in adding Rs to DB
                 return make_response(
                     jsonify(
                         message = "Relationship added"
                     ), 200
                 )
-        else:
-            return make_response(
-                jsonify(
-                    message = "Relationship not added - failed precondition"
-                ), 412
-            )
+            else:   # unsuccessful in adding Rs to DB
+                return make_response(
+                    jsonify(
+                        message = "Relationship not added - failed precondition"
+                    ), 412
+                )
