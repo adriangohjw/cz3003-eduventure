@@ -1,17 +1,26 @@
 from flask import jsonify, request
 from flask_restful import Resource
 
-from models import db, User, Staff
+from models import db, User, Staff, Course
 from flask.helpers import make_response
 
 import requests
 
 from .UsersController import is_existing, create_user
 
-def is_staff(email):
-    user = User.query.filter_by(email=email).first()
-    if (user is not None):
+def is_staff(col, value):
+    if (col == 'email'):
+        user = User.query.filter_by(email=email).first()
         return bool(Staff.query.filter_by(id=user.id).first())
+    if (col == 'id'):
+        return bool(Staff.query.filter_by(id=id).first())
+
+def getStaff(col, value):
+    if (is_staff(col=col, value=value)):
+        if (col == 'name'):
+            return Staff.query.filter_by(name=value).first()
+        elif (col == 'id'):
+            return Staff.query.filter_by(id=value).first()
     else:
         return False
 
