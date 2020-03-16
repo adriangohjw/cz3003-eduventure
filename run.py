@@ -1,7 +1,5 @@
 from flask import Flask
 from config import Config
-from flask_migrate import Migrate, MigrateCommand
-from flask_script import Manager
 
 def create_app():
     app = Flask(__name__)
@@ -23,5 +21,8 @@ if __name__ == "__main__":
     app.register_blueprint(course_bp, url_prefix='/courses')
     app.register_blueprint(topic_bp, url_prefix='/topics')
     app.register_blueprint(lesson_bp, url_prefix='/lessons')
+
+    from services.quiz.app import question_bp
+    app.register_blueprint(question_bp, url_prefix='/questions')
 
     app.run(port=5000, debug=True)
