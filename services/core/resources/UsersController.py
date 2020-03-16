@@ -1,10 +1,9 @@
 from flask import jsonify, request
 from flask_restful import Resource
 
-from models import db, User
+from models import User
 from flask.helpers import make_response
 
-import requests
 import bcrypt
 
 from ..dao.UsersDAO import userCreate, userRead, userUpdate
@@ -26,7 +25,7 @@ def initializeUser(email, password):
             encrypted_password=encrypted_password
         )
     else:
-        False
+        return False
 
 class UserAPI(Resource):
     def get(self):
@@ -60,7 +59,7 @@ class UserAPI(Resource):
             )
         else:
             user_create_status = userCreate(user)
-            if (userCreate(user)):  # if user creation is successful
+            if (user_create_status):  # if user creation is successful
                 return make_response(
                     jsonify(
                         message = "User creation - successful"
