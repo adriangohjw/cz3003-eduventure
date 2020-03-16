@@ -1,4 +1,5 @@
 from models import db, Lesson
+from sqlalchemy import desc 
 
 def lessonCreate(lesson):
     db.session.add(lesson)
@@ -34,3 +35,6 @@ def lessonDelete(topic_id, lesson_id):
     except Exception as e:
         print(e)
         return False
+
+def getLastLessonID(topic_id):
+    return Lesson.query.filter_by(topic_id=topic_id).order_by(desc(Lesson.created_at)).first().id

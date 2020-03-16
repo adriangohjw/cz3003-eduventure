@@ -6,14 +6,17 @@ from flask.helpers import make_response
 
 import json
 
-from ..dao.LessonsDAO import lessonCreate, lessonRead, lessonUpdate, lessonDelete
+from ..dao.LessonsDAO import lessonCreate, lessonRead, lessonUpdate, lessonDelete, getLastLessonID
 from ..dao.TopicsDAO import topicRead
 
 def initializeLesson(topic_id, name, content):
     topic = topicRead(col='id', value=topic_id)
     if (topic):
-        id = len(topic.lessons) + 1
-        return Lesson(topic_id, id, name, content)
+        lestLessonID = getLastLessonID(topic_id=topic.id)
+        if (lestLessonID):  # last lesson ID found
+            return Lesson(topic_id, lestLessonID+1, name, content)
+        else:   # no last lesson found
+            return Lesson(topic_id, 1, name, content)
     else:
         return False
 
