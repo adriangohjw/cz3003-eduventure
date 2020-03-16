@@ -6,7 +6,8 @@ from flask.helpers import make_response
 
 import requests
 
-from .UsersController import is_existing, create_user
+from .UsersController import initializeUser
+from ..dao.UsersDAO import userRead
 
 def is_staff(col, value):
     if (col == 'email'):
@@ -42,14 +43,14 @@ class StaffAPI(Resource):
 
     def post(self):
         email = request.args.get('email')
-        if (is_existing(email)):
+        if (userRead(col='email', value=email)):
             return make_response(
                 jsonify(
                     message = "Staff already exist"
                 ), 400
             )
         password = request.args.get('password')
-        user = create_user(email, password)
+        user = initializeUser(email, password)
         if (user):
             staff = Staff(user)
             db.session.add(staff)

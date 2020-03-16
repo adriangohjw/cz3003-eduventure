@@ -6,7 +6,8 @@ from flask.helpers import make_response
 
 import requests
 
-from .UsersController import is_existing, create_user
+from .UsersController import initializeUser
+from ..dao.UsersDAO import userRead
 
 def is_student(col, value):
     if (col == 'email'):
@@ -42,7 +43,7 @@ class StudentAPI(Resource):
 
     def post(self):
         email = request.args.get('email')
-        if (is_existing(email)):
+        if (userRead(col='email', value=email)):
             return make_response(
                 jsonify(
                     message = "Student already exist"
@@ -50,7 +51,7 @@ class StudentAPI(Resource):
             )
         password = request.args.get('password')
         matriculation_number = request.args.get('matriculation_number')
-        user = create_user(email, password)
+        user = initializeUser(email, password)
         if (user):
             student = Student(user, matriculation_number=matriculation_number)
             db.session.add(student)
