@@ -155,6 +155,10 @@ class Rs_student_course_enrol(db.Model):
     student = db.relationship('Student', backref=db.backref('rs_student_course_enrols', cascade="all, delete-orphan"))
     course = db.relationship('Course', backref=db.backref('rs_student_course_enrols', cascade="all, delete-orphan"))
 
+    def __init__(self, student_id, course_index):
+        self.student_id = student_id
+        self.course_index = course_index
+
 class Rs_quiz_course_assign(db.Model):
     __tablename__ = 'rs_quiz_course_assigns'
     quiz_id = db.Column(db.Integer, db.ForeignKey('quizzes.id'), primary_key=True)
