@@ -65,3 +65,29 @@ class QuestionAPI(Resource):
                     message = "Question creation - topic/lesson does not exist"
                 ), 412
             )
+    
+    def put(self):
+        question_id = request.args.get('id')
+        description = request.args.get('description')
+        question = questionRead(id=question_id)
+        if (question):    # question exist
+            question.description = description
+            question_update_status = questionUpdate()
+            if (question_update_status):    # if question update is successful
+                return make_response(
+                    jsonify(
+                        message = "Question creation - successful"
+                    ), 200
+                )
+            else:   # if question update is not successful
+                return make_response(
+                    jsonify (
+                        message = "Question update unsuccessful - precondition failed"
+                    ), 412
+                )
+        else:   # question does not exist
+            return make_response(
+                jsonify (
+                    message = "Question update unsuccessful - topic/lesson does not exist"
+                ), 412
+            )
