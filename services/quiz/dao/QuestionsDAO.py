@@ -19,3 +19,13 @@ def questionUpdate():
     except Exception as e:
         print(e)
         return False
+
+def questionDelete(id):
+    question = questionRead(id)
+    db.session.delete(question)
+    try:
+        db.session.commit()
+        return True
+    except Exception as e:
+        print(e)
+        return False

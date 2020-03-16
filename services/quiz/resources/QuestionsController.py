@@ -4,7 +4,7 @@ from flask_restful import Resource
 from models import db, Question
 from flask.helpers import make_response
 
-from ..dao.QuestionsDAO import questionCreate, questionRead, questionUpdate
+from ..dao.QuestionsDAO import questionCreate, questionRead, questionUpdate, questionDelete
 from ...core.dao.LessonsDAO import lessonRead
 
 def initializeQuestion(topic_id, lesson_id, description):
@@ -91,3 +91,27 @@ class QuestionAPI(Resource):
                     message = "Question update unsuccessful - topic/lesson does not exist"
                 ), 412
             )
+
+    def delete(self):
+        question_id = request.args.get('id')
+        question = questionRead(id=question_id)
+        if (question):  # question exist
+            question_delete_status = questionDelete(id=question.id)
+            if (question_delete_status):  # successfully deleted question
+                return make_response(
+                    jsonify(
+                        message = "question deletion - successful"
+                    ), 200
+                ) 
+            else:   # unsuccessful in deleting question
+                return make_response(
+                    jsonify(
+                        message = "question deletion - unsuccessful"
+                    ), 400
+                ) 
+        else:   # question does not exist
+            return make_response(
+                    jsonify(
+                        message = "question not found"
+                    ), 404
+                ) 
