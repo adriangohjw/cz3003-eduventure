@@ -20,8 +20,7 @@ def is_course(index):
 class CourseAPI(Resource):
     def get(self):
         index = request.args.get('index')
-        course = Course.query.filter_by(index=index).first()
-        if (is_course(course)):        
+        if (is_course(index)):        
             return make_response(
                 jsonify (
                     message = "Course found"
