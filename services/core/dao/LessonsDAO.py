@@ -9,11 +9,11 @@ def lessonCreate(lesson):
         print(e)
         return False
 
-def lessonRead(col, value):
+def lessonRead(topic_id, col, value):
     if (col == 'name'):
-        return Lesson.query.filter_by(name=value).first()
+        return Lesson.query.filter_by(topic_id=topic_id).filter_by(name=value).first()
     elif (col == 'id'):
-        return Lesson.query.filter_by(id=value).first()
+        return Lesson.query.filter_by(topic_id=topic_id).filter_by(id=value).first()
     else:
         return False
 
