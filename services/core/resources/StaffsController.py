@@ -58,7 +58,7 @@ class StaffAPI(Resource):
                 )
 
 
-from .CoursesController import is_course
+from ..dao.CoursesDAO import courseRead
 from ..dao.StaffsDAO import courseMngCreate, courseMngRead
 
 def initializeRsStaffCourseTeach(staff_id, course_index):
@@ -90,7 +90,8 @@ class CourseManagerAPI(Resource):
         user_email = request.args.get('user_email')
         course_index = request.args.get('course_index')
         staff = staffRead(col='email', value=user_email)
-        rs = courseMngRead(staff_id=staff.id, course_index=course_index)
+        course = courseRead(course_index)
+        rs = courseMngRead(staff_id=staff.id, course_index=course.index)
         if (rs):    # rs already exist
             return make_response(
                 jsonify(
@@ -98,7 +99,7 @@ class CourseManagerAPI(Resource):
                 ), 409
             )
         else:   # rs does not exist yet
-            rs = initializeRsStaffCourseTeach(staff_id=staff.id, course_index=course_index)
+            rs = initializeRsStaffCourseTeach(staff_id=staff.id, course_index=course.index)
             rs_create_status = courseMngCreate(rs)
             if (rs_create_status):  # successful in adding Rs to DB
                 return make_response(

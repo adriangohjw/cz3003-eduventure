@@ -60,7 +60,7 @@ class StudentAPI(Resource):
                 )
 
 
-from .CoursesController import is_course
+from .CoursesController import courseRead
 from ..dao.StudentsDAO import courseMngCreate, courseMngRead
 
 def initializeRsStudentCourseEnrol(student_id, course_index):
@@ -92,7 +92,8 @@ class CourseManagerAPI(Resource):
         user_email = request.args.get('user_email')
         course_index = request.args.get('course_index')    
         student = studentRead(col='email', value=user_email)
-        rs = courseMngRead(student_id=student.id, course_index=course_index)
+        course = courseRead(course_index)
+        rs = courseMngRead(student_id=student.id, course_index=course.index)
         if (rs):    # rs already exist
             return make_response(
                 jsonify(
@@ -100,7 +101,7 @@ class CourseManagerAPI(Resource):
                 ), 409
             )
         else:   # rs does not exist yet
-            rs = initializeRsStudentCourseEnrol(student_id=student.id, course_index=course_index)
+            rs = initializeRsStudentCourseEnrol(student_id=student.id, course_index=course.index)
             rs_create_status = courseMngCreate(rs)
             if (rs_create_status):  # successful in adding Rs to DB
                 return make_response(
