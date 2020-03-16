@@ -1,24 +1,21 @@
 from flask import jsonify, request
-from flask_restful import Resource, reqparse
+from flask_restful import Resource
 
 from models import db, Lesson
 from flask.helpers import make_response
 
-import requests
 import json
 
-from .TopicsController import is_topic, getTopic
+from ..dao.LessonsDAO import lessonCreate, lessonRead, lessonUpdate
+from ..dao.TopicsDAO import topicRead
 
-def create_lesson(topic_id, name, content):
-    if (is_topic(col='id', value=topic_id)):
-        topic = getTopic(col='id', value=topic_id)
+def initializeLesson(topic_id, name, content):
+    topic = topicRead(col='id', value=topic_id)
+    if (topic):
         id = len(topic.lessons) + 1
         return Lesson(topic_id, id, name, content)
     else:
         return False
-
-def is_lesson(name):
-    return bool(Lesson.query.filter_by(name=name).first())
 
 class LessonAPI(Resource):
     def post(self):
@@ -28,25 +25,24 @@ class LessonAPI(Resource):
         name = r['name']
         content = r['content']
 
-        if (is_lesson(name)):
-            return make_response(
+        lesson = initializeLesson(topic_id, name, content)
+        if (lessonRead(col='name', value=name)):    # lesson already exist
+            return make_response(  
                 jsonify(
                     message = "Lesson already exist"
                 ), 400
             )
-            
-        lesson = create_lesson(topic_id, name, content)
-        if (lesson):
-            db.session.add(lesson)
-            db.session.commit()
-            return make_response(
-                jsonify(
-                    message = "Lesson creation - successful"
-                ), 200
-            )
-        else:  
-            return make_response(
-                jsonify (
-                    message = "Lesson creation - precondition failed"
-                ), 412
-            )
+        else:   # lesson does not exist
+            lesson_create_status = lessonCreate(lesson)
+            if (lesson_create_status):  # if lesson creation is successful
+                return make_response(
+                    jsonify(
+                        message = "Lesson creation - successful"
+                    ), 200
+                )
+            else:   # if lesosn creation is unsuccessful
+                return make_response(
+                    jsonify (
+                        message = "Lesson creation - precondition failed"
+                    ), 412
+                )
