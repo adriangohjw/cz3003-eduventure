@@ -93,14 +93,22 @@ class CourseManagerAPI(Resource):
         course_index = request.args.get('course_index')
         staff = getStaff(col='email', value=user_email)
         if (staff and is_course(index=course_index)):
-            rs = Rs_staff_course_teach(staff_id=staff.id, course_index=course_index)
-            db.session.add(rs)
-            db.session.commit()
-            return make_response(
-                jsonify(
-                    message = "Relationship added"
-                ), 200
-            )
+            rs = Rs_staff_course_teach.query.filter_by(staff_id=staff.id).filter_by(course_index=course_index).first()
+            if (bool(rs)):
+                return make_response(
+                    jsonify(
+                        message = "Relationship already exist"
+                    ), 409
+                )
+            else:
+                rs = Rs_staff_course_teach(staff_id=staff.id, course_index=course_index)
+                db.session.add(rs)
+                db.session.commit()
+                return make_response(
+                    jsonify(
+                        message = "Relationship added"
+                    ), 200
+                )
         else:
             return make_response(
                 jsonify(
