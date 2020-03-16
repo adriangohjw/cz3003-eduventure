@@ -143,6 +143,10 @@ class Rs_staff_course_teach(db.Model):
     staff = db.relationship('Staff', backref=db.backref('rs_staff_course_teaches', cascade="all, delete-orphan"))
     course = db.relationship('Course', backref=db.backref('rs_staff_course_teaches', cascade="all, delete-orphan"))
 
+    def __init__(self, staff_id, course_index):
+        self.staff_id = staff_id
+        self.course_index = course_index
+
 class Rs_student_course_enrol(db.Model):
     __tablename__ = 'rs_student_course_enrols'
     student_id = db.Column(db.Integer, db.ForeignKey('students.id'), primary_key=True)
