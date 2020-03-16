@@ -43,28 +43,36 @@ class LessonAPI(Resource):
     def post(self):
         r_json = request.args.get('value')
         r = json.loads(r_json)
-        topic_id = r['topic_id']
-        name = r['name']
-        content = r['content']
+        try:
+            topic_id = r['topic_id']
+            name = r['name']
+            content = r['content']
+            lesson = initializeLesson(topic_id, name, content)
 
-        lesson = initializeLesson(topic_id, name, content)
-        if (lessonRead(topic_id=topic_id, col='name', value=name)):    # lesson already exist
-            return make_response(  
-                jsonify(
-                    message = "Lesson already exist"
-                ), 400
-            )
-        else:   # lesson does not exist
-            lesson_create_status = lessonCreate(lesson)
-            if (lesson_create_status):  # if lesson creation is successful
-                return make_response(
+            if (lessonRead(topic_id=topic_id, col='name', value=name)):    # lesson already exist
+                return make_response(  
                     jsonify(
-                        message = "Lesson creation - successful"
-                    ), 200
+                        message = "Lesson already exist"
+                    ), 400
                 )
-            else:   # if lesosn creation is unsuccessful
-                return make_response(
-                    jsonify (
-                        message = "Lesson creation - precondition failed"
-                    ), 412
-                )
+            else:   # lesson does not exist
+                lesson_create_status = lessonCreate(lesson)
+                if (lesson_create_status):  # if lesson creation is successful
+                    return make_response(
+                        jsonify(
+                            message = "Lesson creation - successful"
+                        ), 200
+                    )
+                else:   # if lesosn creation is unsuccessful
+                    return make_response(
+                        jsonify (
+                            message = "Lesson creation - precondition failed"
+                        ), 412
+                    )
+        except KeyError as e:
+            print(e)
+            return make_response(
+                jsonify (
+                    message = "Incorrect parameters passed"
+                ), 412
+            )
