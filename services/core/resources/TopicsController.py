@@ -1,38 +1,22 @@
 from flask import jsonify, request
 from flask_restful import Resource
 
-from models import db, Topic
+from models import Topic
 from flask.helpers import make_response
 
-import requests
+from ..dao.TopicsDAO import topicCreate, topicRead, topicUpdate
 
-def create_topic(name):
+def initializeTopic(name):
     if (name is not None):
         return Topic(name)
-    else:
-        return False
-
-def is_topic(col, value):
-    if (col == 'name'):
-        return bool(Topic.query.filter_by(name=value).first())
-    elif (col == 'id'):
-        return bool(Topic.query.filter_by(id=value).first())
-
-def getTopic(col, value):
-    if (is_topic(col=col, value=value)):
-        if (col == 'name'):
-            return Topic.query.filter_by(name=value).first()
-        elif (col == 'id'):
-            return Topic.query.filter_by(id=value).first()
     else:
         return False
 
 class TopicAPI(Resource):
     def get(self):
         id = request.args.get('id')
-        topic = getTopic(col='id', value=id)
+        topic = topicRead(col='id', value=id)
         if (topic):
-            print(len(topic.lessons))
             return make_response(
                 jsonify(
                     message = "Topic found",
@@ -49,24 +33,24 @@ class TopicAPI(Resource):
         
     def post(self):
         name = request.args.get('name')
-        if (is_topic('name', name)):
+        topic = initializeTopic(name)
+        if (topicRead(col='name', value=name)): # topic already exist
             return make_response(
                 jsonify(
                     message = "Topic already exist"
                 ), 400
             )
-        topic = create_topic(name)
-        if (topic):
-            db.session.add(topic)
-            db.session.commit()
-            return make_response(
-                jsonify(
-                    message = "Topic creation - successful"
-                ), 200
-            )
-        else:  
-            return make_response(
-                jsonify (
-                    message = "Topic creation - precondition failed"
-                ), 412
-            )
+        else:
+            topic_create_status = topicCreate(topic)
+            if (topic_create_status):   # if topic creation is successful
+                return make_response(
+                    jsonify(
+                        message = "Topic creation - successful"
+                    ), 200
+                )
+            else:   # if topic creation is unsuccessful
+                return make_response(
+                    jsonify (
+                        message = "Topic creation - precondition failed"
+                    ), 412
+                )
