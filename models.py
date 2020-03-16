@@ -101,6 +101,11 @@ class Question(db.Model):
     choices = db.relationship('QuestionChoices', backref='question')
     attempts = db.relationship('QuestionAttempt', backref='question')
 
+    def __init__(self, topic_id, lesson_id, description):
+        self.topic_id = topic_id
+        self.lesson_id = lesson_id
+        self.description = description
+
 class QuestionChoices(db.Model):
     __tablename__ = 'questionchoices'
     question_id = db.Column(db.Integer, db.ForeignKey('questions.id'), primary_key=True)
