@@ -6,7 +6,7 @@ from flask.helpers import make_response
 
 import json
 
-from ..dao.LessonsDAO import lessonCreate, lessonRead, lessonUpdate
+from ..dao.LessonsDAO import lessonCreate, lessonRead, lessonUpdate, lessonDelete
 from ..dao.TopicsDAO import topicRead
 
 def initializeLesson(topic_id, name, content):
@@ -119,3 +119,28 @@ class LessonAPI(Resource):
                     message = "Incorrect parameters passed"
                 ), 412
             )
+    
+    def delete(self):
+        topic_id = request.args.get('topic_id')
+        lesson_id = request.args.get('lesson_id')
+        lesson = lessonRead(topic_id=topic_id, col='id', value=lesson_id)
+        if (lesson):    # lesson exist
+            lesson_delete_status = lessonDelete(topic_id=topic_id, lesson_id=lesson_id)
+            if (lesson_delete_status):  # successfully deleted lesson
+                return make_response(
+                    jsonify(
+                        message = "lesson deletion - successful"
+                    ), 200
+                ) 
+            else:   # unsuccessful in deleting lesson
+                return make_response(
+                    jsonify(
+                        message = "lesson deletion - unsuccessful"
+                    ), 400
+                ) 
+        else:   # lesson does not exist
+            return make_response(
+                    jsonify(
+                        message = "lesson not found"
+                    ), 404
+                ) 

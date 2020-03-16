@@ -24,3 +24,13 @@ def lessonUpdate():
     except Exception as e:
         print(e)
         return False
+
+def lessonDelete(topic_id, lesson_id):
+    lesson = lessonRead(topic_id=topic_id, col='id', value=lesson_id)
+    db.session.delete(lesson)
+    try:
+        db.session.commit()
+        return True
+    except Exception as e:
+        print(e)
+        return False
