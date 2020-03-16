@@ -76,3 +76,46 @@ class LessonAPI(Resource):
                     message = "Incorrect parameters passed"
                 ), 412
             )
+
+    def put(self):
+        r_json = request.args.get('value')
+        r = json.loads(r_json)
+        try:
+            topic_id = r['topic_id']
+            lesson_id = r['lesson_id']
+            col = r['col']
+            value = r['value']
+            lesson = lessonRead(topic_id=topic_id, col='id', value=lesson_id)
+
+            if (lesson):    # lesson exist
+                if (col == 'name'):
+                    lesson.name = value
+                elif (col == 'content'):
+                    lesson.content = value
+                lesson_update_status = lessonUpdate()
+                if (lesson_update_status):  # successful in updating value
+                    return make_response(
+                        jsonify(
+                            message = "{} successfully update".format(col)
+                        ), 200
+                    )
+                else:   # unsuccessful in updating value
+                    return make_response(
+                        jsonify(
+                            message = "{} unsuccessfully updated - database error".format(col)
+                        ), 400
+                    ) 
+            else:   # lesson does not exist
+                return make_response(
+                        jsonify(
+                            message = "lesson not found"
+                        ), 404
+                    ) 
+
+        except KeyError as e:
+            print(e)
+            return make_response(
+                jsonify (
+                    message = "Incorrect parameters passed"
+                ), 412
+            )
