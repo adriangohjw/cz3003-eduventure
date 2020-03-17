@@ -54,6 +54,14 @@ class Staff(User):
         self.encrypted_password = user.encrypted_password
         self.name = user.name
 
+    def asdict_courseMng(self):
+        return {
+            'id': self.id,
+            'email': self.email,
+            'count_courses': len(self.courses),
+            'courses': [c.to_json() for c in self.courses]
+        }
+
 class Student(User):
     __tablename__ = 'students'
     id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
@@ -217,12 +225,25 @@ class Rs_staff_course_teach(db.Model):
     staff_id = db.Column(db.Integer, db.ForeignKey('staffs.id'), primary_key=True)
     course_index = db.Column(db.String(255), db.ForeignKey('courses.index'), primary_key=True)
     created_at = db.Column(db.DateTime, default=datetime.now)
-    staff = db.relationship('Staff', backref=db.backref('rs_staff_course_teaches', cascade="all, delete-orphan"))
-    course = db.relationship('Course', backref=db.backref('rs_staff_course_teaches', cascade="all, delete-orphan"))
+    staff = db.relationship('Staff', backref=db.backref('courses', cascade="all, delete-orphan"))
+    course = db.relationship('Course', backref=db.backref('staffs', cascade="all, delete-orphan"))
 
     def __init__(self, staff_id, course_index):
         self.staff_id = staff_id
         self.course_index = course_index
+
+    def asdict(self):
+        return {
+           'staff_id': self.staff_id,
+           'course_index': self.course_index,
+           'created_at': self.created_at 
+        }
+    
+    def to_json(self):
+        return {
+            'course_index': self.course_index,
+            'created_at': self.created_at
+        }
 
 class Rs_student_course_enrol(db.Model):
     __tablename__ = 'rs_student_course_enrols'
