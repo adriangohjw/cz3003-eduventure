@@ -4,23 +4,13 @@ from flask_restful import Resource
 from models import User, Staff, Course, Rs_staff_course_teach
 from flask.helpers import make_response
 
-from ..operations.users_operations import initializeUser
-from ..dao.UsersDAO import userRead
-from ..dao.StaffsDAO import staffCreate, staffRead, staffUpdate
-from ..contracts.staffs_contracts import staffReadContract
-from ..operations.staffs_operations import staffReadOperation
+from ..dao.StaffsDAO import staffCreate, staffRead
+from ..contracts.staffs_contracts import staffReadContract, staffCreateContract
+from ..operations.staffs_operations import staffReadOperation, staffCreateOperation
 from exceptions import ErrorWithCode
-
-def initializeStaff(email, password):
-    user = initializeUser(email, password)
-    if (user):
-        return Staff(email, password)
-    else:
-        return False
 
 class StaffAPI(Resource):
     def get(self):
-
         # contracts
         try:
             s = staffReadContract(request)
@@ -43,33 +33,34 @@ class StaffAPI(Resource):
         
         # success case
         return make_response(
-            jsonify (staff), 200
+            jsonify (staff.asdict()), 200
         )
 
     def post(self):
-        email = request.args.get('email')
-        password = request.args.get('password')
-        staff = initializeStaff(email, password)
-        if (staffRead(col='email', value=email)):   # if existing staff
+        # contracts
+        try:
+            s = staffCreateContract(request)
+        except Exception as e:
             return make_response(
-                jsonify(
-                    message = "Staff already exist"
+                jsonify (
+                    error = str(e),
                 ), 400
             )
-        else:
-            staff_create_status = staffCreate(staff)
-            if (staff_create_status):   # if staff creation is successful
-                return make_response(
-                    jsonify(
-                        message = "Staff creation - successful"
-                    ), 200
-                )
-            else:   # if staff creation is unsuccessful
-                return make_response(
-                    jsonify (
-                        message = "Staff creation - precondition failed"
-                    ), 412
-                )
+
+        # operations
+        try:
+            staff = staffCreateOperation(s['email'], s['password'])
+        except ErrorWithCode as e:
+            return make_response(
+                jsonify (
+                    error = e.message
+                ), e.status_code
+            )
+        
+        # success case
+        return make_response(
+            jsonify(staff.asdict()), 200
+        )
 
 
 from ..dao.CoursesDAO import courseRead
