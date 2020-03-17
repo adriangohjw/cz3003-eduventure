@@ -121,6 +121,17 @@ class Lesson(db.Model):
         self.id = id
         self.name = name
         self.content = content  
+
+    def asdict(self):
+        return {
+            'topic_id': self.topic_id,
+            'id': self.id,
+            'name': self.name,
+            'content': self.content,
+            'created_at': self.created_at,
+            'count_questions': len(self.questions),
+            'questions': self.questions
+        }
     
 class Question(db.Model):
     __tablename__ = 'questions'
