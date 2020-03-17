@@ -63,59 +63,60 @@ class StudentAPI(Resource):
             jsonify(student.asdict()), 200
         )
 
-
-from ..dao.CoursesDAO import courseRead
-from ..dao.StudentsDAO import courseMngCreate, courseMngRead
-
-def initializeRsStudentCourseEnrol(student_id, course_index):
-    if ((student_id is not None) and (course_index is not None)):
-        return Rs_student_course_enrol(student_id, course_index)
-    else:
-        return False
+from ..contracts.rs_student_course_enrols_contracts import \
+    courseMngReadContract, courseMngCreateContract
+from ..operations.rs_student_course_enrols_operations import \
+    courseMngReadOperation, courseMngCreateOperation
 
 class CourseManagerAPI(Resource):
     def get(self):
-        user_email = request.args.get('user_email')
-        student = studentRead(col='email', value=user_email)
-        if (student):   # if rs between student and course found
+        # contracts
+        try:
+            s = courseMngReadContract(request)
+        except Exception as e:
             return make_response(
-                jsonify(
-                    message = "Student and courses found",
-                    count_courses = len(student.rs_student_course_enrols),
-                    course = student.rs_student_course_enrols
-                )
+                jsonify (
+                    error = str(e),
+                ), 400
             )
-        else:   # if rs between student and course not found
+        
+        # operations
+        try:
+            student = courseMngReadOperation(s['user_email'])
+        except ErrorWithCode as e:
             return make_response(
-                jsonify(
-                    message = "User is not student / does not exist"
-                ), 404
+                jsonify (
+                    error = e.message
+                ), e.status_code
             )
-    
+        
+        # success case
+        return make_response(
+            jsonify (student.asdict_courseMng()), 200
+        )
+
     def post(self):
-        user_email = request.args.get('user_email')
-        course_index = request.args.get('course_index')    
-        student = studentRead(col='email', value=user_email)
-        course = courseRead(course_index)
-        rs = courseMngRead(student_id=student.id, course_index=course.index)
-        if (rs):    # rs already exist
+        # contracts
+        try:
+            r = courseMngCreateContract(request)
+        except Exception as e:
             return make_response(
-                jsonify(
-                    message = "Relationship already exist"
-                ), 409
+                jsonify (
+                    error = str(e),
+                ), 400
             )
-        else:   # rs does not exist yet
-            rs = initializeRsStudentCourseEnrol(student_id=student.id, course_index=course.index)
-            rs_create_status = courseMngCreate(rs)
-            if (rs_create_status):  # successful in adding Rs to DB
-                return make_response(
-                    jsonify(
-                        message = "Relationship added"
-                    ), 200
-                )
-            else:   # unsuccessful in adding Rs to DB
-                return make_response(
-                    jsonify(
-                        message = "Relationship not added - failed precondition"
-                    ), 412
-                )
+
+        # operations
+        try:
+            rs = courseMngCreateOperation(r['user_email'], r['course_index'])
+        except ErrorWithCode as e:
+            return make_response(
+                jsonify (
+                    error = e.message
+                ), e.status_code
+            )
+        
+        # success case
+        return make_response(
+            jsonify(rs.asdict()), 200
+        )
