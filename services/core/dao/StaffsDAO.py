@@ -24,16 +24,4 @@ def staffUpdate():
     except Exception as e:
         print(e)
         return False
-
-def courseMngCreate(rs):
-    db.session.add(rs)
-    try:
-        db.session.commit()
-        return True
-    except Exception as e:
-        print(e)
-        return False
-
-def courseMngRead(staff_id, course_index):
-    rs = Rs_staff_course_teach.query.filter_by(staff_id=staff_id).filter_by(course_index=course_index).first()
-    return rs
+        

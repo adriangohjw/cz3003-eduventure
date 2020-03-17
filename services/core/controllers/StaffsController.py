@@ -63,58 +63,61 @@ class StaffAPI(Resource):
         )
 
 
-from ..dao.CoursesDAO import courseRead
-from ..dao.StaffsDAO import courseMngCreate, courseMngRead
-
-def initializeRsStaffCourseTeach(staff_id, course_index):
-    if ((staff_id is not None) and (course_index is not None)):
-        return Rs_staff_course_teach(staff_id, course_index)
-    else:
-        return False
+from ..contracts.rs_staff_course_teaches_contracts import \
+    courseMngReadContract, courseMngCreateContract
+from ..operations.rs_staff_course_teaches_operations import \
+    courseMngReadOperation, courseMngCreateOperation
 
 class CourseManagerAPI(Resource):
     def get(self):
-        user_email = request.args.get('user_email')
-        staff = staffRead(col='email', value=user_email)
-        if (staff): # if rs between staff and course found
+        # contracts
+        try:
+            s = courseMngReadContract(request)
+        except Exception as e:
             return make_response(
-                jsonify(
-                    message = "Staff and courses found",
-                    count_courses = len(staff.rs_staff_course_teaches),
-                    course = staff.rs_staff_course_teaches
-                )
+                jsonify (
+                    error = str(e),
+                ), 400
             )
-        else:   # if rs between staff and course not found
+        
+        # operations
+        try:
+            staff = courseMngReadOperation(s['user_email'])
+        except ErrorWithCode as e:
             return make_response(
-                jsonify(
-                    message = "User is not staff / does not exist"
-                ), 404
+                jsonify (
+                    error = e.message
+                ), e.status_code
             )
-    
+        
+        # success case
+        return make_response(
+            jsonify (staff.asdict_courseMng()), 200
+        )
+
     def post(self):
-        user_email = request.args.get('user_email')
-        course_index = request.args.get('course_index')
-        staff = staffRead(col='email', value=user_email)
-        course = courseRead(course_index)
-        rs = courseMngRead(staff_id=staff.id, course_index=course.index)
-        if (rs):    # rs already exist
+        # contracts
+        try:
+            r = courseMngCreateContract(request)
+        except Exception as e:
             return make_response(
-                jsonify(
-                    message = "Relationship already exist"
-                ), 409
+                jsonify (
+                    error = str(e),
+                ), 400
             )
-        else:   # rs does not exist yet
-            rs = initializeRsStaffCourseTeach(staff_id=staff.id, course_index=course.index)
-            rs_create_status = courseMngCreate(rs)
-            if (rs_create_status):  # successful in adding Rs to DB
-                return make_response(
-                    jsonify(
-                        message = "Relationship added"
-                    ), 200
-                )
-            else:   # unsuccessful in adding Rs to DB
-                return make_response(
-                    jsonify(
-                        message = "Relationship not added - failed precondition"
-                    ), 412
-                )
+
+        # operations
+        try:
+            rs = courseMngCreateOperation(r['user_email'], r['course_index'])
+        except ErrorWithCode as e:
+            return make_response(
+                jsonify (
+                    error = e.message
+                ), e.status_code
+            )
+        
+        # success case
+        return make_response(
+            jsonify(rs.asdict()), 200
+        )
+        
