@@ -149,6 +149,19 @@ class Question(db.Model):
         self.lesson_id = lesson_id
         self.description = description
 
+    def asdict(self):
+        return {
+            'id': self.id,
+            'topic_id': self.topic_id,
+            'lesson_id': self.lesson_id,
+            'description': self.description,
+            'created_at': self.created_at,
+            'count_choices': len(self.choices),
+            'choices': self.choices,
+            'count_attempts': len(self.attempts),
+            'attempts': self.attempts
+        }
+
 class QuestionChoice(db.Model):
     __tablename__ = 'questionchoices'
     question_id = db.Column(db.Integer, db.ForeignKey('questions.id'), primary_key=True)
