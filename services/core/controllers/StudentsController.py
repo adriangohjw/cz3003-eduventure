@@ -1,7 +1,7 @@
 from flask import jsonify, request
 from flask_restful import Resource
 
-from models import Rs_student_course_enrol, Student, User
+from models import Rs_student_course_enrol
 from flask.helpers import make_response
 
 from ..dao.StudentsDAO import studentRead
@@ -64,7 +64,7 @@ class StudentAPI(Resource):
         )
 
 
-from .CoursesController import courseRead
+from ..dao.CoursesDAO import courseRead
 from ..dao.StudentsDAO import courseMngCreate, courseMngRead
 
 def initializeRsStudentCourseEnrol(student_id, course_index):
