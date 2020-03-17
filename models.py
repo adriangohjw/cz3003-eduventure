@@ -28,6 +28,15 @@ class User(db.Model):
         self.encrypted_password = encrypted_password
         self.name = name
 
+    def asdict(self):
+        return {
+            'id': self.id,
+            'email': self.email,
+            'encrypted_password': self.encrypted_password,
+            'name': self.name,
+            'created_at': self.created_at,
+        }
+
     def get_encrypted_password(self):
         return self.encrypted_password
 
@@ -98,7 +107,7 @@ class Question(db.Model):
     description = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
     __table_args__ = (db.ForeignKeyConstraint([topic_id, lesson_id], [Lesson.topic_id, Lesson.id]),{})
-    choices = db.relationship('QuestionChoices', backref='question')
+    choices = db.relationship('QuestionChoice', backref='question')
     attempts = db.relationship('QuestionAttempt', backref='question')
 
     def __init__(self, topic_id, lesson_id, description):
