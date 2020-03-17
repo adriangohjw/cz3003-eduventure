@@ -1,4 +1,4 @@
-from flask import jsonify, request
+from flask import jsonify, request, json
 from flask_restful import Resource
 
 from models import User
@@ -7,6 +7,9 @@ from flask.helpers import make_response
 import bcrypt
 
 from ..dao.UsersDAO import userCreate, userRead, userUpdate
+from ..contracts.users_contracts import userReadContract
+from ..operations.users_operations import userReadOperation
+from exceptions import ErrorWithCode
 
 def encrypt(plaintext_password):
     return bcrypt.hashpw(bytes(plaintext_password, "utf8"), bcrypt.gensalt()).decode("utf-8")
@@ -29,23 +32,32 @@ def initializeUser(email, password):
 
 class UserAPI(Resource):
     def get(self):
-        email = request.args.get('email')
-        user = userRead(col='email', value=email)
-        if (user):  # if user can be found   
+
+        # contracts
+        try:
+            u = userReadContract(request)
+        except Exception as e:
             return make_response(
                 jsonify (
-                    message = "Hello world!",
-                    email = user.email,
-                    encrypted_password = user.encrypted_password,
-                    name = user.name
-                ), 200
+                    error = str(e),
+                ), 400
             )
-        else:   # if user cannot be found
+
+        # operations
+        try:
+            user = userReadOperation(u['email'])
+        except ErrorWithCode as e:
             return make_response(
                 jsonify (
-                    message = "no user found"
-                ), 404
+                    error = e.message
+                ), e.status_code
             )
+        
+        # success case
+        return make_response(
+            jsonify (user), 200
+        )
+
 
     def post(self):
         email = request.args.get('email')
