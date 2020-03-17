@@ -83,6 +83,12 @@ class Course(db.Model):
 
     def __init__(self, index):
         self.index = index
+        
+    def asdict(self):
+        return {
+            'index': self.index,
+            'created_at': self.created_at
+        }
 
 class Topic(db.Model):
     __tablename__ = 'topics'
