@@ -66,6 +66,16 @@ class Student(User):
         self.name = user.name
         self.matriculation_number = matriculation_number
 
+    def asdict(self):
+        return {
+            'id': self.id,
+            'email': self.email,
+            'encrypted_password': self.encrypted_password,
+            'name': self.name,
+            'created_at': self.created_at,
+            'matriculation_number': self.matriculation_number
+        }
+
 class Course(db.Model):
     __tablename__ = 'courses'
     index = db.Column(db.String(255), primary_key=True)
