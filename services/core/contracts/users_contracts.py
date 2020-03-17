@@ -1,11 +1,11 @@
 from flask import request
 import re
 
+from models import User
+
 EMAIL_REGEX = re.compile(r"[^@]+@[^@]+\.[^@]+")
 
-def userReadContract(request):    
-    email = request.args.get('email')
-
+def validate_email(email):
     # if no 'email' found in params
     if (email is None):
         raise Exception("Request params (email) not found")
@@ -18,9 +18,47 @@ def userReadContract(request):
     if not EMAIL_REGEX.match(email): 
         raise Exception("Email format is wrong")
 
-    # success case
-    name = email.split('@')[0]
+def validate_password(password):
+    # if no 'password' found in params
+    if (password is None):
+        raise Exception("Request params (password) not found")
+
+    # if password params is empty
+    if not password: 
+        raise Exception("Password is empty")
+
+def userReadContract(request):    
+    email = request.args.get('email')
+
+    validate_email(email)
+
     return {
         'email': email,
-        'name': name
+    }
+
+def userCreateContract(request):
+    email = request.args.get('email')
+    password = request.args.get('password')
+
+    validate_email(email)
+    validate_password(password)
+
+    return {
+        'email': email,
+        'password': password
+    }
+
+def userUpdateContract(request):
+    email = request.args.get('email')
+    old_password = request.args.get('old_password')
+    new_password = request.args.get('new_password')
+
+    validate_email(email)
+    validate_password(old_password)
+    validate_password(new_password)
+
+    return {
+        'email': email,
+        'old_password': old_password,
+        'new_password': new_password,
     }
