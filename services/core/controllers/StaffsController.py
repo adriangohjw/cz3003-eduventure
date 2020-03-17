@@ -1,10 +1,10 @@
 from flask import jsonify, request
 from flask_restful import Resource
 
-from models import User, Staff, Course, Rs_staff_course_teach
+from models import User, Staff, Rs_staff_course_teach
 from flask.helpers import make_response
 
-from ..dao.StaffsDAO import staffCreate, staffRead
+from ..dao.StaffsDAO import staffRead
 from ..contracts.staffs_contracts import staffReadContract, staffCreateContract
 from ..operations.staffs_operations import staffReadOperation, staffCreateOperation
 from exceptions import ErrorWithCode

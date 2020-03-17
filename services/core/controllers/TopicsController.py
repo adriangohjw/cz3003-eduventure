@@ -1,7 +1,6 @@
 from flask import jsonify, request
 from flask_restful import Resource
 
-from models import Topic
 from flask.helpers import make_response
 
 from ..contracts.topics_contracts import topicReadContract, topicCreateContract

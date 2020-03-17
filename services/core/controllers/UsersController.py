@@ -1,10 +1,8 @@
-from flask import jsonify, request, json
+from flask import jsonify, request
 from flask_restful import Resource
 
-from models import User
 from flask.helpers import make_response
 
-from ..dao.UsersDAO import userCreate, userRead, userUpdate
 from ..contracts.users_contracts import userReadContract, userCreateContract, userUpdateContract
 from ..operations.users_operations import initializeUser, userReadOperation, userCreateOperation, userUpdateOperation
 from exceptions import ErrorWithCode
