@@ -1,7 +1,5 @@
 from flask import request
 
-from models import Rs_student_course_enrol
-
 from .users_contracts import validate_email
 from .courses_contracts import validate_index
 

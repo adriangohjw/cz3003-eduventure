@@ -86,7 +86,6 @@ class Student(User):
         }
 
     def asdict_courseMng(self):
-        print(type(self.courses ))
         return {
             'id': self.id,
             'email': self.email,
