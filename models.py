@@ -106,13 +106,19 @@ class Question(db.Model):
         self.lesson_id = lesson_id
         self.description = description
 
-class QuestionChoices(db.Model):
+class QuestionChoice(db.Model):
     __tablename__ = 'questionchoices'
     question_id = db.Column(db.Integer, db.ForeignKey('questions.id'), primary_key=True)
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.Text, nullable=False)
     is_correct = db.Column(db.Boolean, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
+
+    def __init__(self, question_id, id, description, is_correct):
+        self.question_id = question_id
+        self.id = id
+        self.description = description
+        self.is_correct = is_correct
 
 class Quiz(db.Model):
     __tablename__ = 'quizzes'
