@@ -1,63 +1,67 @@
 from flask import jsonify, request
 from flask_restful import Resource
 
-from models import Rs_student_course_enrol, Student, User, db
+from models import Rs_student_course_enrol, Student, User
 from flask.helpers import make_response
 
-from ..operations.users_operations import initializeUser
-from ..dao.UsersDAO import userRead
-from ..dao.StudentsDAO import studentCreate, studentRead, studentUpdate
+from ..dao.StudentsDAO import studentRead
+from ..contracts.students_contracts import studentReadContract, studentCreateContract
+from ..operations.students_operations import studentReadOperation, studentCreateOperation
 
-def initializeStudent(email, password, matriculation_number):
-    user = initializeUser(email, password)
-    if (user and (matriculation_number is not None)):
-        return Student(user, matriculation_number)
-    else:
-        return False
+from exceptions import ErrorWithCode
 
 class StudentAPI(Resource):
     def get(self):
-        email = request.args.get('email')
-        student = studentRead(col='email', value=email)
-        if (student):   # if student exist
-            return make_response(
-                jsonify(
-                    message = "User is Student",
-                    matriculation_number = student.matriculation_number
-                ), 200
-            )
-        else:   # if student does not exist or that user is not a student
-            return make_response(
-                jsonify(
-                    message = "User is not student / does not exist"
-                ), 404
-            )
-
-    def post(self):
-        email = request.args.get('email')
-        password = request.args.get('password')
-        matriculation_number = request.args.get('matriculation_number')
-        student = initializeStudent(email, password, matriculation_number)
-        if (studentRead(col='email', value=student.email)): # if existing student
+        # contracts
+        try:
+            s = studentReadContract(request)
+        except Exception as e:
             return make_response(
                 jsonify (
-                    message = "Student {} already exist".format(student.email)
-                ), 409
+                    error = str(e),
+                ), 400
             )
-        else:
-            student_create_status = studentCreate(student)
-            if (student_create_status): # if student creation is successful
-                return make_response(
-                    jsonify(
-                        message = "Student creation - successful"
-                    ), 200
-                )
-            else:    # if student creation is unsuccessful
-                return make_response(
-                    jsonify (
-                        message = "Student creation - precondition failed"
-                    ), 412
-                )
+        
+        # operations
+        try:
+            student = studentReadOperation(s['email'])
+        except ErrorWithCode as e:
+            return make_response(
+                jsonify (
+                    error = e.message
+                ), e.status_code
+            )
+        
+        # success case
+        return make_response(
+            jsonify (student.asdict()), 200
+        )
+
+    def post(self):
+        # contracts
+        try:
+            s = studentCreateContract(request)
+        except Exception as e:
+            return make_response(
+                jsonify (
+                    error = str(e),
+                ), 400
+            )
+
+        # operations
+        try:
+            student = studentCreateOperation(s['email'], s['password'], s['matriculation_number'])
+        except ErrorWithCode as e:
+            return make_response(
+                jsonify (
+                    error = e.message
+                ), e.status_code
+            )
+        
+        # success case
+        return make_response(
+            jsonify(student.asdict()), 200
+        )
 
 
 from .CoursesController import courseRead
