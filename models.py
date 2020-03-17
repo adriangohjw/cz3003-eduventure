@@ -174,7 +174,7 @@ class Question(db.Model):
             'description': self.description,
             'created_at': self.created_at,
             'count_choices': len(self.choices),
-            'choices': self.choices,
+            'choices': [z.to_json() for z in self.choices],
             'count_attempts': len(self.attempts),
             'attempts': self.attempts
         }
@@ -192,6 +192,23 @@ class QuestionChoice(db.Model):
         self.id = id
         self.description = description
         self.is_correct = is_correct
+
+    def asdict(self):
+        return {
+            'question_id': self.question_id,
+            'id': self.id,
+            'description': self.description,
+            'is_correct': self.is_correct,
+            'created_at': self.created_at
+        }
+
+    def to_json(self):
+        return {
+            'id': self.id,
+            'description': self.description,
+            'is_correct': self.is_correct,
+            'created_at': self.created_at
+        }
 
 class Quiz(db.Model):
     __tablename__ = 'quizzes'
