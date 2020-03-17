@@ -100,6 +100,13 @@ class Topic(db.Model):
     def __init__(self, name):
         self.name = name
 
+    def asdict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'created_at': self.created_at
+        }
+
 class Lesson(db.Model):
     __tablename__ = 'lessons'
     topic_id = db.Column(db.Integer, db.ForeignKey('topics.id'), primary_key=True)
