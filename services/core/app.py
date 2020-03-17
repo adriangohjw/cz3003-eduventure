@@ -1,7 +1,7 @@
 from flask import Blueprint
 from flask_restful import Api
 
-from services.core.resources import \
+from services.core.controllers import \
     UsersController, StaffsController, StudentsController, \
     CoursesController, TopicsController, LessonsController
 

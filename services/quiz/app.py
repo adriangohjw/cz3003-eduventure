@@ -1,7 +1,7 @@
 from flask import Blueprint
 from flask_restful import Api
 
-from services.quiz.resources import \
+from services.quiz.controllers import \
     QuestionsController
 
 question_bp = Blueprint('question', __name__)

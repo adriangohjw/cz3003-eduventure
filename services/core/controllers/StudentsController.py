@@ -4,7 +4,7 @@ from flask_restful import Resource
 from models import Rs_student_course_enrol, Student, User, db
 from flask.helpers import make_response
 
-from .UsersController import initializeUser
+from ..operations.users_operations import initializeUser
 from ..dao.UsersDAO import userRead
 from ..dao.StudentsDAO import studentCreate, studentRead, studentUpdate
 

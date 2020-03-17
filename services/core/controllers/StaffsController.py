@@ -4,9 +4,12 @@ from flask_restful import Resource
 from models import User, Staff, Course, Rs_staff_course_teach
 from flask.helpers import make_response
 
-from .UsersController import initializeUser
+from ..operations.users_operations import initializeUser
 from ..dao.UsersDAO import userRead
 from ..dao.StaffsDAO import staffCreate, staffRead, staffUpdate
+from ..contracts.staffs_contracts import staffReadContract
+from ..operations.staffs_operations import staffReadOperation
+from exceptions import ErrorWithCode
 
 def initializeStaff(email, password):
     user = initializeUser(email, password)
@@ -17,20 +20,31 @@ def initializeStaff(email, password):
 
 class StaffAPI(Resource):
     def get(self):
-        email = request.args.get('email')
-        staff = staffRead(col='email', value=email)
-        if (staff): # if staff exist
+
+        # contracts
+        try:
+            s = staffReadContract(request)
+        except Exception as e:
             return make_response(
-                jsonify(
-                    message = "User is staff"
-                ), 200
+                jsonify (
+                    error = str(e),
+                ), 400
             )
-        else:   # if staff does not exist or that user is not a staff
+        
+        # operations
+        try:
+            staff = staffReadOperation(s['email'])
+        except ErrorWithCode as e:
             return make_response(
-                jsonify(
-                    message = "User is not staff / does not exist"
-                ), 404
+                jsonify (
+                    error = e.message
+                ), e.status_code
             )
+        
+        # success case
+        return make_response(
+            jsonify (staff), 200
+        )
 
     def post(self):
         email = request.args.get('email')
