@@ -15,6 +15,7 @@ migrate = Migrate(app, db)
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 
+
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
@@ -74,6 +75,15 @@ class Student(User):
             'name': self.name,
             'created_at': self.created_at,
             'matriculation_number': self.matriculation_number
+        }
+
+    def asdict_courseMng(self):
+        print(type(self.courses ))
+        return {
+            'id': self.id,
+            'email': self.email,
+            'count_courses': len(self.courses),
+            'courses': [c.to_json() for c in self.courses]
         }
 
 class Course(db.Model):
@@ -219,12 +229,25 @@ class Rs_student_course_enrol(db.Model):
     student_id = db.Column(db.Integer, db.ForeignKey('students.id'), primary_key=True)
     course_index = db.Column(db.String(255), db.ForeignKey('courses.index'), primary_key=True)
     created_at = db.Column(db.DateTime, default=datetime.now)
-    student = db.relationship('Student', backref=db.backref('rs_student_course_enrols', cascade="all, delete-orphan"))
-    course = db.relationship('Course', backref=db.backref('rs_student_course_enrols', cascade="all, delete-orphan"))
+    student = db.relationship('Student', backref=db.backref('courses', cascade="all, delete-orphan"))
+    course = db.relationship('Course', backref=db.backref('students', cascade="all, delete-orphan"))
 
     def __init__(self, student_id, course_index):
         self.student_id = student_id
         self.course_index = course_index
+
+    def asdict(self):
+        return {
+           'student_id': self.student_id,
+           'course_index': self.course_index,
+           'created_at': self.created_at 
+        }
+
+    def to_json(self):
+        return {
+            'course_index': self.course_index,
+            'created_at': self.created_at
+        }
 
 class Rs_quiz_course_assign(db.Model):
     __tablename__ = 'rs_quiz_course_assigns'
