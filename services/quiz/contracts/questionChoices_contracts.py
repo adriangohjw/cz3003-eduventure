@@ -1,13 +1,22 @@
 from flask import request
 
-def validate_id(id, type):
-    # if no 'id' found in params
-    if (id is None):
-        raise Exception("Request params ({}) not found".format(type))
+def validate_question_id(question_id):
+    # if no 'question_id' found in params
+    if (question_id is None):
+        raise Exception("Request params (question_id) not found")
 
-    # if 'id' params is empty
-    if not id: 
-        raise Exception("{}} is empty".format(type))
+    # if 'question_id' params is empty
+    if not question_id: 
+        raise Exception("question_id is empty")
+
+def validate_questionChoice_id(questionChoice_id):
+    # if no 'questionChoice_id' found in params
+    if (questionChoice_id is None):
+        raise Exception("Request params (questionChoice_id) not found")
+
+    # if 'questionChoice_id' params is empty
+    if not questionChoice_id: 
+        raise Exception("questionChoice_id is empty")
 
 def validate_description(description):
     # if no 'description' found in params
@@ -46,8 +55,8 @@ def questionChoiceReadContract(request):
     question_id = request.args.get('question_id')  
     questionChoice_id = request.args.get('questionChoice_id')
 
-    validate_id(question_id, 'question_id')
-    validate_id(questionChoice_id, 'questionChoice_id')
+    validate_question_id(question_id)
+    validate_questionChoice_id(questionChoice_id)
 
     return {
         'question_id': question_id,
@@ -59,7 +68,7 @@ def questionChoiceCreateContract(request):
     description = request.args.get('description')
     is_correct = request.args.get('is_correct')
     
-    validate_id(question_id, 'question_id')
+    validate_question_id(question_id)
     validate_description(description, 'description')
     validate_is_correct(is_correct)
 
@@ -77,8 +86,8 @@ def questionChoiceUpdateContract(request):
     col = request.args.get('col')
     value = request.args.get('value')
 
-    validate_id(question_id, 'question_id')
-    validate_id(questionChoice_id, 'questionChoice_id')
+    validate_question_id(question_id)
+    validate_questionChoice_id(questionChoice_id)
     validate_col(col)
 
     if col == 'description':
@@ -98,8 +107,8 @@ def questionChoiceDeleteContract(request):
     question_id = request.args.get('question_id')  
     questionChoice_id = request.args.get('questionChoice_id')
 
-    validate_id(question_id, 'question_id')
-    validate_id(questionChoice_id, 'questionChoice_id')
+    validate_question_id(question_id)
+    validate_questionChoice_id(questionChoice_id)
 
     return {
         'question_id': question_id,
