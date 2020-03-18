@@ -183,3 +183,65 @@ class CourseManagerAPI(Resource):
         return make_response(
             jsonify(rs.asdict()), 200
         )
+    
+
+from ..contracts.rs_quiz_question_contains_contracts import \
+    questionMngReadContract, questionMngCreateContract
+
+from ..operations.rs_quiz_question_contains_operations import \
+    questionMngReadOperation, questionMngCreateOperation
+
+class QuestionManagerAPI(Resource):
+    def get(self):
+        # contracts
+        try:
+            q = questionMngReadContract(request)
+        except Exception as e:
+            return make_response(
+                jsonify (
+                    error = str(e),
+                ), 400
+            )
+        
+        # operations
+        try:
+            quiz = questionMngReadOperation(q['quiz_id'])
+        except ErrorWithCode as e:
+            return make_response(
+                jsonify (
+                    error = e.message
+                ), e.status_code
+            )
+        
+        # success case
+        return make_response(
+            jsonify (quiz.asdict_questionMng()), 200
+        )
+
+    def post(self):
+        # contracts
+        try:
+            r = questionMngCreateContract(request)
+        except Exception as e:
+            return make_response(
+                jsonify (
+                    error = str(e),
+                ), 400
+            )
+
+        # operations
+        try:
+            rs = questionMngCreateOperation(
+                r['quiz_id'], r['question_id']
+            )
+        except ErrorWithCode as e:
+            return make_response(
+                jsonify (
+                    error = e.message
+                ), e.status_code
+            )
+        
+        # success case
+        return make_response(
+            jsonify(rs.asdict()), 200
+        )
