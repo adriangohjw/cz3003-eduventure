@@ -394,8 +394,19 @@ class Rs_quiz_question_contain(db.Model):
     quiz_id = db.Column(db.Integer, db.ForeignKey('quizzes.id'), primary_key=True)
     question_id = db.Column(db.Integer, db.ForeignKey('questions.id'), primary_key=True)
     created_at = db.Column(db.DateTime, default=datetime.now)
-    quiz = db.relationship('Quiz', backref=db.backref('rs_quiz_question_contains', cascade="all, delete-orphan"))
-    question = db.relationship('Question', backref=db.backref('rs_quiz_question_contains', cascade="all, delete-orphan"))
+    quiz = db.relationship('Quiz', backref=db.backref('questions', cascade="all, delete-orphan"))
+    question = db.relationship('Question', backref=db.backref('quizzes', cascade="all, delete-orphan"))
+
+    def __init__(self, quiz_id, question_id):
+        self.quiz_id = quiz_id 
+        self.question_id = question_id
+
+    def asdict(self):
+        return {
+            'quiz_id': self.quiz_id,
+            'question_id': self.question_id,
+            'created_at': self.created_at 
+        }
 
 if __name__ == '__main__':
     manager.run()
