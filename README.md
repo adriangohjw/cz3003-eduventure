@@ -39,7 +39,8 @@ In Windows CMD, ensure you are in the folder of your repository
 3. Run `pip install -r requirements.txt`
 
 All required packages should have been installed!
-`venv\Scripts\activate` is also the command to enter your
+
+`venv\Scripts\activate` is also the <b>command to enter your virtual environment</b> whenever you want to run the application on CMD
 
 ### Setup local database
 In Windows CMD, ensure you are in the folder of your repository
