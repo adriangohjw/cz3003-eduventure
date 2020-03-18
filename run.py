@@ -22,7 +22,8 @@ if __name__ == "__main__":
     app.register_blueprint(topic_bp, url_prefix='/topics')
     app.register_blueprint(lesson_bp, url_prefix='/lessons')
 
-    from services.quiz.app import question_bp, questionchoice_bp
+    from services.quiz.app import quiz_bp, question_bp, questionchoice_bp
+    app.register_blueprint(quiz_bp, url_prefix='/quizzes')
     app.register_blueprint(question_bp, url_prefix='/questions')
     app.register_blueprint(questionchoice_bp, url_prefix='/question_choices')
 
