@@ -36,13 +36,11 @@ def questionAttemptListReadOperation(student_id, question_id):
         raise ErrorWithCode(404, "No questionAttempt found")
 
     # success case
-    print(questionAttemptList)
     return questionAttemptList
 
 def questionAttemptCreateOperation(student_id, question_id, is_correct, duration_ms):
 
     questionAttempt = initializeQuestionAttempt(student_id, question_id, is_correct, duration_ms)
-    print(questionAttempt.duration_ms)
     if questionAttemptCreate(questionAttempt) == False:
         raise ErrorWithCode(400, "Unsuccessful")
 
