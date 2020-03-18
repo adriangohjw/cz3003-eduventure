@@ -14,17 +14,23 @@ if __name__ == "__main__":
     from models import db 
     db.init_app(app)
 
-    from services.core.app import user_bp, staff_bp, student_bp, course_bp, topic_bp, lesson_bp
+    from services.core.app import \
+        user_bp, staff_bp, student_bp, course_bp, topic_bp, lesson_bp, questionAttempt_bp
+
     app.register_blueprint(user_bp, url_prefix='/users')
     app.register_blueprint(staff_bp, url_prefix='/staffs')
     app.register_blueprint(student_bp, url_prefix='/students')
     app.register_blueprint(course_bp, url_prefix='/courses')
     app.register_blueprint(topic_bp, url_prefix='/topics')
     app.register_blueprint(lesson_bp, url_prefix='/lessons')
+    app.register_blueprint(questionAttempt_bp, url_prefix='/question_attempts')
 
-    from services.quiz.app import quiz_bp, question_bp, questionchoice_bp
+    from services.quiz.app import \
+        quiz_bp, question_bp, questionchoice_bp
+        
     app.register_blueprint(quiz_bp, url_prefix='/quizzes')
     app.register_blueprint(question_bp, url_prefix='/questions')
     app.register_blueprint(questionchoice_bp, url_prefix='/question_choices')
 
     app.run(port=5000, debug=True)
+    
