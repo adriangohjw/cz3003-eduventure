@@ -273,6 +273,19 @@ class Quiz(db.Model):
             'courses': [c.asdict() for c in self.courses]
         }
 
+    def asdict_questionMng(self):
+        return {
+            'id': self.id,
+            'staff_id': self.staff_id,
+            'name': self.name,
+            'is_fast': self.is_fast,
+            'date_start': self.date_start,
+            'date_end': self.date_end,
+            'count_attempts': len(self.attempts),
+            'count_questions': len(self.questions),
+            'questions': [q.asdict() for q in self.questions]
+        }
+
 class QuestionAttempt(db.Model):
     __tablename__ = 'questionattempts'
     id = db.Column(db.Integer, primary_key=True)
