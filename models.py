@@ -262,16 +262,34 @@ class Quiz(db.Model):
 
 class QuestionAttempt(db.Model):
     __tablename__ = 'questionattempts'
-    student_id = db.Column(db.Integer, db.ForeignKey('students.id'), primary_key=True)
-    question_id = db.Column(db.Integer, db.ForeignKey('questions.id'), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    student_id = db.Column(db.Integer, db.ForeignKey('students.id'), nullable=False)
+    question_id = db.Column(db.Integer, db.ForeignKey('questions.id'), nullable=False)
     is_correct = db.Column(db.Boolean, nullable=False)
-    duration = db.Column(db.Interval)
+    duration_ms = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
+
+    def __init__(self, student_id, question_id, is_correct, duration_ms):
+        self.student_id = student_id
+        self.question_id = question_id
+        self.is_correct = is_correct
+        self.duration_ms = duration_ms
+
+    def asdict(self):
+        return {
+            'id': self.id,
+            'student_id': self.student_id,
+            'question_id': self.question_id,
+            'is_correct': self.is_correct,
+            'duration_ms': self.duration_ms,
+            'created_at': self.created_at
+        }
 
 class QuizAttempt(db.Model):
     __tablename__ = 'quizattempts'
-    student_id = db.Column(db.Integer, db.ForeignKey('students.id'), primary_key=True)
-    quiz_id = db.Column(db.Integer, db.ForeignKey('quizzes.id'), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    student_id = db.Column(db.Integer, db.ForeignKey('students.id'))
+    quiz_id = db.Column(db.Integer, db.ForeignKey('quizzes.id'))
     score = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
 
