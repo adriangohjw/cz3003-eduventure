@@ -2,7 +2,11 @@ from flask import Blueprint
 from flask_restful import Api
 
 from services.quiz.controllers import \
-    QuestionsController, QuestionChoicesController
+    QuizzesController, QuestionsController, QuestionChoicesController
+
+quiz_bp = Blueprint('quiz', __name__)
+api_quiz = Api(quiz_bp)
+api_quiz.add_resource(QuizzesController.QuizAPI, '/')
 
 question_bp = Blueprint('question', __name__)
 api_question = Api(question_bp)

@@ -221,6 +221,26 @@ class Quiz(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.now)
     attempts = db.relationship('QuizAttempt', backref='quiz')
 
+    def __init__(self, staff_id, name, is_fast, date_start, date_end):
+        self.name = name
+        self.staff_id = staff_id
+        self.is_fast = is_fast
+        self.date_start = date_start
+        self.date_end = date_end
+
+    def asdict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'staff': {
+                'id': self.staff_id,
+                'name': self.staff.name
+            },
+            'is_fast': self.is_fast,
+            'date_start': self.date_start,
+            'date_end': self.date_end
+        }
+
 class QuestionAttempt(db.Model):
     __tablename__ = 'questionattempts'
     student_id = db.Column(db.Integer, db.ForeignKey('students.id'), primary_key=True)
