@@ -15,7 +15,8 @@ if __name__ == "__main__":
     db.init_app(app)
 
     from services.core.app import \
-        user_bp, staff_bp, student_bp, course_bp, topic_bp, lesson_bp, questionAttempt_bp
+        user_bp, staff_bp, student_bp, course_bp, topic_bp, lesson_bp, \
+        questionAttempt_bp, quizAttempt_bp
 
     app.register_blueprint(user_bp, url_prefix='/users')
     app.register_blueprint(staff_bp, url_prefix='/staffs')
@@ -24,6 +25,7 @@ if __name__ == "__main__":
     app.register_blueprint(topic_bp, url_prefix='/topics')
     app.register_blueprint(lesson_bp, url_prefix='/lessons')
     app.register_blueprint(questionAttempt_bp, url_prefix='/question_attempts')
+    app.register_blueprint(quizAttempt_bp, url_prefix='/quiz_attempts')
 
     from services.quiz.app import \
         quiz_bp, question_bp, questionchoice_bp
