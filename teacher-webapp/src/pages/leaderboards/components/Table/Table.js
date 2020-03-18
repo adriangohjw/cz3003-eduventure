@@ -9,6 +9,8 @@ import {
 
 // components
 import { Button } from "../../../../components/Wrappers";
+import { TableSortLabel } from "@material-ui/core";
+import { getThemeProps } from "@material-ui/styles";
 
 const states = {
   sent: "success",
@@ -16,8 +18,8 @@ const states = {
   declined: "secondary",
 };
 
-export default function TableComponent({ data }) {
-  var keys = Object.keys(data[0]).map(i => i.toUpperCase());
+export default function TableComponent(props) {
+  var keys = Object.keys(props.data[0]).map(i => i.toUpperCase());
   keys.shift(); // delete "id" key
 
   return (
@@ -25,12 +27,26 @@ export default function TableComponent({ data }) {
       <TableHead>
         <TableRow>
           {keys.map(key => (
-            <TableCell key={key}>{key}</TableCell>
+            <TableCell key={key}>
+              {key}
+              <TableSortLabel
+                onClick={() => props.sortBy(key)}
+              ></TableSortLabel>
+            </TableCell>
           ))}
         </TableRow>
       </TableHead>
       <TableBody>
-        {data.map(({ id, name, email, product, price, date, city, status }) => (
+        {props.data.map(({ id, studentID, name, email, course, score }) => (
+          <TableRow key={id}>
+            <TableCell>{studentID}</TableCell>
+            <TableCell className="pl-3 fw-normal">{name}</TableCell>
+            <TableCell>{email}</TableCell>
+            <TableCell>{course}</TableCell>
+            <TableCell>{score}</TableCell>
+          </TableRow>
+        ))}
+        {/* {data.map(({ id, name, email, product, price, date, city, status }) => (
           <TableRow key={id}>
             <TableCell className="pl-3 fw-normal">{name}</TableCell>
             <TableCell>{email}</TableCell>
@@ -49,7 +65,7 @@ export default function TableComponent({ data }) {
               </Button>
             </TableCell>
           </TableRow>
-        ))}
+        ))} */}
       </TableBody>
     </Table>
   );
