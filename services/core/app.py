@@ -28,5 +28,5 @@ api_topic = Api(topic_bp)
 api_topic.add_resource(TopicsController.TopicAPI, '/')
 
 lesson_bp = Blueprint('lesson', __name__)
-api_lesosn = Api(lesson_bp)
-api_lesosn.add_resource(LessonsController.LessonAPI, '/')
+api_lessons = Api(lesson_bp)
+api_lessons.add_resource(LessonsController.LessonAPI, '/')
