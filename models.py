@@ -362,8 +362,19 @@ class Rs_quiz_course_assign(db.Model):
     quiz_id = db.Column(db.Integer, db.ForeignKey('quizzes.id'), primary_key=True)
     course_index = db.Column(db.String(255), db.ForeignKey('courses.index'), primary_key=True)
     created_at = db.Column(db.DateTime, default=datetime.now)
-    quiz = db.relationship('Quiz', backref=db.backref('rs_quiz_course_assigns', cascade="all, delete-orphan"))
-    course = db.relationship('Course', backref=db.backref('rs_quiz_course_assigns', cascade="all, delete-orphan"))
+    quiz = db.relationship('Quiz', backref=db.backref('courses', cascade="all, delete-orphan"))
+    course = db.relationship('Course', backref=db.backref('quizzes', cascade="all, delete-orphan"))
+
+    def __init__(self, quiz_id, course_index):
+        self.quiz_id = quiz_id 
+        self.course_index = course_index
+
+    def asdict(self):
+        return {
+            'quiz_id': self.quiz_id,
+            'course_index': self.course_index,
+            'created_at': self.created_at 
+        }
 
 class Rs_quiz_question_contain(db.Model):
     __tablename__ = 'rs_quiz_question_contains'
