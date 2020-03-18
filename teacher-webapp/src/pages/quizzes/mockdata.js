@@ -1,8 +1,8 @@
 export default {
   columns: [
     { title: "ID", field: "id" },
-    { title: "Setter", field: "staff_id" },
     { title: "Name", field: "name" },
+    { title: "Setter", field: "staff_id" },
     { title: "Fast Quiz", field: "is_fast" },
     { title: "Start Date", field: "date_start" },
     { title: "End Date", field: "date_end" },
@@ -11,7 +11,7 @@ export default {
   data: [
     {
       id: "001",
-      staff_id: "999",
+      staff_id: "Peter",
       name: "Quiz 1",
       is_fast: "true",
       date_start: "03/01/2020",
@@ -19,7 +19,7 @@ export default {
     },
     {
       id: "002",
-      staff_id: "999",
+      staff_id: "Peter",
       name: "Quiz 2",
       is_fast: "true",
       date_start: "04/01/2020",
@@ -27,7 +27,7 @@ export default {
     },
     {
       id: "003",
-      staff_id: "555",
+      staff_id: "Tom",
       name: "Quiz 3",
       is_fast: "true",
       date_start: "05/01/2020",
