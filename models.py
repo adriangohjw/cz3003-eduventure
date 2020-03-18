@@ -293,6 +293,20 @@ class QuizAttempt(db.Model):
     score = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
 
+    def __init__(self, student_id, quiz_id, score):
+        self.student_id = student_id
+        self.quiz_id = quiz_id
+        self.score = score
+
+    def asdict(self):
+        return {
+            'id': self.id,
+            'student_id': self.student_id,
+            'quiz_id': self.quiz_id,
+            'score': self.score,
+            'created_at': self.created_at
+        }
+
 class Rs_staff_course_teach(db.Model):
     __tablename__ = 'rs_staff_course_teaches'
     staff_id = db.Column(db.Integer, db.ForeignKey('staffs.id'), primary_key=True)
