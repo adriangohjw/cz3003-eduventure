@@ -121,3 +121,65 @@ class QuizAPI(Resource):
                 message = 'Successfully deleted quiz'
             ), 200
         )
+
+
+from ..contracts.rs_quiz_course_assigns_contracts import \
+    courseMngReadContract, courseMngCreateContract
+
+from ..operations.rs_quiz_course_assigns_operations import \
+    courseMngReadOperation, courseMngCreateOperation
+
+class CourseManagerAPI(Resource):
+    def get(self):
+        # contracts
+        try:
+            q = courseMngReadContract(request)
+        except Exception as e:
+            return make_response(
+                jsonify (
+                    error = str(e),
+                ), 400
+            )
+        
+        # operations
+        try:
+            quiz = courseMngReadOperation(q['quiz_id'])
+        except ErrorWithCode as e:
+            return make_response(
+                jsonify (
+                    error = e.message
+                ), e.status_code
+            )
+        
+        # success case
+        return make_response(
+            jsonify (quiz.asdict_courseMng()), 200
+        )
+
+    def post(self):
+        # contracts
+        try:
+            r = courseMngCreateContract(request)
+        except Exception as e:
+            return make_response(
+                jsonify (
+                    error = str(e),
+                ), 400
+            )
+
+        # operations
+        try:
+            rs = courseMngCreateOperation(
+                r['quiz_id'], r['course_index']
+            )
+        except ErrorWithCode as e:
+            return make_response(
+                jsonify (
+                    error = e.message
+                ), e.status_code
+            )
+        
+        # success case
+        return make_response(
+            jsonify(rs.asdict()), 200
+        )
