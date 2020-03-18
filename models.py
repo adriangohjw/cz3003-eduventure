@@ -54,12 +54,21 @@ class Staff(User):
         self.encrypted_password = user.encrypted_password
         self.name = user.name
 
+    def asdict(self):
+        return {
+            'id': self.id,
+            'email': self.email,
+            'count_quizzes': len(self.quizzes),
+            'quizzes': [q.to_json() for q in self.quizzes]
+        }
+
     def asdict_courseMng(self):
         return {
             'id': self.id,
             'email': self.email,
             'count_courses': len(self.courses),
-            'courses': [c.to_json() for c in self.courses]
+            'courses': [c.to_json() for c in self.courses],
+            'quizzes': self.quizzes
         }
 
 class Student(User):
@@ -239,6 +248,16 @@ class Quiz(db.Model):
             'is_fast': self.is_fast,
             'date_start': self.date_start,
             'date_end': self.date_end
+        }
+
+    def to_json(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'is_fast': self.is_fast,
+            'date_start': self.date_start,
+            'date_end': self.date_end,
+            'created_at': self.created_at
         }
 
 class QuestionAttempt(db.Model):
