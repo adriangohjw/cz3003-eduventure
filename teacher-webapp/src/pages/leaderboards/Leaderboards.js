@@ -33,28 +33,48 @@ import Dot from "../../components/Sidebar/components/Dot";
 import Table from "./components/Table/Table";
 import BigStat from "./components/BigStat/BigStat";
 
-/* const mainChartData = getMainChartData();
-const PieChartData = [
-  { name: "Group A", value: 400, color: "primary" },
-  { name: "Group B", value: 300, color: "secondary" },
-  { name: "Group C", value: 300, color: "warning" },
-  { name: "Group D", value: 200, color: "success" },
-];
- */
-export default function Leaderboards(props) {
-  return (
-    <>
-      <PageTitle title="Leaderboards" button="Latest Reports" />
-      <Grid container spacing={4}>
-        <Grid item xs={12}>
-          <Widget title="Week 9" upperTitle noBodyPadding>
-            <Table data={mockdata.table2} />
-          </Widget>
+class Leaderboards extends React.Component {
+  //https://www.youtube.com/watch?v=akxsFgM7DPA
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: mockdata.table2,
+      scoreAsc: true,
+    };
+    this.sortBy = this.sortBy.bind(this);
+  }
+
+  sortBy(key) {
+    console.log("sortBy called with ", key);
+
+    this.setState(prevState => ({
+      data: this.state.data.sort(
+        this.state.scoreAsc === true
+          ? (a, b) => a[key.toLowerCase()] < b[key.toLowerCase()]
+          : (a, b) => b[key.toLowerCase()] < a[key.toLowerCase()],
+      ),
+      scoreAsc: !prevState.scoreAsc,
+    }));
+    //console.log(this.state.data);
+  }
+
+  render() {
+    return (
+      <div>
+        <PageTitle title="Leaderboards" button="Latest Reports" />
+        <Grid container spacing={4}>
+          <Grid item xs={12}>
+            <Widget title="Week 9" upperTitle noBodyPadding>
+              <Table data={this.state.data} sortBy={this.sortBy} />
+            </Widget>
+          </Grid>
         </Grid>
-      </Grid>
-    </>
-  );
+      </div>
+    );
+  }
 }
+
+export default Leaderboards;
 
 // #######################################################################
 /* function getRandomData(length, min, max, multiplier = 10, maxDiff = 10) {

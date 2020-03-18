@@ -183,6 +183,7 @@ export default {
   ],
   table2: [
     {
+      id: 0,
       studentID: "0001",
       name: "Rachel Lee",
       email: "rachel0001@ntu.sg",
@@ -190,6 +191,7 @@ export default {
       score: 90,
     },
     {
+      id: 1,
       studentID: "0002",
       name: "Shane Ng",
       email: "shane0002@ntu.sg",
@@ -197,6 +199,7 @@ export default {
       score: 92,
     },
     {
+      id: 2,
       studentID: "0003",
       name: "Xiao Ming",
       email: "xiao0003@ntu.sg",
@@ -204,6 +207,7 @@ export default {
       score: 85,
     },
     {
+      id: 3,
       studentID: "0004",
       name: "Maggie Mee",
       email: "maggie0004@ntu.sg",
@@ -212,6 +216,7 @@ export default {
     },
 
     {
+      id: 4,
       studentID: "0005",
       name: "Brian Tan",
       email: "brian0005@ntu.sg",
