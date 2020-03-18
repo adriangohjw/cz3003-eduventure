@@ -3,7 +3,8 @@ from flask_restful import Api
 
 from services.core.controllers import \
     UsersController, StaffsController, StudentsController, \
-    CoursesController, TopicsController, LessonsController
+    CoursesController, TopicsController, LessonsController, \
+    QuestionAttemptsController
 
 user_bp = Blueprint('user', __name__)
 api_user = Api(user_bp)
@@ -30,3 +31,8 @@ api_topic.add_resource(TopicsController.TopicAPI, '/')
 lesson_bp = Blueprint('lesson', __name__)
 api_lessons = Api(lesson_bp)
 api_lessons.add_resource(LessonsController.LessonAPI, '/')
+
+questionAttempt_bp = Blueprint('questionAttempt', __name__)
+api_questionAttempt = Api(questionAttempt_bp)
+api_questionAttempt.add_resource(QuestionAttemptsController.QuestionAttemptAPI, '/')
+api_questionAttempt.add_resource(QuestionAttemptsController.QuestionAttemptListAPI, '/list')

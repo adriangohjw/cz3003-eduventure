@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: ff73675e2ec4
-Revises: 
-Create Date: 2020-03-15 22:00:47.756176
+Revision ID: b10485f5e837
+Revises: a03dfea7ac29
+Create Date: 2020-03-18 18:48:14.693520
 
 """
 from alembic import op
@@ -10,8 +10,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'ff73675e2ec4'
-down_revision = None
+revision = 'b10485f5e837'
+down_revision = 'a03dfea7ac29'
 branch_labels = None
 depends_on = None
 
@@ -40,7 +40,7 @@ def upgrade():
     )
     op.create_table('lessons',
     sa.Column('topic_id', sa.Integer(), nullable=False),
-    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('id', sa.Integer(), nullable=True),
     sa.Column('name', sa.String(length=255), nullable=False),
     sa.Column('content', sa.Text(), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=True),
@@ -96,14 +96,15 @@ def upgrade():
     sa.PrimaryKeyConstraint('student_id', 'course_index')
     )
     op.create_table('questionattempts',
+    sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('student_id', sa.Integer(), nullable=False),
     sa.Column('question_id', sa.Integer(), nullable=False),
     sa.Column('is_correct', sa.Boolean(), nullable=False),
-    sa.Column('duration', sa.Interval(), nullable=True),
+    sa.Column('duration_ms', sa.Integer(), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['question_id'], ['questions.id'], ),
     sa.ForeignKeyConstraint(['student_id'], ['students.id'], ),
-    sa.PrimaryKeyConstraint('student_id', 'question_id')
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('questionchoices',
     sa.Column('question_id', sa.Integer(), nullable=False),
@@ -115,13 +116,14 @@ def upgrade():
     sa.PrimaryKeyConstraint('question_id', 'id')
     )
     op.create_table('quizattempts',
-    sa.Column('student_id', sa.Integer(), nullable=False),
-    sa.Column('quiz_id', sa.Integer(), nullable=False),
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('student_id', sa.Integer(), nullable=True),
+    sa.Column('quiz_id', sa.Integer(), nullable=True),
     sa.Column('score', sa.Integer(), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['quiz_id'], ['quizzes.id'], ),
     sa.ForeignKeyConstraint(['student_id'], ['students.id'], ),
-    sa.PrimaryKeyConstraint('student_id', 'quiz_id')
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('rs_quiz_course_assigns',
     sa.Column('quiz_id', sa.Integer(), nullable=False),
