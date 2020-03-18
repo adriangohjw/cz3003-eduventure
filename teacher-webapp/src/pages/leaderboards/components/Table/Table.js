@@ -9,6 +9,7 @@ import {
 
 // components
 import { Button } from "../../../../components/Wrappers";
+import { TableSortLabel } from "@material-ui/core";
 
 const states = {
   sent: "success",
@@ -25,12 +26,23 @@ export default function TableComponent({ data }) {
       <TableHead>
         <TableRow>
           {keys.map(key => (
-            <TableCell key={key}>{key}</TableCell>
+            <TableCell key={key}>
+              {key}
+              <TableSortLabel direction={"asc"}></TableSortLabel>
+            </TableCell>
           ))}
         </TableRow>
       </TableHead>
       <TableBody>
-        {data.map(({ id, name, email, product, price, date, city, status }) => (
+        {data.map(({ studentID, name, email, course, score }) => (
+          <TableRow key={studentID}>
+            <TableCell className="pl-3 fw-normal">{name}</TableCell>
+            <TableCell>{email}</TableCell>
+            <TableCell>{course}</TableCell>
+            <TableCell>{score}</TableCell>
+          </TableRow>
+        ))}
+        {/* {data.map(({ id, name, email, product, price, date, city, status }) => (
           <TableRow key={id}>
             <TableCell className="pl-3 fw-normal">{name}</TableCell>
             <TableCell>{email}</TableCell>
@@ -49,7 +61,7 @@ export default function TableComponent({ data }) {
               </Button>
             </TableCell>
           </TableRow>
-        ))}
+        ))} */}
       </TableBody>
     </Table>
   );
