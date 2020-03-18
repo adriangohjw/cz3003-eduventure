@@ -10,6 +10,6 @@ def questionAttemptCreate(questionAttempt):
         return False
 
 def questionAttemptListRead(student_id, question_id):
-        return QuestionAttempt.query.\
-            filter_by(student_id=student_id).filter_by(question_id=question_id).all()
+    return QuestionAttempt.query.\
+        filter_by(student_id=student_id).filter_by(question_id=question_id).all()
             
