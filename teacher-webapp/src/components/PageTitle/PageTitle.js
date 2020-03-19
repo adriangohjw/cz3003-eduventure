@@ -15,16 +15,7 @@ export default function PageTitle(props) {
       <Typography className={classes.typo} variant="h1" size="sm">
         {props.title}
       </Typography>
-      {props.button && (
-        <Button
-          classes={{ root: classes.button }}
-          variant="contained"
-          size="large"
-          color="secondary"
-        >
-          {props.button}
-        </Button>
-      )}
+      {props.button}
     </div>
   );
 }
