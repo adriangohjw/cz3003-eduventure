@@ -39,10 +39,25 @@ export default makeStyles(theme => ({
   toolbar_title: {
     flex: "1 1 100%",
   },
-  closeButton: {
-    position: "absolute",
-    right: theme.spacing(1),
-    top: theme.spacing(1),
-    color: theme.palette.grey[500],
+  appBar: {
+    position: "relative",
+  },
+  title: {
+    marginLeft: theme.spacing(2),
+    flex: 1,
+  },
+
+  textfields_root: {
+    "& > *": {
+      margin: theme.spacing(1),
+      width: "100%",
+    },
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
   },
 }));

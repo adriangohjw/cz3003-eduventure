@@ -17,7 +17,10 @@ export default function Quizzes(props) {
 
   return (
     <>
-      <PageTitle title="Quizzes" button={<EditForm />} />
+      <PageTitle
+        title="Quizzes"
+        button={<EditForm profile={mockdata.profile} />}
+      />
       <QuizzesTable data={mockdata} classes={classes} theme={theme} />
     </>
   );
