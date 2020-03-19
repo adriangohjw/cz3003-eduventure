@@ -5,11 +5,11 @@ from .users_contracts import validate_email, validate_password
 def validate_matriculation_number(matriculation_number):
     # if no 'matriculation_number' found in params
     if (matriculation_number is None):
-        raise Exception("Request params (matriculation_number) not found")
+        raise TypeError("Request params (matriculation_number) not found")
 
     # if password params is empty
     if not matriculation_number: 
-        raise Exception("Matriculation Number is empty")
+        raise ValueError("Matriculation Number is empty")
 
 def studentReadContract(request):    
     email = request.args.get('email')
