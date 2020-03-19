@@ -1,6 +1,6 @@
 import sys
-from os import path
-sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
+from os import path, getcwd
+sys.path.append(getcwd())
 
 import requests
 import unittest
