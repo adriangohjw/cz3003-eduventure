@@ -1,7 +1,5 @@
 from flask import request
 
-from models import QuizAttempt
-
 def validate_student_id(student_id):
     # if no 'student_id' found in params
     if (student_id is None):

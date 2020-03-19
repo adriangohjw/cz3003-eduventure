@@ -1,8 +1,6 @@
 from flask import request
 import re
 
-from models import User
-
 EMAIL_REGEX = re.compile(r"[^@]+@[^@]+\.[^@]+")
 
 def validate_email(email):
