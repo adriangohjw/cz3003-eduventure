@@ -51,3 +51,8 @@ In Windows CMD, ensure you are in the folder of your repository
 
 ## To run the application
 `python run.py`
+
+## Testing the API endpoints
+
+1. Download and install [Postman](https://www.postman.com/downloads/)
+2. Import the collection (cz3003-eduventure.postman_collection.json)
