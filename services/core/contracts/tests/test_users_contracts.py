@@ -1,13 +1,12 @@
 import sys
 from os import path, getcwd
-sys.path.append(path.dirname(path.dirname((getcwd()))))
 
-print(sys.path)
+sys.path.append(getcwd())
 
 import requests
 import unittest
 
-from contracts.users_contracts import validate_email, validate_password
+from services.core.contracts.users_contracts import validate_email, validate_password
 
 class Test_user_contracts(unittest.TestCase):
 
