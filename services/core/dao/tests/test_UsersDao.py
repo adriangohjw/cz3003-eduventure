@@ -21,12 +21,7 @@ class Test_users_dao(unittest.TestCase):
     def setUpClass(cls):
         print("\n\n{}: starting test...".format(path.basename(__file__)))
 
-    @classmethod
-    def tearDownClass(cls):
-        print("\n{}: ending test...".format(path.basename(__file__)))
-
     def setUp(self):
-        print("\n>>>>> {}: starting test...".format(self._testMethodName))
         db.session.remove()
         db.drop_all()
         db.create_all()
