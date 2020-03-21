@@ -56,3 +56,7 @@ In Windows CMD, ensure you are in the folder of your repository
 
 1. Download and install [Postman](https://www.postman.com/downloads/)
 2. Import the collection (cz3003-eduventure.postman_collection.json)
+
+## Running test scripts
+
+`python tests.py`
