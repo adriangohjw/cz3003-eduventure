@@ -5,3 +5,9 @@ POSTGRES_DB = 'cz3003'
 
 class Config:
     URI = 'postgresql+psycopg2://{user}:{pw}@{url}/{db}'.format(user=POSTGRES_USER,pw=POSTGRES_PW,url=POSTGRES_URL,db=POSTGRES_DB)
+
+
+POSTGRES_DB_TEST = 'cz3003_test'
+
+class ConfigTest:
+    URI = 'postgresql+psycopg2://{user}:{pw}@{url}/{db}'.format(user=POSTGRES_USER,pw=POSTGRES_PW,url=POSTGRES_URL,db=POSTGRES_DB_TEST)
