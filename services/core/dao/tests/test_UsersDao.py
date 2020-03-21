@@ -3,7 +3,6 @@ from os import path, getcwd
 sys.path.append(getcwd())
 
 import unittest 
-from flask import Flask
 
 from models import db, User
 from run_test import create_app
