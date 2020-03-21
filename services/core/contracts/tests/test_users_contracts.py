@@ -3,7 +3,6 @@ from os import path, getcwd
 
 sys.path.append(getcwd())
 
-import requests
 import unittest
 
 from services.core.contracts.users_contracts import validate_email, validate_password
