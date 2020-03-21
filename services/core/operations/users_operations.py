@@ -59,7 +59,7 @@ def userUpdateOperation(email, old_password, new_password):
         raise ErrorWithCode(401, "Wrong password does not match")
 
     user.encrypted_password = encrypt(new_password)
-    if userUpdate(user) == False:
+    if userUpdate() == False:
         raise ErrorWithCode(400, "Unsuccessful")
 
     # success case
