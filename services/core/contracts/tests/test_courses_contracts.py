@@ -1,6 +1,7 @@
 import sys
 from os import path, getcwd
-
+from flask import Flask
+from flask import request
 sys.path.append(getcwd())
 
 import unittest
@@ -21,6 +22,29 @@ class Test_courses_contracts(unittest.TestCase):
         with self.assertRaises(ValueError):
             validate_index("")
 
+    def test_lessonDeleteContract(self):
+        app = Flask(__name__)
+        with app.test_request_context('/?index=12', method='POST'):
+            self.assertEqual(courseReadContract(request), { 'index':'12' })
+
+        with app.test_request_context('/?index=', method='POST'):
+            # now you can do something with the request until the
+            # end of the with block, such as basic assertions:
+            # assert request.path == '/hello'
+            with self.assertRaises(ValueError):
+                courseReadContract(request)
+
+    def test_courseCreateContract(self):
+        app = Flask(__name__)
+        with app.test_request_context('/?index=12', method='POST'):
+            self.assertEqual(courseCreateContract(request), { 'index':'12' })
+
+        with app.test_request_context('/?index=', method='POST'):
+            # now you can do something with the request until the
+            # end of the with block, such as basic assertions:
+            # assert request.path == '/hello'
+            with self.assertRaises(ValueError):
+                 courseCreateContract(request)
 
 
 if __name__ == '__main__':
