@@ -9,12 +9,13 @@ def create_app():
     return app
 
 if __name__ == "__main__":
+
     app = create_app()
 
     from models import db 
     db.init_app(app)
 
-    from services.core.app import \
+    from services.core.blueprint import \
         user_bp, staff_bp, student_bp, course_bp, topic_bp, lesson_bp, \
         questionAttempt_bp, quizAttempt_bp
 
@@ -27,7 +28,7 @@ if __name__ == "__main__":
     app.register_blueprint(questionAttempt_bp, url_prefix='/question_attempts')
     app.register_blueprint(quizAttempt_bp, url_prefix='/quiz_attempts')
 
-    from services.quiz.app import \
+    from services.quiz.blueprint import \
         quiz_bp, question_bp, questionchoice_bp
         
     app.register_blueprint(quiz_bp, url_prefix='/quizzes')
