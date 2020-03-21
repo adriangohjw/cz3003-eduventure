@@ -8,6 +8,8 @@ from services.core.contracts.tests.test_users_contracts import Test_user_contrac
 
 from services.core.operations.tests.test_users_operations import Test_users_operations
 
+from services.quiz.dao.tests.test_QuizzesDao import Test_quizzes_dao
+
 def create_app():
     app = Flask(__name__)
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
