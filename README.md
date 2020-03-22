@@ -45,9 +45,9 @@ All required packages should have been installed!
 ### Setup local database
 In Windows CMD, ensure you are in the folder of your repository
 
-1. Run `python models.py db init` 
-2. Run `python models.py db migrate`
-3. Run `python models.py db upgrade`
+1. Run `python manage.py db init` 
+2. Run `python manage.py db migrate`
+3. Run `python manage.py db upgrade`
 
 ## To run the application
 `python run.py`
