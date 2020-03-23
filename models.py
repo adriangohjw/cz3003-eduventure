@@ -234,7 +234,8 @@ class Quiz(db.Model):
             },
             'is_fast': self.is_fast,
             'date_start': self.date_start,
-            'date_end': self.date_end
+            'date_end': self.date_end,
+            'attempts': [qa.asdict() for qa in self.attempts]
         }
 
     def to_json(self):
