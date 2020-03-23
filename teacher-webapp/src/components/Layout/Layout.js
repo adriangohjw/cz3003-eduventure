@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Route, Switch, Redirect, withRouter } from "react-router-dom";
 import classnames from "classnames";
 
@@ -20,10 +20,8 @@ import { useLayoutState } from "../../context/LayoutContext";
 
 function Layout(props) {
   var classes = useStyles();
-
   // global
   var layoutState = useLayoutState();
-
   return (
     <div className={classes.root}>
       <>
@@ -39,12 +37,6 @@ function Layout(props) {
             <Route path="/app/dashboard" component={Dashboard} />
             <Route path="/app/quizzes" component={Quizzes} />
             <Route path="/app/leaderboards" component={Leaderboards} />
-            <Route
-              exact
-              path="/app/ui"
-              render={() => <Redirect to="/app/ui/icons" />}
-            />
-            <Route path="/app/ui/charts" component={Charts} />
           </Switch>
         </div>
       </>

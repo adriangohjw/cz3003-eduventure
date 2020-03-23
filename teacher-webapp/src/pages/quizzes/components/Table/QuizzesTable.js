@@ -28,6 +28,8 @@ import useStyles from "../../styles";
 // components
 import { Typography } from "../../../../components/Wrappers";
 
+import mockdata from "../../mockdata";
+
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -55,7 +57,7 @@ function stableSort(array, comparator) {
 }
 
 function EnhancedTableHead(props) {
-  const headCells = props.columns;
+  const headCells = mockdata.columns;
   const {
     classes,
     onSelectAllClick,
@@ -172,10 +174,10 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function QuizzesTable(props) {
+export default function QuizzesTable({ quizzes, setter }) {
   var classes = useStyles();
   var theme = useTheme();
-  const rows = props.data.data;
+  const rows = quizzes;
 
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("id");
@@ -256,7 +258,6 @@ export default function QuizzesTable(props) {
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
-              columns={props.data.columns}
             />
             <TableBody>
               {stableSort(rows, getComparator(order, orderBy))
@@ -291,8 +292,12 @@ export default function QuizzesTable(props) {
                         {row.id}
                       </TableCell>
                       <TableCell align="center">{row.name}</TableCell>
-                      <TableCell align="center">{row.staff_id}</TableCell>
-                      <TableCell align="center">{row.is_fast}</TableCell>
+                      <TableCell align="center">
+                        {row.staff_id || setter}
+                      </TableCell>
+                      <TableCell align="center">
+                        {row.is_fast ? "Fast" : "Normal"}
+                      </TableCell>
                       <TableCell align="center">{row.date_start}</TableCell>
                       <TableCell align="center">{row.date_end}</TableCell>
                     </TableRow>

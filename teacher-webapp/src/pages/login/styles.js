@@ -12,7 +12,8 @@ export default makeStyles(theme => ({
     left: 0,
   },
   logotypeContainer: {
-    backgroundColor: theme.palette.primary.main,
+    // backgroundColor: theme.palette.primary.main,
+    backgroundColor: "black",
     width: "60%",
     height: "100%",
     display: "flex",
@@ -37,6 +38,9 @@ export default makeStyles(theme => ({
     [theme.breakpoints.down("md")]: {
       fontSize: 48,
     },
+  },
+  coverImage: {
+    width: "100%",
   },
   formContainer: {
     width: "40%",
