@@ -17,18 +17,39 @@ export default function Quizzes() {
 
   const url = "http://127.0.0.1:5000/";
   var email = "laoshi@gmail.com"; //should take from profile after
+
   useEffect(() => {
     fetch(url + `staffs/?email=${email}`, {
       method: "GET",
     })
       .then(res => res.json())
       .then(response => {
-        setQuizzes(response.quizzes);
+        return response.quizzes.map(quiz => quiz.id);
+      })
+      .then(allQuizIDs => {
+        return Promise.all(
+          allQuizIDs.map(id =>
+            fetch(url + `quizzes/?id=${id}`, {
+              method: "GET",
+            })
+              .then(res => res.json())
+              .then(response => {
+                console.log("response is ", response);
+                return response;
+              })
+              .catch(error => console.log(error)),
+          ),
+        );
+      })
+      .then(result => {
+        return result;
+      })
+      .then(allQuizDetails => {
+        setQuizzes(allQuizDetails);
         setIsLoading(false);
       })
       .catch(error => console.log(error));
   }, []);
-
   return (
     <>
       <PageTitle

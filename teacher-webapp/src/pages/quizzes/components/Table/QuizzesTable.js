@@ -298,6 +298,9 @@ export default function QuizzesTable({ quizzes, setter }) {
                       <TableCell align="center">
                         {row.is_fast ? "Fast" : "Normal"}
                       </TableCell>
+                      <TableCell align="center">
+                        {row.attempts.length}
+                      </TableCell>
                       <TableCell align="center">{row.date_start}</TableCell>
                       <TableCell align="center">{row.date_end}</TableCell>
                     </TableRow>

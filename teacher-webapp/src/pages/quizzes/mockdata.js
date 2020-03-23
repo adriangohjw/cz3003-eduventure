@@ -6,6 +6,7 @@ export default {
     { title: "Name", field: "name" },
     { title: "Setter", field: "staff_id" },
     { title: "Fast Quiz", field: "is_fast" },
+    { title: "Attempts", field: "attempts" },
     { title: "Start Date", field: "date_start" },
     { title: "End Date", field: "date_end" },
   ],
