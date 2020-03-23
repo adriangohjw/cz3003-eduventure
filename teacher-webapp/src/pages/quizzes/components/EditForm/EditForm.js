@@ -22,7 +22,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function EditForm(props) {
+export default function EditForm({ profile }) {
   const [open, setOpen] = React.useState(false);
   const [state, setState] = React.useState({});
   var classes = useStyles();
@@ -82,14 +82,14 @@ export default function EditForm(props) {
                 variant="filled"
                 id="setter-id"
                 label="ID"
-                defaultValue={props.profile.id}
+                defaultValue={profile.id}
               />
               <TextField
                 disabled
                 variant="filled"
                 id="setter-name"
                 label="Setter Name"
-                defaultValue={props.profile.name}
+                defaultValue={profile.name}
               />
             </div>
             <div>

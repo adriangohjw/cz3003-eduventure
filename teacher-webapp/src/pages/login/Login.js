@@ -16,8 +16,9 @@ import classnames from "classnames";
 import useStyles from "./styles";
 
 // logo
-import logo from "./logo.svg";
+// import logo from "./logo.svg";
 import google from "../../images/google.svg";
+import cover from "../../images/cover.png";
 
 // context
 import { useUserDispatch, loginUser } from "../../context/UserContext";
@@ -39,7 +40,7 @@ function Login(props) {
   return (
     <Grid container className={classes.container}>
       <div className={classes.logotypeContainer}>
-        <img src={logo} alt="logo" className={classes.logotypeImage} />
+        <img src={cover} alt="cover" className={classes.coverImage} />
         <Typography className={classes.logotypeText}>
           Teacher's Portal
         </Typography>

@@ -1,25 +1,5 @@
 import React, { useState } from "react";
-import {
-  Grid,
-  LinearProgress,
-  Select,
-  OutlinedInput,
-  MenuItem,
-} from "@material-ui/core";
-import { useTheme } from "@material-ui/styles";
-import {
-  ResponsiveContainer,
-  ComposedChart,
-  AreaChart,
-  LineChart,
-  Line,
-  Area,
-  PieChart,
-  Pie,
-  Cell,
-  YAxis,
-  XAxis,
-} from "recharts";
+import { Grid } from "@material-ui/core";
 
 // styles
 import useStyles from "./styles";
@@ -29,9 +9,7 @@ import mockdata from "./mockdata";
 import Widget from "../../components/Widget";
 import PageTitle from "../../components/PageTitle";
 import { Typography } from "../../components/Wrappers";
-import Dot from "../../components/Sidebar/components/Dot";
 import Table from "./components/Table/Table";
-import BigStat from "./components/BigStat/BigStat";
 
 class Leaderboards extends React.Component {
   //https://www.youtube.com/watch?v=akxsFgM7DPA
