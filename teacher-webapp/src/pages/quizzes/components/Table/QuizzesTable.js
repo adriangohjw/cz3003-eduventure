@@ -120,7 +120,7 @@ EnhancedTableHead.propTypes = {
 
 const EnhancedTableToolbar = props => {
   const classes = useStyles();
-  const { numSelected } = props;
+  const { numSelected, handleDelete } = props;
 
   return (
     <Toolbar
@@ -154,7 +154,10 @@ const EnhancedTableToolbar = props => {
             </IconButton>
           </Tooltip>
           <Tooltip title="Delete">
-            <IconButton aria-label="delete">
+            <IconButton
+              aria-label="delete"
+              onClick={event => handleDelete(event)}
+            >
               <DeleteIcon />
             </IconButton>
           </Tooltip>
@@ -174,7 +177,7 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function QuizzesTable({ quizzes, setter }) {
+export default function QuizzesTable({ quizzes, setter, setter_id, url }) {
   var classes = useStyles();
   var theme = useTheme();
   const rows = quizzes;
@@ -194,19 +197,20 @@ export default function QuizzesTable({ quizzes, setter }) {
 
   const handleSelectAllClick = event => {
     if (event.target.checked) {
-      const newSelecteds = rows.map(n => n.name);
+      const newSelecteds = rows.map(n => n.id);
       setSelected(newSelecteds);
       return;
     }
+
     setSelected([]);
   };
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
+  const handleClick = (event, id) => {
+    const selectedIndex = selected.indexOf(id);
     let newSelected = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(selected, id);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -217,7 +221,7 @@ export default function QuizzesTable({ quizzes, setter }) {
         selected.slice(selectedIndex + 1),
       );
     }
-
+    console.log("handleClick", newSelected);
     setSelected(newSelected);
   };
 
@@ -239,10 +243,34 @@ export default function QuizzesTable({ quizzes, setter }) {
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
+  const handleDelete = event => {
+    fetch(url + `quizzes/id=?${selected}`, {
+      method: "DELETE", // or 'PUT'
+    })
+      .then(response => {
+        if (response.ok) {
+          response.json();
+        } else {
+          throw new Error("Couldn't delete!");
+        }
+      })
+      .then(data => {
+        console.log("Success:", data);
+        alert("Deleted successfully");
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        alert("something went wrong");
+      });
+  };
+
   return (
     <>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar
+          numSelected={selected.length}
+          handleDelete={handleDelete}
+        />
         <TableContainer>
           <Table
             className={classes.table}
@@ -263,13 +291,13 @@ export default function QuizzesTable({ quizzes, setter }) {
               {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
+                  const isItemSelected = isSelected(row.id);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
-                      onClick={event => handleClick(event, row.name)}
+                      onClick={event => handleClick(event, row.id)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
