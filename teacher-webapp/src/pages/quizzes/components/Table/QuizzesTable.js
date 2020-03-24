@@ -120,7 +120,7 @@ EnhancedTableHead.propTypes = {
 
 const EnhancedTableToolbar = props => {
   const classes = useStyles();
-  const { numSelected, handleDelete } = props;
+  const { numSelected, selected, handleDelete } = props;
 
   return (
     <Toolbar
@@ -156,7 +156,7 @@ const EnhancedTableToolbar = props => {
           <Tooltip title="Delete">
             <IconButton
               aria-label="delete"
-              onClick={event => handleDelete(event)}
+              onClick={event => handleDelete(selected)}
             >
               <DeleteIcon />
             </IconButton>
@@ -175,9 +175,11 @@ const EnhancedTableToolbar = props => {
 
 EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
+  selected: PropTypes.array.isRequired,
+  handleDelete: PropTypes.func.isRequired,
 };
 
-export default function QuizzesTable({ quizzes, setter, setter_id, url }) {
+export default function QuizzesTable({ quizzes, setter, handleDelete }) {
   var classes = useStyles();
   var theme = useTheme();
   const rows = quizzes;
@@ -221,7 +223,6 @@ export default function QuizzesTable({ quizzes, setter, setter_id, url }) {
         selected.slice(selectedIndex + 1),
       );
     }
-    console.log("handleClick", newSelected);
     setSelected(newSelected);
   };
 
@@ -243,32 +244,12 @@ export default function QuizzesTable({ quizzes, setter, setter_id, url }) {
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
-  const handleDelete = event => {
-    fetch(url + `quizzes/id=?${selected}`, {
-      method: "DELETE", // or 'PUT'
-    })
-      .then(response => {
-        if (response.ok) {
-          response.json();
-        } else {
-          throw new Error("Couldn't delete!");
-        }
-      })
-      .then(data => {
-        console.log("Success:", data);
-        alert("Deleted successfully");
-      })
-      .catch(error => {
-        console.error("Error:", error);
-        alert("something went wrong");
-      });
-  };
-
   return (
     <>
       <Paper className={classes.paper}>
         <EnhancedTableToolbar
           numSelected={selected.length}
+          selected={selected}
           handleDelete={handleDelete}
         />
         <TableContainer>
