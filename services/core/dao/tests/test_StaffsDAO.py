@@ -5,7 +5,7 @@ sys.path.append(getcwd())
 
 import unittest
 
-from models import db, Course,User,Staff
+from models import db, User,Staff
 from run_test import create_app
 from services.core.operations.users_operations import encrypt
 
