@@ -76,7 +76,7 @@ class Test_QuestionChoicesDAO(unittest.TestCase):
 
         self.assertEqual(0, len(QuestionChoice.query.all()))
 
-    #debugging
+    #not working when the first choice id is larger than the second, meaning they are not ordered by datetime
     def test_getLastQuestionChoiceID(self):
         qnCh = QuestionChoice(1, 4, "B", False)
         db.session.add(qnCh)
