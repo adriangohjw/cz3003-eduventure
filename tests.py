@@ -1,6 +1,7 @@
 import unittest 
 from flask import Flask
 from config import Config
+from flask_cors import CORS
 
 from services.core.dao.tests.test_UsersDao import Test_users_dao
 
@@ -12,6 +13,7 @@ from services.quiz.dao.tests.test_QuizzesDao import Test_quizzes_dao
 
 def create_app():
     app = Flask(__name__)
+    CORS(app)
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SQLALCHEMY_DATABASE_URI'] = Config.URI
 
