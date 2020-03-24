@@ -6,7 +6,7 @@ from flask import Flask
 from flask import request
 import unittest
 
-from services.core.contracts.topics_contracts import *
+from services.core.contracts.topics_contracts import validate_name,validate_id,topicCreateContract,topicReadContract
 
 
 class Test_topics_contracts(unittest.TestCase):

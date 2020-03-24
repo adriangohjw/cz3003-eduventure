@@ -76,12 +76,13 @@ class Test_QuestionChoicesDAO(unittest.TestCase):
 
         self.assertEqual(0, len(QuestionChoice.query.all()))
 
-        #debugging
+    #debugging
     def test_getLastQuestionChoiceID(self):
-        qnCh = QuestionChoice(1, 3, "A", False)
+        qnCh = QuestionChoice(1, 4, "B", False)
         db.session.add(qnCh)
-
-        qnChLast = QuestionChoice(1, 2, "B", True)
+        db.session.commit()
+        #need to commit separately
+        qnChLast = QuestionChoice(1, 2, "C", True)
         db.session.add(qnChLast)
 
         db.session.commit()

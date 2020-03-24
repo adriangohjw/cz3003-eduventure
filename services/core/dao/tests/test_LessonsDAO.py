@@ -82,5 +82,17 @@ class Test_LessonsDAO(unittest.TestCase):
         lesson = Lesson.query.filter_by(topic_id='1').filter_by(id='3').first()
         self.assertIsNone(lesson)
 
+    def test_getLastLessonID(self):
+        l = Lesson(1,2,"lesson2","srs")
+        db.session.add(l)
+        db.session.commit()
+
+        l = Lesson(1, 3, "lesson3", "patterns")
+        db.session.add(l)
+        db.session.commit()
+        lastl = getLastLessonID(1)
+
+        self.assertEqual(lastl, 2)
+
 if __name__ == '__main__':
     unittest.main()

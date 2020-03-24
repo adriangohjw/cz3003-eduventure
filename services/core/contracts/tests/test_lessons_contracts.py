@@ -6,7 +6,7 @@ sys.path.append(getcwd())
 
 import unittest
 
-from services.core.contracts.lessons_contracts import *
+from services.core.contracts.lessons_contracts import validate_topic_id,validate_content,validate_name,validate_lesson_id,lessonCreateContract,lessonDeleteContract,lessonReadContract,lessonUpdateContract,validate_topic_id
 
 
 class Test_lessons_contracts(unittest.TestCase):

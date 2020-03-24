@@ -6,7 +6,7 @@ sys.path.append(getcwd())
 
 import unittest
 
-from services.core.contracts.rs_staff_course_teaches_contracts import *
+from services.core.contracts.rs_staff_course_teaches_contracts import courseMngCreateContract,courseMngReadContract
 
 
 class Test_rs_staff_course_teaches_contracts(unittest.TestCase):

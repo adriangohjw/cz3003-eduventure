@@ -7,7 +7,7 @@ sys.path.append(getcwd())
 
 import unittest
 
-from services.core.contracts.users_contracts import *
+from services.core.contracts.users_contracts import validate_email,validate_password,userReadContract,userCreateContract,userUpdateContract
 
 class Test_user_contracts(unittest.TestCase):
 
