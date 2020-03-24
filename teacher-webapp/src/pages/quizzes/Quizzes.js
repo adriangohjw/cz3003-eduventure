@@ -20,7 +20,7 @@ export default function Quizzes() {
   const url = "http://127.0.0.1:5000/";
   var email = "laoshi@gmail.com"; //should take from profile after
 
-  useEffect(() => {
+  const retrieveQuizzes = () => {
     fetch(url + `staffs/?email=${email}`, {
       method: "GET",
     })
@@ -62,7 +62,39 @@ export default function Quizzes() {
         setIsQuizFound(true);
       })
       .catch(error => console.log(error));
+  };
+
+  const deleteQuiz = selected => {
+    setIsLoading(true);
+    return Promise.all(
+      selected.map(id =>
+        fetch(url + `quizzes/?id=${id}`, {
+          method: "DELETE",
+        })
+          .then(response => {
+            if (response.ok) {
+              response.json();
+            } else {
+              throw new Error("Couldn't delete!");
+            }
+          })
+          .then(data => {
+            console.log("Success:", data);
+            retrieveQuizzes();
+            alert("Deleted successfully");
+          })
+          .catch(error => {
+            console.error("Error:", error);
+            alert("something went wrong");
+          }),
+      ),
+    );
+  };
+
+  useEffect(() => {
+    retrieveQuizzes();
   }, []);
+
   return (
     <>
       <PageTitle
@@ -75,10 +107,9 @@ export default function Quizzes() {
         <QuizzesTable
           quizzes={quizzes}
           setter={email}
-          setter_id={id}
+          handleDelete={deleteQuiz}
           classes={useStyles}
           theme={useTheme}
-          url={url}
         />
       ) : (
         <h2>No Quizzes Found!</h2>
