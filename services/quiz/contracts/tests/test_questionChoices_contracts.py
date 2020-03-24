@@ -57,7 +57,7 @@ class Test_questionChoices_contracts(unittest.TestCase):
         with app.test_request_context('/?question_id=2&description=easy&is_correct=True', method='POST'):
             self.assertEqual(questionChoiceCreateContract(request), { 'question_id': '2',
         'description': 'easy',
-        'is_correct': 'True' })
+        'is_correct': True })
 
         with app.test_request_context('/?question_id=2&description=easy&is_correct=test', method='POST'):
             with self.assertRaises(Exception):
@@ -79,7 +79,7 @@ class Test_questionChoices_contracts(unittest.TestCase):
             self.assertEqual(questionChoiceUpdateContract(request), { 'question_id':'2',
         'questionChoice_id': '2',
         'col': 'is_correct',
-        'value':'True' })
+        'value':True })
 
         with app.test_request_context('/?question_id=2&questionChoice_id=2&col=is_correct&value=test', method='POST'):
             with self.assertRaises(Exception):

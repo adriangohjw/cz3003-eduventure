@@ -58,11 +58,11 @@ class Test_questions_contracts(unittest.TestCase):
     def test_questionUpdateContract(self):
         app = Flask(__name__)
         with app.test_request_context('/?id=1&description=hard', method='POST'):
-            self.assertEqual(questionCreateContract(request), {'id': '1', 'description': 'hard' })
+            self.assertEqual(questionUpdateContract(request), {'id': '1', 'description': 'hard' })
 
         with app.test_request_context('/?id=1&description=', method='POST'):
             with self.assertRaises(Exception):
-                questionCreateContract(request)
+                questionUpdateContract(request)
 
     def test_questionDeleteContract(self):
         app = Flask(__name__)

@@ -68,7 +68,7 @@ class Test_quizzes_contracts(unittest.TestCase):
         with app.test_request_context('/?staff_id=20&name=Joe&is_fast=True&date_start=2020-03-24&date_end=2020-03-25', method='POST'):
             self.assertEqual(quizCreateContract(request), { 'staff_id': '20',
         'name': 'Joe',
-        'is_fast': 'True',
+        'is_fast': True,
         'date_start': '2020-03-24',
         'date_end': '2020-03-25' })
 
@@ -102,3 +102,6 @@ class Test_quizzes_contracts(unittest.TestCase):
         with app.test_request_context('/?id=', method='POST'):
             with self.assertRaises(Exception):
                 quizDeleteContract(request)
+
+if __name__ == '__main__':
+    unittest.main()
