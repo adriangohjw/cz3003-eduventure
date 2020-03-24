@@ -10,6 +10,7 @@ import TextField from "@material-ui/core/TextField";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
+import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -25,6 +26,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function EditForm({ profile }) {
   const [open, setOpen] = React.useState(false);
   const [state, setState] = React.useState({});
+  // const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
   var classes = useStyles();
 
   const handleClickOpen = () => {
@@ -35,10 +37,13 @@ export default function EditForm({ profile }) {
   };
   const handleSelectChange = event => {
     const name = event.target.name;
-    setState({
-      ...state,
-      [name]: event.target.value,
-    });
+    setState(
+      {
+        ...state,
+        [name]: event.target.value,
+      },
+      console.log(name, event.target.value),
+    );
   };
   return (
     <div>
@@ -96,21 +101,50 @@ export default function EditForm({ profile }) {
               <TextField required id="quiz-name" label="Quiz Name" />
             </div>
             <div>
-              <FormControl className={classes.formControl}>
-                <InputLabel htmlFor="age-native-simple">Fast Quiz?</InputLabel>
+              <FormControl required className={classes.formControl}>
+                <InputLabel id="demo-simple-select-required-label">
+                  Quiz Type
+                </InputLabel>
                 <Select
-                  value={state.is_fast}
+                  labelId="isFast-simple-select-required-label"
+                  id="isFast-simple-select-required"
+                  name="isFast"
+                  defaultValue={false}
+                  value={state.isFast}
                   onChange={handleSelectChange}
-                  inputProps={{
-                    name: "Fast Quiz",
-                    id: "age-native-required",
-                  }}
+                  className={classes.selectEmpty}
                 >
-                  <option aria-label="None" value="" />
-                  <option value={true}>Fast</option>
-                  <option value={false}>Normal</option>
+                  <MenuItem value={true}>Fast</MenuItem>
+                  <MenuItem value={false}>Normal</MenuItem>
                 </Select>
+                <FormHelperText>Required</FormHelperText>
               </FormControl>
+            </div>
+            <div>
+              <TextField
+                id="datetime_end"
+                name="date_start"
+                label="Start Date"
+                type="datetime-local"
+                defaultValue="2020-03-24T10:30"
+                className={classes.textField}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </div>
+            <div>
+              <TextField
+                id="datetime_start"
+                name="date_end"
+                label="End Date"
+                type="datetime-local"
+                defaultValue="2020-03-25T10:30"
+                className={classes.textField}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
             </div>
           </form>
         </Container>
