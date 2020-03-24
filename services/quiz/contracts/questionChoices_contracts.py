@@ -69,7 +69,7 @@ def questionChoiceCreateContract(request):
     is_correct = request.args.get('is_correct')
     
     validate_question_id(question_id)
-    validate_description(description, 'description')
+    validate_description(description)
     validate_is_correct(is_correct)
 
     is_correct = True if is_correct == 'True' else False
