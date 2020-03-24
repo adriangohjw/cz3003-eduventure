@@ -5,11 +5,11 @@ sys.path.append(getcwd())
 
 import unittest
 
-from services.core.operations.courses_operations import initializeCourse,courseCreateOperation,courseReadOperation
+from services.core.operations.topics_operations import initializeTopic,topicCreateOperation,topicReadOperation
 
 from exceptions import ErrorWithCode
 
-from models import db, User
+from models import db
 from run_test import create_app
 
 app = create_app()
@@ -17,7 +17,7 @@ app.app_context().push()
 db.init_app(app)
 
 
-class Test_courses_operations(unittest.TestCase):
+class Test_topics_operations(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         print("\n\n{}: starting test...".format(path.basename(__file__)))
@@ -27,23 +27,22 @@ class Test_courses_operations(unittest.TestCase):
         db.drop_all()
         db.create_all()
 
-        c = initializeCourse('cz3003')
-        db.session.add(c)
+        sf = initializeTopic('srs')
+        db.session.add(sf)
         db.session.commit()
 
-    def test_courseReadOperation(self):
+    def test_topicReadOperation(self):
         with self.assertRaises(ErrorWithCode):
-            courseReadOperation('cz3007')
+            topicReadOperation(2)
 
-        self.assertIsNotNone(courseReadOperation('cz3003'))
+        self.assertIsNotNone(topicReadOperation(1))
 
-    def test_courseCreateOperation(self):
+    def test_topicCreateOperation(self):
         with self.assertRaises(ErrorWithCode):
-            courseCreateOperation('cz3003')
-            courseCreateOperation('')
+            topicCreateOperation('srs')
+            topicCreateOperation('')
 
-        self.assertIsNotNone(courseCreateOperation('cz3007'))
-
+        self.assertIsNotNone(topicCreateOperation('patterns'))
 
 if __name__ == '__main__':
     unittest.main()
