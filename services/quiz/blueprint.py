@@ -9,6 +9,7 @@ api_quiz = Api(quiz_bp)
 api_quiz.add_resource(QuizzesController.QuizAPI, '/')
 api_quiz.add_resource(QuizzesController.CourseManagerAPI, '/courses')
 api_quiz.add_resource(QuizzesController.QuestionManagerAPI, '/questions')
+api_quiz.add_resource(QuizzesController.QuizOverallAPI, '/overall')
 
 question_bp = Blueprint('question', __name__)
 api_question = Api(question_bp)

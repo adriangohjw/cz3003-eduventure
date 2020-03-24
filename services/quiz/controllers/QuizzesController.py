@@ -11,6 +11,8 @@ from ..operations.quizzes_operations import \
 
 from exceptions import ErrorWithCode
 
+import statistics
+
 class QuizAPI(Resource):
     def get(self):
         # contracts
@@ -119,6 +121,57 @@ class QuizAPI(Resource):
         return make_response(
             jsonify(
                 message = 'Successfully deleted quiz'
+            ), 200
+        )
+
+
+class QuizOverallAPI(Resource):
+
+    def get(self):
+
+        # contracts
+        try:
+            q = quizReadContract(request)
+        except Exception as e:
+            return make_response(
+                jsonify (
+                    error = str(e),
+                ), 400
+            )
+
+        # operations
+        try:
+            quiz = quizReadOperation(q['id'])
+        except ErrorWithCode as e:
+            return make_response(
+                jsonify (
+                    error = e.message
+                ), e.status_code
+            )
+        
+        # success case
+        attempts_list = []
+        for attempt in quiz.attempts:
+            attempts_list.append(attempt.score)
+        attempts = [qa.asdict() for qa in quiz.attempts]
+
+        print(attempts)
+
+        return make_response (
+            jsonify (
+                id = quiz.id,
+                is_fast = quiz.is_fast,
+                name = quiz.name,
+                date_start = quiz.date_start,
+                date_end = quiz.date_end,
+                staff = {
+                    'id': quiz.staff.id,
+                    "name": quiz.staff.name
+                },
+                attempts = attempts,
+                highest_score = max(attempts_list),
+                lowest_score = min(attempts_list),
+                average_score = statistics.mean(attempts_list)
             ), 200
         )
 
