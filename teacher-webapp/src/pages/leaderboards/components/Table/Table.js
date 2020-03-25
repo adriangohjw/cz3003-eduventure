@@ -50,8 +50,8 @@ export default function TableComponent(props) {
         ))} */}
         {props.data.map(({ id, score, student_id }) => (
           <TableRow key={id}>
-            <TableCell className="pl-3 fw-normal">{score}</TableCell>
             <TableCell>{student_id}</TableCell>
+            <TableCell className="pl-3 fw-normal">{score}</TableCell>
           </TableRow>
         ))}
       </TableBody>
