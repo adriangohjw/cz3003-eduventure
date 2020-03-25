@@ -28,7 +28,7 @@ def validate_duration_ms(duration_ms):
         raise ValueError("duration_ms is empty")
 
     # check if duration is integer
-    if isinstance(duration_ms, int):
+    if not isinstance(duration_ms, int):
         raise TypeError("duration_ms needs to be integer")
 
     # ensure duration is more than 0
