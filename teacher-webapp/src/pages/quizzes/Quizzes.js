@@ -9,7 +9,6 @@ import PageTitle from "../../components/PageTitle/PageTitle";
 import EditForm from "./components/EditForm/EditForm";
 import QuizzesTable from "./components/Table/QuizzesTable";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { Typography } from "../../components/Wrappers/Wrappers";
 
 export default function Quizzes() {
   const [quizzes, setQuizzes] = useState([]);
@@ -17,7 +16,7 @@ export default function Quizzes() {
   var [isLoading, setIsLoading] = useState(true);
   var [isQuizFound, setIsQuizFound] = useState(true);
 
-  const url = "http://127.0.0.1:5000/";
+  const url = new URL("http://127.0.0.1:5000/");
   var email = "laoshi@gmail.com"; //should take from profile after
 
   const retrieveQuizzes = () => {
@@ -89,6 +88,32 @@ export default function Quizzes() {
           }),
       ),
     );
+  };
+
+  const createQuiz = (staff_id, name, is_fast, date_start, date_end) => {
+    fetch(
+      url +
+        `quizzes/?staff_id=${staff_id}&name=${name}&is_fast=${is_fast}&date_start=${date_start}&date_end=${date_end}`,
+      {
+        method: "POST",
+      },
+    )
+      .then(response => {
+        if (response.ok) {
+          response.json();
+        } else {
+          throw new Error("Couldn't delete!");
+        }
+      })
+      .then(data => {
+        console.log("Success:", data);
+        retrieveQuizzes();
+        alert("Deleted successfully");
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        alert("something went wrong");
+      });
   };
 
   useEffect(() => {
