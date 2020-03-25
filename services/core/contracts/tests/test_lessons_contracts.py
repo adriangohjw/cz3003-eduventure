@@ -7,7 +7,12 @@ sys.path.append(getcwd())
 import unittest
 
 from services.core.contracts.lessons_contracts import validate_topic_id,validate_content,validate_name,validate_lesson_id,lessonCreateContract,lessonDeleteContract,lessonReadContract,lessonUpdateContract,validate_topic_id
+from models import db
+from run_test import create_app
 
+app = create_app()
+app.app_context().push()
+db.init_app(app)
 
 class Test_lessons_contracts(unittest.TestCase):
     @classmethod
@@ -47,7 +52,6 @@ class Test_lessons_contracts(unittest.TestCase):
             validate_content("")
 
     def test_lessonReadContract(self):
-        app = Flask(__name__)
         with app.test_request_context('/?topic_id=12&lesson_id=1', method='POST'):
             self.assertEqual(lessonReadContract(request), { 'topic_id':'12','lesson_id': '1' })
 
@@ -59,7 +63,6 @@ class Test_lessons_contracts(unittest.TestCase):
                 lessonReadContract(request)
 
     def test_lessonCreateContract(self):
-        app = Flask(__name__)
         with app.test_request_context('/?topic_id=12&name=se&content=secontent', method='POST'):
             self.assertEqual(lessonCreateContract(request), { 'topic_id':'12','name': 'se','content':'secontent' })
 
@@ -71,7 +74,6 @@ class Test_lessons_contracts(unittest.TestCase):
                 lessonCreateContract(request)
 
     def test_lessonUpdateContract(self):
-        app = Flask(__name__)
         with app.test_request_context('/?topic_id=12&lesson_id=1&col=name&value=3', method='POST'):
             self.assertEqual(lessonUpdateContract(request), { 'topic_id': '12',
         'lesson_id': '1',
@@ -86,7 +88,6 @@ class Test_lessons_contracts(unittest.TestCase):
                 lessonUpdateContract(request)
 
     def test_lessonDeleteContract(self):
-        app = Flask(__name__)
         with app.test_request_context('/?topic_id=12&lesson_id=1', method='POST'):
             self.assertEqual(lessonReadContract(request), { 'topic_id':'12','lesson_id': '1' })
 

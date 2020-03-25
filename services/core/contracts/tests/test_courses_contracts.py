@@ -7,7 +7,12 @@ sys.path.append(getcwd())
 import unittest
 
 from services.core.contracts.courses_contracts import validate_index,courseCreateContract,courseReadContract
+from models import db
+from run_test import create_app
 
+app = create_app()
+app.app_context().push()
+db.init_app(app)
 
 class Test_courses_contracts(unittest.TestCase):
     @classmethod
@@ -23,7 +28,6 @@ class Test_courses_contracts(unittest.TestCase):
             validate_index("")
 
     def test_lessonDeleteContract(self):
-        app = Flask(__name__)
         with app.test_request_context('/?index=12', method='POST'):
             self.assertEqual(courseReadContract(request), { 'index':'12' })
 
@@ -35,7 +39,6 @@ class Test_courses_contracts(unittest.TestCase):
                 courseReadContract(request)
 
     def test_courseCreateContract(self):
-        app = Flask(__name__)
         with app.test_request_context('/?index=12', method='POST'):
             self.assertEqual(courseCreateContract(request), { 'index':'12' })
 

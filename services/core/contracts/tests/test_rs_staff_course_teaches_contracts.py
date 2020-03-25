@@ -7,7 +7,12 @@ sys.path.append(getcwd())
 import unittest
 
 from services.core.contracts.rs_staff_course_teaches_contracts import courseMngCreateContract,courseMngReadContract
+from models import db
+from run_test import create_app
 
+app = create_app()
+app.app_context().push()
+db.init_app(app)
 
 class Test_rs_staff_course_teaches_contracts(unittest.TestCase):
     @classmethod
@@ -15,7 +20,6 @@ class Test_rs_staff_course_teaches_contracts(unittest.TestCase):
         print("\n\n{}: starting test...".format(path.basename(__file__)))
 
     def test_courseMngReadContract(self):
-        app = Flask(__name__)
         with app.test_request_context('/?user_email=joe@gmail.com', method='POST'):
             self.assertEqual(courseMngReadContract(request), {'user_email': 'joe@gmail.com'})
 
@@ -28,7 +32,6 @@ class Test_rs_staff_course_teaches_contracts(unittest.TestCase):
                 courseMngReadContract(request)
 
     def test_courseMngCreateContract(self):
-        app = Flask(__name__)
         with app.test_request_context('/?user_email=joe@gmail.com&course_index=cz3003', method='POST'):
             self.assertEqual(courseMngCreateContract(request), {'user_email': 'joe@gmail.com','course_index':'cz3003' })
 

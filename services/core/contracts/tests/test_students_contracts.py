@@ -7,7 +7,12 @@ from flask import request
 import unittest
 
 from services.core.contracts.students_contracts import studentCreateContract,studentReadContract,validate_matriculation_number
+from models import db
+from run_test import create_app
 
+app = create_app()
+app.app_context().push()
+db.init_app(app)
 
 class Test_students_contracts(unittest.TestCase):
     @classmethod
@@ -22,7 +27,6 @@ class Test_students_contracts(unittest.TestCase):
             validate_matriculation_number("")
 
     def test_studentReadContract(self):
-        app = Flask(__name__)
         with app.test_request_context('/?email=joe@gmail.com', method='POST'):
             self.assertEqual(studentReadContract(request), {'email':'joe@gmail.com'})
         # test not passed as it throws a TypeError since duration_ms is not integer in validate_duration_ms()
@@ -35,7 +39,6 @@ class Test_students_contracts(unittest.TestCase):
                 studentReadContract(request)
 
     def test_studentCreateContract(self):
-        app = Flask(__name__)
         with app.test_request_context('/?email=joe@gmail.com&password=12345&matriculation_number=u1722', method='POST'):
             self.assertEqual(studentCreateContract(request), {'email':'joe@gmail.com',
         'password': '12345',

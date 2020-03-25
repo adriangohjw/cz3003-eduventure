@@ -7,7 +7,12 @@ sys.path.append(getcwd())
 import unittest
 
 from services.core.contracts.questionAttempts_contracts import validate_is_correct,questionAttemptCreateContract,questionAttemptListReadContract,validate_duration_ms,validate_student_id,validate_question_id
+from models import db
+from run_test import create_app
 
+app = create_app()
+app.app_context().push()
+db.init_app(app)
 
 class Test_questionAttempts_contracts(unittest.TestCase):
     @classmethod
@@ -46,7 +51,6 @@ class Test_questionAttempts_contracts(unittest.TestCase):
             validate_is_correct("")
 
     def test_questionAttemptListReadContract(self):
-        app = Flask(__name__)
         with app.test_request_context('/?student_id=12&question_id=1', method='POST'):
             self.assertEqual(questionAttemptListReadContract(request), {  'student_id': '12',
         'question_id':'1',})
@@ -59,7 +63,6 @@ class Test_questionAttempts_contracts(unittest.TestCase):
                 questionAttemptListReadContract(request)
 
     def test_questionAttemptCreateContract(self):
-        app = Flask(__name__)
         with app.test_request_context('/?student_id=12&question_id=1&is_correct=True&duration_ms=20', method='POST'):
             self.assertEqual(questionAttemptCreateContract(request), {  'student_id': '12',
         'question_id':'1', 'is_correct': True,

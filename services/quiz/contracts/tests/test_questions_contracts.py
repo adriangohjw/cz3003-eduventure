@@ -7,8 +7,13 @@ sys.path.append(getcwd())
 
 import unittest
 
-from services.quiz.contracts.questions_contracts import *
+from services.quiz.contracts.questions_contracts import validate_description,validate_id,validate_lesson_id,validate_topic_id,questionCreateContract,questionDeleteContract,questionReadContract,questionUpdateContract
+from models import db
+from run_test import create_app
 
+app = create_app()
+app.app_context().push()
+db.init_app(app)
 
 class Test_questions_contracts(unittest.TestCase):
     @classmethod
@@ -36,7 +41,6 @@ class Test_questions_contracts(unittest.TestCase):
             validate_description("")
 
     def test_questionReadContract(self):
-        app = Flask(__name__)
         with app.test_request_context('/?id=2', method='POST'):
             self.assertEqual(questionReadContract(request), { 'id': '2' })
 
@@ -45,7 +49,6 @@ class Test_questions_contracts(unittest.TestCase):
                 questionReadContract(request)
 
     def test_questionCreateContract(self):
-        app = Flask(__name__)
         with app.test_request_context('/?topic_id=1&lesson_id=2&description=hard', method='POST'):
             self.assertEqual(questionCreateContract(request), {'topic_id': '1',
         'lesson_id': '2',
@@ -56,7 +59,6 @@ class Test_questions_contracts(unittest.TestCase):
                 questionCreateContract(request)
 
     def test_questionUpdateContract(self):
-        app = Flask(__name__)
         with app.test_request_context('/?id=1&description=hard', method='POST'):
             self.assertEqual(questionUpdateContract(request), {'id': '1', 'description': 'hard' })
 
@@ -65,7 +67,6 @@ class Test_questions_contracts(unittest.TestCase):
                 questionUpdateContract(request)
 
     def test_questionDeleteContract(self):
-        app = Flask(__name__)
         with app.test_request_context('/?id=2', method='POST'):
             self.assertEqual(questionDeleteContract(request), { 'id': '2' })
 

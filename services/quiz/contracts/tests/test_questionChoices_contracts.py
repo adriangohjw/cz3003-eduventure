@@ -7,8 +7,13 @@ sys.path.append(getcwd())
 
 import unittest
 
-from services.quiz.contracts.questionChoices_contracts import *
+from services.quiz.contracts.questionChoices_contracts import validate_question_id, validate_questionChoice_id, validate_is_correct, validate_col, validate_description, questionChoiceCreateContract,questionChoiceDeleteContract,questionChoiceReadContract,questionChoiceUpdateContract
+from models import db
+from run_test import create_app
 
+app = create_app()
+app.app_context().push()
+db.init_app(app)
 
 class Test_questionChoices_contracts(unittest.TestCase):
     @classmethod
@@ -43,7 +48,6 @@ class Test_questionChoices_contracts(unittest.TestCase):
             validate_is_correct("test")
 
     def test_questionChoiceReadContract(self):
-        app = Flask(__name__)
         with app.test_request_context('/?question_id=2&questionChoice_id=3', method='POST'):
             self.assertEqual(questionChoiceReadContract(request), { 'question_id': '2',
         'questionChoice_id':'3', })
@@ -53,7 +57,6 @@ class Test_questionChoices_contracts(unittest.TestCase):
                 questionChoiceReadContract(request)
 
     def test_questionChoiceCreateContract(self):
-        app = Flask(__name__)
         with app.test_request_context('/?question_id=2&description=easy&is_correct=True', method='POST'):
             self.assertEqual(questionChoiceCreateContract(request), { 'question_id': '2',
         'description': 'easy',
@@ -68,7 +71,6 @@ class Test_questionChoices_contracts(unittest.TestCase):
                 questionChoiceCreateContract(request)
 
     def test_questionChoiceUpdateContract(self):
-        app = Flask(__name__)
         with app.test_request_context('/?question_id=2&questionChoice_id=2&col=description&value=easy', method='POST'):
             self.assertEqual(questionChoiceUpdateContract(request), { 'question_id':'2',
         'questionChoice_id': '2',
@@ -94,7 +96,6 @@ class Test_questionChoices_contracts(unittest.TestCase):
                 questionChoiceUpdateContract(request)
 
     def test_questionChoiceDeleteContract(self):
-        app = Flask(__name__)
         with app.test_request_context('/?question_id=2&questionChoice_id=3', method='POST'):
             self.assertEqual(questionChoiceDeleteContract(request), {  'question_id': '2',
         'questionChoice_id':'3', })

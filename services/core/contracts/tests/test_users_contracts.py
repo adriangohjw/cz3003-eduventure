@@ -8,7 +8,12 @@ sys.path.append(getcwd())
 import unittest
 
 from services.core.contracts.users_contracts import validate_email,validate_password,userReadContract,userCreateContract,userUpdateContract
+from models import db
+from run_test import create_app
 
+app = create_app()
+app.app_context().push()
+db.init_app(app)
 class Test_user_contracts(unittest.TestCase):
 
     @classmethod
@@ -40,7 +45,6 @@ class Test_user_contracts(unittest.TestCase):
             validate_password("")
 
     def test_userReadContract(self):
-        app = Flask(__name__)
         with app.test_request_context('/?email=john_doe@gmail.com', method='POST'):
             self.assertEqual(userReadContract(request), {'email':"john_doe@gmail.com" })
 
@@ -66,7 +70,6 @@ class Test_user_contracts(unittest.TestCase):
                 userReadContract(request)
 
     def test_userCreateContract(self):
-        app = Flask(__name__)
         with app.test_request_context('/?email=john_doe@gmail.com&password=12345', method='POST'):
             self.assertEqual(userCreateContract(request), {'email':"john_doe@gmail.com", 'password':"12345" })
 
@@ -78,7 +81,6 @@ class Test_user_contracts(unittest.TestCase):
                 userCreateContract(request)
 
     def test_userUpdateContract(self):
-        app = Flask(__name__)
         with app.test_request_context('/?email=john_doe@gmail.com&old_password=12345&new_password=abcde', method='POST'):
             self.assertEqual(userUpdateContract(request), {'email':"john_doe@gmail.com", 'old_password':"12345",'new_password':'abcde'  })
 

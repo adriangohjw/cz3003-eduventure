@@ -7,7 +7,12 @@ from flask import request
 import unittest
 
 from services.core.contracts.topics_contracts import validate_name,validate_id,topicCreateContract,topicReadContract
+from models import db
+from run_test import create_app
 
+app = create_app()
+app.app_context().push()
+db.init_app(app)
 
 class Test_topics_contracts(unittest.TestCase):
     @classmethod
@@ -32,7 +37,6 @@ class Test_topics_contracts(unittest.TestCase):
             validate_name("")
 
     def test_topicReadContract(self):
-        app = Flask(__name__)
         with app.test_request_context('/?id=2', method='POST'):
             self.assertEqual(topicReadContract(request), {'id':'2'})
         #test not passed as it throws a TypeError since id is not integer in validate_id()
@@ -41,7 +45,6 @@ class Test_topics_contracts(unittest.TestCase):
                 topicReadContract(request)
 
     def test_topicCreateContract(self):
-        app = Flask(__name__)
         with app.test_request_context('/?name=joe', method='POST'):
             self.assertEqual(topicCreateContract(request), {'name':'joe'})
 

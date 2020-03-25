@@ -10,8 +10,9 @@ from services.core.operations.questionAttempts_operations import questionAttempt
 from exceptions import ErrorWithCode
 
 from models import db, User, Student,Lesson,Question,Topic
-from run_test import create_app
 from services.core.operations.users_operations import encrypt
+
+from run_test import create_app
 
 app = create_app()
 app.app_context().push()

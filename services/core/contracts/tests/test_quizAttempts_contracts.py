@@ -7,7 +7,12 @@ sys.path.append(getcwd())
 import unittest
 
 from services.core.contracts.quizAttempts_contracts import quizAttemptCreateContract,quizAttemptListReadContract,validate_score,validate_quiz_id,validate_student_id
+from models import db
+from run_test import create_app
 
+app = create_app()
+app.app_context().push()
+db.init_app(app)
 
 class Test_quizAttempts_contracts(unittest.TestCase):
     @classmethod
@@ -37,7 +42,6 @@ class Test_quizAttempts_contracts(unittest.TestCase):
             validate_score(-7)
 
     def test_quizAttemptCreateContract(self):
-        app = Flask(__name__)
         with app.test_request_context('/?student_id=20&quiz_id=30&score=100', method='POST'):
             self.assertEqual(quizAttemptCreateContract(request), {  'student_id': '20',
         'quiz_id': '30',
@@ -52,7 +56,6 @@ class Test_quizAttempts_contracts(unittest.TestCase):
                 quizAttemptCreateContract(request)
 
     def test_quizAttemptListReadContract(self):
-        app = Flask(__name__)
         with app.test_request_context('/?student_id=20&quiz_id=30', method='POST'):
             self.assertEqual(quizAttemptListReadContract(request), {'student_id': '20',
                                                                   'quiz_id': '30'})
