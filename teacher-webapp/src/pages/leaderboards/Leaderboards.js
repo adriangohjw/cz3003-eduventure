@@ -18,10 +18,25 @@ class Leaderboards extends React.Component {
     this.state = {
       data: mockdata.table2,
       scoreAsc: true,
+      attempts: null,
+      quiz: 1,
+      leaderboardTitle: "Leaderboard",
     };
     this.sortBy = this.sortBy.bind(this);
   }
 
+  componentDidMount() {
+    fetch(`http://127.0.0.1:5000/quizzes/?id=${this.state.quiz}`, {
+      method: "GET",
+    })
+      .then(response => response.json())
+      .then(data =>
+        this.setState({
+          data: data.attempts,
+          leaderboardTitle: "Quiz ".concat(this.state.quiz),
+        }),
+      );
+  }
   sortBy(key) {
     console.log("sortBy called with ", key);
 
@@ -39,10 +54,13 @@ class Leaderboards extends React.Component {
   render() {
     return (
       <div>
-        <PageTitle title="Leaderboards" button="Latest Reports" />
+        <PageTitle
+          title={this.state.leaderboardTitle}
+          button="Latest Reports"
+        />
         <Grid container spacing={4}>
           <Grid item xs={12}>
-            <Widget title="Week 9" upperTitle noBodyPadding>
+            <Widget title="Quiz " upperTitle noBodyPadding>
               <Table data={this.state.data} sortBy={this.sortBy} />
             </Widget>
           </Grid>

@@ -19,9 +19,11 @@ const states = {
 };
 
 export default function TableComponent(props) {
-  var keys = Object.keys(props.data[0]).map(i => i.toUpperCase());
-  keys.shift(); // delete "id" key
-
+  /* var keys = Object.keys(props.data[0]).map(i => i.toUpperCase());
+  keys.shift(); // delete "id" key for old dummy data */
+  var keys = ["STUDENT_ID", "SCORE"];
+  //var keys = ["STUDENT_ID", "NAME","EMAIL", "SCORE"];
+  console.log("keys: ", keys);
   return (
     <Table className="mb-0">
       <TableHead>
@@ -37,7 +39,7 @@ export default function TableComponent(props) {
         </TableRow>
       </TableHead>
       <TableBody>
-        {props.data.map(({ id, studentID, name, email, course, score }) => (
+        {/* {props.data.map(({ id, studentID, name, email, course, score }) => (
           <TableRow key={id}>
             <TableCell>{studentID}</TableCell>
             <TableCell className="pl-3 fw-normal">{name}</TableCell>
@@ -45,27 +47,13 @@ export default function TableComponent(props) {
             <TableCell>{course}</TableCell>
             <TableCell>{score}</TableCell>
           </TableRow>
-        ))}
-        {/* {data.map(({ id, name, email, product, price, date, city, status }) => (
-          <TableRow key={id}>
-            <TableCell className="pl-3 fw-normal">{name}</TableCell>
-            <TableCell>{email}</TableCell>
-            <TableCell>{product}</TableCell>
-            <TableCell>{price}</TableCell>
-            <TableCell>{date}</TableCell>
-            <TableCell>{city}</TableCell>
-            <TableCell>
-              <Button
-                color={states[status.toLowerCase()]}
-                size="small"
-                className="px-2"
-                variant="contained"
-              >
-                {status}
-              </Button>
-            </TableCell>
-          </TableRow>
         ))} */}
+        {props.data.map(({ id, score, student_id }) => (
+          <TableRow key={id}>
+            <TableCell className="pl-3 fw-normal">{score}</TableCell>
+            <TableCell>{student_id}</TableCell>
+          </TableRow>
+        ))}
       </TableBody>
     </Table>
   );
