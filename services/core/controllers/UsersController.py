@@ -3,8 +3,12 @@ from flask_restful import Resource
 
 from flask.helpers import make_response
 
-from ..contracts.users_contracts import userReadContract, userCreateContract, userUpdateContract
-from ..operations.users_operations import initializeUser, userReadOperation, userCreateOperation, userUpdateOperation
+from ..contracts.users_contracts import \
+    userReadContract, userCreateContract, userUpdateContract, authContract
+
+from ..operations.users_operations import \
+    initializeUser, userReadOperation, userCreateOperation, userUpdateOperation, authOperation
+
 from exceptions import ErrorWithCode
 
 class UserAPI(Resource):
@@ -88,3 +92,34 @@ class UserAPI(Resource):
             jsonify(user.asdict()), 200
         )
             
+
+class AuthenticationAPI(Resource):
+
+    def get(self):
+
+        # contracts
+        try:
+            u = authContract(request)
+        except Exception as e:
+            return make_response(
+                jsonify (
+                    error = str(e),
+                ), 400
+            )
+
+        # operations
+        try:
+            user = authOperation(
+                u['email'], u['password']
+            )
+        except ErrorWithCode as e:
+            return make_response(
+                jsonify (
+                    error = e.message
+                ), e.status_code
+            )
+        
+        # success case
+        return make_response(
+            jsonify (user.asdict()), 200
+        )
