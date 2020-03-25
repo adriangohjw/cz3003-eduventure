@@ -48,12 +48,7 @@ from services.quiz.operations.tests.test_questions_operations import Test_questi
 from services.quiz.operations.tests.test_quizzes_operations import Test_quizzes_operations
 from services.quiz.operations.tests.test_rs_quiz_course_assigns_operations import Test_rs_quiz_course_assigns_operations
 from services.quiz.operations.tests.test_rs_quiz_question_contains_operations import Test_rs_quiz_question_contains_operations
-def create_app():
-    app = Flask(__name__)
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['SQLALCHEMY_DATABASE_URI'] = Config.URI
 
-    return app
 
 if __name__ == '__main__':
     unittest.main()
