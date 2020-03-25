@@ -64,3 +64,19 @@ def userUpdateOperation(email, old_password, new_password):
 
     # success case
     return user
+
+
+def authOperation(email, password):
+
+    user = userRead(col='email', value=email)
+
+    # user is not found
+    if user is None:
+        raise ErrorWithCode(404, "No user found")
+
+    # if password is wrong
+    if authenticate(password, user.encrypted_password) is False:
+        raise ErrorWithCode(401, "Unauthorised - wrong password")
+
+    # success case
+    return user
