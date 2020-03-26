@@ -155,8 +155,6 @@ class QuizOverallAPI(Resource):
             attempts_list.append(attempt.score)
         attempts = [qa.asdict() for qa in quiz.attempts]
 
-        print(attempts)
-
         return make_response (
             jsonify (
                 id = quiz.id,
