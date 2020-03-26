@@ -9,7 +9,7 @@ from ..contracts.questionAttempts_contracts import \
     questionAttemptListReadContract, questionAttemptCreateContract
 
 from ..operations.questionAttempts_operations import \
-    questionAttemptListReadOperation, questionAttemptCreateOperation
+    questionAttemptListReadOperation, questionAttemptCreateOperation, questionAttemptLeaderboardOperation
 
 from exceptions import ErrorWithCode
 
@@ -73,3 +73,37 @@ class QuestionAttemptAPI(Resource):
             jsonify(questionAttempt.asdict()), 200
         )
             
+
+class QuestionAttemptLeaderboardAPI(Resource):
+
+    def get(self):
+
+        # operations
+        try:
+            questionAttemptLeaderboard = questionAttemptLeaderboardOperation()
+        except ErrorWithCode as e:
+            return make_response(
+                jsonify (
+                    error = e.message
+                ), e.status_code
+            )
+        
+        # success case
+        record_list = []
+        for record_result in questionAttemptLeaderboard:
+            record = record_result._asdict()
+            record_list.append(
+                {
+                'id': record['student_id'],
+                'name': record['student_name'],
+                'email': record['student_email'],
+                'score': record['total_score']
+                }
+            )
+                    
+        return make_response(
+            jsonify (
+                students = record_list
+            ), 200
+        )
+        
