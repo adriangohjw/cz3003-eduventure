@@ -151,11 +151,22 @@ class QuizOverallAPI(Resource):
         
         # success case
         attempts_list = []
+        attempts_score_list = []
         for attempt in quiz.attempts:
-            attempts_list.append(attempt.score)
-        attempts = [qa.asdict() for qa in quiz.attempts]
-
-        print(attempts)
+            attempts_list.append(
+                {
+                    'id': attempt.id,
+                    'created_at': attempt.created_at,
+                    'quiz_id': attempt.quiz_id,
+                    'score': attempt.score,
+                    'student': {
+                        'id': attempt.student_id,
+                        'name': attempt.student.name,
+                        'email': attempt.student.email
+                    }
+                }
+            )
+            attempts_score_list.append(attempt.score)
 
         return make_response (
             jsonify (
@@ -168,10 +179,10 @@ class QuizOverallAPI(Resource):
                     'id': quiz.staff.id,
                     "name": quiz.staff.name
                 },
-                attempts = attempts,
-                highest_score = max(attempts_list),
-                lowest_score = min(attempts_list),
-                average_score = statistics.mean(attempts_list)
+                attempts = attempts_list,
+                highest_score = max(attempts_score_list),
+                lowest_score = min(attempts_score_list),
+                average_score = statistics.mean(attempts_score_list)
             ), 200
         )
 
