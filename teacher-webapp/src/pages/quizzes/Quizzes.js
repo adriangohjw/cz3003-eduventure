@@ -10,6 +10,11 @@ import EditForm from "./components/EditForm/EditForm";
 import QuizzesTable from "./components/Table/QuizzesTable";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
+//TODO:
+// 1) change to select one only
+// 2) add new quiz POST
+// 3) Edit quiz PUT
+
 export default function Quizzes() {
   const [quizzes, setQuizzes] = useState([]);
   const [id, setID] = useState([]);
@@ -63,41 +68,11 @@ export default function Quizzes() {
       .catch(error => console.log(error));
   };
 
-  const deleteQuiz = selected => {
+  const deleteQuiz = id => {
     setIsLoading(true);
-    return Promise.all(
-      selected.map(id =>
-        fetch(url + `quizzes/?id=${id}`, {
-          method: "DELETE",
-        })
-          .then(response => {
-            if (response.ok) {
-              response.json();
-            } else {
-              throw new Error("Couldn't delete!");
-            }
-          })
-          .then(data => {
-            console.log("Success:", data);
-            retrieveQuizzes();
-            alert("Deleted successfully");
-          })
-          .catch(error => {
-            console.error("Error:", error);
-            alert("something went wrong");
-          }),
-      ),
-    );
-  };
-
-  const createQuiz = (staff_id, name, is_fast, date_start, date_end) => {
-    fetch(
-      url +
-        `quizzes/?staff_id=${staff_id}&name=${name}&is_fast=${is_fast}&date_start=${date_start}&date_end=${date_end}`,
-      {
-        method: "POST",
-      },
-    )
+    fetch(url + `quizzes/?id=${id}`, {
+      method: "DELETE",
+    })
       .then(response => {
         if (response.ok) {
           response.json();
@@ -106,9 +81,75 @@ export default function Quizzes() {
         }
       })
       .then(data => {
-        console.log("Success:", data);
         retrieveQuizzes();
         alert("Deleted successfully");
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        alert("something went wrong");
+      });
+  };
+
+  const updateQuiz = newData => {
+    setIsLoading(true);
+    var keys = [];
+    for (var key in newData) {
+      if (
+        newData.hasOwnProperty(key) &&
+        key != "id" &&
+        key != "staff" &&
+        key != "attempts"
+      ) {
+        keys.push(key);
+      }
+    }
+    console.log("keys", keys);
+    let quiz_id = newData["id"];
+    newData["is_fast"] = is_fast ? "True" : "False";
+    Promise.all(
+      keys.map(key => {
+        let value = newData[key];
+        fetch(url + `quizzes/?id=${quiz_id}&col=${key}&value=${value}`, {
+          method: "PUT",
+        })
+          .then(response => {
+            if (response.ok) {
+              response.json();
+            } else {
+              throw new Error("Server Error!");
+            }
+          })
+          .catch(error => {
+            console.error("Error:", error);
+            alert("something went wrong");
+          });
+      }),
+    ).then(retrieveQuizzes());
+  };
+
+  const createQuiz = newData => {
+    let { name, is_fast, date_start, date_end } = newData;
+    setIsLoading(true);
+    let fake_date_start = "2020-02-02"; //remember to delete after adrian updates api
+    let fake_date_end = "2020-02-03";
+    is_fast = is_fast ? "True" : "False";
+    fetch(
+      url +
+        `quizzes/?staff_id=${id}&name=${name}&is_fast=${is_fast}&date_start=${fake_date_start}&date_end=${fake_date_end}`,
+      {
+        method: "POST",
+      },
+    )
+      .then(response => {
+        if (response.ok) {
+          response.json();
+        } else {
+          throw new Error("Server Error!");
+        }
+      })
+      .then(data => {
+        retrieveQuizzes();
+        alert("Created successfully");
       })
       .catch(error => {
         console.error("Error:", error);
@@ -122,10 +163,6 @@ export default function Quizzes() {
 
   return (
     <>
-      <PageTitle
-        title="Quizzes"
-        button={<EditForm profile={mockdata.profile} />}
-      />
       {isLoading ? (
         <CircularProgress />
       ) : isQuizFound ? (
@@ -133,6 +170,8 @@ export default function Quizzes() {
           quizzes={quizzes}
           setter={email}
           handleDelete={deleteQuiz}
+          handleCreate={createQuiz}
+          handleUpdate={updateQuiz}
           classes={useStyles}
           theme={useTheme}
         />

@@ -5,6 +5,7 @@ import {
   ArrowBack as ArrowBackIcon,
   Class as ClassIcon,
   People as PeopleIcon,
+  Settings as SettingsIcon,
 } from "@material-ui/icons";
 import { useTheme } from "@material-ui/styles";
 import { withRouter } from "react-router-dom";
@@ -36,6 +37,12 @@ const structure = [
     label: "Leaderboards",
     link: "/app/leaderboards",
     icon: <PeopleIcon />,
+  },
+  {
+    id: 3,
+    label: "Settings",
+    link: "/app/settings",
+    icon: <SettingsIcon />,
   },
 ];
 
