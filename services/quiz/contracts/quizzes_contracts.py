@@ -108,8 +108,8 @@ def quizCreateContract(request):
         'staff_id': staff_id,
         'name': name,
         'is_fast': True if is_fast == 'True' else False,
-        'date_start': date_start,
-        'date_end': date_end
+        'date_start': datetime.datetime.strptime(date_start, '%Y-%m-%d'),
+        'date_end': datetime.datetime.strptime(date_start, '%Y-%m-%d')
     }
 
 def quizUpdateContract(request):
@@ -127,8 +127,10 @@ def quizUpdateContract(request):
         value = True if value == 'True' else False
     elif col == 'date_start':
         validate_date_start(value)
+        value = datetime.datetime.strptime(value, '%Y-%m-%d')
     elif col == 'date_end':
         validate_date_end(value)
+        value = datetime.datetime.strptime(value, '%Y-%m-%d')
     
     return {
         'id': id,
