@@ -212,8 +212,8 @@ class Quiz(db.Model):
     staff_id = db.Column(db.Integer, db.ForeignKey('staffs.id'))
     name = db.Column(db.String(255), nullable=False)
     is_fast = db.Column(db.Boolean, nullable=False)
-    date_start = db.Column(db.Date, nullable=False)
-    date_end = db.Column(db.Date, nullable=False)
+    date_start = db.Column(db.DateTime, nullable=False)
+    date_end = db.Column(db.DateTime, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
     attempts = db.relationship('QuizAttempt', backref='quiz')
 
