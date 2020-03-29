@@ -9,6 +9,7 @@ from services.core.controllers import \
 user_bp = Blueprint('user', __name__)
 api_user = Api(user_bp)
 api_user.add_resource(UsersController.UserAPI, '/')
+api_user.add_resource(UsersController.AuthenticationAPI, '/auth')
 
 staff_bp = Blueprint('staff', __name__)
 api_staff = Api(staff_bp)
