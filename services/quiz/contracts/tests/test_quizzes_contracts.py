@@ -7,7 +7,9 @@ sys.path.append(getcwd())
 
 import unittest
 
-from services.quiz.contracts.quizzes_contracts import validate_id,validate_col,validate_name,validate_date_end,validate_date_start,validate_is_fast,validate_staff_id,quizCreateContract,quizDeleteContract,quizReadContract,quizUpdateContract
+from services.quiz.contracts.quizzes_contracts import \
+    validate_id, validate_col, validate_name, validate_date_end, validate_date_start, validate_is_fast, validate_staff_id, \
+    quizCreateContract, quizDeleteContract, quizReadContract, quizUpdateContract
 from models import db
 from run_test import create_app
 
