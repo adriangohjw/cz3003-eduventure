@@ -168,23 +168,41 @@ class QuizOverallAPI(Resource):
             )
             attempts_score_list.append(attempt.score)
 
-        return make_response (
-            jsonify (
-                id = quiz.id,
-                is_fast = quiz.is_fast,
-                name = quiz.name,
-                date_start = quiz.date_start,
-                date_end = quiz.date_end,
-                staff = {
-                    'id': quiz.staff.id,
-                    "name": quiz.staff.name
-                },
-                attempts = attempts_list,
-                highest_score = max(attempts_score_list),
-                lowest_score = min(attempts_score_list),
-                average_score = statistics.mean(attempts_score_list)
-            ), 200
-        )
+        # if no attempts
+        if len(attempts_score_list) == 0:
+            return make_response (
+                jsonify (
+                    id = quiz.id,
+                    is_fast = quiz.is_fast,
+                    name = quiz.name,
+                    date_start = quiz.date_start,
+                    date_end = quiz.date_end,
+                    staff = {
+                        'id': quiz.staff.id,
+                        "name": quiz.staff.name
+                    },
+                    attempts = attempts_list,
+                    message = "No attempts recorded at the moment"
+                ), 200
+            )
+        else:
+            return make_response (
+                jsonify (
+                    id = quiz.id,
+                    is_fast = quiz.is_fast,
+                    name = quiz.name,
+                    date_start = quiz.date_start,
+                    date_end = quiz.date_end,
+                    staff = {
+                        'id': quiz.staff.id,
+                        "name": quiz.staff.name
+                    },
+                    attempts = attempts_list,
+                    highest_score = max(attempts_score_list),
+                    lowest_score = min(attempts_score_list),
+                    average_score = statistics.mean(attempts_score_list)
+                ), 200
+            )
 
 
 from ..contracts.rs_quiz_course_assigns_contracts import \
