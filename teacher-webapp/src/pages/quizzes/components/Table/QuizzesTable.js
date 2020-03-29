@@ -17,7 +17,7 @@ import {
   Search,
   ViewColumn,
 } from "@material-ui/icons/";
-import AddCircleIcon from "@material-ui/icons/AddCircle";
+import AssignmentIcon from "@material-ui/icons/Assignment";
 
 import MaterialTable from "material-table";
 
@@ -48,6 +48,9 @@ const tableIcons = {
   SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
   ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
+  Assignment: forwardRef((props, ref) => (
+    <AssignmentIcon {...props} ref={ref} />
+  )),
 };
 
 export default function QuizzesTable({
@@ -68,8 +71,11 @@ export default function QuizzesTable({
         lookup: { true: "Fast", false: "Normal" },
       },
       { title: "Attempts", field: "attempts.length", editable: "never" },
-      { title: "Starts On", field: "date_start", type: "datetime" },
-      { title: "Ends On", field: "date_end", type: "datetime" },
+      { title: "Average", field: "average_score", editable: "never" },
+      { title: "Highest", field: "highest_score", editable: "never" },
+      { title: "Lowest", field: "lowest_score", editable: "never" },
+      { title: "Starts On", field: "date_start", type: "date" },
+      { title: "Ends On", field: "date_end", type: "date" },
     ],
     data: quizzes,
   });
@@ -96,6 +102,24 @@ export default function QuizzesTable({
                 handleDelete(oldData["id"]);
               }),
           }}
+          detailPanel={[
+            {
+              icon: AssignmentIcon,
+              tooltip: "Questions",
+              render: rowData => {
+                return (
+                  <iframe
+                    width="100%"
+                    height="315"
+                    src="https://www.youtube.com/embed/C0DPdy98e4c"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                  />
+                );
+              },
+            },
+          ]}
         />
       </Paper>
     </React.Fragment>

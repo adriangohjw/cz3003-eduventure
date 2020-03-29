@@ -44,7 +44,7 @@ export default function Quizzes() {
       .then(allQuizIDs => {
         return Promise.all(
           allQuizIDs.map(id =>
-            fetch(url + `quizzes/?id=${id}`, {
+            fetch(url + `quizzes/overall?id=${id}`, {
               method: "GET",
             })
               .then(res => res.json())
@@ -136,12 +136,22 @@ export default function Quizzes() {
     setIsLoading(true);
     let fake_date_start = "2020-02-02"; //remember to delete after adrian updates api
     let fake_date_end = "2020-02-03";
-    console.log("is_fast", is_fast);
     is_fast = is_fast == true ? "True" : "False";
-    console.log("is_fast changed", is_fast);
+    date_start =
+      date_start.getUTCFullYear() +
+      "-" +
+      (date_start.getUTCMonth() + 1) +
+      "-" +
+      date_start.getUTCDate();
+    date_end =
+      date_end.getUTCFullYear() +
+      "-" +
+      (date_end.getUTCMonth() + 1) +
+      "-" +
+      date_end.getUTCDate();
     fetch(
       url +
-        `quizzes/?staff_id=${id}&name=${name}&is_fast=${is_fast}&date_start=${fake_date_start}&date_end=${fake_date_end}`,
+        `quizzes/?staff_id=${id}&name=${name}&is_fast=${is_fast}&date_start=${date_start}&date_end=${date_end}`,
       {
         method: "POST",
       },
