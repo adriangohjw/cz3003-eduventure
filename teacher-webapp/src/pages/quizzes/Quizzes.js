@@ -77,10 +77,11 @@ export default function Quizzes() {
         if (response.ok) {
           response.json();
         } else {
+          retrieveQuizzes();
           throw new Error("Couldn't delete!");
         }
       })
-      .then(data => {
+      .then(() => {
         retrieveQuizzes();
         alert("Deleted successfully");
       })
@@ -105,7 +106,7 @@ export default function Quizzes() {
     }
     console.log("keys", keys);
     let quiz_id = newData["id"];
-    newData["is_fast"] = is_fast ? "True" : "False";
+    // newData["is_fast"] = newData["is_fast"] ? "True" : "False";
     Promise.all(
       keys.map(key => {
         let value = newData[key];
@@ -124,7 +125,10 @@ export default function Quizzes() {
             alert("something went wrong");
           });
       }),
-    ).then(retrieveQuizzes());
+    ).then(() => {
+      retrieveQuizzes();
+      alert("Updated successfully");
+    });
   };
 
   const createQuiz = newData => {
@@ -132,7 +136,9 @@ export default function Quizzes() {
     setIsLoading(true);
     let fake_date_start = "2020-02-02"; //remember to delete after adrian updates api
     let fake_date_end = "2020-02-03";
-    is_fast = is_fast ? "True" : "False";
+    console.log("is_fast", is_fast);
+    is_fast = is_fast == true ? "True" : "False";
+    console.log("is_fast changed", is_fast);
     fetch(
       url +
         `quizzes/?staff_id=${id}&name=${name}&is_fast=${is_fast}&date_start=${fake_date_start}&date_end=${fake_date_end}`,
@@ -144,10 +150,11 @@ export default function Quizzes() {
         if (response.ok) {
           response.json();
         } else {
+          retrieveQuizzes();
           throw new Error("Server Error!");
         }
       })
-      .then(data => {
+      .then(() => {
         retrieveQuizzes();
         alert("Created successfully");
       })

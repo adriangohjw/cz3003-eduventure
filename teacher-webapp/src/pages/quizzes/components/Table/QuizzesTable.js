@@ -21,7 +21,7 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 
 import MaterialTable from "material-table";
 
-import { useTheme } from "@material-ui/styles";
+// import { useTheme } from "@material-ui/styles";
 
 // styles
 import useStyles from "../../styles";
@@ -57,7 +57,6 @@ export default function QuizzesTable({
   handleCreate,
 }) {
   var classes = useStyles();
-  var theme = useTheme();
   const [state, setState] = React.useState({
     columns: [
       { title: "ID", field: "id", editable: "never" },
@@ -86,42 +85,48 @@ export default function QuizzesTable({
           editable={{
             onRowAdd: newData =>
               new Promise(resolve => {
-                setTimeout(() => {
-                  resolve();
-                  setState(prevState => {
-                    const data = [...prevState.data];
-                    data.push(newData);
-                    return { ...prevState, data };
-                  });
-                }, 600);
-              }).then(handleCreate(newData)),
+                handleCreate(newData);
+              }),
             onRowUpdate: (newData, oldData) =>
               new Promise(resolve => {
-                setTimeout(() => {
-                  resolve();
-                  if (oldData) {
-                    setState(prevState => {
-                      const data = [...prevState.data];
-                      data[data.indexOf(oldData)] = newData;
-                      return { ...prevState, data };
-                    });
-                  }
-                }, 600);
-              }).then(handleUpdate(newData)),
+                handleUpdate(newData);
+              }),
             onRowDelete: oldData =>
               new Promise(resolve => {
-                setTimeout(() => {
-                  resolve();
-                  setState(prevState => {
-                    const data = [...prevState.data];
-                    data.splice(data.indexOf(oldData), 1);
-                    return { ...prevState, data };
-                  });
-                }, 600);
-              }).then(handleDelete(oldData["id"])),
+                handleDelete(oldData["id"]);
+              }),
           }}
         />
       </Paper>
     </React.Fragment>
   );
 }
+
+// setTimeout(() => {
+//   resolve();
+//   setState(prevState => {
+//     const data = [...prevState.data];
+//     data.push(newData);
+//     return { ...prevState, data };
+//   });
+// }, 600);
+
+// setTimeout(() => {
+//   resolve();
+//   setState(prevState => {
+//     const data = [...prevState.data];
+//     data.splice(data.indexOf(oldData), 1);
+//     return { ...prevState, data };
+//   });
+// }, 600);
+
+// setTimeout(() => {
+//   resolve();
+//   if (oldData) {
+//     setState(prevState => {
+//       const data = [...prevState.data];
+//       data[data.indexOf(oldData)] = newData;
+//       return { ...prevState, data };
+//     });
+//   }
+// }, 600);
