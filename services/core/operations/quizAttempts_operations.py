@@ -2,7 +2,7 @@ from models import QuizAttempt
 
 from ...core.dao.StudentsDAO import studentRead
 from ...quiz.dao.QuizzesDAO import quizRead
-from ..dao.QuizAttemptsDAO import quizAttemptListRead, quizAttemptCreate
+from ..dao.QuizAttemptsDAO import quizAttemptListRead, quizAttemptCreate, quizAttemptLeaderboardRead
 
 from exceptions import ErrorWithCode
 
@@ -43,3 +43,12 @@ def quizAttemptCreateOperation(student_id, quiz_id, score):
 
     # success case
     return quizAttempt
+
+
+def quizAttemptLeaderboardOperation():
+
+    quizAttemptLeaderboard = quizAttemptLeaderboardRead()
+
+    # success case
+    return quizAttemptLeaderboard
+    

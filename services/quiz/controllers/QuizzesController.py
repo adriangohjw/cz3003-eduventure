@@ -153,6 +153,7 @@ class QuizOverallAPI(Resource):
         attempts_list = []
         attempts_score_list = []
         for attempt in quiz.attempts:
+
             attempts_list.append(
                 {
                     'id': attempt.id,
@@ -203,7 +204,6 @@ class QuizOverallAPI(Resource):
                     average_score = statistics.mean(attempts_score_list)
                 ), 200
             )
-
 
 from ..contracts.rs_quiz_course_assigns_contracts import \
     courseMngReadContract, courseMngCreateContract
