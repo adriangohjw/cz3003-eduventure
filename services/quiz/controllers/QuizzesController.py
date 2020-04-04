@@ -151,28 +151,59 @@ class QuizOverallAPI(Resource):
         
         # success case
         attempts_list = []
+        attempts_score_list = []
         for attempt in quiz.attempts:
-            attempts_list.append(attempt.score)
-        attempts = [qa.asdict() for qa in quiz.attempts]
 
-        return make_response (
-            jsonify (
-                id = quiz.id,
-                is_fast = quiz.is_fast,
-                name = quiz.name,
-                date_start = quiz.date_start,
-                date_end = quiz.date_end,
-                staff = {
-                    'id': quiz.staff.id,
-                    "name": quiz.staff.name
-                },
-                attempts = attempts,
-                highest_score = max(attempts_list),
-                lowest_score = min(attempts_list),
-                average_score = statistics.mean(attempts_list)
-            ), 200
-        )
+            attempts_list.append(
+                {
+                    'id': attempt.id,
+                    'created_at': attempt.created_at,
+                    'quiz_id': attempt.quiz_id,
+                    'score': attempt.score,
+                    'student': {
+                        'id': attempt.student_id,
+                        'name': attempt.student.name,
+                        'email': attempt.student.email
+                    }
+                }
+            )
+            attempts_score_list.append(attempt.score)
 
+        # if no attempts
+        if len(attempts_score_list) == 0:
+            return make_response (
+                jsonify (
+                    id = quiz.id,
+                    is_fast = quiz.is_fast,
+                    name = quiz.name,
+                    date_start = quiz.date_start,
+                    date_end = quiz.date_end,
+                    staff = {
+                        'id': quiz.staff.id,
+                        "name": quiz.staff.name
+                    },
+                    attempts = attempts_list,
+                    message = "No attempts recorded at the moment"
+                ), 200
+            )
+        else:
+            return make_response (
+                jsonify (
+                    id = quiz.id,
+                    is_fast = quiz.is_fast,
+                    name = quiz.name,
+                    date_start = quiz.date_start,
+                    date_end = quiz.date_end,
+                    staff = {
+                        'id': quiz.staff.id,
+                        "name": quiz.staff.name
+                    },
+                    attempts = attempts_list,
+                    highest_score = max(attempts_score_list),
+                    lowest_score = min(attempts_score_list),
+                    average_score = statistics.mean(attempts_score_list)
+                ), 200
+            )
 
 from ..contracts.rs_quiz_course_assigns_contracts import \
     courseMngReadContract, courseMngCreateContract

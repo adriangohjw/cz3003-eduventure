@@ -60,3 +60,15 @@ def userUpdateContract(request):
         'old_password': old_password,
         'new_password': new_password,
     }
+
+def authContract(request):
+    email = request.args.get('email')
+    password = request.args.get('password')
+
+    validate_email(email)
+    validate_password(password)
+
+    return {
+        'email': email,
+        'password': password
+    }

@@ -4,7 +4,6 @@ import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
-import AddCircleIcon from "@material-ui/icons/AddCircle";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -47,10 +46,6 @@ export default function EditForm({ profile }) {
   };
   return (
     <div>
-      <Button variant="contained" color="primary" onClick={handleClickOpen}>
-        {<AddCircleIcon />}
-        &nbsp; Add New Quiz
-      </Button>
       <Dialog
         fullScreen
         open={open}
