@@ -91,6 +91,18 @@ export default function Quizzes() {
       });
   };
 
+  const formatDate = date => {
+    console.log("dategetutcfullyear", date.getUTCFullYear());
+    let result =
+      date.getUTCFullYear() +
+      "-" +
+      (date.getUTCMonth() + 1) +
+      "-" +
+      date.getUTCDate();
+    console.log("result", result);
+    return result;
+  };
+
   const updateQuiz = newData => {
     setIsLoading(true);
     var keys = [];
@@ -104,26 +116,38 @@ export default function Quizzes() {
         keys.push(key);
       }
     }
-    console.log("keys", keys);
     let quiz_id = newData["id"];
+    console.log("keys", keys);
     // newData["is_fast"] = newData["is_fast"] ? "True" : "False";
     Promise.all(
       keys.map(key => {
         let value = newData[key];
-        fetch(url + `quizzes/?id=${quiz_id}&col=${key}&value=${value}`, {
-          method: "PUT",
-        })
-          .then(response => {
-            if (response.ok) {
-              response.json();
-            } else {
-              throw new Error("Server Error!");
-            }
-          })
-          .catch(error => {
-            console.error("Error:", error);
-            alert("something went wrong");
-          });
+        if (key == "date_start" || key == "date_end") {
+          console.log("VALUE IS ", value);
+          console.log("type", typeof value);
+
+          value = value
+            .split(",")[1]
+            .split("00:00:00")[0]
+            .trim()
+            .replace(" "`/g`, "-");
+          console.log(value);
+          // value = formatDate(value);
+        }
+        // fetch(url + `quizzes/?id=${quiz_id}&col=${key}&value=${value}`, {
+        //   method: "PUT",
+        // })
+        //   .then(response => {
+        //     if (response.ok) {
+        //       response.json();
+        //     } else {
+        //       throw new Error("Server Error!");
+        //     }
+        //   })
+        //   .catch(error => {
+        //     console.error("Error:", error);
+        //     alert("something went wrong");
+        //   });
       }),
     ).then(() => {
       retrieveQuizzes();
@@ -134,21 +158,9 @@ export default function Quizzes() {
   const createQuiz = newData => {
     let { name, is_fast, date_start, date_end } = newData;
     setIsLoading(true);
-    let fake_date_start = "2020-02-02"; //remember to delete after adrian updates api
-    let fake_date_end = "2020-02-03";
     is_fast = is_fast == true ? "True" : "False";
-    date_start =
-      date_start.getUTCFullYear() +
-      "-" +
-      (date_start.getUTCMonth() + 1) +
-      "-" +
-      date_start.getUTCDate();
-    date_end =
-      date_end.getUTCFullYear() +
-      "-" +
-      (date_end.getUTCMonth() + 1) +
-      "-" +
-      date_end.getUTCDate();
+    date_start = formatDate(date_start);
+    date_end = formatDate(date_end);
     fetch(
       url +
         `quizzes/?staff_id=${id}&name=${name}&is_fast=${is_fast}&date_start=${date_start}&date_end=${date_end}`,

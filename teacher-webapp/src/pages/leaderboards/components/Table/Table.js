@@ -21,7 +21,7 @@ const states = {
 export default function TableComponent(props) {
   /* var keys = Object.keys(props.data[0]).map(i => i.toUpperCase());
   keys.shift(); // delete "id" key for old dummy data */
-  var keys = ["STUDENT_ID", "SCORE"];
+  var keys = ["Student ID", "Name", "Email", "Score"];
   //var keys = ["STUDENT_ID", "NAME","EMAIL", "SCORE"];
   console.log("keys: ", keys);
   return (
@@ -48,9 +48,11 @@ export default function TableComponent(props) {
             <TableCell>{score}</TableCell>
           </TableRow>
         ))} */}
-        {props.data.map(({ id, score, student_id }) => (
+        {props.data.map(({ email, id, name, score }) => (
           <TableRow key={id}>
-            <TableCell>{student_id}</TableCell>
+            <TableCell>{id}</TableCell>
+            <TableCell>{name}</TableCell>
+            <TableCell>{email}</TableCell>
             <TableCell className="pl-3 fw-normal">{score}</TableCell>
           </TableRow>
         ))}

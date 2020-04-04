@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Grid } from "@material-ui/core";
 
 // styles
@@ -9,35 +9,24 @@ import mockdata from "./mockdata";
 import Widget from "../../components/Widget";
 import PageTitle from "../../components/PageTitle";
 import { Typography } from "../../components/Wrappers";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import Table from "./components/Table/Table";
 
-class Leaderboards extends React.Component {
-  //https://www.youtube.com/watch?v=akxsFgM7DPA
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: mockdata.table2,
-      scoreAsc: true,
-      attempts: null,
-      quiz: 1,
-      leaderboardTitle: "Leaderboard",
-    };
-    this.sortBy = this.sortBy.bind(this);
-  }
+export default function Leaderboards() {
+  var [isLoading, setIsLoading] = useState(true);
+  const [quiz_attempts, setQuizAttempts] = useState([]);
 
-  componentDidMount() {
-    fetch(`http://127.0.0.1:5000/quizzes/?id=${this.state.quiz}`, {
+  useEffect(() => {
+    fetch(`http://127.0.0.1:5000/quiz_attempts/leaderboard`, {
       method: "GET",
     })
       .then(response => response.json())
-      .then(data =>
-        this.setState({
-          data: data.attempts,
-          leaderboardTitle: "Quiz ".concat(this.state.quiz),
-        }),
-      );
-  }
-  sortBy(key) {
+      .then(data => {
+        setQuizAttempts(data.students);
+        setIsLoading(false);
+      });
+  }, []);
+  const sortBy = key => {
     console.log("sortBy called with ", key);
 
     this.setState(prevState => ({
@@ -49,28 +38,25 @@ class Leaderboards extends React.Component {
       scoreAsc: !prevState.scoreAsc,
     }));
     //console.log(this.state.data);
-  }
+  };
 
-  render() {
-    return (
-      <div>
-        <PageTitle
-          title={this.state.leaderboardTitle}
-          button="Latest Reports"
-        />
+  return (
+    <div>
+      <PageTitle title="Leaderboard" button="Latest Reports" />
+      {isLoading ? (
+        <CircularProgress />
+      ) : (
         <Grid container spacing={4}>
           <Grid item xs={12}>
             <Widget title="Quiz " upperTitle noBodyPadding>
-              <Table data={this.state.data} sortBy={this.sortBy} />
+              <Table data={quiz_attempts} sortBy={sortBy} />
             </Widget>
           </Grid>
         </Grid>
-      </div>
-    );
-  }
+      )}
+    </div>
+  );
 }
-
-export default Leaderboards;
 
 // #######################################################################
 /* function getRandomData(length, min, max, multiplier = 10, maxDiff = 10) {
