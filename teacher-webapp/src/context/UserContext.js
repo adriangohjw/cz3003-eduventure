@@ -49,15 +49,23 @@ function useUserDispatch() {
   return context;
 }
 
-export { UserProvider, useUserState, useUserDispatch, loginUser, signOut, url };
+export {
+  UserProvider,
+  useUserState,
+  useUserDispatch,
+  loginUser,
+  signUp,
+  signOut,
+  url,
+};
 
 // ###########################################################
 
-function loginUser(dispatch, login, password, history, setIsLoading, setError) {
+function loginUser(dispatch, email, password, history, setIsLoading, setError) {
   setError(false);
   setIsLoading(true);
 
-  fetch(url + `users/auth?email=${login}&password=${password}`, {
+  fetch(url + `users/auth?email=${email}&password=${password}`, {
     method: "GET",
   })
     .then(response => {
@@ -72,6 +80,48 @@ function loginUser(dispatch, login, password, history, setIsLoading, setError) {
     .then(response => {
       localStorage.setItem("id", response.id);
       localStorage.setItem("name", response.name);
+      localStorage.setItem("email", response.email);
+      setError(null);
+      setIsLoading(false);
+      dispatch({ type: "LOGIN_SUCCESS" });
+      history.push("/app/dashboard");
+    })
+    .catch(error => {
+      console.error("Error:", error);
+      alert("something went wrong");
+    });
+}
+
+function signUp(
+  dispatch,
+  name,
+  email,
+  password,
+  history,
+  setIsLoading,
+  setError,
+) {
+  setError(false);
+  setIsLoading(true);
+
+  fetch(url + `staffs/?email=${email}&password=${password}`, {
+    method: "POST",
+  })
+    // fetch(url + `staffs?email=${email}&password=${password}&name=${name}`, {
+    //   method: "POST",
+    // }) //should use this after Adrian changes API
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        // dispatch({ type: "LOGIN_FAILURE" });
+        setError(true);
+        setIsLoading(false);
+      }
+    })
+    .then(response => {
+      localStorage.setItem("id", response.id);
+      localStorage.setItem("name", response.name); //response doesn't contain name yet
       localStorage.setItem("email", response.email);
       setError(null);
       setIsLoading(false);

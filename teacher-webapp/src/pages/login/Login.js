@@ -21,7 +21,7 @@ import google from "../../images/google.svg";
 import cover from "../../images/cover.png";
 
 // context
-import { useUserDispatch, loginUser } from "../../context/UserContext";
+import { useUserDispatch, loginUser, signUp } from "../../context/UserContext";
 
 function Login(props) {
   var classes = useStyles();
@@ -193,8 +193,9 @@ function Login(props) {
                 ) : (
                   <Button
                     onClick={() =>
-                      loginUser(
+                      signUp(
                         userDispatch,
+                        nameValue,
                         loginValue,
                         passwordValue,
                         props.history,
