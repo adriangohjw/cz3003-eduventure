@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{986108df-f1c7-e2aa-43d8-ea87ea7d4f42}</ProjectGuid>
+    <ProjectGuid>{6c30249c-3137-6892-5ac7-cb481d2fc200}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -45,10 +45,13 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\ChallengeController.cs" />
      <Compile Include="Assets\CropManager.cs" />
      <Compile Include="Assets\LoginController.cs" />
      <Compile Include="Assets\MainGameController.cs" />
+     <Compile Include="Assets\Option.cs" />
      <Compile Include="Assets\PointsManager.cs" />
+     <Compile Include="Assets\QuizController.cs" />
      <Compile Include="Assets\QuizManager.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
@@ -83,6 +86,7 @@
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeB.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\WarpTextExample.cs" />
+     <Compile Include="Assets\UserController.cs" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />
@@ -286,15 +290,6 @@
  </Reference>
  <Reference Include="UnityEditor">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.2f1/Editor/Data/Managed/UnityEditor.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.iOS.Extensions.Xcode">
- <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.2f1/Editor/Data/PlaybackEngines/AppleTVSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.iOS.Extensions.Xcode">
- <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.2f1/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.iOS.Extensions.Common">
- <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.2f1/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Common.dll</HintPath>
  </Reference>
  <Reference Include="netstandard">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.2f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
@@ -644,47 +639,47 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Unity.Timeline.Editor.csproj">
-      <Project>{1cdfde45-a3bc-d50a-3275-325814c16b3a}</Project>
+      <Project>{a55a729a-98b7-09b8-1104-4a2eb0c4cd65}</Project>
       <Name>Unity.Timeline.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.VSCode.Editor.csproj">
-      <Project>{07a692bc-0d4e-2fbf-efbe-d1328c6fe064}</Project>
+      <Project>{7bbc4a50-584f-1b8f-d5d1-cacbfbbfe6d3}</Project>
       <Name>Unity.VSCode.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.TextMeshPro.Editor.csproj">
-      <Project>{b275a57f-2623-46a5-3266-11a136d2deeb}</Project>
+      <Project>{2092f0e9-ce00-1e12-8155-d2a2f4592413}</Project>
       <Name>Unity.TextMeshPro.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="UnityEngine.UI.csproj">
-      <Project>{e8bc99c0-5600-7413-6f1f-0aa299c86384}</Project>
+      <Project>{aa809394-0c0c-0194-5ed9-c24f01c52065}</Project>
       <Name>UnityEngine.UI</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.Timeline.csproj">
-      <Project>{334e978a-0edc-a9e8-1d8e-6d073a1b3d0a}</Project>
+      <Project>{3ffa4664-4293-a2b2-14aa-48da66336de4}</Project>
       <Name>Unity.Timeline</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.CollabProxy.Editor.csproj">
-      <Project>{30472fff-5238-051f-a47e-f8b739382f00}</Project>
+      <Project>{6fd047d4-005e-9883-aee6-cbacfc61c6f4}</Project>
       <Name>Unity.CollabProxy.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.Rider.Editor.csproj">
-      <Project>{dd73ac31-ac58-702b-2a1b-752e12b194d9}</Project>
+      <Project>{a261c3a4-01e0-739e-609e-3434863800e9}</Project>
       <Name>Unity.Rider.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.2D.Sprite.Editor.csproj">
-      <Project>{9e7f7887-0945-388b-3ce3-d35561df7042}</Project>
+      <Project>{a780fd00-67da-8b9c-a5c1-72dc102cc4f0}</Project>
       <Name>Unity.2D.Sprite.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.2D.Tilemap.Editor.csproj">
-      <Project>{9e2b034f-241c-e35f-7b2a-bc796c330477}</Project>
+      <Project>{acc0ae5a-ede1-9462-c8ee-84c6da99e1ff}</Project>
       <Name>Unity.2D.Tilemap.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.TextMeshPro.csproj">
-      <Project>{f96b85ec-554b-d354-fee7-543373bc12ad}</Project>
+      <Project>{00a1eef0-7b13-e6b2-eeab-e37c0563315b}</Project>
       <Name>Unity.TextMeshPro</Name>
     </ProjectReference>
     <ProjectReference Include="UnityEditor.UI.csproj">
-      <Project>{387c2570-bc9b-30a0-bdb2-0b2f86292b1a}</Project>
+      <Project>{49cb54c5-a9a6-5de4-fdae-13f802e3c67f}</Project>
       <Name>UnityEditor.UI</Name>
     </ProjectReference>
   </ItemGroup>
