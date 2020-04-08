@@ -1,102 +1,136 @@
 import sys
 from os import path, getcwd
-from flask import Flask
-from flask import request
 sys.path.append(getcwd())
 
+from flask import request
 import unittest
 
-from services.core.contracts.lessons_contracts import validate_topic_id,validate_content,validate_name,validate_lesson_id,lessonCreateContract,lessonDeleteContract,lessonReadContract,lessonUpdateContract,validate_topic_id
 from models import db
 from run_test import create_app
-
 app = create_app()
 app.app_context().push()
 db.init_app(app)
 
+from services.core.contracts.lessons_contracts import \
+    validate_topic_id, validate_content, validate_name, validate_lesson_id, validate_topic_id, \
+    lessonCreateContract, lessonDeleteContract, lessonReadContract, lessonUpdateContract
+
+
 class Test_lessons_contracts(unittest.TestCase):
+
     @classmethod
     def setUpClass(cls):
         print("\n\n{}: starting test...".format(path.basename(__file__)))
 
-    def test_validate_topic_id(self):
-        with self.assertRaises(TypeError):
 
+    def test_validate_topic_id(self):
+
+        with self.assertRaises(TypeError):
             validate_topic_id(None)
 
         with self.assertRaises(ValueError):
             validate_topic_id("")
 
-    def test_validate_lession_id(self):
-        with self.assertRaises(TypeError):
 
+    def test_validate_lesson_id(self):
+
+        with self.assertRaises(TypeError):
             validate_lesson_id(None)
 
         with self.assertRaises(ValueError):
             validate_lesson_id("")
 
-    def test_validate_name(self):
-        with self.assertRaises(TypeError):
 
+    def test_validate_name(self):
+
+        with self.assertRaises(TypeError):
             validate_name(None)
 
         with self.assertRaises(ValueError):
             validate_name("")
 
-    def test_validate_content(self):
-        with self.assertRaises(TypeError):
 
+    def test_validate_content(self):
+
+        with self.assertRaises(TypeError):
             validate_content(None)
 
         with self.assertRaises(ValueError):
             validate_content("")
 
-    def test_lessonReadContract(self):
-        with app.test_request_context('/?topic_id=12&lesson_id=1', method='POST'):
-            self.assertEqual(lessonReadContract(request), { 'topic_id':'12','lesson_id': '1' })
 
-        with app.test_request_context('/?topic_id=12&lesson_id=', method='POST'):
-            # now you can do something with the request until the
-            # end of the with block, such as basic assertions:
-            # assert request.path == '/hello'
-            with self.assertRaises(ValueError):
-                lessonReadContract(request)
+    def test_lessonReadContract(self):
+
+        with app.test_request_context('/?topic_id=12&lesson_id=1', method='GET'):
+            self.assertEqual(
+                lessonReadContract(request), 
+                {
+                    'topic_id': 12,
+                    'lesson_id': 1
+                }
+            )
+
+        with app.test_request_context('/?topic_id=12&lesson_id=', method='GET'):
+            self.assertRaises(TypeError, lessonReadContract, request)
+
 
     def test_lessonCreateContract(self):
+
         with app.test_request_context('/?topic_id=12&name=se&content=secontent', method='POST'):
-            self.assertEqual(lessonCreateContract(request), { 'topic_id':'12','name': 'se','content':'secontent' })
+            self.assertEqual(
+                lessonCreateContract(request), 
+                {
+                    'topic_id': 12,
+                    'name': 'se',
+                    'content':'secontent' 
+                }
+            )
+
+        with app.test_request_context('/?topic_id=12&name=se', method='POST'):
+            self.assertRaises(TypeError, lessonCreateContract, request)
 
         with app.test_request_context('/?topic_id=12&name=se&content=', method='POST'):
-            # now you can do something with the request until the
-            # end of the with block, such as basic assertions:
-            # assert request.path == '/hello'
-            with self.assertRaises(ValueError):
-                lessonCreateContract(request)
+            self.assertRaises(ValueError, lessonCreateContract, request)
+
 
     def test_lessonUpdateContract(self):
-        with app.test_request_context('/?topic_id=12&lesson_id=1&col=name&value=3', method='POST'):
-            self.assertEqual(lessonUpdateContract(request), { 'topic_id': '12',
-        'lesson_id': '1',
-        'col': 'name',
-        'value': '3'       })
+        with app.test_request_context('/?topic_id=12&lesson_id=1&col=name&value=3', method='PUT'):
+            self.assertEqual(
+                lessonUpdateContract(request), 
+                { 
+                    'topic_id': 12,
+                    'lesson_id': 1,
+                    'col': 'name',
+                    'value': '3'       
+                }
+            )
+            
+        with app.test_request_context('/?topic_id=12&lesson_id=1&col=name', method='PUT'):
+            self.assertRaises(TypeError, lessonUpdateContract, request)
 
-        with app.test_request_context('/?topic_id=12&lesson_id=1&col=name&value=', method='POST'):
-            # now you can do something with the request until the
-            # end of the with block, such as basic assertions:
-            # assert request.path == '/hello'
-            with self.assertRaises(ValueError):
-                lessonUpdateContract(request)
+        with app.test_request_context('/?topic_id=12&lesson_id=1&col=name&value=', method='PUT'):
+            self.assertRaises(ValueError, lessonUpdateContract, request)
+        
+        with app.test_request_context('/?topic_id=hello&lesson_id=1&col=name&value=3', method='PUT'):
+            self.assertRaises(TypeError, lessonUpdateContract, request)
+
 
     def test_lessonDeleteContract(self):
-        with app.test_request_context('/?topic_id=12&lesson_id=1', method='POST'):
-            self.assertEqual(lessonReadContract(request), { 'topic_id':'12','lesson_id': '1' })
+        with app.test_request_context('/?topic_id=12&lesson_id=1', method='DELETE'):
+            self.assertEqual(
+                lessonDeleteContract(request), 
+                {
+                    'topic_id': 12,
+                    'lesson_id': 1 
+                }
+            )
 
-        with app.test_request_context('/?topic_id=12&lesson_id=', method='POST'):
-            # now you can do something with the request until the
-            # end of the with block, such as basic assertions:
-            # assert request.path == '/hello'
-            with self.assertRaises(ValueError):
-                lessonReadContract(request)
+        with app.test_request_context('/?topic_id=12', method='DELETE'):
+            self.assertRaises(TypeError, lessonDeleteContract, request)
+
+        with app.test_request_context('/?topic_id=12&lesson_id=', method='DELETE'):
+            self.assertRaises(TypeError, lessonDeleteContract, request)
+
 
 if __name__ == '__main__':
     unittest.main()
