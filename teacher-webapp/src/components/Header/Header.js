@@ -48,44 +48,44 @@ const messages = [
     id: 1,
     variant: "success",
     name: "Lloyd Brown",
-    message: "Check out my new Dashboard",
+    message: "Check out my new questions",
     time: "9:18",
   },
   {
     id: 2,
     variant: "primary",
     name: "Mark Winstein",
-    message: "I want rearrange the appointment",
+    message: "I want to redo the CZ2006 syllabus",
     time: "9:15",
   },
   {
     id: 3,
     variant: "secondary",
     name: "Liana Dutti",
-    message: "Good news from sale department",
+    message: "Have you finished setting the Midterms?",
     time: "9:09",
   },
 ];
 
 const notifications = [
-  { id: 0, color: "warning", message: "Check out this awesome ticket" },
+  { id: 0, color: "warning", message: "Quiz 3 has no assigned questions" },
   {
     id: 1,
     color: "success",
-    type: "info",
-    message: "What is the best way to get ...",
+    type: "notification",
+    message: "Quiz 1 has started!",
   },
+  // {
+  //   id: 2,
+  //   color: "secondary",
+  //   type: "notification",
+  //   message: "This is just a simple notification",
+  // },
   {
     id: 2,
-    color: "secondary",
-    type: "notification",
-    message: "This is just a simple notification",
-  },
-  {
-    id: 3,
     color: "primary",
-    type: "e-commerce",
-    message: "12 new orders has arrived today",
+    type: "info",
+    message: "New High Score for Quiz 2!",
   },
 ];
 
@@ -288,7 +288,7 @@ export default function Header(props) {
         >
           <div className={classes.profileMenuUser}>
             <Typography variant="h4" weight="medium">
-              John Smith
+              {localStorage.getItem("name")}
             </Typography>
             <Typography
               className={classes.profileMenuLink}

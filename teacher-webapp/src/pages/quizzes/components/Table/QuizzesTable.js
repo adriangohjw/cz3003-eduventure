@@ -1,4 +1,4 @@
-import React, { useState, forwardRef } from "react";
+import React, { forwardRef } from "react";
 import Paper from "@material-ui/core/Paper";
 import {
   AddBox,
@@ -62,7 +62,7 @@ export default function QuizzesTable({
   var classes = useStyles();
   const [state, setState] = React.useState({
     columns: [
-      { title: "ID", field: "id", editable: "never" },
+      { title: "ID", field: "id", editable: "never", deafultSort: "desc" },
       { title: "Name", field: "name" },
       { title: "Setter", field: "staff.name", editable: "never" },
       {
@@ -104,7 +104,7 @@ export default function QuizzesTable({
           }}
           detailPanel={[
             {
-              icon: AssignmentIcon,
+              icon: () => <AssignmentIcon />,
               tooltip: "Questions",
               render: rowData => {
                 return (

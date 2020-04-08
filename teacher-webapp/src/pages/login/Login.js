@@ -21,7 +21,7 @@ import google from "../../images/google.svg";
 import cover from "../../images/cover.png";
 
 // context
-import { useUserDispatch, loginUser } from "../../context/UserContext";
+import { useUserDispatch, loginUser, signUp } from "../../context/UserContext";
 
 function Login(props) {
   var classes = useStyles();
@@ -64,7 +64,7 @@ function Login(props) {
               </Typography>
               <Fade in={error}>
                 <Typography color="secondary" className={classes.errorMessage}>
-                  Something is wrong with your login or password :(
+                  Wrong username or password!
                 </Typography>
               </Fade>
               <TextField
@@ -193,8 +193,9 @@ function Login(props) {
                 ) : (
                   <Button
                     onClick={() =>
-                      loginUser(
+                      signUp(
                         userDispatch,
+                        nameValue,
                         loginValue,
                         passwordValue,
                         props.history,
@@ -221,8 +222,9 @@ function Login(props) {
           )}
         </div>
         <Typography color="secondary" className={classes.copyright}>
-          © 2014-2019 Flatlogic, LLC. All rights reserved. Adapted for use by
-          CZ3003 Eduventure 2020.
+          © 2014-2019 Flatlogic, LLC. All rights reserved.
+          <br />
+          Adapted for use by CZ3003 Eduventure 2020.
         </Typography>
       </div>
     </Grid>
