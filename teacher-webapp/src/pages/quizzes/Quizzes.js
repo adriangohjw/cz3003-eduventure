@@ -15,6 +15,8 @@ export default function Quizzes() {
   var [isLoading, setIsLoading] = useState(true);
   var [isQuizFound, setIsQuizFound] = useState(true);
 
+  var classes = useStyles();
+
   var email = localStorage.getItem("email"); //should take from profile after
 
   const retrieveQuizzes = () => {
@@ -186,11 +188,10 @@ export default function Quizzes() {
       ) : isQuizFound ? (
         <QuizzesTable
           quizzes={quizzes}
-          setter={email}
           handleDelete={deleteQuiz}
           handleCreate={createQuiz}
           handleUpdate={updateQuiz}
-          classes={useStyles}
+          classes={classes}
           theme={useTheme}
         />
       ) : (

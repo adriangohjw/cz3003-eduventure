@@ -1,7 +1,6 @@
 ## TODO:
 ### Fix Edit Quiz bug
 ### Implement add/delete/edit questions of each quiz feature
-### Implement Login and Signup
 ### Implement Content/Lecture fileupload/text/video
 ### Implement nicer dashboard
 ### Relook at Leaderboard

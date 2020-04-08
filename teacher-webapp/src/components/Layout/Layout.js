@@ -14,7 +14,8 @@ import Dashboard from "../../pages/dashboard";
 import Charts from "../../pages/charts";
 import Quizzes from "../../pages/quizzes";
 import Leaderboards from "../../pages/leaderboards";
-
+import Syllabus from "../../pages/syllabus";
+// import QuestionBank from "../../pages/questionbank";
 // context
 import { useLayoutState } from "../../context/LayoutContext";
 
@@ -35,8 +36,10 @@ function Layout(props) {
           <div className={classes.fakeToolbar} />
           <Switch>
             <Route path="/app/dashboard" component={Dashboard} />
-            <Route path="/app/quizzes" component={Quizzes} />
             <Route path="/app/leaderboards" component={Leaderboards} />
+            <Route path="/app/quizzes" component={Quizzes} />
+            {/* <Route path="/app/questionbank" component={QuestionBank} /> */}
+            <Route path="/app/syllabus" component={Syllabus} />
           </Switch>
         </div>
       </>

@@ -8,13 +8,6 @@ export default makeStyles(theme => ({
     width: "100%",
     marginBottom: theme.spacing(2),
   },
-  quizTable: {
-    width: "100%",
-    marginBottom: theme.spacing(2),
-  },
-  questionsTable: {
-    margin: "0px 20px 20px 20px",
-  },
   table: {
     minWidth: 750,
   },

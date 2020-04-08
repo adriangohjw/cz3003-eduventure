@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import Paper from "@material-ui/core/Paper";
+import { Paper } from "@material-ui/core";
 import {
   AddBox,
   ArrowDownward,
@@ -17,14 +17,13 @@ import {
   Search,
   ViewColumn,
 } from "@material-ui/icons/";
+
 import AssignmentIcon from "@material-ui/icons/Assignment";
 
 import MaterialTable from "material-table";
+import QuestionsTable from "./QuestionsTable";
 
 // import { useTheme } from "@material-ui/styles";
-
-// styles
-import useStyles from "../../styles";
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -53,14 +52,44 @@ const tableIcons = {
   )),
 };
 
+const retrieveQuestions = quiz_id => {
+  // fetch(url + `staffs/?email=${email}`, {
+  //   method: "GET",
+  // })
+  //   .then(res => {
+  //     if (res.ok) {
+  //       return res.json();
+  //     } else {
+  //       setIsLoading(false);
+  //       setIsQuizFound(false);
+  //       throw new Error("No Quizzes Found for this Staff ID");
+  //     }
+  //   })
+  //   .then(response => {
+  //     setID(response.id);
+  //     return response.quizzes.map(quiz => quiz.id);
+  //   })
+  //   .then(result => {
+  //     return result;
+  //   })
+  //   .then(allQuizDetails => {
+  //     setQuestions(allQuestionDetails);
+  //     setIsLoading(false);
+  //     setIsQuizFound(true);
+  //   })
+  //   .catch(error => console.log(error));
+};
+
 export default function QuizzesTable({
   quizzes,
   handleDelete,
   handleUpdate,
   handleCreate,
+  classes,
 }) {
-  var classes = useStyles();
   const [state, setState] = React.useState({
+    quizzes: [],
+    isLoading: true,
     columns: [
       { title: "ID", field: "id", editable: "never", deafultSort: "desc" },
       { title: "Name", field: "name" },
@@ -82,7 +111,7 @@ export default function QuizzesTable({
 
   return (
     <React.Fragment>
-      <Paper className={classes.paper}>
+      <Paper className={classes.quizTable}>
         <MaterialTable
           title="Quizzes"
           columns={state.columns}
@@ -107,14 +136,16 @@ export default function QuizzesTable({
               icon: () => <AssignmentIcon />,
               tooltip: "Questions",
               render: rowData => {
+                retrieveQuestions(rowData.id);
                 return (
-                  <iframe
-                    width="100%"
-                    height="315"
-                    src="https://www.youtube.com/embed/C0DPdy98e4c"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen
+                  <QuestionsTable
+                    isLoading={state.isLoading}
+                    questions={state.questions}
+                    handleDelete={handleDelete}
+                    handleCreate={handleCreate}
+                    handleUpdate={handleUpdate}
+                    classes={classes}
+                    name={rowData.name}
                   />
                 );
               },

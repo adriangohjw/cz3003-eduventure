@@ -6,6 +6,7 @@ import {
   Class as ClassIcon,
   People as PeopleIcon,
   Settings as SettingsIcon,
+  MenuBook as MenuBookIcon,
 } from "@material-ui/icons";
 import { useTheme } from "@material-ui/styles";
 import { withRouter } from "react-router-dom";
@@ -28,18 +29,25 @@ const structure = [
   { id: 0, label: "Dashboard", link: "/app/dashboard", icon: <HomeIcon /> },
   {
     id: 1,
-    label: "Quizes",
-    link: "/app/quizzes",
-    icon: <ClassIcon />,
-  },
-  {
-    id: 2,
     label: "Leaderboards",
     link: "/app/leaderboards",
     icon: <PeopleIcon />,
   },
   {
+    id: 2,
+    label: "Quizes",
+    link: "/app/quizzes",
+    icon: <ClassIcon />,
+  },
+
+  {
     id: 3,
+    label: "Syllabus",
+    link: "/app/syllabus",
+    icon: <MenuBookIcon />,
+  },
+  {
+    id: 4,
     label: "Settings",
     link: "/app/settings",
     icon: <SettingsIcon />,
