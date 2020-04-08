@@ -9,7 +9,8 @@ def validate_id(id):
     if not id: 
         raise ValueError("Id is empty")
 
-    if isinstance(id, int) == False:
+    # check if type is integer
+    if not isinstance(id, int):
         raise TypeError("Id is not an integer")
 
 def validate_name(name):
@@ -22,7 +23,7 @@ def validate_name(name):
         raise ValueError("Name is empty")
 
 def topicReadContract(request):    
-    id = request.args.get('id')
+    id = request.args.get('id', type=int)
 
     validate_id(id)
 
