@@ -3,12 +3,11 @@ import { Grid } from "@material-ui/core";
 
 // styles
 import useStyles from "./styles";
+import { url } from "../../context/UserContext";
 
 // components
-import mockdata from "./mockdata";
 import Widget from "../../components/Widget";
 import PageTitle from "../../components/PageTitle";
-import { Typography } from "../../components/Wrappers";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Table from "./components/Table/Table";
 
@@ -17,7 +16,7 @@ export default function Leaderboards() {
   const [quiz_attempts, setQuizAttempts] = useState([]);
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:5000/quiz_attempts/leaderboard`, {
+    fetch(url + `quiz_attempts/leaderboard`, {
       method: "GET",
     })
       .then(response => response.json())

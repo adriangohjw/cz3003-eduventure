@@ -4,16 +4,10 @@ import { useTheme } from "@material-ui/styles";
 import useStyles from "./styles";
 
 // components
-import mockdata from "./mockdata";
-import PageTitle from "../../components/PageTitle/PageTitle";
-import EditForm from "./components/EditForm/EditForm";
 import QuizzesTable from "./components/Table/QuizzesTable";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-//TODO:
-// 1) change to select one only
-// 2) add new quiz POST
-// 3) Edit quiz PUT
+import { url } from "../../context/UserContext";
 
 export default function Quizzes() {
   const [quizzes, setQuizzes] = useState([]);
@@ -21,8 +15,7 @@ export default function Quizzes() {
   var [isLoading, setIsLoading] = useState(true);
   var [isQuizFound, setIsQuizFound] = useState(true);
 
-  const url = new URL("http://127.0.0.1:5000/");
-  var email = "laoshi@gmail.com"; //should take from profile after
+  var email = localStorage.getItem("email"); //should take from profile after
 
   const retrieveQuizzes = () => {
     fetch(url + `staffs/?email=${email}`, {
@@ -92,27 +85,32 @@ export default function Quizzes() {
   };
 
   const formatDate = date => {
-    console.log("dategetutcfullyear", date.getUTCFullYear());
-    let result =
-      date.getUTCFullYear() +
-      "-" +
-      (date.getUTCMonth() + 1) +
-      "-" +
-      date.getUTCDate();
-    console.log("result", result);
+    // console.log("dategetutcfullyear", date.getUTCFullYear());
+    // let result =
+    //   date.getUTCFullYear() +
+    //   "-" +
+    //   (date.getUTCMonth() + 1) +
+    //   "-" +
+    //   date.getUTCDate();
+    // console.log("result", result);
+    let result = new Date(date);
+    result = result.toISOString().split("T")[0];
     return result;
   };
 
   const updateQuiz = newData => {
     setIsLoading(true);
     var keys = [];
+    const uneditable_keys = [
+      "id",
+      "staff",
+      "attempts",
+      "average_score",
+      "lowest_score",
+      "highest_score",
+    ];
     for (var key in newData) {
-      if (
-        newData.hasOwnProperty(key) &&
-        key != "id" &&
-        key != "staff" &&
-        key != "attempts"
-      ) {
+      if (newData.hasOwnProperty(key) && !uneditable_keys.includes(key)) {
         keys.push(key);
       }
     }
@@ -123,34 +121,25 @@ export default function Quizzes() {
       keys.map(key => {
         let value = newData[key];
         if (key == "date_start" || key == "date_end") {
-          console.log("VALUE IS ", value);
-          console.log("type", typeof value);
-
-          value = value
-            .split(",")[1]
-            .split("00:00:00")[0]
-            .trim()
-            .replace(" "`/g`, "-");
-          console.log(value);
-          // value = formatDate(value);
+          value = formatDate(value);
         }
-        // fetch(url + `quizzes/?id=${quiz_id}&col=${key}&value=${value}`, {
-        //   method: "PUT",
-        // })
-        //   .then(response => {
-        //     if (response.ok) {
-        //       response.json();
-        //     } else {
-        //       throw new Error("Server Error!");
-        //     }
-        //   })
-        //   .catch(error => {
-        //     console.error("Error:", error);
-        //     alert("something went wrong");
-        //   });
+        fetch(url + `quizzes/?id=${quiz_id}&col=${key}&value=${value}`, {
+          method: "PUT",
+        })
+          .then(response => {
+            if (response.ok) {
+              response.json();
+            } else {
+              throw new Error("Server Error!");
+            }
+          })
+          .catch(error => {
+            console.error("Error:", error);
+            alert("something went wrong");
+          });
       }),
     ).then(() => {
-      retrieveQuizzes();
+      // retrieveQuizzes();
       alert("Updated successfully");
     });
   };

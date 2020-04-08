@@ -64,7 +64,7 @@ function Login(props) {
               </Typography>
               <Fade in={error}>
                 <Typography color="secondary" className={classes.errorMessage}>
-                  Something is wrong with your login or password :(
+                  Wrong username or password!
                 </Typography>
               </Fade>
               <TextField
@@ -221,8 +221,9 @@ function Login(props) {
           )}
         </div>
         <Typography color="secondary" className={classes.copyright}>
-          © 2014-2019 Flatlogic, LLC. All rights reserved. Adapted for use by
-          CZ3003 Eduventure 2020.
+          © 2014-2019 Flatlogic, LLC. All rights reserved.
+          <br />
+          Adapted for use by CZ3003 Eduventure 2020.
         </Typography>
       </div>
     </Grid>

@@ -1,3 +1,13 @@
+## TODO:
+### Fix Edit Quiz bug
+### Implement add/delete/edit questions of each quiz feature
+### Implement Login and Signup
+### Implement Content/Lecture fileupload/text/video
+### Implement nicer dashboard
+### Relook at Leaderboard
+
+
+
 # React Material Admin — Material-UI Dashboard Template
 
 Built with [React](https://facebook.github.io/react/), [Material-UI](https://material-ui.com), [React Router](https://reacttraining.com/react-router/).
