@@ -13,6 +13,7 @@ public class MainGameController : MonoBehaviour
 {
     public GameObject cropMenu;
     public GameObject pointsMenu;
+    public GameObject eventMenu;
     private TMP_Text pointsText;
     private Button[] crops;
     private TMP_Text[] cropsText;
@@ -22,6 +23,7 @@ public class MainGameController : MonoBehaviour
     {
         cropMenu.SetActive(false);
         pointsMenu.SetActive(false);
+        eventMenu.SetActive(false);
         int i;
         crops = new Button[6];
         cropsText = new TMP_Text[6];
@@ -39,7 +41,7 @@ public class MainGameController : MonoBehaviour
         }
         //Instantiated Crops and Points Texts.
         //Update Crops Name/Level and Points Amount
-        StartCoroutine(GetPoints("TODO"));
+        //StartCoroutine(GetPoints("TODO"));
     }
 
     public void CropClick()
@@ -47,7 +49,7 @@ public class MainGameController : MonoBehaviour
         //query database for statistic with Crop name
         string cropSelected = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<TMP_Text>().text;
         cropMenu.SetActive(true);
-        StartCoroutine(UpdateCropsMenu("TODO"));
+        //StartCoroutine(UpdateCropsMenu("TODO"));
     }
     public void CropMenuClose()
     {
@@ -63,7 +65,7 @@ public class MainGameController : MonoBehaviour
     {
         pointsMenu.SetActive(true);
         TMP_Text pointsTitle = GameObject.Find("PointsTitle").GetComponent<TMP_Text>();
-        StartCoroutine(UpdatePointsMenu("TODO"));
+        //StartCoroutine(UpdatePointsMenu("TODO"));
     }
     public void PointsClickOut()
     {
