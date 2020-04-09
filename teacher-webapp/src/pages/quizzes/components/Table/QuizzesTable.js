@@ -141,7 +141,7 @@ export default function QuizzesTable({
                     handleCreate={handleCreate}
                     handleUpdate={handleUpdate}
                     classes={classes}
-                    rowData={rowData}
+                    quizData={rowData}
                   />
                 );
               },

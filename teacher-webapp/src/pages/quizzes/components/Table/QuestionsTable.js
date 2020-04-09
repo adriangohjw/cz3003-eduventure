@@ -1,5 +1,14 @@
 import React, { forwardRef, useEffect, useState } from "react";
-import { Grid, Paper, CircularProgress } from "@material-ui/core";
+import {
+  Grid,
+  Paper,
+  CircularProgress,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Divider,
+} from "@material-ui/core";
 import {
   AddBox,
   ArrowDownward,
@@ -16,8 +25,10 @@ import {
   SaveAlt,
   Search,
   ViewColumn,
+  Inbox as InboxIcon,
+  Drafts as DraftsIcon,
 } from "@material-ui/icons/";
-import AssignmentIcon from "@material-ui/icons/Assignment";
+import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 import { Typography } from "../../../../components/Wrappers/Wrappers";
 
 import MaterialTable from "material-table";
@@ -45,13 +56,10 @@ const tableIcons = {
   SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
   ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
-  Assignment: forwardRef((props, ref) => (
-    <AssignmentIcon {...props} ref={ref} />
-  )),
 };
 
 export default function QuestionsTable({
-  rowData,
+  quizData,
   // questions,
   handleDelete,
   handleUpdate,
@@ -70,6 +78,16 @@ export default function QuestionsTable({
     {
       title: "Description",
       field: "question.description",
+      editable: "never",
+    },
+    {
+      title: "Topic",
+      field: "question.topic_id",
+      editable: "never",
+    },
+    {
+      title: "Lesson",
+      field: "question.lesson_id",
       editable: "never",
     },
   ]);
@@ -94,7 +112,7 @@ export default function QuestionsTable({
   };
 
   useEffect(() => {
-    retrieveQuestions(rowData.id);
+    retrieveQuestions(quizData.id);
   }, []);
 
   return (
@@ -113,7 +131,7 @@ export default function QuestionsTable({
               >
                 <Grid item={true}>
                   <Typography variant="h6">
-                    Questions from {rowData.name}
+                    Questions from {quizData.name}
                   </Typography>
                 </Grid>
               </Grid>
@@ -135,6 +153,66 @@ export default function QuestionsTable({
                   handleDelete(oldData["id"]);
                 }),
             }}
+            detailPanel={[
+              {
+                icon: () => <QuestionAnswerIcon />,
+
+                tooltip: "Questions",
+                render: rowData => {
+                  console.log(rowData);
+                  return (
+                    <React.Fragment>
+                      <Divider />
+                      <List component="nav" aria-label="main mailbox folders">
+                        <ListItem>
+                          <ListItemIcon>
+                            <InboxIcon />
+                          </ListItemIcon>
+                          <ListItemText
+                            primary={rowData.question.choices[0].description}
+                          />
+                        </ListItem>
+                        <Divider />
+                        <ListItem>
+                          <ListItemIcon>
+                            <DraftsIcon />
+                          </ListItemIcon>
+                          <ListItemText
+                            primary={rowData.question.choices[0].description}
+                          />
+                        </ListItem>
+                        <Divider />
+
+                        {/* {quizData.is_fast ? (
+                          <></>
+                        ) : (
+                          <React.Fragment>
+                            <ListItem>
+                              <ListItemIcon>
+                                <DraftsIcon />
+                              </ListItemIcon>
+                              <ListItemText
+                                primary={rowData.choices[0].description}
+                              />
+                            </ListItem>
+                            <Divider />
+                            <ListItem>
+                              <ListItemIcon>
+                                <DraftsIcon />
+                              </ListItemIcon>
+                              <ListItemText
+                                primary={rowData.choices[1].description}
+                              />
+                            </ListItem>
+                            <Divider />
+                          </React.Fragment>
+                        )} */}
+                      </List>
+                    </React.Fragment>
+                  );
+                },
+              },
+            ]}
           />
         </Paper>
       )}

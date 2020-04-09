@@ -17,7 +17,7 @@ export default function Quizzes() {
 
   var classes = useStyles();
 
-  var email = localStorage.getItem("email"); //should take from profile after
+  var email = localStorage.getItem("email");
 
   const retrieveQuizzes = () => {
     fetch(url + `staffs/?email=${email}`, {
@@ -122,6 +122,7 @@ export default function Quizzes() {
         if (key == "date_start" || key == "date_end") {
           value = formatDate(value);
         }
+        console.log(value);
         fetch(url + `quizzes/?id=${quiz_id}&col=${key}&value=${value}`, {
           method: "PUT",
         })
@@ -138,7 +139,7 @@ export default function Quizzes() {
           });
       }),
     ).then(() => {
-      // retrieveQuizzes();
+      retrieveQuizzes();
       alert("Updated successfully");
     });
   };
