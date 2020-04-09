@@ -172,7 +172,7 @@ class Question(db.Model):
             'count_choices': len(self.choices),
             'choices': [z.to_json() for z in self.choices],
             'count_attempts': len(self.attempts),
-            'attempts': self.attempts
+            'attempts': [qa.asdict() for qa in self.attempts]
         }
 
 class QuestionChoice(db.Model):
