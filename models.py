@@ -414,3 +414,44 @@ class Rs_quiz_question_contain(db.Model):
             'question': self.question.asdict(),
             'created_at': self.created_at
         }
+
+class Rs_lesson_quiz_contain(db.Model):
+    __tablename__ = 'rs_lesson_quiz_contains'
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    topic_id = db.Column(db.Integer)
+    lesson_id = db.Column(db.Integer)
+    quiz_id = db.Column(db.Integer)
+    __table_args__ = (
+        db.ForeignKeyConstraint(
+            [topic_id, lesson_id], 
+            [Lesson.topic_id, Lesson.id]
+        ),
+    )
+    __table_args__ = (
+        db.ForeignKeyConstraint(
+            [quiz_id], 
+            [Quiz.id]
+        ),
+    )
+    created_at = db.Column(db.DateTime, default=datetime.now)
+    quiz = db.relationship('Quiz', backref=db.backref('lessons', cascade="all, delete-orphan"))
+    lesson = db.relationship('Lesson', backref=db.backref('quizzes', cascade="all, delete-orphan"))
+
+    def __init__(self, topic_id, lesson_id, quiz_id):
+        self.topic_id = topic_id
+        self.lesson_id = lesson_id
+        self.quiz_id = quiz_id 
+
+    def asdict(self):
+        return {
+            'id': self.id,
+            'topic_id': self.topic_id,
+            'lesson_id': self.lesson_id,
+            'quiz_id': self.quiz_id,
+            'created_at': self.created_at
+        }
+
+    def asdict_quizMng(self):
+        return {
+            'quiz_id': self.quiz_id
+        }
