@@ -4,7 +4,7 @@ from .quizzes_contracts import validate_id
 from ...core.contracts.courses_contracts import validate_index
 
 def courseMngReadContract(request):    
-    quiz_id = request.args.get('quiz_id')
+    quiz_id = request.args.get('quiz_id', type=int)
 
     validate_id(quiz_id)
 
@@ -13,7 +13,7 @@ def courseMngReadContract(request):
     }
 
 def courseMngCreateContract(request):
-    quiz_id = request.args.get('quiz_id')
+    quiz_id = request.args.get('quiz_id', type=int)
     course_index = request.args.get('course_index')
 
     validate_id(quiz_id)
