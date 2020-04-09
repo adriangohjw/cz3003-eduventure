@@ -1,4 +1,5 @@
 from flask import request
+from flask_restful import inputs
 
 def validate_student_id(student_id):
     # if no 'student_id' found in params
@@ -48,10 +49,6 @@ def validate_is_correct(is_correct):
     if (is_correct is None):
         raise TypeError("Request params is_correct is not found")
 
-    # if is_correct params is empty
-    if not is_correct:
-        raise ValueError("is_correct is empty")
-
     # check if type is boolean
     if not isinstance(is_correct, bool):
         raise TypeError("student_id is not an boolean")
@@ -71,7 +68,7 @@ def questionAttemptListReadContract(request):
 def questionAttemptCreateContract(request):
     student_id = request.args.get('student_id', type=int)
     question_id = request.args.get('question_id', type=int)
-    is_correct = request.args.get('is_correct', type=bool)
+    is_correct = request.args.get('is_correct', type=inputs.boolean)
     duration_ms = request.args.get('duration_ms', type=int)
 
     validate_student_id(student_id)
