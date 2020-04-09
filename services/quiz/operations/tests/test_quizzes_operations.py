@@ -1,6 +1,5 @@
 import sys
 from os import path, getcwd
-
 sys.path.append(getcwd())
 
 import unittest
@@ -16,6 +15,8 @@ app = create_app()
 app.app_context().push()
 db.init_app(app)
 
+import datetime
+
 
 class Test_quizzes_operations(unittest.TestCase):
     @classmethod
@@ -26,17 +27,18 @@ class Test_quizzes_operations(unittest.TestCase):
         db.session.remove()
         db.drop_all()
         db.create_all()
+
         user = User(
             email='staff@gmail.com',
             encrypted_password=encrypt('password'),
             name='staff'
         )
         stf = Staff(user=user)
-
         db.session.add(stf)
-        db.session.commit()
-        q = initializeQuiz(1,"quiz1",True,"2020-03-20", "2020-03-21")
+
+        q = initializeQuiz(1, "quiz1",True, "2020-03-20", "2020-03-21")
         db.session.add(q)
+
         db.session.commit()
 
     def test_quizCreateOperation(self):
@@ -55,15 +57,19 @@ class Test_quizzes_operations(unittest.TestCase):
 
     def test_quizUpdateOperation(self):
         q = Quiz.query.filter_by(id=1).first()
-        name_original =q.name
-        fast_original = q.is_fast
+        date_start_original = q.date_start
 
-        quizUpdateOperation(1,"name","quiz3")
-        quizUpdateOperation(1, "is_fast", False)
-
+        quizUpdateOperation(1, None, None, datetime.date(2020, 3, 10), None)
         q = Quiz.query.filter_by(id=1).first()
-        self.assertNotEqual(name_original, q.name)
-        self.assertNotEqual(fast_original, q.is_fast)
+        self.assertEqual(datetime.date(2020, 3, 10), q.date_start)
+
+        quizUpdateOperation(1, 'new_name', False, None, None)
+        q = Quiz.query.filter_by(id=1).first()
+        self.assertEqual('new_name', q.name)
+        self.assertEqual(False, q.is_fast)
+
+        self.assertRaises(ErrorWithCode, quizUpdateOperation, 1, None, None, datetime.date(2020, 3, 10), datetime.date(2020, 3, 9))
+
 
     def test_quizDeleteOperation(self):
         quizDeleteOperation(1)
