@@ -1,17 +1,8 @@
 from flask import request
+import validators
 
-def validate_topic_id(topic_id):
-    # if no 'topic_id' found in params
-    if (topic_id is None):
-        raise TypeError("Request params (topic_id) not found")
+from services.core.contracts.topics_contracts import validate_id as validate_topic_id
 
-    # if topic_id params is empty
-    if not topic_id: 
-        raise ValueError("Topic_id is empty")
-
-    # check if type is integer
-    if not isinstance(topic_id, int):
-        raise TypeError("topic_id is not an integer")
 
 def validate_lesson_id(lesson_id):
     # if no 'lesson_id' found in params
@@ -44,6 +35,18 @@ def validate_content(content):
     if not content: 
         raise ValueError("Content is empty")
 
+def validate_url_link(url_link):
+    # if no 'url_link' found in params
+    if (url_link is None):
+        raise TypeError("Request params (url_link) not found")
+
+    # if url_link params is empty
+    if not url_link: 
+        raise ValueError("url_link is empty")
+
+    # check if URL is valid
+    if not validators.url(url_link):
+        raise ValueError("url_link is not valid")
 
 def lessonReadContract(request):    
     topic_id = request.args.get('topic_id', type=int)
@@ -61,15 +64,18 @@ def lessonCreateContract(request):
     topic_id = request.args.get('topic_id', type=int)
     name = request.args.get('name')
     content = request.args.get('content')
+    url_link = request.args.get('url_link')
     
     validate_topic_id(topic_id)
     validate_name(name)
     validate_content(content)
+    validate_url_link(url_link)
     
     return {
         'topic_id': topic_id,
         'name': name,
-        'content': content
+        'content': content,
+        'url_link': url_link
     }
 
 def lessonUpdateContract(request):
@@ -85,8 +91,10 @@ def lessonUpdateContract(request):
         validate_name(value)
     elif (col == 'content'):
         validate_content(value)
+    elif (col == 'url_link'):
+        validate_url_link(value)
     else:
-        raise Exception("Request params (name / content) not found")
+        raise Exception("Request params (name / content / url_link) not found")
     
     return {
         'topic_id': topic_id,

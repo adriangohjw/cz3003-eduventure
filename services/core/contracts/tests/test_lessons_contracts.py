@@ -12,7 +12,7 @@ app.app_context().push()
 db.init_app(app)
 
 from services.core.contracts.lessons_contracts import \
-    validate_topic_id, validate_content, validate_name, validate_lesson_id, validate_topic_id, \
+    validate_topic_id, validate_content, validate_name, validate_lesson_id, validate_url_link, \
     lessonCreateContract, lessonDeleteContract, lessonReadContract, lessonUpdateContract
 
 
@@ -21,15 +21,6 @@ class Test_lessons_contracts(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         print("\n\n{}: starting test...".format(path.basename(__file__)))
-
-
-    def test_validate_topic_id(self):
-
-        with self.assertRaises(TypeError):
-            validate_topic_id(None)
-
-        with self.assertRaises(ValueError):
-            validate_topic_id("")
 
 
     def test_validate_lesson_id(self):
@@ -59,6 +50,16 @@ class Test_lessons_contracts(unittest.TestCase):
             validate_content("")
 
 
+    def test_validate_url_link(self):
+
+        with self.assertRaises(TypeError):
+            validate_url_link(None)
+
+        with self.assertRaises(ValueError):
+            validate_url_link("")
+            validate_url_link("www.google.com")
+
+
     def test_lessonReadContract(self):
 
         with app.test_request_context('/?topic_id=12&lesson_id=1', method='GET'):
@@ -76,13 +77,14 @@ class Test_lessons_contracts(unittest.TestCase):
 
     def test_lessonCreateContract(self):
 
-        with app.test_request_context('/?topic_id=12&name=se&content=secontent', method='POST'):
+        with app.test_request_context('/?topic_id=12&name=se&content=secontent&url_link=https%3A%2F%2Fwww.google.com', method='POST'):
             self.assertEqual(
                 lessonCreateContract(request), 
                 {
                     'topic_id': 12,
                     'name': 'se',
-                    'content':'secontent' 
+                    'content':'secontent',
+                    'url_link': 'https://www.google.com'
                 }
             )
 
