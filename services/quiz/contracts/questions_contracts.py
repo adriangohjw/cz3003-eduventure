@@ -1,43 +1,32 @@
 from flask import request
 
+from services.core.contracts.topics_contracts import validate_id as validate_topic_id
+from services.core.contracts.lessons_contracts import validate_lesson_id
+
 def validate_id(id):
     # if no 'id' found in params
     if (id is None):
-        raise Exception("Request params (id) not found")
+        raise TypeError("Request params (id) not found")
 
     # if 'id' params is empty
     if not id: 
-        raise Exception("id is empty")
+        raise ValueError("id is empty")
 
-def validate_topic_id(topic_id):
-    # if no 'topic_id' found in params
-    if (topic_id is None):
-        raise Exception("Request params (topic_id) not found")
-
-    # if 'topic_id' params is empty
-    if not topic_id: 
-        raise Exception("topic_id is empty")   
-
-def validate_lesson_id(lesson_id):
-    # if no 'lesson_id' found in params
-    if (lesson_id is None):
-        raise Exception("Request params (lesson_id) not found")
-
-    # if 'lesson_id' params is empty
-    if not lesson_id: 
-        raise Exception("lesson_id is empty")   
+    # check if type is integer
+    if not isinstance(id, int):
+        raise TypeError("id is not an integer")
 
 def validate_description(description):
     # if no 'description' found in params
     if (description is None):
-        raise Exception("Request params (description) not found")
+        raise TypeError("Request params (description) not found")
 
     # if description params is empty
     if not description: 
-        raise Exception("Description is empty")
+        raise ValueError("Description is empty")
 
 def questionReadContract(request):    
-    id = request.args.get('id')
+    id = request.args.get('id', type=int)
 
     validate_id(id)
 
@@ -46,8 +35,8 @@ def questionReadContract(request):
     }
 
 def questionCreateContract(request):
-    topic_id = request.args.get('topic_id')
-    lesson_id = request.args.get('lesson_id')
+    topic_id = request.args.get('topic_id', type=int)
+    lesson_id = request.args.get('lesson_id', type=int)
     description = request.args.get('description')
     
     validate_topic_id(topic_id)
@@ -61,7 +50,7 @@ def questionCreateContract(request):
     }
 
 def questionUpdateContract(request):
-    id = request.args.get('id')
+    id = request.args.get('id', type=int)
     description = request.args.get('description')
 
     validate_id(id)
@@ -73,7 +62,7 @@ def questionUpdateContract(request):
     }
 
 def questionDeleteContract(request):
-    id = request.args.get('id')
+    id = request.args.get('id', type=int)
 
     validate_id(id)
 
