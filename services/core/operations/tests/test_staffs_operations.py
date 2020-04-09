@@ -27,7 +27,7 @@ class Test_staffs_operations(unittest.TestCase):
         db.drop_all()
         db.create_all()
 
-        sf = initializeStaff('john_doe@gmail.com', 'password')
+        sf = initializeStaff('john_doe@gmail.com', 'password', 'John Doe')
         db.session.add(sf)
         db.session.commit()
 
@@ -39,9 +39,14 @@ class Test_staffs_operations(unittest.TestCase):
 
     def test_staffCreateOperation(self):
         with self.assertRaises(ErrorWithCode):
-            staffCreateOperation('john_doe@gmail.com', 'password')
+            staffCreateOperation('john_doe@gmail.com', 'password', 'John Doe')
 
-        self.assertIsNotNone(staffCreateOperation('john_doe_2@gmail.com', 'password'))
+        self.assertIsNotNone(staffCreateOperation('john_doe_2@gmail.com', 'password', 'John Doe Tan'))
+
+        self.assertEqual(
+            staffCreateOperation('john_doe_3@gmail.com', 'password', 'John Doe Goh').name,
+            'John Doe Goh'
+        )
 
 if __name__ == '__main__':
     unittest.main()
