@@ -143,7 +143,7 @@ class Lesson(db.Model):
             'content': self.content,
             'created_at': self.created_at,
             'count_questions': len(self.questions),
-            'questions': self.questions
+            'questions': [q.asdict() for q in self.questions]
         }
     
 class Question(db.Model):
