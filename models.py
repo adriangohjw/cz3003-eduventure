@@ -126,14 +126,16 @@ class Lesson(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable=True)
     name = db.Column(db.String(255), nullable=False)
     content = db.Column(db.Text, nullable=False)
+    url_link = db.Column(db.String)
     created_at = db.Column(db.DateTime, default=datetime.now)
     questions = db.relationship('Question', backref='lesson')
 
-    def __init__(self, topic_id, id, name, content):
+    def __init__(self, topic_id, id, name, content, url_link):
         self.topic_id = topic_id
         self.id = id
         self.name = name
         self.content = content  
+        self.url_link = url_link
 
     def asdict(self):
         return {
@@ -141,6 +143,7 @@ class Lesson(db.Model):
             'id': self.id,
             'name': self.name,
             'content': self.content,
+            'url_link': self.url_link,
             'created_at': self.created_at,
             'count_questions': len(self.questions),
             'questions': [q.asdict() for q in self.questions]
