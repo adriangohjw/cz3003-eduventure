@@ -12,7 +12,7 @@ app.app_context().push()
 db.init_app(app)
 
 from services.core.contracts.staffs_contracts import \
-    staffCreateContract, staffReadContract
+    validate_name, staffCreateContract, staffReadContract
 
 
 class Test_staffs_contracts(unittest.TestCase):
@@ -20,6 +20,15 @@ class Test_staffs_contracts(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         print("\n\n{}: starting test...".format(path.basename(__file__)))
+
+
+    def test_validate_name(self):
+
+        with self.assertRaises(TypeError):
+            validate_name(None)
+
+        with self.assertRaises(ValueError):
+            validate_name("")
 
 
     def test_staffReadContract(self):
@@ -40,12 +49,13 @@ class Test_staffs_contracts(unittest.TestCase):
 
 
     def test_staffCreateContract(self):
-        with app.test_request_context('/?email=joe@gmail.com&password=12345', method='POST'):
+        with app.test_request_context('/?email=joe@gmail.com&password=12345&name=John%20Doe', method='POST'):
             self.assertEqual(
                 staffCreateContract(request), 
                 {
                     'email': 'joe@gmail.com',
-                    'password': '12345'
+                    'password': '12345',
+                    'name': 'John Doe'
                 }
             )
 
