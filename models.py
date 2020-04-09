@@ -271,7 +271,7 @@ class Quiz(db.Model):
             'date_end': self.date_end,
             'count_attempts': len(self.attempts),
             'count_questions': len(self.questions),
-            'questions': [q.asdict() for q in self.questions]
+            'questions': [q.asdict_getQuestion() for q in self.questions]
         }
 
 class QuestionAttempt(db.Model):
@@ -409,5 +409,8 @@ class Rs_quiz_question_contain(db.Model):
             'created_at': self.created_at 
         }
 
-if __name__ == '__main__':
-    manager.run()
+    def asdict_getQuestion(self):
+        return {
+            'question': self.question.asdict(),
+            'created_at': self.created_at
+        }

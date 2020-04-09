@@ -1,7 +1,11 @@
+import sys
+from os import path, getcwd
+sys.path.append(getcwd())
+
 from models import Question
 
 from ...core.dao.LessonsDAO import lessonRead
-from ..dao.QuestionsDAO import questionCreate, questionRead, questionUpdate, questionDelete
+from ..dao.QuestionsDAO import questionCreate, questionRead, questionUpdate, questionDelete, questionGetAllRead
 from ...core.dao.LessonsDAO import lessonRead
 from exceptions import ErrorWithCode
 
@@ -58,3 +62,10 @@ def questionDeleteOperation(id):
 
     # success case
     return True
+
+def questionGetAllReadOperation():
+
+    questions = questionGetAllRead()
+
+    # success case
+    return questions
