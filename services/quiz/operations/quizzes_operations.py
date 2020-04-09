@@ -38,23 +38,30 @@ def quizCreateOperation(staff_id, name, is_fast, date_start, date_end):
     # success case
     return quiz
     
-def quizUpdateOperation(id, col, value):
+def quizUpdateOperation(id, name, is_fast, date_start, date_end):
     quiz = quizRead(id)
 
     # quiz is not found
     if quiz is None:
         raise ErrorWithCode(404, "No quiz found")
 
-    if col == 'name':
-        quiz.name = value
-    elif col == 'is_fast':
-        quiz.is_fast = value
-    elif col == 'date_start':
-        validate_dates(value, quiz.date_end)
-        quiz.date_start = value
-    elif col == 'date_end':
-        validate_dates(quiz.date_start, value)
-        quiz.date_end = value
+    if name is not None:
+        quiz.name = name
+    
+    if is_fast is not None:
+        quiz.is_fast = is_fast
+
+    if (date_start is not None) and (date_end is not None):
+        validate_dates(date_start, date_end)
+        quiz.date_start = date_start
+        quiz.date_end = date_end
+    else:
+        if (date_start is not None):
+            validate_dates(date_start, quiz.date_end)
+            quiz.date_start = date_start
+        elif (date_end is not None):
+            validate_dates(quiz.date_start, date_end)
+            quiz.date_end = date_end
 
     if quizUpdate() == False:
         raise ErrorWithCode(400, "Unsuccessful")
