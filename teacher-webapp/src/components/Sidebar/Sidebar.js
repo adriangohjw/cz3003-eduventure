@@ -35,7 +35,7 @@ const structure = [
   },
   {
     id: 2,
-    label: "Quizes",
+    label: "Quizzes",
     link: "/app/quizzes",
     icon: <ClassIcon />,
   },

@@ -52,9 +52,6 @@ export default function Quizzes() {
           ),
         );
       })
-      .then(result => {
-        return result;
-      })
       .then(allQuizDetails => {
         setQuizzes(allQuizDetails);
         setIsLoading(false);

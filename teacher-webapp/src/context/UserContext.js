@@ -103,13 +103,9 @@ function signUp(
 ) {
   setError(false);
   setIsLoading(true);
-
-  fetch(url + `staffs/?email=${email}&password=${password}`, {
+  fetch(url + `staffs/?email=${email}&password=${password}&name=${name}`, {
     method: "POST",
-  })
-    // fetch(url + `staffs?email=${email}&password=${password}&name=${name}`, {
-    //   method: "POST",
-    // }) //should use this after Adrian changes API
+  }) //should use this after Adrian changes API
     .then(response => {
       if (response.ok) {
         return response.json();

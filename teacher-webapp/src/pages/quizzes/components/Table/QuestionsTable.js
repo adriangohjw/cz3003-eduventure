@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import { Grid, Paper, CircularProgress } from "@material-ui/core";
 import {
   AddBox,
@@ -21,6 +21,8 @@ import AssignmentIcon from "@material-ui/icons/Assignment";
 import { Typography } from "../../../../components/Wrappers/Wrappers";
 
 import MaterialTable from "material-table";
+
+import { url } from "../../../../context/UserContext";
 
 // import { useTheme } from "@material-ui/styles";
 
@@ -49,33 +51,51 @@ const tableIcons = {
 };
 
 export default function QuestionsTable({
-  name,
-  questions,
+  rowData,
+  // questions,
   handleDelete,
   handleUpdate,
   handleCreate,
   classes,
-  isLoading,
 }) {
-  const [state, setState] = React.useState({
-    columns: [
-      { title: "ID", field: "id", editable: "never", deafultSort: "desc" },
-      { title: "Name", field: "name" },
-      { title: "Setter", field: "staff.name", editable: "never" },
-      {
-        title: "Quiz Type",
-        field: "is_fast",
-        lookup: { true: "Fast", false: "Normal" },
-      },
-      { title: "Attempts", field: "attempts.length", editable: "never" },
-      { title: "Average", field: "average_score", editable: "never" },
-      { title: "Highest", field: "highest_score", editable: "never" },
-      { title: "Lowest", field: "lowest_score", editable: "never" },
-      { title: "Starts On", field: "date_start", type: "date" },
-      { title: "Ends On", field: "date_end", type: "date" },
-    ],
-    data: questions,
-  });
+  const [questions, setQuestions] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [columns, setColumns] = useState([
+    {
+      title: "ID",
+      field: "question.id",
+      editable: "never",
+      deafultSort: "desc",
+    },
+    {
+      title: "Description",
+      field: "question.description",
+      editable: "never",
+    },
+  ]);
+
+  const retrieveQuestions = quiz_id => {
+    fetch(url + `quizzes/questions?quiz_id=${quiz_id}`, {
+      method: "GET",
+    })
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          setIsLoading(false);
+          throw new Error("No Questions Found for this Quiz");
+        }
+      })
+      .then(response => {
+        setQuestions(response.questions);
+        setIsLoading(false);
+      })
+      .catch(error => console.log(error));
+  };
+
+  useEffect(() => {
+    retrieveQuestions(rowData.id);
+  }, []);
 
   return (
     <React.Fragment>
@@ -92,12 +112,14 @@ export default function QuestionsTable({
                 alignItems="center"
               >
                 <Grid item={true}>
-                  <Typography variant="h6">Questions from {name}</Typography>
+                  <Typography variant="h6">
+                    Questions from {rowData.name}
+                  </Typography>
                 </Grid>
               </Grid>
             }
-            columns={state.columns}
-            data={state.data}
+            columns={columns}
+            data={questions}
             icons={tableIcons}
             editable={{
               onRowAdd: newData =>

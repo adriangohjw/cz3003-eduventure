@@ -139,7 +139,7 @@ function Login(props) {
               </Typography>
               <Fade in={error}>
                 <Typography color="secondary" className={classes.errorMessage}>
-                  Something is wrong with your login or password :(
+                  Account already exists!
                 </Typography>
               </Fade>
               <TextField

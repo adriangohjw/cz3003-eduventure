@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useState, setState } from "react";
 import { Paper } from "@material-ui/core";
 import {
   AddBox,
@@ -22,6 +22,8 @@ import AssignmentIcon from "@material-ui/icons/Assignment";
 
 import MaterialTable from "material-table";
 import QuestionsTable from "./QuestionsTable";
+
+import { url } from "../../../../context/UserContext";
 
 // import { useTheme } from "@material-ui/styles";
 
@@ -52,34 +54,6 @@ const tableIcons = {
   )),
 };
 
-const retrieveQuestions = quiz_id => {
-  // fetch(url + `staffs/?email=${email}`, {
-  //   method: "GET",
-  // })
-  //   .then(res => {
-  //     if (res.ok) {
-  //       return res.json();
-  //     } else {
-  //       setIsLoading(false);
-  //       setIsQuizFound(false);
-  //       throw new Error("No Quizzes Found for this Staff ID");
-  //     }
-  //   })
-  //   .then(response => {
-  //     setID(response.id);
-  //     return response.quizzes.map(quiz => quiz.id);
-  //   })
-  //   .then(result => {
-  //     return result;
-  //   })
-  //   .then(allQuizDetails => {
-  //     setQuestions(allQuestionDetails);
-  //     setIsLoading(false);
-  //     setIsQuizFound(true);
-  //   })
-  //   .catch(error => console.log(error));
-};
-
 export default function QuizzesTable({
   quizzes,
   handleDelete,
@@ -87,8 +61,7 @@ export default function QuizzesTable({
   handleCreate,
   classes,
 }) {
-  const [state, setState] = React.useState({
-    quizzes: [],
+  const [state, setState] = useState({
     isLoading: true,
     columns: [
       { title: "ID", field: "id", editable: "never", deafultSort: "desc" },
@@ -108,6 +81,26 @@ export default function QuizzesTable({
     ],
     data: quizzes,
   });
+
+  const retrieveQuestions = quiz_id => {
+    fetch(url + `quizzes/questions?quiz_id=${quiz_id}`, {
+      method: "GET",
+    })
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          setState(state.isLoading, false);
+          throw new Error("No Questions Found for this Quiz");
+        }
+      })
+      .then(response => {
+        // setState(state.isLoading, false);
+        console.log("response.questions is", response.questions);
+        // setState(state.questions, response.questions);
+      })
+      .catch(error => console.log(error));
+  };
 
   return (
     <React.Fragment>
@@ -131,21 +124,24 @@ export default function QuizzesTable({
                 handleDelete(oldData["id"]);
               }),
           }}
+          onRowClick={(event, rowData, togglePanel) => {
+            console.log("rowData", rowData);
+            console.log("event", event);
+            togglePanel();
+          }}
           detailPanel={[
             {
               icon: () => <AssignmentIcon />,
+
               tooltip: "Questions",
               render: rowData => {
-                retrieveQuestions(rowData.id);
                 return (
                   <QuestionsTable
-                    isLoading={state.isLoading}
-                    questions={state.questions}
                     handleDelete={handleDelete}
                     handleCreate={handleCreate}
                     handleUpdate={handleUpdate}
                     classes={classes}
-                    name={rowData.name}
+                    rowData={rowData}
                   />
                 );
               },
