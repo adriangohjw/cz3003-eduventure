@@ -32,6 +32,7 @@ api_topic.add_resource(TopicsController.TopicAPI, '/')
 lesson_bp = Blueprint('lesson', __name__)
 api_lessons = Api(lesson_bp)
 api_lessons.add_resource(LessonsController.LessonAPI, '/')
+api_lessons.add_resource(LessonsController.QuizManagerAPI, '/quizzes')
 
 questionAttempt_bp = Blueprint('questionAttempt', __name__)
 api_questionAttempt = Api(questionAttempt_bp)
