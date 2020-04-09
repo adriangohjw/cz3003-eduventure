@@ -1,4 +1,5 @@
 from flask import request
+from flask_restful import inputs
 
 from services.quiz.contracts.questions_contracts import validate_id as validate_question_id
 
@@ -25,13 +26,11 @@ def validate_description(description):
         raise ValueError("description is empty")
 
 def validate_is_correct(is_correct):
+    print(is_correct)
+    print(type(is_correct))
     # if no 'is_correct' found in params
     if (is_correct is None):
         raise TypeError("Request params is_correct is not found")
-
-    # if is_correct params is empty
-    if not is_correct:
-        raise ValueError("is_correct is empty")
 
     # check if type is boolean
     if not isinstance(is_correct, bool):
@@ -52,7 +51,7 @@ def questionChoiceReadContract(request):
 def questionChoiceCreateContract(request):
     question_id = request.args.get('question_id', type=int)  
     description = request.args.get('description')
-    is_correct = request.args.get('is_correct', type=bool)
+    is_correct = request.args.get('is_correct', type=inputs.boolean)
     
     validate_question_id(question_id)
     validate_description(description)
@@ -68,7 +67,7 @@ def questionChoiceUpdateContract(request):
     question_id = request.args.get('question_id', type=int)  
     questionChoice_id = request.args.get('questionChoice_id', type=int)
     description = request.args.get('description')
-    is_correct = request.args.get('is_correct', type=bool)
+    is_correct = request.args.get('is_correct', type=inputs.boolean)
 
     validate_question_id(question_id)
     validate_questionChoice_id(questionChoice_id)

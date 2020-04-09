@@ -1,4 +1,5 @@
 from flask import request
+from flask_restful import inputs
 import datetime
 from dateutil.parser import parse
 
@@ -92,7 +93,7 @@ def quizReadContract(request):
 def quizCreateContract(request):
     staff_id = request.args.get('staff_id', type=int)
     name = request.args.get('name')
-    is_fast = request.args.get('is_fast', type=bool)
+    is_fast = request.args.get('is_fast', type=inputs.boolean)
     date_start = request.args.get('date_start')
     date_end = request.args.get('date_end')
     
@@ -113,7 +114,7 @@ def quizCreateContract(request):
 def quizUpdateContract(request):
     id = request.args.get('id', type=int)
     name = request.args.get('name')
-    is_fast = request.args.get('is_fast', type=bool)
+    is_fast = request.args.get('is_fast', type=inputs.boolean)
     date_start = request.args.get('date_start')
     date_end = request.args.get('date_end')
 
