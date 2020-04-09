@@ -131,16 +131,18 @@ def quizUpdateContract(request):
 
     if (date_start is not None):
         validate_date_start(date_start)
+        date_start = datetime.date(parse(date_start).year, parse(date_start).month, parse(date_start).day)
 
     if (date_end is not None):
         validate_date_end(date_end)
-    
+        date_end = datetime.date(parse(date_end).year, parse(date_end).month, parse(date_end).day)
+
     return {
         'id': id,
         'name': name,
         'is_fast': is_fast,
-        'date_start': datetime.date(parse(date_start).year, parse(date_start).month, parse(date_start).day),
-        'date_end': datetime.date(parse(date_end).year, parse(date_end).month, parse(date_end).day)
+        'date_start': date_start,
+        'date_end': date_end
     }
 
 def quizDeleteContract(request):
