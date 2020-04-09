@@ -29,3 +29,6 @@ def questionDelete(id):
     except Exception as e:
         print(e)
         return False
+
+def questionGetAllRead():
+    return Question.query.all()
