@@ -9,6 +9,10 @@ def validate_topic_id(topic_id):
     if not topic_id: 
         raise ValueError("Topic_id is empty")
 
+    # check if type is integer
+    if not isinstance(topic_id, int):
+        raise TypeError("topic_id is not an integer")
+
 def validate_lesson_id(lesson_id):
     # if no 'lesson_id' found in params
     if (lesson_id is None):
@@ -17,6 +21,10 @@ def validate_lesson_id(lesson_id):
     # if lesson_id params is empty
     if not lesson_id: 
         raise ValueError("Lesson_id is empty")
+
+    # check if type is integer
+    if not isinstance(lesson_id, int):
+        raise TypeError("lesson_id is not an integer")
 
 def validate_name(name):
     # if no 'name' found in params
@@ -38,8 +46,8 @@ def validate_content(content):
 
 
 def lessonReadContract(request):    
-    topic_id = request.args.get('topic_id')
-    lesson_id = request.args.get('lesson_id')
+    topic_id = request.args.get('topic_id', type=int)
+    lesson_id = request.args.get('lesson_id', type=int)
 
     validate_topic_id(topic_id)
     validate_lesson_id(lesson_id)
@@ -50,7 +58,7 @@ def lessonReadContract(request):
     }
 
 def lessonCreateContract(request):
-    topic_id = request.args.get('topic_id')
+    topic_id = request.args.get('topic_id', type=int)
     name = request.args.get('name')
     content = request.args.get('content')
     
@@ -65,8 +73,8 @@ def lessonCreateContract(request):
     }
 
 def lessonUpdateContract(request):
-    topic_id = request.args.get('topic_id')
-    lesson_id = request.args.get('lesson_id')
+    topic_id = request.args.get('topic_id', type=int)
+    lesson_id = request.args.get('lesson_id', type=int)
     col = request.args.get('col')
     value = request.args.get('value')
 
@@ -88,8 +96,8 @@ def lessonUpdateContract(request):
     }
 
 def lessonDeleteContract(request):
-    topic_id = request.args.get('topic_id')
-    lesson_id = request.args.get('lesson_id')
+    topic_id = request.args.get('topic_id', type=int)
+    lesson_id = request.args.get('lesson_id', type=int)
 
     validate_topic_id(topic_id)
     validate_lesson_id(lesson_id)

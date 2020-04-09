@@ -49,7 +49,7 @@ class StaffAPI(Resource):
 
         # operations
         try:
-            staff = staffCreateOperation(s['email'], s['password'])
+            staff = staffCreateOperation(s['email'], s['password'], s['name'])
         except ErrorWithCode as e:
             return make_response(
                 jsonify (

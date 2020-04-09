@@ -82,7 +82,7 @@ class QuizAPI(Resource):
         # operations
         try:
             quiz = quizUpdateOperation(
-                q['id'], q['col'], q['value']
+                q['id'], q['name'], q['is_fast'], q['date_start'], q['date_end']
             )
         except ErrorWithCode as e:
             return make_response(

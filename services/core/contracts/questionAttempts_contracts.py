@@ -9,6 +9,10 @@ def validate_student_id(student_id):
     if not student_id: 
         raise ValueError("student_id is empty")
 
+    # check if type is integer
+    if not isinstance(student_id, int):
+        raise TypeError("student_id is not an integer")
+
 def validate_question_id(question_id):
     # if no 'question_id' found in params
     if (question_id is None):
@@ -17,6 +21,10 @@ def validate_question_id(question_id):
     # if question_id params is empty
     if not question_id: 
         raise ValueError("question_id is empty")
+
+    # check if type is integer
+    if not isinstance(question_id, int):
+        raise TypeError("question_id is not an integer")
 
 def validate_duration_ms(duration_ms):
     # if no 'duration_ms' found in params
@@ -44,26 +52,27 @@ def validate_is_correct(is_correct):
     if not is_correct:
         raise ValueError("is_correct is empty")
 
-    if is_correct not in ('True', 'False'):
-        raise TypeError("is_correct is not boolean")
+    # check if type is boolean
+    if not isinstance(is_correct, bool):
+        raise TypeError("student_id is not an boolean")
 
 def questionAttemptListReadContract(request):    
-    student_id = request.args.get('student_id')
-    question_id = request.args.get('question_id')
+    student_id = request.args.get('student_id', type=int)
+    question_id = request.args.get('question_id', type=int)
 
     validate_student_id(student_id)
     validate_question_id(question_id)
 
     return {
-        'student_id': student_id,
-        'question_id': question_id,
+        'student_id': int(student_id),
+        'question_id': int(question_id),
     }
 
 def questionAttemptCreateContract(request):
-    student_id = request.args.get('student_id')
-    question_id = request.args.get('question_id')
-    is_correct = request.args.get('is_correct')
-    duration_ms = request.args.get('duration_ms')
+    student_id = request.args.get('student_id', type=int)
+    question_id = request.args.get('question_id', type=int)
+    is_correct = request.args.get('is_correct', type=bool)
+    duration_ms = request.args.get('duration_ms', type=int)
 
     validate_student_id(student_id)
     validate_question_id(question_id)
@@ -71,8 +80,8 @@ def questionAttemptCreateContract(request):
     validate_duration_ms(duration_ms)
 
     return {
-        'student_id': student_id,
-        'question_id': question_id,
-        'is_correct': True if is_correct == 'True' else False,
+        'student_id': int(student_id),
+        'question_id': int(question_id),
+        'is_correct': bool(is_correct),
         'duration_ms': int(duration_ms)
     }

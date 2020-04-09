@@ -143,7 +143,7 @@ class Lesson(db.Model):
             'content': self.content,
             'created_at': self.created_at,
             'count_questions': len(self.questions),
-            'questions': self.questions
+            'questions': [q.asdict() for q in self.questions]
         }
     
 class Question(db.Model):
@@ -172,7 +172,7 @@ class Question(db.Model):
             'count_choices': len(self.choices),
             'choices': [z.to_json() for z in self.choices],
             'count_attempts': len(self.attempts),
-            'attempts': self.attempts
+            'attempts': [qa.asdict() for qa in self.attempts]
         }
 
 class QuestionChoice(db.Model):
@@ -212,8 +212,8 @@ class Quiz(db.Model):
     staff_id = db.Column(db.Integer, db.ForeignKey('staffs.id'))
     name = db.Column(db.String(255), nullable=False)
     is_fast = db.Column(db.Boolean, nullable=False)
-    date_start = db.Column(db.DateTime, nullable=False)
-    date_end = db.Column(db.DateTime, nullable=False)
+    date_start = db.Column(db.Date, nullable=False)
+    date_end = db.Column(db.Date, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
     attempts = db.relationship('QuizAttempt', backref='quiz')
 
@@ -271,7 +271,7 @@ class Quiz(db.Model):
             'date_end': self.date_end,
             'count_attempts': len(self.attempts),
             'count_questions': len(self.questions),
-            'questions': [q.asdict() for q in self.questions]
+            'questions': [q.asdict_getQuestion() for q in self.questions]
         }
 
 class QuestionAttempt(db.Model):
@@ -409,5 +409,8 @@ class Rs_quiz_question_contain(db.Model):
             'created_at': self.created_at 
         }
 
-if __name__ == '__main__':
-    manager.run()
+    def asdict_getQuestion(self):
+        return {
+            'question': self.question.asdict(),
+            'created_at': self.created_at
+        }

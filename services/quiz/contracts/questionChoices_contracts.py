@@ -1,59 +1,45 @@
 from flask import request
 
-def validate_question_id(question_id):
-    # if no 'question_id' found in params
-    if (question_id is None):
-        raise Exception("Request params (question_id) not found")
-
-    # if 'question_id' params is empty
-    if not question_id: 
-        raise Exception("question_id is empty")
+from services.quiz.contracts.questions_contracts import validate_id as validate_question_id
 
 def validate_questionChoice_id(questionChoice_id):
     # if no 'questionChoice_id' found in params
     if (questionChoice_id is None):
-        raise Exception("Request params (questionChoice_id) not found")
+        raise TypeError("Request params (questionChoice_id) not found")
 
     # if 'questionChoice_id' params is empty
     if not questionChoice_id: 
-        raise Exception("questionChoice_id is empty")
+        raise ValueError("questionChoice_id is empty")
+
+    # check if type is integer
+    if not isinstance(questionChoice_id, int):
+        raise TypeError("questionChoice_id is not an integer")
 
 def validate_description(description):
     # if no 'description' found in params
     if (description is None):
-        raise Exception("Request params (description) not found")
+        raise TypeError("Request params (description) not found")
 
     # if field params is empty
     if not description: 
-        raise Exception("description is empty")
-
-def validate_col(col):
-    # if no 'col' found in params
-    if (col is None):
-        raise Exception("Request params (col) not found")
-
-    # if field params is empty
-    if not col: 
-        raise Exception("col is empty")
-
-    if col not in ('description', 'is_correct'):
-        raise Exception("Invalid request in params (col)")
+        raise ValueError("description is empty")
 
 def validate_is_correct(is_correct):
     # if no 'is_correct' found in params
     if (is_correct is None):
-        raise Exception("Request params is_correct is not found")
+        raise TypeError("Request params is_correct is not found")
 
     # if is_correct params is empty
     if not is_correct:
-        raise Exception("is_correct is empty")
+        raise ValueError("is_correct is empty")
 
-    if is_correct not in ('True', 'False'):
-        raise Exception("is_correct is not boolean")
+    # check if type is boolean
+    if not isinstance(is_correct, bool):
+        raise TypeError("is_correct is not an boolean")
 
 def questionChoiceReadContract(request):  
-    question_id = request.args.get('question_id')  
-    questionChoice_id = request.args.get('questionChoice_id')
+    question_id = request.args.get('question_id', type=int)  
+    questionChoice_id = request.args.get('questionChoice_id', type=int)
 
     validate_question_id(question_id)
     validate_questionChoice_id(questionChoice_id)
@@ -64,15 +50,13 @@ def questionChoiceReadContract(request):
     }
 
 def questionChoiceCreateContract(request):
-    question_id = request.args.get('question_id')  
+    question_id = request.args.get('question_id', type=int)  
     description = request.args.get('description')
-    is_correct = request.args.get('is_correct')
+    is_correct = request.args.get('is_correct', type=bool)
     
     validate_question_id(question_id)
     validate_description(description)
     validate_is_correct(is_correct)
-
-    is_correct = True if is_correct == 'True' else False
     
     return {
         'question_id': question_id,
@@ -81,31 +65,33 @@ def questionChoiceCreateContract(request):
     }
 
 def questionChoiceUpdateContract(request):
-    question_id = request.args.get('question_id')  
-    questionChoice_id = request.args.get('questionChoice_id')
-    col = request.args.get('col')
-    value = request.args.get('value')
+    question_id = request.args.get('question_id', type=int)  
+    questionChoice_id = request.args.get('questionChoice_id', type=int)
+    description = request.args.get('description')
+    is_correct = request.args.get('is_correct', type=bool)
 
     validate_question_id(question_id)
     validate_questionChoice_id(questionChoice_id)
-    validate_col(col)
 
-    if col == 'description':
-        validate_description(value)
-    elif col == 'is_correct':
-        validate_is_correct(value)
-        value = True if value == 'True' else False
+    if (description is None) and (is_correct is None):
+        raise TypeError("no params being passed in")
+
+    if (description is not None):
+        validate_description(description)
+
+    if (is_correct is not None):
+        validate_is_correct(is_correct)
     
     return {
         'question_id': question_id,
         'questionChoice_id': questionChoice_id,
-        'col': col,
-        'value': value
+        'description': description,
+        'is_correct': is_correct
     }
 
 def questionChoiceDeleteContract(request):
-    question_id = request.args.get('question_id')  
-    questionChoice_id = request.args.get('questionChoice_id')
+    question_id = request.args.get('question_id', type=int)  
+    questionChoice_id = request.args.get('questionChoice_id', type=int)
 
     validate_question_id(question_id)
     validate_questionChoice_id(questionChoice_id)

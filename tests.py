@@ -14,13 +14,17 @@ from services.core.dao.tests.test_StaffsDAO import Test_StaffsDAO
 from services.core.dao.tests.test_StudentsDAO import Test_StudentsDAO
 from services.core.dao.tests.test_TopicsDAO import Test_TopicsDAO
 
-from services.core.contracts.tests.test_users_contracts import Test_user_contracts
+from services.core.contracts.tests.test_courses_contracts import Test_courses_contracts
 from services.core.contracts.tests.test_courses_contracts import Test_courses_contracts
 from services.core.contracts.tests.test_lessons_contracts import Test_lessons_contracts
 from services.core.contracts.tests.test_questionAttempts_contracts import Test_questionAttempts_contracts
 from services.core.contracts.tests.test_quizAttempts_contracts import Test_quizAttempts_contracts
+from services.core.contracts.tests.test_rs_staff_course_teaches_contracts import Test_rs_staff_course_teaches_contracts
+from services.core.contracts.tests.test_rs_student_course_enrols_contracts import Test_rs_student_course_enrols_contracts
+from services.core.contracts.tests.test_staffs_contracts import Test_staffs_contracts
 from services.core.contracts.tests.test_students_contracts import Test_students_contracts
 from services.core.contracts.tests.test_topics_contracts import Test_topics_contracts
+from services.core.contracts.tests.test_users_contracts import Test_user_contracts
 
 from services.core.operations.tests.test_users_operations import Test_users_operations
 from services.core.operations.tests.test_courses_operations import Test_courses_operations

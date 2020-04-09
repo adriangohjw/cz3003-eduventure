@@ -14,6 +14,7 @@ api_quiz.add_resource(QuizzesController.QuizOverallAPI, '/overall')
 question_bp = Blueprint('question', __name__)
 api_question = Api(question_bp)
 api_question.add_resource(QuestionsController.QuestionAPI, '/')
+api_question.add_resource(QuestionsController.QuestionGetAllAPI, '/all/')
 
 questionchoice_bp = Blueprint('questionchoice', __name__)
 api_questionchoice = Api(questionchoice_bp)
