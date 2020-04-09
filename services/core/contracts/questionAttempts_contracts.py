@@ -51,7 +51,7 @@ def validate_is_correct(is_correct):
 
     # check if type is boolean
     if not isinstance(is_correct, bool):
-        raise TypeError("student_id is not an boolean")
+        raise TypeError("is_correct is not an boolean")
 
 def questionAttemptListReadContract(request):    
     student_id = request.args.get('student_id', type=int)

@@ -65,9 +65,6 @@ class Test_questionAttempts_contracts(unittest.TestCase):
             validate_is_correct(1)
             validate_is_correct(1.1)
 
-        with self.assertRaises(ValueError):
-            validate_is_correct("")
-
 
     def test_questionAttemptListReadContract(self):
 

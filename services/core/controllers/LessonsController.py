@@ -113,3 +113,100 @@ class LessonAPI(Resource):
                 message = 'Successfully deleted lesson'
             ), 200
         )
+
+
+from services.core.contracts.rs_lesson_quiz_contains_contracts import \
+    quizMngCreateContract, quizMngReadContract, quizMngDeleteContract
+from services.core.operations.rs_lesson_quiz_contains_operations import \
+    quizMngCreateOperation, quizMngReadOperation, quizMngDeleteOperation
+
+class QuizManagerAPI(Resource):
+    def get(self):
+        # contracts
+        try:
+            rs = quizMngReadContract(request)
+        except Exception as e:
+            return make_response(
+                jsonify (
+                    error = str(e),
+                ), 400
+            )
+        
+        # operations
+        try:
+            relationships = quizMngReadOperation(
+                rs['topic_id'], rs['lesson_id']
+            )
+        except ErrorWithCode as e:
+            return make_response(
+                jsonify (
+                    error = e.message
+                ), e.status_code
+            )
+        
+        # success case
+        return make_response(
+            jsonify (
+                topic_id = rs['topic_id'],
+                lesson_id = rs['lesson_id'],
+                quiz = [rs.asdict_quizMng() for rs in relationships]
+            ), 200
+        )
+        
+    def post(self):
+        # contracts
+        try:
+            rs = quizMngCreateContract(request)
+        except Exception as e:
+            return make_response(
+                jsonify (
+                    error = str(e),
+                ), 400
+            )
+
+        # operations
+        try:
+            relationship = quizMngCreateOperation(
+                rs['topic_id'], rs['lesson_id'], rs['quiz_id']
+            )
+        except ErrorWithCode as e:
+            return make_response(
+                jsonify (
+                    error = e.message
+                ), e.status_code
+            )
+        
+        # success case
+        return make_response(
+            jsonify(relationship.asdict()), 200
+        )
+    
+    def delete(self):
+        # contracts
+        try:
+            rs = quizMngDeleteContract(request)
+        except Exception as e:
+            return make_response(
+                jsonify (
+                    error = str(e),
+                ), 400
+            )
+
+        # operations
+        try:
+            rs = quizMngDeleteOperation(
+                rs['id']
+            )
+        except ErrorWithCode as e:
+            return make_response(
+                jsonify (
+                    error = e.message
+                ), e.status_code
+            )
+        
+        # success case
+        return make_response(
+            jsonify(
+                message = 'Successfully deleted question choice'
+            ), 200
+        )

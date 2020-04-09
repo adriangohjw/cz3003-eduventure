@@ -49,9 +49,6 @@ class Test_questionChoices_contracts(unittest.TestCase):
             validate_is_correct(1)
             validate_is_correct(1.1)
 
-        with self.assertRaises(ValueError):
-            validate_is_correct("")
-
 
     def test_questionChoiceReadContract(self):
 
@@ -81,7 +78,7 @@ class Test_questionChoices_contracts(unittest.TestCase):
             )
 
         with app.test_request_context('/?question_id=2&description=easy&is_correct=', method='POST'):
-            self.assertRaises(ValueError, questionChoiceCreateContract, request)
+            self.assertRaises(TypeError, questionChoiceCreateContract, request)
 
 
     def test_questionChoiceUpdateContract(self):
