@@ -26,8 +26,6 @@ def validate_description(description):
         raise ValueError("description is empty")
 
 def validate_is_correct(is_correct):
-    print(is_correct)
-    print(type(is_correct))
     # if no 'is_correct' found in params
     if (is_correct is None):
         raise TypeError("Request params is_correct is not found")
