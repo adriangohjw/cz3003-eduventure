@@ -47,7 +47,9 @@ class LessonAPI(Resource):
 
         # operations
         try:
-            lesson = lessonCreateOperation(l['topic_id'], l['name'], l['content'])
+            lesson = lessonCreateOperation(
+                l['topic_id'], l['name'], l['content'], l['url_link']
+            )
         except ErrorWithCode as e:
             return make_response(
                 jsonify (

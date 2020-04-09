@@ -28,7 +28,7 @@ class Test_lessons_operations(unittest.TestCase):
         db.create_all()
         topic = Topic(name='seng')
         db.session.add(topic)
-        l = initializeLesson(1,'lesson1','srs')
+        l = initializeLesson(1,'lesson1','srs', 'https://www.google.com')
         db.session.add(l)
         db.session.commit()
 
@@ -41,9 +41,9 @@ class Test_lessons_operations(unittest.TestCase):
 
     def test_lessonCreateOperation(self):
         with self.assertRaises(ErrorWithCode):
-            lessonCreateOperation(1,'lesson1','srs')
+            lessonCreateOperation(1,'lesson1','srs','https://www.google.com')
 
-        self.assertTrue(lessonCreateOperation(1,"lesson2","patterns"))
+        self.assertTrue(lessonCreateOperation(1,"lesson2","patterns",'https://www.google.com'))
 
     def test_lessonUpdateOperation(self):
         with self.assertRaises(ErrorWithCode):
