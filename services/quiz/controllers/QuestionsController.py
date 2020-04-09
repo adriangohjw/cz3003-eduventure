@@ -113,3 +113,25 @@ class QuestionAPI(Resource):
                 message = 'Successfully deleted question'
             ), 200
         )
+
+
+from ..operations.questions_operations import questionGetAllReadOperation
+
+class QuestionGetAllAPI(Resource):
+    def get(self):
+        # operations
+        try:
+            questions = questionGetAllReadOperation()
+        except ErrorWithCode as e:
+            return make_response(
+                jsonify (
+                    error = e.message
+                ), e.status_code
+            )
+        
+        # success case
+        return make_response(
+            jsonify (
+                questions = [q.asdict() for q in questions]
+            ), 200
+        )
