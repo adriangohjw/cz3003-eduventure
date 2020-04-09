@@ -13,7 +13,7 @@ db.init_app(app)
 
 import datetime
 from services.quiz.contracts.quizzes_contracts import \
-    validate_id, validate_col, validate_name, validate_date_end, validate_date_start, validate_is_fast, validate_staff_id, \
+    validate_id, validate_name, validate_date_end, validate_date_start, validate_is_fast, validate_staff_id, \
     quizCreateContract, quizDeleteContract, quizReadContract, quizUpdateContract
 
 
@@ -29,16 +29,6 @@ class Test_quizzes_contracts(unittest.TestCase):
         with self.assertRaises(TypeError):
             validate_id(None)
             validate_id("")
-
-
-    def test_validate_col(self):
-
-        with self.assertRaises(TypeError):
-            validate_col(None)
-            validate_col("duration")
-
-        with self.assertRaises(ValueError):
-            validate_col("")
 
 
     def test_validate_staff_id(self):
@@ -113,8 +103,8 @@ class Test_quizzes_contracts(unittest.TestCase):
                     'staff_id': 20,
                     'name': 'Joe',
                     'is_fast': True,
-                    'date_start': datetime.datetime(2020, 3, 24, 0, 0),
-                    'date_end': datetime.datetime(2020, 3, 25, 0, 0)
+                    'date_start': datetime.date(2020, 3, 24),
+                    'date_end': datetime.date(2020, 3, 25)
                 }
             )
 
@@ -127,20 +117,25 @@ class Test_quizzes_contracts(unittest.TestCase):
 
     def test_quizUpdateContract(self):
 
-        with app.test_request_context('/?id=3&col=name&value=Joe', method='PUT'):
+        with app.test_request_context('/?id=3&name=Joe&is_fast=true&date_start=2020-03-24&date_end=2020-03-25', method='PUT'):
             self.assertEqual(
                 quizUpdateContract(request),
                 {
                     'id': 3,
-                    'col': 'name',
-                    'value':'Joe'
+                    'name': 'Joe',
+                    'is_fast': True,
+                    'date_start': datetime.date(2020, 3, 24),
+                    'date_end': datetime.date(2020, 3, 25)
                 }
             )
 
-        with app.test_request_context('/?id=3&col=name&value=', method='PUT'):
+        with app.test_request_context('/?id=3', method='PUT'):
+            self.assertRaises(TypeError, quizUpdateContract, request)
+
+        with app.test_request_context('/?id=3&name=&is_fast=true&date_start=2020-03-24&date_end=2020-03-25', method='PUT'):
             self.assertRaises(ValueError, quizUpdateContract, request)
 
-        with app.test_request_context('/?id=3&col=notValid&value=Joe', method='PUT'):
+        with app.test_request_context('/?id=3&name=Joe&is_fast=true&date_start=2020-03-24&date_end=20200325', method='PUT'):
             self.assertRaises(ValueError, quizUpdateContract, request)
 
 

@@ -1,5 +1,6 @@
 from flask import request
 import datetime
+from dateutil.parser import parse
 
 def validate_id(id):
     # if no 'id' found in params
@@ -13,18 +14,6 @@ def validate_id(id):
     # check if type is integer
     if not isinstance(id, int):
         raise TypeError("Id is not an integer")
-
-def validate_col(col):
-    # if no 'col' found in params
-    if (col is None):
-        raise TypeError("Request params (col) not found")
-
-    # if field params is empty
-    if not col: 
-        raise ValueError("col is empty")
-
-    if col not in ('name', 'is_fast', 'date_start', 'date_end'):
-        raise ValueError("Invalid request in params (col)")
 
 def validate_staff_id(staff_id):
     # if no 'staff_id' found in params
@@ -117,34 +106,40 @@ def quizCreateContract(request):
         'staff_id': staff_id,
         'name': name,
         'is_fast': is_fast,
-        'date_start': datetime.datetime.strptime(date_start, '%Y-%m-%d'),
-        'date_end': datetime.datetime.strptime(date_end, '%Y-%m-%d')
+        'date_start': datetime.date(parse(date_start).year, parse(date_start).month, parse(date_start).day),
+        'date_end': datetime.date(parse(date_end).year, parse(date_end).month, parse(date_end).day),
     }
 
 def quizUpdateContract(request):
     id = request.args.get('id', type=int)
-    col = request.args.get('col')
-    value = request.args.get('value')
+    name = request.args.get('name')
+    is_fast = request.args.get('is_fast', type=bool)
+    date_start = request.args.get('date_start')
+    date_end = request.args.get('date_end')
 
     validate_id(id)
-    validate_col(col)
 
-    if col == 'name':
-        validate_name(value)
-    elif col == 'is_fast':
-        validate_is_fast(value)
-        value = True if value == 'True' else False
-    elif col == 'date_start':
-        validate_date_start(value)
-        value = datetime.datetime.strptime(value, '%Y-%m-%d')
-    elif col == 'date_end':
-        validate_date_end(value)
-        value = datetime.datetime.strptime(value, '%Y-%m-%d')
+    if (name is None) and (is_fast is None) and (date_start is None) and (date_end is None):
+        raise TypeError("no params being passed in")  
+
+    if (name is not None):
+        validate_name(name)
+    
+    if (is_fast is not None):
+        validate_is_fast(is_fast)
+
+    if (date_start is not None):
+        validate_date_start(date_start)
+
+    if (date_end is not None):
+        validate_date_end(date_end)
     
     return {
         'id': id,
-        'col': col,
-        'value': value
+        'name': name,
+        'is_fast': is_fast,
+        'date_start': datetime.date(parse(date_start).year, parse(date_start).month, parse(date_start).day),
+        'date_end': datetime.date(parse(date_end).year, parse(date_end).month, parse(date_end).day)
     }
 
 def quizDeleteContract(request):
