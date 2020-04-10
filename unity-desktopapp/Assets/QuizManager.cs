@@ -45,7 +45,6 @@ public static class QuizManager
             Debug.Log(webRequest.downloadHandler.text);
             data =  webRequest.downloadHandler.text;
             done = true;
-
         }
     }
 
