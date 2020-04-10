@@ -6,8 +6,8 @@ import unittest
 
 from services.core.contracts.tests.test_challenges_contracts import Test_challenge_contracts
 from services.core.contracts.tests.test_courses_contracts import Test_courses_contracts
-from services.core.contracts.tests.test_courses_contracts import Test_courses_contracts
 from services.core.contracts.tests.test_lessons_contracts import Test_lessons_contracts
+from services.core.contracts.tests.test_progresses_contracts import Test_progresses_contracts
 from services.core.contracts.tests.test_questionAttempts_contracts import Test_questionAttempts_contracts
 from services.core.contracts.tests.test_quizAttempts_contracts import Test_quizAttempts_contracts
 from services.core.contracts.tests.test_rs_lesson_quiz_contains_contracts import Test_rs_lesson_quiz_contains_contracts
