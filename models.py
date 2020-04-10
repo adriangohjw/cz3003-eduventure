@@ -219,6 +219,7 @@ class Quiz(db.Model):
     date_end = db.Column(db.Date, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
     attempts = db.relationship('QuizAttempt', backref='quiz')
+    challenges = db.relationship('Challenge', backref='quiz')
 
     def __init__(self, staff_id, name, is_fast, date_start, date_end):
         self.name = name
@@ -321,6 +322,33 @@ class QuizAttempt(db.Model):
             'student_id': self.student_id,
             'quiz_id': self.quiz_id,
             'score': self.score,
+            'created_at': self.created_at
+        }
+
+class Challenge(db.Model):
+    __tablename__ = 'challenges'
+    from_student_id = db.Column(db.Integer, db.ForeignKey('students.id'), primary_key=True)
+    to_student_id = db.Column(db.Integer, db.ForeignKey('students.id'), primary_key=True)
+    quiz_id = db.Column(db.Integer, db.ForeignKey('quizzes.id'), primary_key=True)
+    is_completed = db.Column(db.Boolean, default=False)
+    created_at = db.Column(db.DateTime, default=datetime.now)
+    __table_args__ = (
+        db.UniqueConstraint('from_student_id', 'to_student_id', 'quiz_id'),
+    )
+    from_person = db.relationship('Student', backref='challenge_received', foreign_keys=[from_student_id])
+    to_person = db.relationship('Student', backref='challenge_sent', foreign_keys=[to_student_id])
+
+    def __init__(self, from_student_id, to_student_id, quiz_id):
+        self.from_student_id = from_student_id
+        self.to_student_id = to_student_id
+        self.quiz_id = quiz_id
+
+    def asdict(self):
+        return {
+            'from_student_id': self.from_student_id,
+            'to_student_id': self.to_student_id,
+            'quiz_id': self.quiz_id,
+            'is_completed': self.is_completed,
             'created_at': self.created_at
         }
 
