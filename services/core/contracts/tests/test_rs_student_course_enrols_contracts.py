@@ -12,7 +12,7 @@ app.app_context().push()
 db.init_app(app)
 
 from services.core.contracts.rs_student_course_enrols_contracts import \
-    courseMngReadContract, courseMngCreateContract
+    courseMngReadContract, courseMngCreateContract, courseClasslistReadContract
 
 
 class Test_rs_student_course_enrols_contracts(unittest.TestCase):
@@ -58,6 +58,21 @@ class Test_rs_student_course_enrols_contracts(unittest.TestCase):
 
         with app.test_request_context('/?user_email=joegmail.com&course_index=cz3003', method='POST'):
             self.assertRaises(ValueError, courseMngCreateContract, request)
+
+    
+    def test_courseClasslistReadContract(self):
+
+        with app.test_request_context('/?course_index=cz3003', method='GET'):
+            self.assertEqual(
+                courseClasslistReadContract(request), 
+                {
+                    'course_index': 'cz3003' 
+                }
+            )
+
+        with app.test_request_context('/?course_index=', method='GET'):
+            self.assertRaises(ValueError, courseClasslistReadContract, request)
+
 
 
 if __name__ == '__main__':

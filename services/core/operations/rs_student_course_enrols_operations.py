@@ -45,3 +45,17 @@ def courseMngCreateOperation(user_email, course_index):
 
     # success case
     return rs
+
+
+from services.core.dao.RsStudentCourseEnrolDAO import rsCourseEnrolRead
+
+def courseClasslistReadOperation(course_index):
+
+    # course is not found
+    if courseRead(course_index) is None:
+        raise ErrorWithCode(404, "No course found")
+
+    rss = rsCourseEnrolRead(course_index)
+
+    # success case
+    return rss
