@@ -6,6 +6,7 @@ from flask_cors import CORS
 from services.core.dao.tests.test_ChallengesDAO import Test_ChallengesDAO
 from services.core.dao.tests.test_CoursesDAO import Test_CoursesDAO
 from services.core.dao.tests.test_LessonsDAO import Test_LessonsDAO
+from services.core.dao.tests.test_ProgressesDAO import Test_ProgressesDAO
 from services.core.dao.tests.test_QuestionAttemptsDAO import Test_QuestionAttemptsDAO
 from services.core.dao.tests.test_QuizAttemptsDAO import Test_QuizAttemptsDAO
 from services.core.dao.tests.test_RsLessonQuizContainDAO import Test_RsLessonQuizContainDAO
@@ -19,6 +20,7 @@ from services.core.dao.tests.test_UsersDao import Test_users_dao
 from services.core.contracts.tests.test_challenges_contracts import Test_challenge_contracts
 from services.core.contracts.tests.test_courses_contracts import Test_courses_contracts
 from services.core.contracts.tests.test_lessons_contracts import Test_lessons_contracts
+from services.core.contracts.tests.test_progresses_contracts import Test_progresses_contracts
 from services.core.contracts.tests.test_questionAttempts_contracts import Test_questionAttempts_contracts
 from services.core.contracts.tests.test_quizAttempts_contracts import Test_quizAttempts_contracts
 from services.core.contracts.tests.test_rs_lesson_quiz_contains_contracts import Test_rs_lesson_quiz_contains_contracts
@@ -32,6 +34,7 @@ from services.core.contracts.tests.test_users_contracts import Test_user_contrac
 from services.core.operations.tests.test_challenges_operations import Test_challenges_operations
 from services.core.operations.tests.test_courses_operations import Test_courses_operations
 from services.core.operations.tests.test_lessons_operations import Test_lessons_operations
+from services.core.operations.tests.test_progresses_operations import Test_progresses_operations
 from services.core.operations.tests.test_questionAttempts_operations import Test_questionAttempts_operations
 from services.core.operations.tests.test_quizAttempts_operations import Test_quizAttempts_operations
 from services.core.operations.tests.test_rs_lesson_quiz_contains_operations import Test_rs_lesson_quiz_contains_operations
