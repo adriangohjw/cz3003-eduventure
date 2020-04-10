@@ -7,6 +7,7 @@ import unittest
 from services.core.operations.tests.test_challenges_operations import Test_challenges_operations
 from services.core.operations.tests.test_courses_operations import Test_courses_operations
 from services.core.operations.tests.test_lessons_operations import Test_lessons_operations
+from services.core.operations.tests.test_progresses_operations import Test_progresses_operations
 from services.core.operations.tests.test_questionAttempts_operations import Test_questionAttempts_operations
 from services.core.operations.tests.test_quizAttempts_operations import Test_quizAttempts_operations
 from services.core.operations.tests.test_rs_lesson_quiz_contains_operations import Test_rs_lesson_quiz_contains_operations
