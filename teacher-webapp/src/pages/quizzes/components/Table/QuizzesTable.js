@@ -82,26 +82,6 @@ export default function QuizzesTable({
     data: quizzes,
   });
 
-  const retrieveQuestions = quiz_id => {
-    fetch(url + `quizzes/questions?quiz_id=${quiz_id}`, {
-      method: "GET",
-    })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          setState(state.isLoading, false);
-          throw new Error("No Questions Found for this Quiz");
-        }
-      })
-      .then(response => {
-        // setState(state.isLoading, false);
-        console.log("response.questions is", response.questions);
-        // setState(state.questions, response.questions);
-      })
-      .catch(error => console.log(error));
-  };
-
   return (
     <React.Fragment>
       <Paper className={classes.quizTable}>
@@ -135,15 +115,7 @@ export default function QuizzesTable({
 
               tooltip: "Questions",
               render: rowData => {
-                return (
-                  <QuestionsTable
-                    handleDelete={handleDelete}
-                    handleCreate={handleCreate}
-                    handleUpdate={handleUpdate}
-                    classes={classes}
-                    quizData={rowData}
-                  />
-                );
+                return <QuestionsTable classes={classes} quizData={rowData} />;
               },
             },
           ]}

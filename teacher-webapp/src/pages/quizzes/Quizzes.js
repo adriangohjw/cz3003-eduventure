@@ -99,49 +99,34 @@ export default function Quizzes() {
 
   const updateQuiz = newData => {
     setIsLoading(true);
-    var keys = [];
-    const uneditable_keys = [
-      "id",
-      "staff",
-      "attempts",
-      "average_score",
-      "lowest_score",
-      "highest_score",
-    ];
-    for (var key in newData) {
-      if (newData.hasOwnProperty(key) && !uneditable_keys.includes(key)) {
-        keys.push(key);
-      }
-    }
-    let quiz_id = newData["id"];
-    console.log("keys", keys);
-    // newData["is_fast"] = newData["is_fast"] ? "True" : "False";
-    Promise.all(
-      keys.map(key => {
-        let value = newData[key];
-        if (key == "date_start" || key == "date_end") {
-          value = formatDate(value);
+    console.log("newData", newData);
+
+    fetch(
+      url +
+        `quizzes/?id=${newData.id}&name=${newData.name}&is_fast=${
+          newData.is_fast
+        }&date_start=${formatDate(newData.date_start)}&date_end=${formatDate(
+          newData.date_end,
+        )}`,
+      {
+        method: "PUT",
+      },
+    )
+      .then(response => {
+        if (response.ok) {
+          response.json();
+        } else {
+          throw new Error("Server Error!");
         }
-        console.log(value);
-        fetch(url + `quizzes/?id=${quiz_id}&col=${key}&value=${value}`, {
-          method: "PUT",
-        })
-          .then(response => {
-            if (response.ok) {
-              response.json();
-            } else {
-              throw new Error("Server Error!");
-            }
-          })
-          .catch(error => {
-            console.error("Error:", error);
-            alert("something went wrong");
-          });
-      }),
-    ).then(() => {
-      retrieveQuizzes();
-      alert("Updated successfully");
-    });
+      })
+      .then(() => {
+        retrieveQuizzes();
+        alert("Updated successfully");
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        alert("something went wrong");
+      });
   };
 
   const createQuiz = newData => {

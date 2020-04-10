@@ -18,7 +18,7 @@ import useStyles from "./styles";
 // logo
 // import logo from "./logo.svg";
 import google from "../../images/google.svg";
-import cover from "../../images/cover.png";
+import cover from "../../images/cover.jpg";
 
 // context
 import { useUserDispatch, loginUser, signUp } from "../../context/UserContext";

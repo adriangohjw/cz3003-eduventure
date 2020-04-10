@@ -25,8 +25,8 @@ import {
   SaveAlt,
   Search,
   ViewColumn,
-  Inbox as InboxIcon,
-  Drafts as DraftsIcon,
+  CheckCircle as CheckCircleIcon,
+  Cancel as CancelIcon,
 } from "@material-ui/icons/";
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 import { Typography } from "../../../../components/Wrappers/Wrappers";
@@ -34,7 +34,7 @@ import { Typography } from "../../../../components/Wrappers/Wrappers";
 import MaterialTable from "material-table";
 
 import { url } from "../../../../context/UserContext";
-
+import QuestionsDropDown from "./QuestionsDropDown";
 // import { useTheme } from "@material-ui/styles";
 
 const tableIcons = {
@@ -58,16 +58,12 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 };
 
-export default function QuestionsTable({
-  quizData,
-  // questions,
-  handleDelete,
-  handleUpdate,
-  handleCreate,
-  classes,
-}) {
+export default function QuestionsTable({ quizData, classes }) {
   const [questions, setQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const handleOnChange = (event, value) => {
+    console.log(value);
+  };
   const [columns, setColumns] = useState([
     {
       title: "ID",
@@ -78,7 +74,8 @@ export default function QuestionsTable({
     {
       title: "Description",
       field: "question.description",
-      editable: "never",
+      editable: "onAdd",
+      editComponent: () => QuestionsDropDown(handleOnChange),
     },
     {
       title: "Topic",
@@ -115,6 +112,12 @@ export default function QuestionsTable({
     retrieveQuestions(quizData.id);
   }, []);
 
+  const handleNewQuestion = questionData => {
+    console.log(questionData);
+  };
+
+  const handleDeleteQuestion = question_id => {};
+
   return (
     <React.Fragment>
       {isLoading ? (
@@ -140,73 +143,49 @@ export default function QuestionsTable({
             data={questions}
             icons={tableIcons}
             editable={{
-              onRowAdd: newData =>
-                new Promise(resolve => {
-                  handleCreate(newData);
-                }),
-              onRowUpdate: (newData, oldData) =>
-                new Promise(resolve => {
-                  handleUpdate(newData);
-                }),
+              onRowAdd: newData => {
+                // new Promise(resolve => {
+                //   handleNewQuestion(newData);
+                // })
+              },
               onRowDelete: oldData =>
                 new Promise(resolve => {
-                  handleDelete(oldData["id"]);
+                  handleDeleteQuestion(oldData["id"]);
                 }),
             }}
             detailPanel={[
               {
                 icon: () => <QuestionAnswerIcon />,
-
                 tooltip: "Questions",
                 render: rowData => {
                   console.log(rowData);
+                  const choices = rowData.question.choices.map(function(
+                    choice,
+                  ) {
+                    return (
+                      <>
+                        <ListItem key={choice.id}>
+                          <ListItemIcon>
+                            {choice.is_correct ? (
+                              <CheckCircleIcon />
+                            ) : (
+                              <CancelIcon />
+                            )}
+                          </ListItemIcon>
+                          <ListItemText
+                            primary={choice.description}
+                            key={choice.id}
+                          />
+                        </ListItem>
+                        <Divider />
+                      </>
+                    );
+                  });
                   return (
                     <React.Fragment>
                       <Divider />
                       <List component="nav" aria-label="main mailbox folders">
-                        <ListItem>
-                          <ListItemIcon>
-                            <InboxIcon />
-                          </ListItemIcon>
-                          <ListItemText
-                            primary={rowData.question.choices[0].description}
-                          />
-                        </ListItem>
-                        <Divider />
-                        <ListItem>
-                          <ListItemIcon>
-                            <DraftsIcon />
-                          </ListItemIcon>
-                          <ListItemText
-                            primary={rowData.question.choices[0].description}
-                          />
-                        </ListItem>
-                        <Divider />
-
-                        {/* {quizData.is_fast ? (
-                          <></>
-                        ) : (
-                          <React.Fragment>
-                            <ListItem>
-                              <ListItemIcon>
-                                <DraftsIcon />
-                              </ListItemIcon>
-                              <ListItemText
-                                primary={rowData.choices[0].description}
-                              />
-                            </ListItem>
-                            <Divider />
-                            <ListItem>
-                              <ListItemIcon>
-                                <DraftsIcon />
-                              </ListItemIcon>
-                              <ListItemText
-                                primary={rowData.choices[1].description}
-                              />
-                            </ListItem>
-                            <Divider />
-                          </React.Fragment>
-                        )} */}
+                        {choices}
                       </List>
                     </React.Fragment>
                   );
