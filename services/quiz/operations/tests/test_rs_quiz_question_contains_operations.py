@@ -1,26 +1,29 @@
 import sys
 from os import path, getcwd
-
 sys.path.append(getcwd())
 
 import unittest
 
-from services.quiz.operations.rs_quiz_question_contains_operations import initializeRsQuizQuestionContain,questionMngCreateOperation,questionMngReadOperation
 from exceptions import ErrorWithCode
 
-from models import db, User,Staff,Quiz,Course,Topic,Lesson,Question
+from models import db
 from run_test import create_app
-from services.core.operations.users_operations import encrypt
-
 app = create_app()
 app.app_context().push()
 db.init_app(app)
 
+from models import User, Staff, Quiz, Course, Topic, Lesson, Question, Rs_quiz_question_contain
+from services.core.operations.users_operations import encrypt
+from services.quiz.operations.rs_quiz_question_contains_operations import \
+    initializeRsQuizQuestionContain, questionMngCreateOperation, questionMngReadOperation, rsQuizQuestionContainDelete
+
 
 class Test_rs_quiz_question_contains_operations(unittest.TestCase):
+
     @classmethod
     def setUpClass(cls):
         print("\n\n{}: starting test...".format(path.basename(__file__)))
+
 
     def setUp(self):
         db.session.remove()
@@ -48,7 +51,9 @@ class Test_rs_quiz_question_contains_operations(unittest.TestCase):
         db.session.add(rs)
         db.session.commit()
 
+
     def test_questionMngCreateOperation(self):
+
         with self.assertRaises(ErrorWithCode):
             questionMngCreateOperation(1,2)
             questionMngCreateOperation(2, 1)
@@ -72,11 +77,23 @@ class Test_rs_quiz_question_contains_operations(unittest.TestCase):
         self.assertIsNotNone(questionMngCreateOperation(2, 1))#2 quizes have the same questions
         self.assertIsNotNone(questionMngCreateOperation(1,2))#one quiz to diff questions
 
+
     def test_questionMngReadOperation(self):
+
         with self.assertRaises(ErrorWithCode):
             questionMngReadOperation(2)
 
         self.assertIsNotNone( questionMngReadOperation(1))
+
+
+    def test_questionMngDeleteOperation(self):
+
+        self.assertIsNotNone(Rs_quiz_question_contain.query.filter_by(quiz_id=1).filter_by(question_id=1).first())
+
+        rsQuizQuestionContainDelete(1, 1)
+
+        self.assertIsNone(Rs_quiz_question_contain.query.filter_by(quiz_id=1).filter_by(question_id=1).first())
+    
 
 if __name__ == '__main__':
     unittest.main()

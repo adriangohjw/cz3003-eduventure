@@ -12,7 +12,7 @@ app.app_context().push()
 db.init_app(app)
 
 from services.quiz.contracts.rs_quiz_question_contains_contracts import \
-    questionMngCreateContract, questionMngReadContract
+    questionMngCreateContract, questionMngReadContract, questionMngDeleteContract
 
 
 class Test_rs_quiz_question_contains_contracts(unittest.TestCase):
@@ -41,6 +41,21 @@ class Test_rs_quiz_question_contains_contracts(unittest.TestCase):
         with app.test_request_context('/?quiz_id=3&question_id=20', method='POST'):
             self.assertEqual(
                 questionMngCreateContract(request),
+                {
+                    'quiz_id': 3,
+                    'question_id': 20
+                }
+            )
+
+        with app.test_request_context('/?quiz_id=3&question_id=', method='POST'):
+            self.assertRaises(TypeError, questionMngCreateContract, request)
+
+
+    def test_questionMngDeleteContract(self):
+
+        with app.test_request_context('/?quiz_id=3&question_id=20', method='POST'):
+            self.assertEqual(
+                questionMngDeleteContract(request),
                 {
                     'quiz_id': 3,
                     'question_id': 20

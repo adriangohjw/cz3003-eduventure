@@ -1,21 +1,23 @@
 import sys
 from os import path, getcwd
-
 sys.path.append(getcwd())
 
 import unittest
 
-from models import db, User, Staff, Course,Rs_quiz_question_contain, Quiz,Topic,Lesson,Question
+from models import db
 from run_test import create_app
-from services.core.operations.users_operations import encrypt
 app = create_app()
 app.app_context().push()
 db.init_app(app)
 
-from services.quiz.dao.RsQuizQuestionContainDAO import rsQuizQuestionContainCreate,rsQuizQuestionContainRead
+from models import User, Staff, Course,Rs_quiz_question_contain, Quiz,Topic,Lesson,Question
+from services.core.operations.users_operations import encrypt
+from services.quiz.dao.RsQuizQuestionContainDAO import \
+    rsQuizQuestionContainCreate,rsQuizQuestionContainRead, rsQuizQuestionContainDelete
 
 
 class Test_RsQuizQuestionContainDAO(unittest.TestCase):
+
     @classmethod
     def setUpClass(cls):
         print("\n\n{}: starting test...".format(path.basename(__file__)))
@@ -49,7 +51,9 @@ class Test_RsQuizQuestionContainDAO(unittest.TestCase):
         db.session.add(qn)
         db.session.commit()
 
+
     def test_rsQuizQuestionContainCreate(self):
+
         rs = Rs_quiz_question_contain(1,1)
         rsQuizQuestionContainCreate(rs)
         rs_list = Rs_quiz_question_contain.query.all()
@@ -57,13 +61,28 @@ class Test_RsQuizQuestionContainDAO(unittest.TestCase):
         self.assertEqual(1, len(rs_list))
         self.assertEqual(rs_list[0].quiz_id, 1)
 
+
     def test_rsQuizQuestionContainRead(self):
+
         rs = Rs_quiz_question_contain(1, 1)
 
         db.session.add(rs)
         db.session.commit()
         self.assertTrue(rsQuizQuestionContainRead(1,1))
 
+
+    def test_rsQuizQuestionContainDelete(self):
+
+        rs = Rs_quiz_question_contain(1, 1)
+        db.session.add(rs)
+        db.session.commit()
+
+        self.assertIsNotNone(Rs_quiz_question_contain.query.filter_by(quiz_id=1).filter_by(question_id=1).first())
+
+        rsQuizQuestionContainDelete(1, 1)
+
+        self.assertIsNone(Rs_quiz_question_contain.query.filter_by(quiz_id=1).filter_by(question_id=1).first())
+        
 
 if __name__ == '__main__':
     unittest.main()
