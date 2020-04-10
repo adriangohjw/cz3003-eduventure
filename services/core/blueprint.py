@@ -24,6 +24,7 @@ api_student.add_resource(StudentsController.CourseManagerAPI, '/courses')
 course_bp = Blueprint('course', __name__)
 api_course = Api(course_bp)
 api_course.add_resource(CoursesController.CourseAPI, '/')
+api_course.add_resource(CoursesController.CourseClasslistAPI, '/students/all')
 
 topic_bp = Blueprint('topic', __name__)
 api_topic = Api(topic_bp)
