@@ -4,6 +4,7 @@ sys.path.append(getcwd())
 
 import unittest 
 
+from services.core.dao.tests.test_ChallengesDAO import Test_ChallengesDAO
 from services.core.dao.tests.test_UsersDao import Test_users_dao
 from services.core.dao.tests.test_CoursesDAO import Test_CoursesDAO
 from services.core.dao.tests.test_LessonsDAO import Test_LessonsDAO

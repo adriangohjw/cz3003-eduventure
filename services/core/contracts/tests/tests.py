@@ -4,6 +4,7 @@ sys.path.append(getcwd())
 
 import unittest 
 
+from services.core.contracts.tests.test_challenges_contracts import Test_challenge_contracts
 from services.core.contracts.tests.test_courses_contracts import Test_courses_contracts
 from services.core.contracts.tests.test_courses_contracts import Test_courses_contracts
 from services.core.contracts.tests.test_lessons_contracts import Test_lessons_contracts

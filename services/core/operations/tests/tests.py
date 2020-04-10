@@ -4,6 +4,7 @@ sys.path.append(getcwd())
 
 import unittest 
 
+from services.core.operations.tests.test_challenges_operations import Test_challenges_operations
 from services.core.operations.tests.test_courses_operations import Test_courses_operations
 from services.core.operations.tests.test_lessons_operations import Test_lessons_operations
 from services.core.operations.tests.test_questionAttempts_operations import Test_questionAttempts_operations
