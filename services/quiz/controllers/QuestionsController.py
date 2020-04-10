@@ -130,8 +130,17 @@ class QuestionGetAllAPI(Resource):
             )
         
         # success case
+        questions_list = []
+        for q in questions:
+            q_topic_name = q.lesson.topic.name
+            q_lesson_name = q.lesson.name
+            q = q.asdict()
+            q['topic_name'] = q_topic_name
+            q['lesson_name'] = q_lesson_name
+            questions_list.append(q)
+            
         return make_response(
             jsonify (
-                questions = [q.asdict() for q in questions]
+                questions = questions_list
             ), 200
         )
