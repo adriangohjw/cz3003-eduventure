@@ -130,7 +130,7 @@ class Lesson(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.now)
     questions = db.relationship('Question', backref='lesson')
 
-    def __init__(self, topic_id, id, name, content, url_link):
+    def __init__(self, topic_id, id, name, content, url_link=None):
         self.topic_id = topic_id
         self.id = id
         self.name = name
