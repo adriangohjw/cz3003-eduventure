@@ -23,3 +23,16 @@ def questionMngCreateContract(request):
         'quiz_id': quiz_id,
         'question_id': question_id
     }
+
+
+def questionMngDeleteContract(request):
+    quiz_id = request.args.get('quiz_id', type=int)
+    question_id = request.args.get('question_id', type=int)
+
+    validate_quiz_id(quiz_id)
+    validate_question_id(question_id)
+
+    return {
+        'quiz_id': quiz_id,
+        'question_id': question_id
+    }
