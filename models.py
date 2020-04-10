@@ -464,6 +464,9 @@ class Rs_lesson_quiz_contain(db.Model):
             [Quiz.id]
         ),
     )
+    __table_args__ = (
+        db.UniqueConstraint('topic_id', 'lesson_id', 'quiz_id'),
+    )
     created_at = db.Column(db.DateTime, default=datetime.now)
     quiz = db.relationship('Quiz', backref=db.backref('lessons', cascade="all, delete-orphan"))
     lesson = db.relationship('Lesson', backref=db.backref('quizzes', cascade="all, delete-orphan"))
