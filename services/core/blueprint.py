@@ -4,7 +4,8 @@ from flask_restful import Api
 from services.core.controllers import \
     UsersController, StaffsController, StudentsController, \
     CoursesController, TopicsController, LessonsController, \
-    QuestionAttemptsController, QuizAttemptsController, ChallengesController
+    QuestionAttemptsController, QuizAttemptsController, ChallengesController, \
+    ProgressesController
 
 user_bp = Blueprint('user', __name__)
 api_user = Api(user_bp)
@@ -50,3 +51,7 @@ api_quizAttempt.add_resource(QuizAttemptsController.QuizAttemptLeaderboardAPI, '
 challenge_bp = Blueprint('challenge', __name__)
 api_challenges = Api(challenge_bp)
 api_challenges.add_resource(ChallengesController.ChallengeAPI, '/')
+
+progress_bp = Blueprint('progress', __name__)
+api_progress = Api(progress_bp)
+api_progress.add_resource(ProgressesController.ProgressAPI, '/')
