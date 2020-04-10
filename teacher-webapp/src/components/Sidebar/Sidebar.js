@@ -7,6 +7,7 @@ import {
   People as PeopleIcon,
   Settings as SettingsIcon,
   MenuBook as MenuBookIcon,
+  AccountBalance as AccountBalanceIcon,
 } from "@material-ui/icons";
 import { useTheme } from "@material-ui/styles";
 import { withRouter } from "react-router-dom";
@@ -39,15 +40,20 @@ const structure = [
     link: "/app/quizzes",
     icon: <ClassIcon />,
   },
-
   {
     id: 3,
+    label: "Question Bank",
+    link: "/app/questionbank",
+    icon: <AccountBalanceIcon />,
+  },
+  {
+    id: 4,
     label: "Syllabus",
     link: "/app/syllabus",
     icon: <MenuBookIcon />,
   },
   {
-    id: 4,
+    id: 5,
     label: "Settings",
     link: "/app/settings",
     icon: <SettingsIcon />,

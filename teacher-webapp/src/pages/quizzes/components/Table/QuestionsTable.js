@@ -61,9 +61,7 @@ const tableIcons = {
 export default function QuestionsTable({ quizData, classes }) {
   const [questions, setQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const handleOnChange = (event, value) => {
-    console.log(value);
-  };
+  const handleOnChange = (event, value) => {};
   const [columns, setColumns] = useState([
     {
       title: "ID",
@@ -112,10 +110,6 @@ export default function QuestionsTable({ quizData, classes }) {
     retrieveQuestions(quizData.id);
   }, []);
 
-  const handleNewQuestion = questionData => {
-    console.log(questionData);
-  };
-
   const handleDeleteQuestion = question_id => {};
 
   return (
@@ -158,7 +152,6 @@ export default function QuestionsTable({ quizData, classes }) {
                 icon: () => <QuestionAnswerIcon />,
                 tooltip: "Questions",
                 render: rowData => {
-                  console.log(rowData);
                   const choices = rowData.question.choices.map(function(
                     choice,
                   ) {
@@ -167,14 +160,17 @@ export default function QuestionsTable({ quizData, classes }) {
                         <ListItem key={choice.id}>
                           <ListItemIcon>
                             {choice.is_correct ? (
-                              <CheckCircleIcon />
+                              <CheckCircleIcon key={choice.id} />
                             ) : (
-                              <CancelIcon />
+                              <CancelIcon key={choice.id} />
                             )}
                           </ListItemIcon>
                           <ListItemText
                             primary={choice.description}
                             key={choice.id}
+                            style={{
+                              color: choice.is_correct ? "green" : "red",
+                            }}
                           />
                         </ListItem>
                         <Divider />
@@ -184,9 +180,7 @@ export default function QuestionsTable({ quizData, classes }) {
                   return (
                     <React.Fragment>
                       <Divider />
-                      <List component="nav" aria-label="main mailbox folders">
-                        {choices}
-                      </List>
+                      <List component="nav">{choices}</List>
                     </React.Fragment>
                   );
                 },
