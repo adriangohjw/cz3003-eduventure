@@ -268,10 +268,10 @@ class CourseManagerAPI(Resource):
     
 
 from ..contracts.rs_quiz_question_contains_contracts import \
-    questionMngReadContract, questionMngCreateContract
+    questionMngReadContract, questionMngCreateContract, questionMngDeleteContract
 
 from ..operations.rs_quiz_question_contains_operations import \
-    questionMngReadOperation, questionMngCreateOperation
+    questionMngReadOperation, questionMngCreateOperation, questionMngDeleteOperation
 
 class QuestionManagerAPI(Resource):
     def get(self):
@@ -326,4 +326,34 @@ class QuestionManagerAPI(Resource):
         # success case
         return make_response(
             jsonify(rs.asdict()), 200
+        )
+
+    def delete(self):
+        # contracts
+        try:
+            r = questionMngDeleteContract(request)
+        except Exception as e:
+            return make_response(
+                jsonify (
+                    error = str(e),
+                ), 400
+            )
+
+        # operations
+        try:
+            rs = questionMngDeleteOperation(
+                r['quiz_id'], r['question_id']
+            )
+        except ErrorWithCode as e:
+            return make_response(
+                jsonify (
+                    error = e.message
+                ), e.status_code
+            )
+        
+        # success case
+        return make_response(
+            jsonify(
+                message = 'Successfully deleted quiz'
+            ), 200
         )
