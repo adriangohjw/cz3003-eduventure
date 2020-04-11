@@ -61,7 +61,8 @@ const tableIcons = {
 export default function QuestionsTable({ quizData, classes }) {
   const [questions, setQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const handleOnChange = (event, value) => {};
+  const [selectedQuestion, setSelectedQuestion] = useState();
+
   const [columns, setColumns] = useState([
     {
       title: "ID",
@@ -73,7 +74,7 @@ export default function QuestionsTable({ quizData, classes }) {
       title: "Description",
       field: "question.description",
       editable: "onAdd",
-      editComponent: () => QuestionsDropDown(handleOnChange),
+      editComponent: () => QuestionsDropDown(handleNewQuestion),
     },
     {
       title: "Topic",
@@ -112,6 +113,31 @@ export default function QuestionsTable({ quizData, classes }) {
 
   const handleDeleteQuestion = question_id => {};
 
+  const handleNewQuestion = (event, value) => {
+    console.log("event is", event);
+    console.log("value is", value);
+    //   fetch(
+    //     url +
+    //       `quizzes/questions?quiz_id=${quizData.id}&question_id=${newData.id}`,
+    //     {
+    //       method: "GET",
+    //     },
+    //   )
+    //     .then(res => {
+    //       if (res.ok) {
+    //         return res.json();
+    //       } else {
+    //         setIsLoading(false);
+    //         throw new Error("No Questions Found for this Quiz");
+    //       }
+    //     })
+    //     .then(response => {
+    //       setQuestions(response.questions);
+    //       setIsLoading(false);
+    //     })
+    //     .catch(error => console.log(error));
+  };
+
   return (
     <React.Fragment>
       {isLoading ? (
@@ -139,8 +165,8 @@ export default function QuestionsTable({ quizData, classes }) {
             editable={{
               onRowAdd: newData => {
                 // new Promise(resolve => {
-                //   handleNewQuestion(newData);
-                // })
+                // handleNewQuestion(newData);
+                // });
               },
               onRowDelete: oldData =>
                 new Promise(resolve => {
@@ -150,7 +176,7 @@ export default function QuestionsTable({ quizData, classes }) {
             detailPanel={[
               {
                 icon: () => <QuestionAnswerIcon />,
-                tooltip: "Questions",
+                tooltip: "Choices",
                 render: rowData => {
                   const choices = rowData.question.choices.map(function(
                     choice,
