@@ -15,7 +15,7 @@ from models import \
     Rs_lesson_quiz_contain, Rs_quiz_course_assign, Rs_quiz_question_contain, Rs_student_course_enrol
 from services.core.operations.users_operations import encrypt
 from services.core.dao.StatisticsDAO import \
-    statRead, lessonCompletedRead
+    statRead, lessonCompletedRead, leaderboardRead
 
 
 class Test_StatisticsDAO(unittest.TestCase):
@@ -142,7 +142,7 @@ class Test_StatisticsDAO(unittest.TestCase):
         )
 
     
-    def test_lessonCompletedDAO(self):
+    def test_lessonCompletedRead(self):
 
         self.assertEqual(
             lessonCompletedRead(),
@@ -153,6 +153,18 @@ class Test_StatisticsDAO(unittest.TestCase):
                 (1, 'topic_1', 3, 'lesson_3', 3, 'quiz_3', 'cz1005', 1, 3, 3), 
                 (1, 'topic_1', 3, 'lesson_3', 3, 'quiz_3', 'cz1005', 2, 2, 3), 
                 (2, 'topic_2', 1, 'lesson_4', None, None, None, None, None, 0)
+            ]
+        )
+
+    
+    def test_leaderboardRead(self):
+
+        self.assertEqual(
+            leaderboardRead(),
+            [
+                (1, 'student_1', 'U00000000A', 1, 0),
+                (1, 'student_1', 'U00000000A', 3, 3), 
+                (2, 'student_2', 'U00000000B', 3, 2)
             ]
         )
 

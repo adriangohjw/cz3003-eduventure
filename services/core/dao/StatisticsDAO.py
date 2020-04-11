@@ -1,8 +1,8 @@
-from sqlalchemy import asc, case
+from sqlalchemy import asc, desc, case
 from sqlalchemy.sql.functions import count, max
 
 from models import \
-    db, Topic, Lesson, Question, Quiz, \
+    db, Topic, Lesson, Question, Quiz, Student, \
     Rs_lesson_quiz_contain, QuizAttempt, Rs_quiz_course_assign, Rs_quiz_question_contain, Rs_student_course_enrol
 
 
@@ -85,4 +85,25 @@ def lessonCompletedRead():
             asc(sq_attempts.c.student_id)
         )
         
+    return query_results.all()
+
+
+def leaderboardRead():
+
+    query_results = \
+        db.session.query(
+            QuizAttempt.student_id.label('student_id'),
+            Student.name.label('student_name'),
+            Student.matriculation_number.label('student_matriculation_num'),
+            QuizAttempt.quiz_id.label('quiz_id'),
+            QuizAttempt.score.label('score')
+        )\
+        .select_from(QuizAttempt)\
+        .outerjoin(Student, QuizAttempt.student_id == Student.id)\
+        .order_by(
+            asc(QuizAttempt.student_id),
+            asc(QuizAttempt.quiz_id),
+            desc(QuizAttempt.created_at)
+        )
+    
     return query_results.all()
