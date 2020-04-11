@@ -107,3 +107,25 @@ def leaderboardRead():
         )
     
     return query_results.all()
+
+
+def studentScoreRead():
+
+    query_results = \
+        db.session.query(
+            QuizAttempt.student_id.label('student_id'),
+            Student.name.label('student_name'),
+            QuizAttempt.quiz_id.label('quiz_id'),
+            Quiz.name.label('quiz_name'),
+            QuizAttempt.score.label('score')
+        )\
+        .select_from(QuizAttempt)\
+        .outerjoin(Student, QuizAttempt.student_id == Student.id)\
+        .outerjoin(Quiz, QuizAttempt.quiz_id == Quiz.id)\
+        .order_by(
+            asc(QuizAttempt.student_id),
+            asc(QuizAttempt.quiz_id),
+            desc(QuizAttempt.created_at)
+        )
+    
+    return query_results.all()
