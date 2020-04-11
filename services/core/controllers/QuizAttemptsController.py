@@ -7,7 +7,7 @@ from ..contracts.quizAttempts_contracts import \
     quizAttemptListReadContract, quizAttemptCreateContract
 
 from ..operations.quizAttempts_operations import \
-    quizAttemptListReadOperation, quizAttemptCreateOperation, quizAttemptLeaderboardOperation
+    quizAttemptListReadOperation, quizAttemptCreateOperation
 
 from exceptions import ErrorWithCode
 
@@ -70,38 +70,4 @@ class QuizAttemptAPI(Resource):
         return make_response(
             jsonify(quizAttempt.asdict()), 200
         )
-        
-
-class QuizAttemptLeaderboardAPI(Resource):
-
-    def get(self):
-
-        # operations
-        try:
-            quizAttemptLeaderboard = quizAttemptLeaderboardOperation()
-        except ErrorWithCode as e:
-            return make_response(
-                jsonify (
-                    error = e.message
-                ), e.status_code
-            )
-        
-        # success case
-        record_list = []
-        for record_result in quizAttemptLeaderboard:
-            record = record_result._asdict()
-            record_list.append(
-                {
-                'id': record['student_id'],
-                'name': record['student_name'],
-                'email': record['student_email'],
-                'score': record['total_score']
-                }
-            )
-                    
-        return make_response(
-            jsonify (
-                students = record_list
-            ), 200
-        )
-        
+                

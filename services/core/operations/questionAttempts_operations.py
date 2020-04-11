@@ -1,7 +1,7 @@
 from models import QuestionAttempt
 
 from ..dao.QuestionAttemptsDAO import \
-    questionAttemptListRead, questionAttemptCreate, questionAttemptLeaderboardRead
+    questionAttemptListRead, questionAttemptCreate
 
 from ..dao.StudentsDAO import studentRead
 from ...quiz.dao.QuestionsDAO import questionRead
@@ -46,12 +46,3 @@ def questionAttemptCreateOperation(student_id, question_id, is_correct, duration
 
     # success case
     return questionAttempt
-
-
-def questionAttemptLeaderboardOperation():
-
-    questionAttemptLeaderboard = questionAttemptLeaderboardRead()
-
-    # success case
-    return questionAttemptLeaderboard
-    
