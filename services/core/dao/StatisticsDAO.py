@@ -1,4 +1,4 @@
-from sqlalchemy import asc, desc, case
+from sqlalchemy import asc, desc, cast, Float, func, Numeric
 from sqlalchemy.sql.functions import count, max
 
 from models import \
@@ -128,4 +128,38 @@ def studentScoreRead():
             desc(QuizAttempt.created_at)
         )
     
+    return query_results.all()
+
+
+def courseScoreRead():
+
+    relationships = Rs_lesson_quiz_contain.query.all()
+    quiz_list = [item.quiz_id for item in relationships]
+    quiz_list = list(set(quiz_list))
+
+    query_results = \
+        db.session.query(
+            Rs_student_course_enrol.course_index.label('course_index'),
+            QuizAttempt.student_id.label('student_id'),
+            QuizAttempt.quiz_id.label('quiz_id'),
+            func.round(
+                cast(100 * cast(QuizAttempt.score, Float) / cast(count(Question.id), Float), Numeric), 
+                0
+            ).label('quiz_score_percentage')
+        )\
+        .select_from(QuizAttempt)\
+        .outerjoin(Rs_student_course_enrol, QuizAttempt.student_id == Rs_student_course_enrol.student_id)\
+        .outerjoin(Rs_quiz_question_contain, QuizAttempt.quiz_id == Rs_quiz_question_contain.quiz_id)\
+        .outerjoin(Question, Rs_quiz_question_contain.question_id == Question.id)\
+        .filter(QuizAttempt.quiz_id.in_(quiz_list))\
+        .group_by(
+            Rs_student_course_enrol.course_index,
+            QuizAttempt.student_id, 
+            QuizAttempt.quiz_id,
+            QuizAttempt.score
+        )\
+        .order_by(
+            asc(QuizAttempt.student_id)
+        )
+        
     return query_results.all()
