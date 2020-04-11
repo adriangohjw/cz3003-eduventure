@@ -14,6 +14,7 @@ from services.core.operations.tests.test_rs_lesson_quiz_contains_operations impo
 from services.core.operations.tests.test_rs_staff_course_teaches_operations import Test_rs_staff_course_teaches_operations
 from services.core.operations.tests.test_rs_student_course_enrols_operations import Test_rs_student_course_enrols_operations
 from services.core.operations.tests.test_staffs_operations import Test_staffs_operations
+from services.core.operations.tests.test_statistics_operations import Test_statistics_operations
 from services.core.operations.tests.test_student_operations import Test_students_operations
 from services.core.operations.tests.test_topics_operations import Test_topics_operations
 from services.core.operations.tests.test_users_operations import Test_users_operations
