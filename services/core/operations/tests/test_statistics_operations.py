@@ -17,7 +17,7 @@ from models import \
     Rs_lesson_quiz_contain, Rs_quiz_course_assign, Rs_quiz_question_contain, Rs_student_course_enrol
 from services.core.operations.users_operations import encrypt
 from services.core.operations.statistics_operations import \
-    statReadOperation, lessonCompletedReadOperation, leaderboardReadOperation
+    statReadOperation, lessonCompletedReadOperation, leaderboardReadOperation, studentScoreReadOperation
 
 
 class Test_statistics_operations(unittest.TestCase):
@@ -257,7 +257,69 @@ class Test_statistics_operations(unittest.TestCase):
                 ]
             }
         )
+
+    
+    def test_studentScoreReadOperation(self):
+
+        self.assertEqual(
+            studentScoreReadOperation(None),
+            {
+                "students": [
+                    {
+                    "id": 1,
+                    "name": "student_1",
+                    "quizzes": [
+                        {
+                        "id": 1,
+                        "name": "quiz_1",
+                        "score": 0
+                        },
+                        {
+                        "id": 3,
+                        "name": "quiz_3",
+                        "score": 3
+                        }
+                    ]
+                    },
+                    {
+                    "id": 2,
+                    "name": "student_2",
+                    "quizzes": [
+                        {
+                        "id": 3,
+                        "name": "quiz_3",
+                        "score": 2
+                        }
+                    ]
+                    }
+                ]
+            }
+        )
+
+        self.assertEqual(
+            studentScoreReadOperation(1),
+            {
+                "students": [
+                    {
+                    "id": 1,
+                    "name": "student_1",
+                    "quizzes": [
+                        {
+                        "id": 1,
+                        "name": "quiz_1",
+                        "score": 0
+                        },
+                        {
+                        "id": 3,
+                        "name": "quiz_3",
+                        "score": 3
+                        }
+                    ]
+                    }
+                ]
+            }
+        )
         
-        
+
 if __name__ == '__main__':
     unittest.main()

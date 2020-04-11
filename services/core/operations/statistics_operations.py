@@ -5,7 +5,7 @@ import numpy as np
 from operator import itemgetter
 
 from services.core.dao.StatisticsDAO import \
-    statRead, lessonCompletedRead, leaderboardRead
+    statRead, lessonCompletedRead, leaderboardRead, studentScoreRead
 
 
 def statReadOperation():
@@ -230,3 +230,72 @@ def leaderboardReadOperation():
     }
 
     return stat_dict
+
+
+def studentScoreReadOperation(student_id):
+
+    raw_stats = studentScoreRead()
+
+    stat_dict = {}
+    stat_dict['students'] = []
+
+    # add students to end results
+    student_list = []
+    for item in raw_stats:
+        i_dict = item._asdict()
+        if i_dict['student_id'] not in student_list:
+            student_list.append(i_dict['student_id'])
+            stat_dict['students'].append(
+                {
+                    'id': i_dict['student_id'],
+                    'name': i_dict['student_name'],
+                    'quizzes_temp': []
+                }
+            )
+
+    # add quizzes to students
+    for item in raw_stats:
+        i_dict = item._asdict()
+        for student in stat_dict['students']:
+            if (i_dict['student_id'] == student['id']):
+                    student['quizzes_temp'].append(
+                        {
+                            'id': i_dict['quiz_id'],
+                            'name': i_dict['quiz_name'],
+                            'score': 0,
+                            'score_history': []
+                        }
+                    )
+    for student in stat_dict['students']:
+        student['quizzes'] = []
+        for x in student['quizzes_temp']:
+            if x not in student['quizzes']:
+                student['quizzes'].append(x)
+        del student['quizzes_temp']
+
+    # add score history to quizzes for each student
+    for item in raw_stats:
+        i_dict = item._asdict()
+        for student in stat_dict['students']:
+            if (i_dict['student_id'] == student['id']):
+                for quiz in student['quizzes']:
+                    if (i_dict['quiz_id'] == quiz['id']) and (len(quiz['score_history']) < 3):
+                        quiz['score_history'].append(i_dict['score'])
+    
+    # find average score for quiz for each student
+    # delete score history for each quiz
+    for student in stat_dict['students']:
+        for quiz in student['quizzes']:
+            try:
+                quiz['score'] = round(statistics.mean(quiz['score_history']), 0)
+            except statistics.StatisticsError:
+                pass
+            del quiz['score_history']
+
+    # return different results based on inputs
+    if student_id is None:
+        return stat_dict
+    else:
+        return {
+            'students': [i for i in stat_dict['students'] if i['id'] == student_id] 
+        }
