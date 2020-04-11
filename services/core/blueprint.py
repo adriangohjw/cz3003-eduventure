@@ -5,7 +5,7 @@ from services.core.controllers import \
     UsersController, StaffsController, StudentsController, \
     CoursesController, TopicsController, LessonsController, \
     QuestionAttemptsController, QuizAttemptsController, ChallengesController, \
-    ProgressesController
+    ProgressesController, StatisticsController
 
 user_bp = Blueprint('user', __name__)
 api_user = Api(user_bp)
@@ -55,3 +55,7 @@ api_challenges.add_resource(ChallengesController.ChallengeAPI, '/')
 progress_bp = Blueprint('progress', __name__)
 api_progress = Api(progress_bp)
 api_progress.add_resource(ProgressesController.ProgressAPI, '/')
+
+statistics_bp = Blueprint('statistics', __name__)
+api_statistics = Api(statistics_bp)
+api_statistics.add_resource(StatisticsController.Stats_API, '/stat')
