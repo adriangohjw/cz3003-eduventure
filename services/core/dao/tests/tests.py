@@ -14,6 +14,7 @@ from services.core.dao.tests.test_RsLessonQuizContainDAO import Test_RsLessonQui
 from services.core.dao.tests.test_RsStaffCourseTeachDAO import Test_RsStaffCourseTeachDAO
 from services.core.dao.tests.test_RsStudentCourseEnrolDAO import Test_RsStudentCourseEnrolDAO
 from services.core.dao.tests.test_StaffsDAO import Test_StaffsDAO
+from services.core.dao.tests.test_StatisticsDAO import Test_StatisticsDAO
 from services.core.dao.tests.test_StudentsDAO import Test_StudentsDAO
 from services.core.dao.tests.test_TopicsDAO import Test_TopicsDAO
 from services.core.dao.tests.test_UsersDao import Test_users_dao
