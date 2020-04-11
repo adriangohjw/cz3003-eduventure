@@ -13,11 +13,11 @@ app.app_context().push()
 db.init_app(app)
 
 from models import \
-    User, Student, Staff, Topic, Lesson, Quiz, QuizAttempt, Course,\
-    Rs_lesson_quiz_contain, Rs_quiz_course_assign
+    User, Student, Staff, Topic, Lesson, Quiz, QuizAttempt, Question, Course,\
+    Rs_lesson_quiz_contain, Rs_quiz_course_assign, Rs_quiz_question_contain, Rs_student_course_enrol
 from services.core.operations.users_operations import encrypt
 from services.core.operations.statistics_operations import \
-    statReadOperation
+    statReadOperation, lessonCompletedReadOperation
 
 
 class Test_statistics_operations(unittest.TestCase):
@@ -28,6 +28,9 @@ class Test_statistics_operations(unittest.TestCase):
 
 
     def setUp(self):
+
+        self.maxDiff = None
+
         db.session.remove()
         db.drop_all()
         db.create_all()
@@ -69,6 +72,28 @@ class Test_statistics_operations(unittest.TestCase):
         quiz_3 = Quiz(3, 'quiz_3', True, '2020-03-30', '2020-03-31')
         db.session.add(quiz_3)
 
+        # adding questions
+        question_1 = Question(1, 1, 'description')
+        db.session.add(question_1)
+        question_2 = Question(1, 1, 'description')
+        db.session.add(question_2)
+        question_3 = Question(1, 3, 'description')
+        db.session.add(question_3)
+        question_4 = Question(1, 3, 'description')
+        db.session.add(question_4)
+        question_5 = Question(1, 3, 'description')
+        db.session.add(question_5)
+
+        # assign questions to quiz
+        rs_1 = Rs_quiz_question_contain(1, 1)
+        db.session.add(rs_1)
+        rs_2 = Rs_quiz_question_contain(3, 3)
+        db.session.add(rs_2)
+        rs_3 = Rs_quiz_question_contain(3, 4)
+        db.session.add(rs_3)
+        rs_4 = Rs_quiz_question_contain(3, 5)
+        db.session.add(rs_4)
+
         # adding quiz attempts
         quiz_attempt_1 = QuizAttempt(1, 1, 0)
         db.session.add(quiz_attempt_1)
@@ -88,6 +113,12 @@ class Test_statistics_operations(unittest.TestCase):
         # adding courses
         course = Course('cz1005')
         db.session.add(course)
+
+        # enrol students into courses
+        enrol_1 = Rs_student_course_enrol(1, 'cz1005')
+        db.session.add(enrol_1)
+        enrol_2 = Rs_student_course_enrol(2, 'cz1005')
+        db.session.add(enrol_2)
 
         # adding quizzes to courses
         Rs_quiz_course_assign_1 = Rs_quiz_course_assign(1, 'cz1005')
@@ -156,7 +187,54 @@ class Test_statistics_operations(unittest.TestCase):
             }
         )
 
-        return 
+    
+    def test_lessonCompletedReadOperation(self):
 
+        self.assertEqual(
+            lessonCompletedReadOperation(),
+            {
+                "courses": [
+                    {
+                    "course_index": "cz1005",
+                    "progress": [
+                        {
+                        "lessons": [
+                            {
+                            "count_completed": 0,
+                            "lesson_id": 1,
+                            "lesson_name": "lesson_1"
+                            },
+                            {
+                            "count_completed": 0,
+                            "lesson_id": 2,
+                            "lesson_name": "lesson_2"
+                            },
+                            {
+                            "count_completed": 1,
+                            "lesson_id": 3,
+                            "lesson_name": "lesson_3"
+                            }
+                        ],
+                        "topic_id": 1,
+                        "topic_name": "topic_1"
+                        },
+                        {
+                        "lessons": [
+                            {
+                            "count_completed": 0,
+                            "lesson_id": 1,
+                            "lesson_name": "lesson_4"
+                            }
+                        ],
+                        "topic_id": 2,
+                        "topic_name": "topic_2"
+                        }
+                    ]
+                    }
+                ]
+            }
+        )
+
+        
 if __name__ == '__main__':
     unittest.main()

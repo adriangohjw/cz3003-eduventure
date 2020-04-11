@@ -4,7 +4,7 @@ import statistics
 import numpy as np
 
 from services.core.dao.StatisticsDAO import \
-    statRead
+    statRead, lessonCompletedRead
 
 
 def statReadOperation():
@@ -90,4 +90,74 @@ def statReadOperation():
                 quiz['75th_percentile'] = None
                 quiz['95th_percentile'] = None
  
+    return stat_dict
+
+
+def lessonCompletedReadOperation():
+
+    raw_stats = lessonCompletedRead()
+
+    stat_dict = {}
+    stat_dict['courses'] = []
+
+    # add unique courses to end result
+    course_list = []
+    for item in raw_stats:
+        item_course = item._asdict()['course_index']
+        if (item_course not in course_list) and (item_course is not None):
+            course_list.append(item_course)
+            stat_dict['courses'].append(
+                {
+                    'course_index': item_course,
+                    'progress': []
+                }
+            )
+
+    # add topic to progress of every course
+    topic_list = []
+    for item in raw_stats:
+        item_topic_id, item_topic_name = item._asdict()['topic_id'], item._asdict()['topic_name']
+        if (item_topic_id not in topic_list):
+            topic_list.append(item_topic_id)
+            for course in stat_dict['courses']:
+                course['progress'].append(
+                    {
+                        'topic_id': item_topic_id,
+                        'topic_name': item_topic_name,
+                        'lessons_temp': []
+                    }
+                )
+
+    # add lesson to topic of every course
+    for item in raw_stats:
+        i_dict = item._asdict()
+        for course in stat_dict['courses']:
+            for topic in course['progress']:
+                if topic['topic_id'] == i_dict['topic_id']:
+                    topic['lessons_temp'].append(
+                        {
+                            'lesson_id': i_dict['lesson_id'],
+                            'lesson_name': i_dict['lesson_name'],
+                            'count_completed': 0
+                        }
+                    )
+    for course in stat_dict['courses']:
+        for topic in course['progress']:
+            topic['lessons'] = []
+            for x in topic['lessons_temp']:
+                if x not in topic['lessons']:
+                    topic['lessons'].append(x)
+            del topic['lessons_temp']
+
+
+    # add completion status
+    for item in raw_stats:
+        i_dict = item._asdict()
+        if (i_dict['student_id'] is not None) and (i_dict['score'] == i_dict['count_questions']):
+            for course in stat_dict['courses']:
+                for topic in course['progress']:
+                    for lesson in topic['lessons']:
+                        if (topic['topic_id'] == i_dict['topic_id']) and (lesson['lesson_id'] == i_dict['lesson_id']):
+                            lesson['count_completed'] += 1
+                            
     return stat_dict
