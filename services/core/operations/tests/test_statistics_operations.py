@@ -17,7 +17,7 @@ from models import \
     Rs_lesson_quiz_contain, Rs_quiz_course_assign, Rs_quiz_question_contain, Rs_student_course_enrol
 from services.core.operations.users_operations import encrypt
 from services.core.operations.statistics_operations import \
-    statReadOperation, lessonCompletedReadOperation
+    statReadOperation, lessonCompletedReadOperation, leaderboardReadOperation
 
 
 class Test_statistics_operations(unittest.TestCase):
@@ -235,6 +235,29 @@ class Test_statistics_operations(unittest.TestCase):
             }
         )
 
+    
+    def test_leaderboardReadOperation(self):
+
+        self.assertEqual(
+            leaderboardReadOperation(),
+            {
+                "scores": [
+                    {
+                    "id": 1,
+                    "matriculation_num": "U00000000A",
+                    "name": "student_1",
+                    "score": 3
+                    },
+                    {
+                    "id": 2,
+                    "matriculation_num": "U00000000B",
+                    "name": "student_2",
+                    "score": 2
+                    }
+                ]
+            }
+        )
+        
         
 if __name__ == '__main__':
     unittest.main()
