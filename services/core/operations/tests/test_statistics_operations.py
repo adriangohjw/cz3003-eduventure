@@ -17,7 +17,8 @@ from models import \
     Rs_lesson_quiz_contain, Rs_quiz_course_assign, Rs_quiz_question_contain, Rs_student_course_enrol
 from services.core.operations.users_operations import encrypt
 from services.core.operations.statistics_operations import \
-    statReadOperation, lessonCompletedReadOperation, leaderboardReadOperation, studentScoreReadOperation
+    statReadOperation, lessonCompletedReadOperation, leaderboardReadOperation, studentScoreReadOperation, \
+    courseScoreReadOperation
 
 
 class Test_statistics_operations(unittest.TestCase):
@@ -318,6 +319,62 @@ class Test_statistics_operations(unittest.TestCase):
                     }
                 ]
             }
+        )
+
+    
+    def test_courseScoreReadOperation(self):
+
+        self.assertEqual(
+            courseScoreReadOperation(None),
+            {
+                "courses": [
+                    {
+                    "course_index": "cz1005",
+                    "scores": {
+                        "0-10": 1,
+                        "11-20": 0,
+                        "21-30": 0,
+                        "31-40": 0,
+                        "41-50": 0,
+                        "51-60": 0,
+                        "61-70": 1,
+                        "71-80": 0,
+                        "81-90": 0,
+                        "91-100": 1
+                    }
+                    }
+                ]
+            }   
+        )
+
+        self.assertEqual(
+            courseScoreReadOperation('cz1005'),
+            {
+                "courses": [
+                    {
+                    "course_index": "cz1005",
+                    "scores": {
+                        "0-10": 1,
+                        "11-20": 0,
+                        "21-30": 0,
+                        "31-40": 0,
+                        "41-50": 0,
+                        "51-60": 0,
+                        "61-70": 1,
+                        "71-80": 0,
+                        "81-90": 0,
+                        "91-100": 1
+                    }
+                    }
+                ]
+            }   
+        )
+
+        self.assertEqual(
+            courseScoreReadOperation('cz1003'),
+            {
+                "courses": []
+            }   
         )
         
 
