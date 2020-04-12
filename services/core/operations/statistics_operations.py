@@ -5,7 +5,7 @@ import numpy as np
 from operator import itemgetter
 
 from services.core.dao.StatisticsDAO import \
-    statRead, lessonCompletedRead, leaderboardRead, studentScoreRead, courseScoreRead
+    statRead, lessonCompletedRead, leaderboardRead, studentScoreRead, courseScoreRead, activityRead
 
 
 def statReadOperation():
@@ -366,3 +366,33 @@ def courseScoreReadOperation(course_index):
         return {
             'courses': [i for i in stat_dict['courses'] if i['course_index'] == course_index] 
         }
+
+
+def activityReadOperation(date_start, date_end, student_id):
+
+    raw_stats = activityRead(date_start, date_end, student_id)
+
+    stat_dict = {}
+    stat_dict['attempts'] = []
+
+    # add quizattempts to end results
+    attempt_date_list = []
+    for item in raw_stats:
+        i_dict = item._asdict()
+        i_created_at = str(i_dict['created_at'])
+        if i_created_at not in attempt_date_list:
+            attempt_date_list.append(i_created_at)
+            stat_dict['attempts'].append(
+                {
+                    i_created_at : 0
+                }
+            )
+            break
+
+    # add attempt count to attempts
+    for item in raw_stats:
+        i_dict = item._asdict()
+        i_created_at = str(i_dict['created_at'])
+        stat_dict['attempts'][0][i_created_at] += 1
+        
+    return stat_dict

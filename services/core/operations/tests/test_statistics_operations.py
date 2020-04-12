@@ -12,13 +12,15 @@ app = create_app()
 app.app_context().push()
 db.init_app(app)
 
+import datetime
+
 from models import \
     User, Student, Staff, Topic, Lesson, Quiz, QuizAttempt, Question, Course,\
     Rs_lesson_quiz_contain, Rs_quiz_course_assign, Rs_quiz_question_contain, Rs_student_course_enrol
 from services.core.operations.users_operations import encrypt
 from services.core.operations.statistics_operations import \
     statReadOperation, lessonCompletedReadOperation, leaderboardReadOperation, studentScoreReadOperation, \
-    courseScoreReadOperation
+    courseScoreReadOperation, activityReadOperation
 
 
 class Test_statistics_operations(unittest.TestCase):
@@ -375,6 +377,33 @@ class Test_statistics_operations(unittest.TestCase):
             {
                 "courses": []
             }   
+        )
+
+
+    def test_activityReadOperation(self):
+
+        date_today = datetime.date.today()
+        date_today_str = date_today.strftime('%Y-%m-%d')
+        
+        self.assertEqual(
+            activityReadOperation(date_today, date_today, 1),
+            {
+                "attempts": [
+                    {
+                    date_today_str: 2
+                    }
+                ]
+            }
+        )
+
+        self.assertEqual(
+            activityReadOperation(
+                date_today + datetime.timedelta(days=10), 
+                date_today + datetime.timedelta(days=10), 
+                1),
+            {
+                "attempts": []
+            }
         )
         
 
