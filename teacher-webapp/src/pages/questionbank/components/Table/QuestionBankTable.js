@@ -6,6 +6,7 @@ import {
   ListItemIcon,
   ListItemText,
   Divider,
+  TextField,
 } from "@material-ui/core";
 import {
   AddBox,
@@ -72,11 +73,140 @@ export default function QuestionBankTable({
     isLoading: true,
     columns: [
       { title: "ID", field: "id", editable: "never", deafultSort: "desc" },
-      { title: "Description", field: "description" },
-      { title: "Topic ID", field: "topic_id" },
+      { title: "Topic", field: "topic_name" },
       {
-        title: "Lesson ID",
-        field: "lesson_id",
+        title: "Lesson",
+        field: "lesson_name",
+      },
+      { title: "Description", field: "description" },
+      {
+        title: "Correct Option",
+        field: "choices",
+        sorting: false,
+        cellStyle: {
+          color: "#10a100",
+        },
+        render: rowData => {
+          const correct = rowData.choices.filter(choice => choice.is_correct)[0]
+            .description;
+          return correct;
+        },
+        editComponent: rowData => {
+          if (rowData.value != undefined) {
+            // for update Question
+            const correctOption = rowData.value.filter(
+              choice => choice.is_correct == true,
+            )[0];
+            return (
+              <TextField
+                id={correctOption.id.toString()}
+                defaultValue={correctOption.description}
+              />
+            );
+          } else {
+            // for add new Question
+            return <TextField id="0" />;
+          }
+        },
+      },
+      {
+        title: "Other Option",
+        field: "choices",
+        sorting: false,
+        cellStyle: {
+          color: "#b01020",
+        },
+        render: rowData => {
+          const incorrect = rowData.choices.filter(
+            choice => choice.is_correct == false,
+          );
+          return incorrect.length > 0 ? incorrect[0].description : null;
+        },
+        editComponent: rowData => {
+          if (rowData.value != undefined) {
+            // for edit Question
+            const incorrect = rowData.value.filter(
+              choice => !choice.is_correct,
+            );
+            return incorrect.length > 0 ? (
+              <TextField
+                id={incorrect[0].id.toString()}
+                defaultValue={incorrect[0].description}
+              />
+            ) : (
+              <TextField id="1" />
+            );
+          } else {
+            //for add new Question
+            return <TextField id="1" />;
+          }
+        },
+      },
+      {
+        title: "Other Option",
+        field: "choices",
+        sorting: false,
+        cellStyle: {
+          color: "#b01020",
+        },
+        render: rowData => {
+          const incorrect = rowData.choices.filter(
+            choice => choice.is_correct == false,
+          );
+          return incorrect.length > 1 ? incorrect[1].description : null;
+        },
+        editComponent: rowData => {
+          if (rowData.value != undefined) {
+            // for edit Question
+            const incorrect = rowData.value.filter(
+              choice => !choice.is_correct,
+            );
+            return incorrect.length > 1 ? (
+              <TextField
+                id={incorrect[1].id.toString()}
+                defaultValue={incorrect[1].description}
+              />
+            ) : (
+              <TextField id="2" />
+            );
+          } else {
+            //for add new Question
+            return <TextField id="2" />;
+          }
+        },
+      },
+      {
+        title: "Other Option",
+        field: "choices",
+        sorting: false,
+        cellStyle: {
+          color: "#b01020",
+        },
+        render: rowData => {
+          const incorrect = rowData.choices.filter(
+            choice => choice.is_correct == false,
+          );
+          return incorrect.length > 2 ? incorrect[2].description : null;
+        },
+        editComponent: rowData => {
+          if (rowData.value != undefined) {
+            // for edit Question
+            const incorrect = rowData.value.filter(
+              choice => !choice.is_correct,
+            );
+            return incorrect.length > 2 ? (
+              <TextField
+                id={incorrect[2].id.toString()}
+                defaultValue={incorrect[2].description}
+              />
+            ) : (
+              <TextField id="3" />
+            );
+          } else {
+            //for add new Question
+            return <TextField id="3" />;
+          }
+        },
       },
     ],
     data: questions,
@@ -104,46 +234,6 @@ export default function QuestionBankTable({
                 handleDelete(oldData["id"]);
               }),
           }}
-          onRowClick={(event, rowData, togglePanel) => {
-            console.log("rowData", rowData);
-            console.log("event", event);
-            togglePanel();
-          }}
-          detailPanel={[
-            {
-              icon: () => <QuestionAnswerIcon />,
-              tooltip: "Questions",
-              render: rowData => {
-                const choices = rowData.choices.map(function(choice) {
-                  return (
-                    <>
-                      <ListItem key={choice.id}>
-                        <ListItemIcon>
-                          {choice.is_correct ? (
-                            <CheckCircleIcon key={choice.id} />
-                          ) : (
-                            <CancelIcon key={choice.id} />
-                          )}
-                        </ListItemIcon>
-                        <ListItemText
-                          primary={choice.description}
-                          key={choice.id}
-                          style={{ color: choice.is_correct ? "green" : "red" }}
-                        />
-                      </ListItem>
-                      <Divider />
-                    </>
-                  );
-                });
-                return (
-                  <React.Fragment>
-                    <Divider />
-                    <List component="nav">{choices}</List>
-                  </React.Fragment>
-                );
-              },
-            },
-          ]}
         />
       </Paper>
     </React.Fragment>
