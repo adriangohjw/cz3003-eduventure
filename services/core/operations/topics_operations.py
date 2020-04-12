@@ -1,6 +1,6 @@
 from models import Topic
 
-from ..dao.TopicsDAO import topicCreate, topicRead
+from ..dao.TopicsDAO import topicCreate, topicRead, topiclistRead
 from exceptions import ErrorWithCode
 
 def initializeTopic(name):
@@ -32,3 +32,7 @@ def topicCreateOperation(name):
 
     # success case
     return topic
+
+def topiclistReadOperation():
+    return topiclistRead()
+    
