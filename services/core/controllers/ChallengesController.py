@@ -86,7 +86,7 @@ class ChallengeAPI(Resource):
         # operations
         try:
             challenge = challengeUpdateCompletedOperation(
-                c['from_student_id'], c['to_student_id'], c['quiz_id']
+                c['from_student_id'], c['to_student_id'], c['quiz_id'], c['winner_id']
             )
         except ErrorWithCode as e:
             return make_response(
