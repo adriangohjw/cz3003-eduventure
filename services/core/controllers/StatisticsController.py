@@ -4,11 +4,11 @@ from flask_restful import Resource
 from flask.helpers import make_response
 
 from services.core.contracts.statistics_contracts import \
-    studentScoreReadContract, courseScoreReadContract
+    studentScoreReadContract, courseScoreReadContract, activityReadContract
 
 from services.core.operations.statistics_operations import \
     statReadOperation, lessonCompletedReadOperation, leaderboardReadOperation, \
-    studentScoreReadOperation, courseScoreReadOperation
+    studentScoreReadOperation, courseScoreReadOperation, activityReadOperation
 
 from exceptions import ErrorWithCode
 
@@ -129,3 +129,33 @@ class CourseScore_API(Resource):
             jsonify (stat), 200
         )
 
+
+class Activity_API(Resource):
+
+    def get(self):
+        # contracts
+        try:
+            s = activityReadContract(request)
+        except Exception as e:
+            return make_response(
+                jsonify (
+                    error = str(e),
+                ), 400
+            )
+
+        # operations
+        try:
+            stat = activityReadOperation(
+                s['date_start'], s['date_end'], s['student_id']
+            )
+        except ErrorWithCode as e:
+            return make_response(
+                jsonify (
+                    error = e.message
+                ), e.status_code
+            )
+        
+        # success case
+        return make_response(
+            jsonify (stat), 200
+        )
