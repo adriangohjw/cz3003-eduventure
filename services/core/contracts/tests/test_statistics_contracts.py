@@ -14,7 +14,7 @@ db.init_app(app)
 import datetime
 from services.core.contracts.statistics_contracts import \
     validate_id, \
-    studentScoreReadContract, courseScoreReadContract, activityReadContract
+    leaderboardReadContract, studentScoreReadContract, courseScoreReadContract, activityReadContract
 
 
 class Test_statistics_contracts(unittest.TestCase):
@@ -22,6 +22,17 @@ class Test_statistics_contracts(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         print("\n\n{}: starting test...".format(path.basename(__file__)))
+
+
+    def test_leaderboardReadContract(self):
+
+        with app.test_request_context('/?student_id=1', method='GET'):
+            self.assertEqual(
+                leaderboardReadContract(request), 
+                {
+                    'student_id': 1
+                }
+            )
 
 
     def test_studentScoreReadContract(self):

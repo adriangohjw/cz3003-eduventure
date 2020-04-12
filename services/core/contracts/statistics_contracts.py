@@ -21,6 +21,14 @@ def validate_id(id):
         raise TypeError("id is not an integer")
 
 
+def leaderboardReadContract(request):
+    student_id = request.args.get('student_id', type=int)
+
+    return {
+        'student_id': student_id
+    }
+
+
 def studentScoreReadContract(request):
     student_id = request.args.get('student_id', type=int)
 
