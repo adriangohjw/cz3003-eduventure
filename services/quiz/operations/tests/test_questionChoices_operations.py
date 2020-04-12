@@ -60,7 +60,7 @@ class Test_questionChoices_operations(unittest.TestCase):
         qc = QuestionChoice.query.filter_by(question_id=1).first()
         des_original =qc.description
 
-        questionChoiceUpdateOperation(1,1,'description','C')
+        questionChoiceUpdateOperation(1,1,'description',None)
 
         qc = QuestionChoice.query.filter_by(question_id=1).first()
         self.assertNotEqual(des_original, qc.description)
