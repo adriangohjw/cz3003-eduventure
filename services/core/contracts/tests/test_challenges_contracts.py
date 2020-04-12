@@ -12,7 +12,7 @@ app.app_context().push()
 db.init_app(app)
 
 from services.core.contracts.challenges_contracts import \
-    challengeReadContract, challengeCreateContract, challengeUpdateCompletedContract
+    validate_winner_id, challengeReadContract, challengeCreateContract, challengeUpdateCompletedContract
 
 
 class Test_challenge_contracts(unittest.TestCase):
@@ -20,6 +20,11 @@ class Test_challenge_contracts(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         print("\n\n{}: starting test...".format(path.basename(__file__)))
+
+
+    def test_validate_winner_id(self):
+
+        self.assertRaises(ValueError, validate_winner_id, 1, 2, 3)
 
 
     def test_challengeReadContract(self):
@@ -57,13 +62,14 @@ class Test_challenge_contracts(unittest.TestCase):
 
     def test_challengeUpdateCompletedContract(self):
 
-        with app.test_request_context('/?from_student_id=2&to_student_id=3&quiz_id=4', method='PUT'):
+        with app.test_request_context('/?from_student_id=2&to_student_id=3&quiz_id=4&winner_id=2', method='PUT'):
             self.assertEqual(
                 challengeUpdateCompletedContract(request), 
                 {
                     'from_student_id': 2,
                     'to_student_id': 3,
-                    'quiz_id': 4
+                    'quiz_id': 4,
+                    'winner_id': 2
                 }
             )
 
@@ -72,6 +78,9 @@ class Test_challenge_contracts(unittest.TestCase):
 
         with app.test_request_context('/?from_student_id=2&to_student_id=3&quiz_id=hello', method='PUT'):
             self.assertRaises(TypeError, challengeUpdateCompletedContract, request)
+
+        with app.test_request_context('/?from_student_id=2&to_student_id=3&quiz_id=4&winner_id=1', method='PUT'):
+            self.assertRaises(ValueError, challengeUpdateCompletedContract, request)
 
 
 if __name__ == '__main__':
