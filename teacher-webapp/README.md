@@ -1,11 +1,14 @@
 ## TODO:
-### Fix Edit Quiz bug
+
+### Add Lesson ID to Quiz
+
 ### Implement add/delete/edit questions of each quiz feature
+
 ### Implement Content/Lecture fileupload/text/video
+
 ### Implement nicer dashboard
+
 ### Relook at Leaderboard
-
-
 
 # React Material Admin — Material-UI Dashboard Template
 

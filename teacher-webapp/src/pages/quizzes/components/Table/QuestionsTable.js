@@ -61,7 +61,7 @@ const tableIcons = {
 export default function QuestionsTable({ quizData, classes }) {
   const [questions, setQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedQuestion, setSelectedQuestion] = useState();
+  const [selectedQuestionID, setSelectedQuestionID] = useState(0);
 
   const [columns, setColumns] = useState([
     {
@@ -73,8 +73,7 @@ export default function QuestionsTable({ quizData, classes }) {
     {
       title: "Description",
       field: "question.description",
-      editable: "onAdd",
-      editComponent: () => QuestionsDropDown(handleNewQuestion),
+      editComponent: () => QuestionsDropDown(setSelectedQuestionID),
     },
     {
       title: "Topic",
@@ -111,31 +110,51 @@ export default function QuestionsTable({ quizData, classes }) {
     retrieveQuestions(quizData.id);
   }, []);
 
-  const handleDeleteQuestion = question_id => {};
+  const handleDeleteQuestion = oldData => {
+    setIsLoading(true);
+    fetch(
+      url +
+        `quizzes/questions?quiz_id=${quizData.id}&question_id=${oldData.question.id}`,
+      {
+        method: "DELETE",
+      },
+    )
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          setIsLoading(false);
+          throw new Error("No Questions Found for this Quiz");
+        }
+      })
+      .then(response => {
+        retrieveQuestions(quizData.id);
+      })
+      .catch(error => console.log(error));
+  };
 
-  const handleNewQuestion = (event, value) => {
-    console.log("event is", event);
-    console.log("value is", value);
-    //   fetch(
-    //     url +
-    //       `quizzes/questions?quiz_id=${quizData.id}&question_id=${newData.id}`,
-    //     {
-    //       method: "GET",
-    //     },
-    //   )
-    //     .then(res => {
-    //       if (res.ok) {
-    //         return res.json();
-    //       } else {
-    //         setIsLoading(false);
-    //         throw new Error("No Questions Found for this Quiz");
-    //       }
-    //     })
-    //     .then(response => {
-    //       setQuestions(response.questions);
-    //       setIsLoading(false);
-    //     })
-    //     .catch(error => console.log(error));
+  const handleNewQuestion = newData => {
+    setIsLoading(true);
+    console.log("selectedQuestionID is", selectedQuestionID);
+    fetch(
+      url +
+        `quizzes/questions?quiz_id=${quizData.id}&question_id=${selectedQuestionID}`,
+      {
+        method: "POST",
+      },
+    )
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          setIsLoading(false);
+          throw new Error("No Questions Found for this Quiz");
+        }
+      })
+      .then(response => {
+        retrieveQuestions(quizData.id);
+      })
+      .catch(error => console.log(error));
   };
 
   return (
@@ -163,14 +182,14 @@ export default function QuestionsTable({ quizData, classes }) {
             data={questions}
             icons={tableIcons}
             editable={{
-              onRowAdd: newData => {
-                // new Promise(resolve => {
-                // handleNewQuestion(newData);
-                // });
-              },
+              onRowAdd: newData =>
+                new Promise(resolve => {
+                  handleNewQuestion(newData);
+                }),
+              // onRowUpdate: (newData, oldData) => {},
               onRowDelete: oldData =>
                 new Promise(resolve => {
-                  handleDeleteQuestion(oldData["id"]);
+                  handleDeleteQuestion(oldData);
                 }),
             }}
             detailPanel={[

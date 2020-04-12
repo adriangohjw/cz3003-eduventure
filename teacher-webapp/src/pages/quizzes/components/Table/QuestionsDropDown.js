@@ -5,7 +5,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 
 import { url } from "../../../../context/UserContext";
 
-export default function QuestionsDropDown(handleOnChange) {
+export default function QuestionsDropDown(setSelectedQuestionID) {
   const [open, setOpen] = React.useState(false);
   const [questions, setQuestions] = React.useState([]);
   const loading = open && questions.length === 0;
@@ -27,10 +27,14 @@ export default function QuestionsDropDown(handleOnChange) {
         }
       })
       .then(response => {
-        setQuestions(response.questions);
-        active = false;
+        if (active) {
+          setQuestions(response.questions);
+        }
       })
       .catch(error => console.log(error));
+    return () => {
+      active = false;
+    };
   }, [loading]);
 
   React.useEffect(() => {
@@ -53,7 +57,12 @@ export default function QuestionsDropDown(handleOnChange) {
       getOptionSelected={(option, value) =>
         option.description === value.description
       }
-      onChange={handleOnChange}
+      onChange={(event, value) => {
+        console.log("question selected is", value);
+        if (value != null) {
+          setSelectedQuestionID(value.id);
+        }
+      }}
       getOptionLabel={option => option.description}
       options={questions}
       loading={loading}

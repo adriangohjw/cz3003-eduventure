@@ -132,7 +132,7 @@ export default function Quizzes() {
   const createQuiz = newData => {
     let { name, is_fast, date_start, date_end } = newData;
     setIsLoading(true);
-    is_fast = is_fast == true ? "True" : "False";
+    is_fast = is_fast == "true" || is_fast == true ? "true" : "false";
     date_start = formatDate(date_start);
     date_end = formatDate(date_end);
     fetch(
