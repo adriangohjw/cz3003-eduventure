@@ -61,3 +61,4 @@ api_statistics.add_resource(StatisticsController.Lesson_Completion_API, '/lesson
 api_statistics.add_resource(StatisticsController.LeaderBoard_API, '/leaderboard')
 api_statistics.add_resource(StatisticsController.StudentScore_API, '/student_score')
 api_statistics.add_resource(StatisticsController.CourseScore_API, '/course_score')
+api_statistics.add_resource(StatisticsController.Activity_API, '/activity')
