@@ -4,7 +4,7 @@ from flask_restful import Resource
 from flask.helpers import make_response
 
 from services.core.contracts.statistics_contracts import \
-    studentScoreReadContract, courseScoreReadContract, activityReadContract
+    leaderboardReadContract, studentScoreReadContract, courseScoreReadContract, activityReadContract
 
 from services.core.operations.statistics_operations import \
     statReadOperation, lessonCompletedReadOperation, leaderboardReadOperation, \
@@ -53,9 +53,21 @@ class Lesson_Completion_API(Resource):
 class LeaderBoard_API(Resource):
 
     def get(self):
+        # contracts
+        try:
+            s = leaderboardReadContract(request)
+        except Exception as e:
+            return make_response(
+                jsonify (
+                    error = str(e),
+                ), 400
+            )
+
         # operations
         try:
-            stat = leaderboardReadOperation()
+            stat = leaderboardReadOperation(
+                s['student_id']
+            )
         except ErrorWithCode as e:
             return make_response(
                 jsonify (
