@@ -30,10 +30,12 @@ api_course.add_resource(CoursesController.CourseClasslistAPI, '/students/all')
 topic_bp = Blueprint('topic', __name__)
 api_topic = Api(topic_bp)
 api_topic.add_resource(TopicsController.TopicAPI, '/')
+api_topic.add_resource(TopicsController.TopicListAPI, '/all')
 
 lesson_bp = Blueprint('lesson', __name__)
 api_lessons = Api(lesson_bp)
 api_lessons.add_resource(LessonsController.LessonAPI, '/')
+api_lessons.add_resource(LessonsController.LessonListAPI, '/all')
 api_lessons.add_resource(LessonsController.QuizManagerAPI, '/quizzes')
 
 questionAttempt_bp = Blueprint('questionAttempt', __name__)
