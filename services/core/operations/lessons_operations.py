@@ -1,7 +1,7 @@
 from models import Lesson
 
 from ..dao.TopicsDAO import topicRead
-from ..dao.LessonsDAO import lessonRead, lessonCreate, lessonUpdate, lessonDelete, getLastLessonID
+from ..dao.LessonsDAO import lessonRead, lessonCreate, lessonUpdate, lessonDelete, lessonListRead, getLastLessonID
 from exceptions import ErrorWithCode
 
 def initializeLesson(topic_id, name, content, url_link):
@@ -68,3 +68,7 @@ def lessonDeleteOperation(topic_id, lesson_id):
 
     # success case
     return True
+
+def lessonListReadOperation():
+    return lessonListRead()
+    
