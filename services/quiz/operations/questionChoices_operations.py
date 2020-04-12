@@ -38,17 +38,18 @@ def questionChoiceCreateOperation(question_id, description, is_correct):
     # success case
     return questionChoice
     
-def questionChoiceUpdateOperation(question_id, questionChoice_id, col, value):
+def questionChoiceUpdateOperation(question_id, questionChoice_id, description, is_correct):
     questionChoice = questionChoiceRead(question_id, questionChoice_id)
 
     # questionChoice is not found
     if questionChoice is None:
         raise ErrorWithCode(404, "No questionChoice found")
 
-    if col == 'description':
-        questionChoice.description = value
-    elif col == 'is_correct':
-        questionChoice.is_correct = value
+    if description is not None:
+        questionChoice.description = description
+
+    if is_correct is not None:
+        questionChoice.is_correct = is_correct
 
     if questionChoiceUpdate() == False:
         raise ErrorWithCode(400, "Unsuccessful")

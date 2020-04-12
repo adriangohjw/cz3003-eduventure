@@ -79,7 +79,7 @@ class QuestionChoiceAPI(Resource):
         # operations
         try:
             questionChoice = questionChoiceUpdateOperation(
-                qc['question_id'], qc['questionChoice_id'], qc['col'], qc['value']
+                qc['question_id'], qc['questionChoice_id'], qc['description'], qc['is_correct']
             )
         except ErrorWithCode as e:
             return make_response(
