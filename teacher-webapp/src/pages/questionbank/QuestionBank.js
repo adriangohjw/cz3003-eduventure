@@ -103,32 +103,33 @@ export default function QuestionBank() {
   };
 
   const createQuestion = newData => {
-    let { topic_id, lesson_id, description } = newData;
+    // let { topic_id, lesson_id, description } = newData;
+    console.log(newData);
     setIsLoading(true);
 
-    fetch(
-      url +
-        `questions/?topic_id=${topic_id}&lesson_id=${lesson_id}&description=${description}`,
-      {
-        method: "POST",
-      },
-    )
-      .then(response => {
-        if (response.ok) {
-          response.json();
-        } else {
-          retrieveQuestions();
-          throw new Error("Server Error!");
-        }
-      })
-      .then(() => {
-        retrieveQuestions();
-        alert("Created successfully");
-      })
-      .catch(error => {
-        console.error("Error:", error);
-        alert("something went wrong");
-      });
+    // fetch(
+    //   url +
+    //     `questions/?topic_id=${topic_id}&lesson_id=${lesson_id}&description=${description}`,
+    //   {
+    //     method: "POST",
+    //   },
+    // )
+    //   .then(response => {
+    //     if (response.ok) {
+    //       response.json();
+    //     } else {
+    //       retrieveQuestions();
+    //       throw new Error("Server Error!");
+    //     }
+    //   })
+    //   .then(() => {
+    //     retrieveQuestions();
+    //     alert("Created successfully");
+    //   })
+    //   .catch(error => {
+    //     console.error("Error:", error);
+    //     alert("something went wrong");
+    //   });
   };
 
   useEffect(() => {
