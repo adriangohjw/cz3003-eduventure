@@ -4,7 +4,7 @@ from flask_restful import Resource
 from flask.helpers import make_response
 
 from ..contracts.lessons_contracts import lessonReadContract, lessonCreateContract, lessonUpdateContract, lessonDeleteContract
-from ..operations.lessons_operations import lessonReadOperation, lessonCreateOperation, lessonUpdateOperation, lessonDeleteOperation
+from ..operations.lessons_operations import lessonReadOperation, lessonCreateOperation, lessonUpdateOperation, lessonDeleteOperation, lessonListReadOperation
 from exceptions import ErrorWithCode
 
 class LessonAPI(Resource):
@@ -113,6 +113,26 @@ class LessonAPI(Resource):
         return make_response(
             jsonify(
                 message = 'Successfully deleted lesson'
+            ), 200
+        )
+
+
+class LessonListAPI(Resource):
+    def get(self):
+        # operations
+        try:
+            lessons = lessonListReadOperation()
+        except ErrorWithCode as e:
+            return make_response(
+                jsonify (
+                    error = e.message
+                ), e.status_code
+            )
+        
+        # success case
+        return make_response(
+            jsonify (
+                lessons = [lesson.asdict() for lesson in lessons]
             ), 200
         )
 
