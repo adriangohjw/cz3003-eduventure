@@ -37,7 +37,7 @@ def challengeCreateOperation(from_student_id, to_student_id, quiz_id):
     return challenge
 
 
-def challengeUpdateCompletedOperation(from_student_id, to_student_id, quiz_id):
+def challengeUpdateCompletedOperation(from_student_id, to_student_id, quiz_id, winner_id):
 
     challenges = challengeRead(from_student_id, to_student_id, quiz_id, None)
 
@@ -48,6 +48,7 @@ def challengeUpdateCompletedOperation(from_student_id, to_student_id, quiz_id):
     challenge = challenges[0]
 
     challenge.is_completed = True
+    challenge.winner_id = winner_id
     if challengeUpdate() == False:
         raise ErrorWithCode(400, "Unsuccessful")
 
