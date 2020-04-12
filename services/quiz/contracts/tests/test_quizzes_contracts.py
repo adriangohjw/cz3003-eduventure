@@ -55,8 +55,6 @@ class Test_quizzes_contracts(unittest.TestCase):
             validate_is_fast(None)
             validate_is_fast(1)
             validate_is_fast(1.1)
-
-        with self.assertRaises(ValueError):
             validate_is_fast("")
 
 
