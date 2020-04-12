@@ -242,7 +242,7 @@ class Test_statistics_operations(unittest.TestCase):
     def test_leaderboardReadOperation(self):
 
         self.assertEqual(
-            leaderboardReadOperation(),
+            leaderboardReadOperation(None),
             {
                 "scores": [
                     {
@@ -256,6 +256,20 @@ class Test_statistics_operations(unittest.TestCase):
                     "matriculation_num": "U00000000B",
                     "name": "student_2",
                     "score": 2
+                    }
+                ]
+            }
+        )
+
+        self.assertEqual(
+            leaderboardReadOperation(1),
+            {
+                "scores": [
+                    {
+                    "id": 1,
+                    "matriculation_num": "U00000000A",
+                    "name": "student_1",
+                    "score": 3
                     }
                 ]
             }

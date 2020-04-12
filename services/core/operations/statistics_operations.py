@@ -164,7 +164,7 @@ def lessonCompletedReadOperation():
     return stat_dict
 
 
-def leaderboardReadOperation():
+def leaderboardReadOperation(student_id):
 
     raw_stats = leaderboardRead()
 
@@ -229,7 +229,13 @@ def leaderboardReadOperation():
         'scores': sorted(stat_dict['students'], key=itemgetter('score'), reverse=True)
     }
 
-    return stat_dict
+    # return different results based on inputs
+    if student_id is None:
+        return stat_dict
+    else:
+        return {
+            'scores': [i for i in stat_dict['scores'] if i['id'] == student_id] 
+        }
 
 
 def studentScoreReadOperation(student_id):
