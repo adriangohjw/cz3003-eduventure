@@ -36,6 +36,9 @@ def lessonDelete(topic_id, lesson_id):
         print(e)
         return False
 
+def lessonListRead():
+    return Lesson.query.all() 
+
 def getLastLessonID(topic_id):
     last_lesson = Lesson.query.filter_by(topic_id=topic_id).order_by(desc(Lesson.created_at)).first()
     if (last_lesson):

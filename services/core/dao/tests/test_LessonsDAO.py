@@ -12,7 +12,7 @@ db.init_app(app)
 
 from models import Lesson, Topic
 from services.core.dao.LessonsDAO import \
-    lessonCreate, lessonRead, lessonDelete, lessonUpdate, getLastLessonID
+    lessonCreate, lessonRead, lessonDelete, lessonUpdate, lessonListRead, getLastLessonID
 
 
 class Test_LessonsDAO(unittest.TestCase):
@@ -85,6 +85,24 @@ class Test_LessonsDAO(unittest.TestCase):
         lessonDelete(topic_id=1, lesson_id=3)
 
         self.assertEqual(len(Lesson.query.all()), 0)
+
+
+    def test_lessonListRead(self):
+
+        self.assertEqual(len(lessonListRead()), 0)
+        
+        self.assertEqual(
+            lessonListRead(),
+            []
+        )
+
+        lesson = Lesson(topic_id=1, id=1, name='lesson_1', content='content')
+        db.session.add(lesson)
+        db.session.commit()
+
+        self.assertEqual(len(lessonListRead()), 1)
+
+        self.assertEqual(lessonListRead()[0].name, 'lesson_1')
 
 
     def test_getLastLessonID(self):
