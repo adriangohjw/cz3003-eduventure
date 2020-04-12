@@ -93,7 +93,7 @@ class Test_challenges_operations(unittest.TestCase):
 
     def test_challengeUpdateCompletedOperation(self):
 
-        self.assertRaises(ErrorWithCode, challengeUpdateCompletedOperation, 1, 2, 2)
+        self.assertRaises(ErrorWithCode, challengeUpdateCompletedOperation, 1, 2, 2, 1)
 
         challenge = Challenge(1, 2, 2)
         db.session.add(challenge)
@@ -104,11 +104,20 @@ class Test_challenges_operations(unittest.TestCase):
             False
         )
 
-        challengeUpdateCompletedOperation(1, 2, 1)
+        self.assertIsNone(
+            Challenge.query.filter_by(from_student_id=1).filter_by(to_student_id=2).filter_by(quiz_id=1).first().winner_id
+        )
+
+        challengeUpdateCompletedOperation(1, 2, 1, 1)
 
         self.assertEqual(
             Challenge.query.filter_by(from_student_id=1).filter_by(to_student_id=2).filter_by(quiz_id=1).first().is_completed,
             True
+        )
+
+        self.assertEqual(
+            Challenge.query.filter_by(from_student_id=1).filter_by(to_student_id=2).filter_by(quiz_id=1).first().winner_id,
+            1
         )
 
         self.assertEqual(

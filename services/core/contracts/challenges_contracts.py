@@ -18,6 +18,24 @@ def validate_student_id(student_id):
         raise TypeError("student_id is not an integer")
 
 
+def validate_winner_id(from_student_id, to_student_id, winner_id):
+    # if no 'winner_id' found in params
+    if (winner_id is None):
+        raise TypeError("Request params (winner_id) not found")
+
+    # if winner_id params is empty
+    if not winner_id: 
+        raise ValueError("winner_id is empty")
+
+    # check if type is integer
+    if not isinstance(winner_id, int):
+        raise TypeError("winner_id is not an integer")
+
+    # check if winner_id in (from_student_id, to_student_id)
+    if (winner_id != from_student_id) and (winner_id != to_student_id):
+        raise ValueError('winner_id not equal to from_student_id / to_student_id')
+
+
 def validate_is_completed(is_completed):
     # if no 'is_completed' found in params
     if (is_completed is None):
@@ -77,13 +95,16 @@ def challengeUpdateCompletedContract(request):
     from_student_id = request.args.get('from_student_id', type=int)
     to_student_id = request.args.get('to_student_id', type=int)
     quiz_id = request.args.get('quiz_id', type=int)
+    winner_id = request.args.get('winner_id', type=int)
 
     validate_student_id(from_student_id)
     validate_student_id(to_student_id)
     validate_quiz_id(quiz_id)
+    validate_winner_id(from_student_id, to_student_id, winner_id)
 
     return {
         'from_student_id': from_student_id,
         'to_student_id': to_student_id,
-        'quiz_id': quiz_id
+        'quiz_id': quiz_id,
+        'winner_id': winner_id
     }

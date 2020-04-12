@@ -330,6 +330,7 @@ class Challenge(db.Model):
     from_student_id = db.Column(db.Integer, db.ForeignKey('students.id'), primary_key=True)
     to_student_id = db.Column(db.Integer, db.ForeignKey('students.id'), primary_key=True)
     quiz_id = db.Column(db.Integer, db.ForeignKey('quizzes.id'), primary_key=True)
+    winner_id = db.Column(db.Integer)
     is_completed = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
     __table_args__ = (
@@ -342,6 +343,7 @@ class Challenge(db.Model):
         self.from_student_id = from_student_id
         self.to_student_id = to_student_id
         self.quiz_id = quiz_id
+        self.winner_id = None
 
     def asdict(self):
         return {
@@ -349,6 +351,7 @@ class Challenge(db.Model):
             'to_student_id': self.to_student_id,
             'quiz_id': self.quiz_id,
             'is_completed': self.is_completed,
+            'winner_id': self.winner_id,
             'created_at': self.created_at
         }
 
