@@ -24,3 +24,7 @@ def topicUpdate():
     except Exception as e:
         print(e)
         return False
+
+def topiclistRead():
+    return Topic.query.all()
+    

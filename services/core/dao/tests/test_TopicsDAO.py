@@ -1,32 +1,35 @@
 import sys
 from os import path, getcwd
-
 sys.path.append(getcwd())
 
 import unittest
 
 from models import db,Topic
 from run_test import create_app
-from services.core.operations.users_operations import encrypt
-
 app = create_app()
 app.app_context().push()
 db.init_app(app)
 
-from services.core.dao.TopicsDAO import topicCreate,topicRead,topicUpdate
+from services.core.operations.users_operations import encrypt
+from services.core.dao.TopicsDAO import \
+    topicCreate, topicRead, topicUpdate, topiclistRead
 
 
 class Test_TopicsDAO(unittest.TestCase):
+
     @classmethod
     def setUpClass(cls):
         print("\n\n{}: starting test...".format(path.basename(__file__)))
+
 
     def setUp(self):
         db.session.remove()
         db.drop_all()
         db.create_all()
 
+
     def test_topicCreate(self):
+
         top = Topic(name="architecture")
         topicCreate(top)
 
@@ -35,7 +38,9 @@ class Test_TopicsDAO(unittest.TestCase):
         self.assertEqual(1, len(top_list))
         self.assertEqual(top_list[0].name, "architecture")
 
+
     def test_topicRead(self):
+
         top = Topic(name="architecture")
 
         db.session.add(top)
@@ -47,6 +52,7 @@ class Test_TopicsDAO(unittest.TestCase):
         self.assertTrue(topicRead('id',1))
 
     def test_topicUpdate(self):
+
         top = Topic(name="architecture")
 
         db.session.add(top)
@@ -59,6 +65,23 @@ class Test_TopicsDAO(unittest.TestCase):
 
         top = Topic.query.filter_by(id=1).first()
         self.assertNotEqual(name_original, top.name)
+
+
+    def test_topiclistRead(self):
+
+        self.assertEqual(len(topiclistRead()), 0)
+        
+        self.assertEqual(
+            topiclistRead(), []
+        )
+
+        topic_1 = Topic('topic_1')
+        db.session.add(topic_1)
+        db.session.commit()
+
+        self.assertEqual(len(topiclistRead()), 1)     
+
+        self.assertEqual(topiclistRead()[0].name, 'topic_1')   
 
 
 if __name__ == '__main__':

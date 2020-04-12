@@ -5,7 +5,8 @@ sys.path.append(getcwd())
 
 import unittest
 
-from services.core.operations.topics_operations import initializeTopic,topicCreateOperation,topicReadOperation
+from services.core.operations.topics_operations import \
+    initializeTopic,topicCreateOperation,topicReadOperation, topiclistReadOperation
 
 from exceptions import ErrorWithCode
 
@@ -18,9 +19,11 @@ db.init_app(app)
 
 
 class Test_topics_operations(unittest.TestCase):
+
     @classmethod
     def setUpClass(cls):
         print("\n\n{}: starting test...".format(path.basename(__file__)))
+
 
     def setUp(self):
         db.session.remove()
@@ -31,18 +34,30 @@ class Test_topics_operations(unittest.TestCase):
         db.session.add(sf)
         db.session.commit()
 
+
     def test_topicReadOperation(self):
+
         with self.assertRaises(ErrorWithCode):
             topicReadOperation(2)
 
         self.assertIsNotNone(topicReadOperation(1))
 
+
     def test_topicCreateOperation(self):
+
         with self.assertRaises(ErrorWithCode):
             topicCreateOperation('srs')
             topicCreateOperation('')
 
         self.assertIsNotNone(topicCreateOperation('patterns'))
+
+
+    def test_topiclistReadOperation(self):
+
+        self.assertEqual(len(topiclistReadOperation()), 1)
+        
+        self.assertEqual(topiclistReadOperation()[0].name, 'srs')
+
 
 if __name__ == '__main__':
     unittest.main()
