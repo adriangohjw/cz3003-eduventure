@@ -1,9 +1,11 @@
-from sqlalchemy import asc, desc, cast, Float, func, Numeric
+from sqlalchemy import asc, desc, cast, Float, func, Numeric, Date
 from sqlalchemy.sql.functions import count, max
 
 from models import \
     db, Topic, Lesson, Question, Quiz, Student, \
     Rs_lesson_quiz_contain, QuizAttempt, Rs_quiz_course_assign, Rs_quiz_question_contain, Rs_student_course_enrol
+
+import datetime 
 
 
 def statRead():
@@ -161,5 +163,22 @@ def courseScoreRead():
         .order_by(
             asc(QuizAttempt.student_id)
         )
-        
+
     return query_results.all()
+
+
+def activityRead(date_start, date_end, student_id):
+
+    query_results = \
+        db.session.query(
+            cast(QuizAttempt.created_at, Date).label('created_at'),
+            QuizAttempt.quiz_id.label('quiz_id')
+        )\
+        .filter(QuizAttempt.student_id == student_id)\
+        .filter(QuizAttempt.created_at >= date_start - datetime.timedelta(days=1))\
+        .filter(QuizAttempt.created_at <= date_end + datetime.timedelta(days=1))\
+        .order_by(
+            asc(QuizAttempt.created_at)
+        )
+
+    return query_results.all() 

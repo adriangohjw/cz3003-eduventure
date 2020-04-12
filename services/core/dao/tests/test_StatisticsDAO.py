@@ -15,7 +15,9 @@ from models import \
     Rs_lesson_quiz_contain, Rs_quiz_course_assign, Rs_quiz_question_contain, Rs_student_course_enrol
 from services.core.operations.users_operations import encrypt
 from services.core.dao.StatisticsDAO import \
-    statRead, lessonCompletedRead, leaderboardRead, studentScoreRead, courseScoreRead
+    statRead, lessonCompletedRead, leaderboardRead, studentScoreRead, courseScoreRead, activityRead
+
+import datetime
 
 
 class Test_StatisticsDAO(unittest.TestCase):
@@ -190,6 +192,29 @@ class Test_StatisticsDAO(unittest.TestCase):
                 ('cz1005', 1, 3, 100),
                 ('cz1005', 2, 3, 67),
             ]
+        )
+
+
+    def test_activityRead(self):
+
+        date_today = datetime.date.today()
+        date_today_str = date_today.strftime('%Y-%m-%d')
+
+        self.assertEqual(
+            activityRead(date_today, date_today, 1),
+            [
+                (datetime.date(date_today.year, date_today.month, date_today.day), 1),
+                (datetime.date(date_today.year, date_today.month, date_today.day), 3)
+            ]
+        )
+
+        self.assertEqual(
+            activityRead(
+                date_today + datetime.timedelta(days=10), 
+                date_today + datetime.timedelta(days=10), 
+                1
+            ),
+            []
         )
 
 
