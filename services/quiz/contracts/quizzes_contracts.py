@@ -43,10 +43,6 @@ def validate_is_fast(is_fast):
     if (is_fast is None):
         raise TypeError("Request params is_fast is not found")
 
-    # if is_correct params is empty
-    if not is_fast:
-        raise ValueError("is_fast is empty")
-
     # check if type is boolean
     if not isinstance(is_fast, bool):
         raise TypeError("is_fast is not an boolean")
