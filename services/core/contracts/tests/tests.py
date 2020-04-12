@@ -14,6 +14,7 @@ from services.core.contracts.tests.test_rs_lesson_quiz_contains_contracts import
 from services.core.contracts.tests.test_rs_staff_course_teaches_contracts import Test_rs_staff_course_teaches_contracts
 from services.core.contracts.tests.test_rs_student_course_enrols_contracts import Test_rs_student_course_enrols_contracts
 from services.core.contracts.tests.test_staffs_contracts import Test_staffs_contracts
+from services.core.contracts.tests.test_statistics_contracts import Test_statistics_contracts
 from services.core.contracts.tests.test_students_contracts import Test_students_contracts
 from services.core.contracts.tests.test_topics_contracts import Test_topics_contracts
 from services.core.contracts.tests.test_users_contracts import Test_user_contracts

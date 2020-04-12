@@ -5,7 +5,7 @@ from services.core.controllers import \
     UsersController, StaffsController, StudentsController, \
     CoursesController, TopicsController, LessonsController, \
     QuestionAttemptsController, QuizAttemptsController, ChallengesController, \
-    ProgressesController
+    ProgressesController, StatisticsController
 
 user_bp = Blueprint('user', __name__)
 api_user = Api(user_bp)
@@ -40,13 +40,11 @@ questionAttempt_bp = Blueprint('questionAttempt', __name__)
 api_questionAttempt = Api(questionAttempt_bp)
 api_questionAttempt.add_resource(QuestionAttemptsController.QuestionAttemptAPI, '/')
 api_questionAttempt.add_resource(QuestionAttemptsController.QuestionAttemptListAPI, '/list')
-api_questionAttempt.add_resource(QuestionAttemptsController.QuestionAttemptLeaderboardAPI, '/leaderboard')
 
 quizAttempt_bp = Blueprint('quizAttempt', __name__)
 api_quizAttempt = Api(quizAttempt_bp)
 api_quizAttempt.add_resource(QuizAttemptsController.QuizAttemptAPI, '/')
 api_quizAttempt.add_resource(QuizAttemptsController.QuizAttemptListAPI, '/list')
-api_quizAttempt.add_resource(QuizAttemptsController.QuizAttemptLeaderboardAPI, '/leaderboard')
 
 challenge_bp = Blueprint('challenge', __name__)
 api_challenges = Api(challenge_bp)
@@ -55,3 +53,12 @@ api_challenges.add_resource(ChallengesController.ChallengeAPI, '/')
 progress_bp = Blueprint('progress', __name__)
 api_progress = Api(progress_bp)
 api_progress.add_resource(ProgressesController.ProgressAPI, '/')
+
+statistics_bp = Blueprint('statistics', __name__)
+api_statistics = Api(statistics_bp)
+api_statistics.add_resource(StatisticsController.Stats_API, '/stat')
+api_statistics.add_resource(StatisticsController.Lesson_Completion_API, '/lesson_completed')
+api_statistics.add_resource(StatisticsController.LeaderBoard_API, '/leaderboard')
+api_statistics.add_resource(StatisticsController.StudentScore_API, '/student_score')
+api_statistics.add_resource(StatisticsController.CourseScore_API, '/course_score')
+api_statistics.add_resource(StatisticsController.Activity_API, '/activity')

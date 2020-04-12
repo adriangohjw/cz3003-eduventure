@@ -13,6 +13,7 @@ from services.core.dao.tests.test_RsLessonQuizContainDAO import Test_RsLessonQui
 from services.core.dao.tests.test_RsStaffCourseTeachDAO import Test_RsStaffCourseTeachDAO
 from services.core.dao.tests.test_RsStudentCourseEnrolDAO import Test_RsStudentCourseEnrolDAO
 from services.core.dao.tests.test_StaffsDAO import Test_StaffsDAO
+from services.core.dao.tests.test_StatisticsDAO import Test_StatisticsDAO
 from services.core.dao.tests.test_StudentsDAO import Test_StudentsDAO
 from services.core.dao.tests.test_TopicsDAO import Test_TopicsDAO
 from services.core.dao.tests.test_UsersDao import Test_users_dao
@@ -27,6 +28,7 @@ from services.core.contracts.tests.test_rs_lesson_quiz_contains_contracts import
 from services.core.contracts.tests.test_rs_staff_course_teaches_contracts import Test_rs_staff_course_teaches_contracts
 from services.core.contracts.tests.test_rs_student_course_enrols_contracts import Test_rs_student_course_enrols_contracts
 from services.core.contracts.tests.test_staffs_contracts import Test_staffs_contracts
+from services.core.contracts.tests.test_statistics_contracts import Test_statistics_contracts
 from services.core.contracts.tests.test_students_contracts import Test_students_contracts
 from services.core.contracts.tests.test_topics_contracts import Test_topics_contracts
 from services.core.contracts.tests.test_users_contracts import Test_user_contracts
@@ -41,6 +43,7 @@ from services.core.operations.tests.test_rs_lesson_quiz_contains_operations impo
 from services.core.operations.tests.test_rs_staff_course_teaches_operations import Test_rs_staff_course_teaches_operations
 from services.core.operations.tests.test_rs_student_course_enrols_operations import Test_rs_student_course_enrols_operations
 from services.core.operations.tests.test_staffs_operations import Test_staffs_operations
+from services.core.operations.tests.test_statistics_operations import Test_statistics_operations
 from services.core.operations.tests.test_student_operations import Test_students_operations
 from services.core.operations.tests.test_topics_operations import Test_topics_operations
 from services.core.operations.tests.test_users_operations import Test_users_operations
