@@ -1,13 +1,5 @@
 import React, { forwardRef, useState } from "react";
-import {
-  Paper,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Divider,
-  TextField,
-} from "@material-ui/core";
+import { Paper, TextField } from "@material-ui/core";
 import {
   AddBox,
   ArrowDownward,
@@ -27,7 +19,6 @@ import {
   CheckCircle as CheckCircleIcon,
   Cancel as CancelIcon,
 } from "@material-ui/icons/";
-import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 
 import AssignmentIcon from "@material-ui/icons/Assignment";
 
@@ -69,14 +60,34 @@ export default function QuestionBankTable({
   handleCreate,
   classes,
 }) {
+  const textField = id => {
+    return (
+      <TextField
+        id={id}
+        onChange={event => {
+          console.log(event.target.value);
+        }}
+      />
+    );
+  };
   const [state, setState] = useState({
     isLoading: true,
     columns: [
       { title: "ID", field: "id", editable: "never", deafultSort: "desc" },
       { title: "Topic", field: "topic_name" },
       {
+        title: "Topic ID",
+        field: "topic_id",
+        hidden: true,
+      },
+      {
         title: "Lesson",
         field: "lesson_name",
+      },
+      {
+        title: "Lesson ID",
+        field: "lesson_id",
+        hidden: true,
       },
       { title: "Description", field: "description" },
       {
@@ -87,8 +98,12 @@ export default function QuestionBankTable({
           color: "#10a100",
         },
         render: rowData => {
-          const correct = rowData.choices.filter(choice => choice.is_correct)[0]
-            .description;
+          const correct =
+            rowData.choices.length > 0
+              ? rowData.choices.filter(choice => choice.is_correct)[0]
+                  .description
+              : null;
+
           return correct;
         },
         editComponent: rowData => {
@@ -97,15 +112,20 @@ export default function QuestionBankTable({
             const correctOption = rowData.value.filter(
               choice => choice.is_correct == true,
             )[0];
-            return (
+            return correctOption != undefined ? (
               <TextField
                 id={correctOption.id.toString()}
                 defaultValue={correctOption.description}
+                onChange={event => {
+                  console.log(event.target.value);
+                }}
               />
+            ) : (
+              textField("0")
             );
           } else {
             // for add new Question
-            return <TextField id="0" />;
+            return textField("0");
           }
         },
       },
@@ -134,12 +154,11 @@ export default function QuestionBankTable({
                 defaultValue={incorrect[0].description}
               />
             ) : (
-              <TextField id="1" />
+              textField("1")
             );
-          } else {
-            //for add new Question
-            return <TextField id="1" />;
           }
+          //for add new Question
+          else return textField("1");
         },
       },
       {
@@ -167,12 +186,11 @@ export default function QuestionBankTable({
                 defaultValue={incorrect[1].description}
               />
             ) : (
-              <TextField id="2" />
+              textField("2")
             );
-          } else {
-            //for add new Question
-            return <TextField id="2" />;
           }
+          //for add new Question
+          else return textField("2");
         },
       },
       {
@@ -200,12 +218,11 @@ export default function QuestionBankTable({
                 defaultValue={incorrect[2].description}
               />
             ) : (
-              <TextField id="3" />
+              textField("3")
             );
-          } else {
-            //for add new Question
-            return <TextField id="3" />;
           }
+          //for add new Question
+          else return textField("3");
         },
       },
     ],
