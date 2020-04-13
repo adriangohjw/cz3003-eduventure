@@ -50,6 +50,7 @@ from services.core.operations.tests.test_users_operations import Test_users_oper
 
 from services.core.controllers.tests.test_StudentsController import Test_studentsController
 from services.core.controllers.tests.test_StudentsController import Test_studentsController
+from services.core.controllers.tests.test_TopicsController import Test_topicsController
 from services.core.controllers.tests.test_UsersController import Test_usersController
 
 from services.quiz.dao.tests.test_QuizzesDao import Test_quizzes_dao
