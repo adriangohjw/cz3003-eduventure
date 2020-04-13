@@ -56,7 +56,7 @@ class ChallengeAPI(Resource):
 
         # operations
         try:
-            lesson = challengeCreateOperation(
+            challenge = challengeCreateOperation(
                 c['from_student_id'], c['to_student_id'], c['quiz_id']
             )
         except ErrorWithCode as e:
@@ -68,7 +68,7 @@ class ChallengeAPI(Resource):
         
         # success case
         return make_response(
-            jsonify(lesson.asdict()), 200
+            jsonify(challenge.asdict()), 200
         )
 
 
