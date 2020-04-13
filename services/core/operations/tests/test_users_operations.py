@@ -52,7 +52,7 @@ class Test_users_operations(unittest.TestCase):
 
         self.assertIsNotNone(userCreateOperation('john_doe_2@gmail.com', 'password'))
 
-    def test_userUpdateOperaiton(self):
+    def test_userUpdateOperation(self):
 
         with self.assertRaises(ErrorWithCode):
             userUpdateOperation('john_doe_2@gmail.com', 'password', 'password_new')
