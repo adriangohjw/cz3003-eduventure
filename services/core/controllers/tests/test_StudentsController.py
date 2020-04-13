@@ -51,6 +51,50 @@ class Test_studentsController(Test_BaseCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(res['name'], 'student_3')
 
+    
+    def test_student_CourseManagerAPI_GET(self):
+
+        # invalid params input
+        response = self.app.get('/students/courses?user_email=')
+        self.assertEqual(response.status_code, 400)
+
+        # record not found
+        response = self.app.get('/students/courses?user_email=student_3@gmail.com')
+        self.assertEqual(response.status_code, 404)
+
+        # success case
+        response = self.app.get('/students/courses?user_email=student_1@gmail.com')
+        res = res_to_dict(response)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(res['name'], 'student_1')
+
+
+    def test_student_CourseManagerAPI_POST(self):
+
+        # invalid params input
+        response = self.app.post('/students/courses?user_email=student_1@gmail.com')
+        self.assertEqual(response.status_code, 400)
+
+        # dependency record not found
+        response = self.app.post('/students/courses?user_email=student_1@gmail.com&course_index=cz1003')
+        self.assertEqual(response.status_code, 404)
+
+        # existing record found
+        response = self.app.post('/students/courses?user_email=student_1@gmail.com&course_index=cz1005')
+        self.assertEqual(response.status_code, 412)
+
+        # success case
+        from models import Course
+        course_cz1003 = Course('cz1003')
+        db.session.add(course_cz1003)
+        db.session.commit()
+
+        response = self.app.post('/students/courses?user_email=student_1@gmail.com&course_index=cz1003')
+        res = res_to_dict(response)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(res['student_id'], 1)
+        self.assertEqual(res['course_index'], 'cz1003')
+
 
 if __name__ == '__main__':
     unittest.main()
