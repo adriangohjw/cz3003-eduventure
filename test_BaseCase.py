@@ -12,7 +12,8 @@ db.init_app(app)
 
 from models import \
     User, Student, Staff, Topic, Lesson, Quiz, QuizAttempt, Question, Course,\
-    Rs_lesson_quiz_contain, Rs_quiz_course_assign, Rs_quiz_question_contain, Rs_student_course_enrol
+    Rs_lesson_quiz_contain, Rs_quiz_course_assign, Rs_quiz_question_contain, Rs_student_course_enrol, \
+    Rs_staff_course_teach
 from services.core.operations.users_operations import encrypt
 
 import json 
@@ -120,6 +121,10 @@ class Test_BaseCase(unittest.TestCase):
         db.session.add(enrol_1)
         enrol_2 = Rs_student_course_enrol(2, 'cz1005')
         db.session.add(enrol_2)
+
+        # make staff teach course
+        teach_1 = Rs_staff_course_teach(3, 'cz1005')
+        db.session.add(teach_1)
 
         # adding quizzes to courses
         Rs_quiz_course_assign_1 = Rs_quiz_course_assign(1, 'cz1005')
