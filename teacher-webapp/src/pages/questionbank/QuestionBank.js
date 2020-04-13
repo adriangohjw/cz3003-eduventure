@@ -12,6 +12,8 @@ import { url } from "../../context/UserContext";
 export default function QuestionBank() {
   const [questions, setQuestions] = useState([]);
   var [isLoading, setIsLoading] = useState(true);
+  const [selectedTopicID, setSelectedTopicID] = useState(0);
+  const [selectedLessonID, setSelectedLessonID] = useState(0);
 
   var classes = useStyles();
 
@@ -35,7 +37,7 @@ export default function QuestionBank() {
 
   const deleteQuestion = id => {
     setIsLoading(true);
-    fetch(url + `quizzes/?id=${id}`, {
+    fetch(url + `questions/?id=${id}`, {
       method: "DELETE",
     })
       .then(response => {
@@ -56,31 +58,11 @@ export default function QuestionBank() {
       });
   };
 
-  const formatDate = date => {
-    // console.log("dategetutcfullyear", date.getUTCFullYear());
-    // let result =
-    //   date.getUTCFullYear() +
-    //   "-" +
-    //   (date.getUTCMonth() + 1) +
-    //   "-" +
-    //   date.getUTCDate();
-    // console.log("result", result);
-    let result = new Date(date);
-    result = result.toISOString().split("T")[0];
-    return result;
-  };
-
   const editQuestion = newData => {
     setIsLoading(true);
-    console.log("newData", newData);
-
+    console.log(newData);
     fetch(
-      url +
-        `quizzes/?id=${newData.id}&name=${newData.name}&is_fast=${
-          newData.is_fast
-        }&date_start=${formatDate(newData.date_start)}&date_end=${formatDate(
-          newData.date_end,
-        )}`,
+      url + `questions/?id=${newData.id}&description=${newData.description}`,
       {
         method: "PUT",
       },
@@ -103,33 +85,32 @@ export default function QuestionBank() {
   };
 
   const createQuestion = newData => {
-    // let { topic_id, lesson_id, description } = newData;
-    console.log(newData);
+    let { description } = newData;
     setIsLoading(true);
 
-    // fetch(
-    //   url +
-    //     `questions/?topic_id=${topic_id}&lesson_id=${lesson_id}&description=${description}`,
-    //   {
-    //     method: "POST",
-    //   },
-    // )
-    //   .then(response => {
-    //     if (response.ok) {
-    //       response.json();
-    //     } else {
-    //       retrieveQuestions();
-    //       throw new Error("Server Error!");
-    //     }
-    //   })
-    //   .then(() => {
-    //     retrieveQuestions();
-    //     alert("Created successfully");
-    //   })
-    //   .catch(error => {
-    //     console.error("Error:", error);
-    //     alert("something went wrong");
-    //   });
+    fetch(
+      url +
+        `questions/?topic_id=${selectedTopicID}&lesson_id=${selectedLessonID}&description=${description}`,
+      {
+        method: "POST",
+      },
+    )
+      .then(response => {
+        if (response.ok) {
+          response.json();
+        } else {
+          retrieveQuestions();
+          throw new Error("Server Error!");
+        }
+      })
+      .then(() => {
+        retrieveQuestions();
+        alert("Created successfully");
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        alert("something went wrong");
+      });
   };
 
   useEffect(() => {
@@ -146,6 +127,8 @@ export default function QuestionBank() {
           handleDelete={deleteQuestion}
           handleCreate={createQuestion}
           handleUpdate={editQuestion}
+          setSelectedTopicID={setSelectedTopicID}
+          setSelectedLessonID={setSelectedLessonID}
           classes={classes}
           theme={useTheme}
         />

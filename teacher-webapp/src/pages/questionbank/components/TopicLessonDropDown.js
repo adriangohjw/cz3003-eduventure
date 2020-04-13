@@ -3,12 +3,12 @@ import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import { url } from "../../../../context/UserContext";
+import { url } from "../../../context/UserContext";
 
-export default function QuestionsDropDown(setSelectedQuestionID) {
+export default function TopicLessonDropDown(type, setFunction) {
   const [open, setOpen] = React.useState(false);
-  const [questions, setQuestions] = React.useState([]);
-  const loading = open && questions.length === 0;
+  const [options, setOptions] = React.useState([]);
+  const loading = open && options.length === 0;
 
   React.useEffect(() => {
     let active = true;
@@ -16,7 +16,9 @@ export default function QuestionsDropDown(setSelectedQuestionID) {
     if (!loading) {
       return undefined;
     }
-    fetch(url + `questions/all`, {
+    const final_url =
+      type == "topic" ? url + `topics/all` : url + `lessons/all`;
+    fetch(final_url, {
       method: "GET",
     })
       .then(res => {
@@ -28,7 +30,11 @@ export default function QuestionsDropDown(setSelectedQuestionID) {
       })
       .then(response => {
         if (active) {
-          setQuestions(response.questions);
+          if (type == "topic") {
+            setOptions(response.topics);
+          } else if (type == "lesson") {
+            setOptions(response.lessons);
+          }
         }
       })
       .catch(error => console.log(error));
@@ -39,36 +45,34 @@ export default function QuestionsDropDown(setSelectedQuestionID) {
 
   React.useEffect(() => {
     if (!open) {
-      setQuestions([]);
+      setOptions([]);
     }
   }, [open]);
 
   return (
     <Autocomplete
-      id="questions-drop-down"
+      id={type + "-drop-down"}
       style={{ width: 300 }}
       open={open}
       onOpen={() => {
         setOpen(true);
       }}
-      onClose={(event, reason) => {
+      onClose={() => {
         setOpen(false);
       }}
-      getOptionSelected={(option, value) =>
-        option.description === value.description
-      }
+      getOptionSelected={(option, value) => option.id === value.id}
       onChange={(event, value) => {
         if (value != null) {
-          setSelectedQuestionID(value.id);
+          setFunction(value.id);
         }
       }}
-      getOptionLabel={option => option.description}
-      options={questions}
+      getOptionLabel={option => option.name}
+      options={options}
       loading={loading}
       renderInput={params => (
         <TextField
           {...params}
-          label="Select Question"
+          label={"Select " + type}
           variant="outlined"
           InputProps={{
             ...params.InputProps,

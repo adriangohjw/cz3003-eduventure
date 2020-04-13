@@ -16,10 +16,8 @@ import {
   SaveAlt,
   Search,
   ViewColumn,
-  CheckCircle as CheckCircleIcon,
-  Cancel as CancelIcon,
 } from "@material-ui/icons/";
-
+import TopicLessonDropDown from "../TopicLessonDropDown";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 
 import MaterialTable from "material-table";
@@ -58,6 +56,8 @@ export default function QuestionBankTable({
   handleDelete,
   handleUpdate,
   handleCreate,
+  setSelectedLessonID,
+  setSelectedTopicID,
   classes,
 }) {
   const textField = id => {
@@ -70,24 +70,20 @@ export default function QuestionBankTable({
       />
     );
   };
+
   const [state, setState] = useState({
     isLoading: true,
     columns: [
       { title: "ID", field: "id", editable: "never", deafultSort: "desc" },
-      { title: "Topic", field: "topic_name" },
       {
-        title: "Topic ID",
-        field: "topic_id",
-        hidden: true,
+        title: "Topic",
+        field: "topic_name",
+        editComponent: () => TopicLessonDropDown("topic", setSelectedTopicID),
       },
       {
         title: "Lesson",
         field: "lesson_name",
-      },
-      {
-        title: "Lesson ID",
-        field: "lesson_id",
-        hidden: true,
+        editComponent: () => TopicLessonDropDown("lesson", setSelectedLessonID),
       },
       { title: "Description", field: "description" },
       {
