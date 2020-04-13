@@ -31,6 +31,8 @@ public class QuizController : MonoBehaviour
             answers[i] = options[i].GetComponentInChildren<TMP_Text>();
             
         }
+        //TODO
+        //quizID = UserController.quizID -initialize
         //StartCoroutine(GetLesson("TODO"));
     }
     private IEnumerator GetQuestion(string url)

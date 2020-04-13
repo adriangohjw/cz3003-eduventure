@@ -17,6 +17,8 @@ public class MainGameController : MonoBehaviour
     private TMP_Text pointsText;
     private Button[] crops;
     private TMP_Text[] cropsText;
+    private string selected;
+    public GameObject lessonMenu;
 
     // Start is called before the first frame update
     void Start()
@@ -24,21 +26,20 @@ public class MainGameController : MonoBehaviour
         cropMenu.SetActive(false);
         pointsMenu.SetActive(false);
         eventMenu.SetActive(false);
+        lessonMenu.SetActive(false);
         int i;
         crops = new Button[6];
         cropsText = new TMP_Text[6];
         pointsText = GameObject.Find("PointsText").GetComponent<TMP_Text>();
         //either hardcode crops and location or replace with a dynamic way
-        string[] cropNames = new string[6];
-        cropNames = CropManager.GetCropsNames(1);
         for (i=0;i<6;i++)
         {
             string s = string.Format("Crop{0}",i+1);
             Button _crops = GameObject.Find(s.ToString()).GetComponent<Button>();
             crops[i] = _crops;
             cropsText[i] = crops[i].GetComponentInChildren<TMP_Text>();
-            cropsText[i].text = cropNames[i];
         }
+        //StartCoroutine(GetCropProgress());
         //Instantiated Crops and Points Texts.
         //Update Crops Name/Level and Points Amount
         //StartCoroutine(GetPoints("TODO"));
@@ -47,9 +48,9 @@ public class MainGameController : MonoBehaviour
     public void CropClick()
     {
         //query database for statistic with Crop name
-        string cropSelected = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<TMP_Text>().text;
+        selected = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<TMP_Text>().text;
         cropMenu.SetActive(true);
-        //StartCoroutine(UpdateCropsMenu("TODO"));
+        //StartCoroutine(UpdateCropsMenu(LessonID));
     }
     public void CropMenuClose()
     {
@@ -73,7 +74,8 @@ public class MainGameController : MonoBehaviour
     }
     public void QuizStart()
     {
-        Debug.Log("TODO Go To Quiz Scene");
+        //from selected, get lessonID and start quiz scene
+        //SceneManager.LoadScene("QuizScene");
     }
     private IEnumerator GetPoints(string url)
     {
@@ -94,18 +96,51 @@ public class MainGameController : MonoBehaviour
             pointsContent.text = leaderboard.idontknow;
         }
     }
-    private IEnumerator UpdateCropsMenu(string url)
+    private IEnumerator UpdateCropsMenu(string topicID)
     {
+        //TODO
+        string url = "http://127.0.0.1:5000/lessons/?topic_id="+topicID; 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
             yield return webRequest.SendWebRequest();
             TMP_Text plantTitle = GameObject.Find("PlantTitle").GetComponent<TMP_Text>();
-            TMP_Text plantStats = GameObject.Find("PlantContent").GetComponent<TMP_Text>();
+            //TMP_Text plantStats = GameObject.Find("PlantContent").GetComponent<TMP_Text>();
 
             CropMenuDetails cropmenu = JsonUtility.FromJson<CropMenuDetails>(webRequest.downloadHandler.text);
             
             plantTitle.text = cropmenu.title;
-            plantStats.text = cropmenu.stats;
+            //plantStats.text = cropmenu.stats;
+        }
+    }
+    private IEnumerator GetCropProgress(int id)
+    {
+        string url = "http://127.0.0.1:5000/progresses/?student_id=" + UserController.userID.ToString();
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
+        {
+            yield return webRequest.SendWebRequest();
+            ProgressDetails progressDets = JsonUtility.FromJson<ProgressDetails>(webRequest.downloadHandler.text);
+            for (int i=0;i<6;i++)
+            {
+                float progress = (float.Parse(progressDets.topics[i].completed_lessons)/float.Parse(progressDets.topics[i].total_lessons));
+                cropsText[i].text = progressDets.topics[i].id +" "+progress.ToString();
+            }
+        }
+    }
+    public void LessonClick(){
+        string cropSelected = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<TMP_Text>().text;
+        //StartCoroutine(UpdateLessonMenu(cropSelected));
+    }
+    private IEnumerator UpdateLessonMenu(string cropSelected)
+    {
+        string url = string.Format("http://127.0.0.1:5000/lesson/?topic_id={0}+&lesson_id={1}",selected,cropSelected)
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
+        {
+            yield return webRequest.SendWebRequest();
+            ProgressLessonDetails lessonDets = JsonUtility.FromJson<ProgressLessonDetails>(webRequest.downloadHandler.text);
+            lessonMenu.SetActive(True);
+            TMP_Text plantStats = GameObject.Find("PlantStats").GetComponent<TMP_Text>();
+            plantStats.text = string.Format("Number of quizzes available: {0}\nNumber of quizzes completed: {1}",lessonDets.total_quizes,lessonDets.completed_quizzes);
+            //TODO update selected
         }
     }
 }
@@ -125,4 +160,36 @@ public class CropMenuDetails
 {
     public string title;
     public string stats;
+}
+[Serializable]
+public class ProgressDetails
+{
+    public string error;
+    public ProgressTopicDetails[] topics;
+}
+[Serializable]
+public class ProgressTopicDetails
+{
+    public string id;
+    public string total_lessons;
+    public string completed_lessons;
+    public ProgressLessonDetails[] lessons;
+    public bool completion_status;
+}
+[Serializable]
+public class ProgressLessonDetails
+{
+    public string id;
+    public string total_quizes;
+    public string completed_quizzes;
+    public ProgressQuizDetails[] quizzes;
+    public bool completion_status;
+}
+[Serializable]
+public class ProgressQuizDetails
+{
+    public string max_score;
+    public bool completion_status;
+    public string total_questions;
+
 }
