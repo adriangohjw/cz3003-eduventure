@@ -48,6 +48,8 @@ from services.core.operations.tests.test_student_operations import Test_students
 from services.core.operations.tests.test_topics_operations import Test_topics_operations
 from services.core.operations.tests.test_users_operations import Test_users_operations
 
+from services.core.controllers.tests.test_UsersController import Test_usersController
+
 from services.quiz.dao.tests.test_QuizzesDao import Test_quizzes_dao
 from services.quiz.dao.tests.test_QuestionsDAO import Test_QuestionsDAO
 from services.quiz.dao.tests.test_QuestionChoicesDAO import Test_QuestionChoicesDAO
