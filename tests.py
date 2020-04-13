@@ -51,6 +51,7 @@ from services.core.operations.tests.test_users_operations import Test_users_oper
 from services.core.controllers.tests.test_ChallengesController import Test_challengesController
 from services.core.controllers.tests.test_CoursesController import Test_coursesController
 from services.core.controllers.tests.test_LessonsController import Test_lessonsController
+from services.core.controllers.tests.test_ProgressesController import Test_progressesController
 from services.core.controllers.tests.test_QuestionAttemptsController import Test_questionAttemptsController
 from services.core.controllers.tests.test_QuizAttemptsController import Test_quizAttemptsController
 from services.core.controllers.tests.test_StudentsController import Test_studentsController
