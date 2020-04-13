@@ -58,31 +58,41 @@ export default function QuestionBankTable({
   handleCreate,
   setSelectedLessonID,
   setSelectedTopicID,
+  setCorrectOption,
+  setIncorrectOption1,
+  setIncorrectOption2,
+  setIncorrectOption3,
   classes,
 }) {
-  const textField = id => {
+  const textField = (setOptionFunction, name, id, defaultValue) => {
     return (
       <TextField
         id={id}
+        name={name}
+        defaultValue={defaultValue}
         onChange={event => {
-          console.log(event.target.value);
+          setOptionFunction({
+            id: id,
+            description: event.target.value,
+          });
         }}
       />
     );
   };
 
   const [state, setState] = useState({
-    isLoading: true,
     columns: [
       { title: "ID", field: "id", editable: "never", deafultSort: "desc" },
       {
         title: "Topic",
         field: "topic_name",
+        editable: "onAdd",
         editComponent: () => TopicLessonDropDown("topic", setSelectedTopicID),
       },
       {
         title: "Lesson",
         field: "lesson_name",
+        editable: "onAdd",
         editComponent: () => TopicLessonDropDown("lesson", setSelectedLessonID),
       },
       { title: "Description", field: "description" },
@@ -94,13 +104,10 @@ export default function QuestionBankTable({
           color: "#10a100",
         },
         render: rowData => {
-          const correct =
-            rowData.choices.length > 0
-              ? rowData.choices.filter(choice => choice.is_correct)[0]
-                  .description
-              : null;
-
-          return correct;
+          const correct = rowData.choices.filter(
+            choice => choice.is_correct == true,
+          );
+          return correct.length > 0 ? correct[0].description : null;
         },
         editComponent: rowData => {
           if (rowData.value != undefined) {
@@ -108,20 +115,17 @@ export default function QuestionBankTable({
             const correctOption = rowData.value.filter(
               choice => choice.is_correct == true,
             )[0];
-            return correctOption != undefined ? (
-              <TextField
-                id={correctOption.id.toString()}
-                defaultValue={correctOption.description}
-                onChange={event => {
-                  console.log(event.target.value);
-                }}
-              />
-            ) : (
-              textField("0")
-            );
+            return correctOption != undefined
+              ? textField(
+                  setCorrectOption,
+                  "correctOption",
+                  correctOption.id.toString(),
+                  correctOption.description,
+                )
+              : textField(setCorrectOption, "correctOption", "1", null);
           } else {
             // for add new Question
-            return textField("0");
+            return textField(setCorrectOption, "correctOption", "1", null);
           }
         },
       },
@@ -144,17 +148,23 @@ export default function QuestionBankTable({
             const incorrect = rowData.value.filter(
               choice => !choice.is_correct,
             );
-            return incorrect.length > 0 ? (
-              <TextField
-                id={incorrect[0].id.toString()}
-                defaultValue={incorrect[0].description}
-              />
-            ) : (
-              textField("1")
-            );
+            return incorrect.length > 0
+              ? textField(
+                  setIncorrectOption1,
+                  "incorrectOption1",
+                  incorrect[0].id.toString(),
+                  incorrect[0].description,
+                )
+              : textField(setIncorrectOption1, "incorrectOption1", "2", null);
           }
           //for add new Question
-          else return textField("1");
+          else
+            return textField(
+              setIncorrectOption1,
+              "incorrectOption1",
+              "2",
+              null,
+            );
         },
       },
       {
@@ -176,17 +186,23 @@ export default function QuestionBankTable({
             const incorrect = rowData.value.filter(
               choice => !choice.is_correct,
             );
-            return incorrect.length > 1 ? (
-              <TextField
-                id={incorrect[1].id.toString()}
-                defaultValue={incorrect[1].description}
-              />
-            ) : (
-              textField("2")
-            );
+            return incorrect.length > 1
+              ? textField(
+                  setIncorrectOption2,
+                  "incorrectOption2",
+                  incorrect[1].id.toString(),
+                  incorrect[1].description,
+                )
+              : textField(setIncorrectOption2, "incorrectOption2", "3", null);
           }
           //for add new Question
-          else return textField("2");
+          else
+            return textField(
+              setIncorrectOption2,
+              "incorrectOption2",
+              "3",
+              null,
+            );
         },
       },
       {
@@ -208,17 +224,23 @@ export default function QuestionBankTable({
             const incorrect = rowData.value.filter(
               choice => !choice.is_correct,
             );
-            return incorrect.length > 2 ? (
-              <TextField
-                id={incorrect[2].id.toString()}
-                defaultValue={incorrect[2].description}
-              />
-            ) : (
-              textField("3")
-            );
+            return incorrect.length > 2
+              ? textField(
+                  setIncorrectOption3,
+                  "incorrectOption3",
+                  incorrect[2].id.toString(),
+                  incorrect[2].description,
+                )
+              : textField(setIncorrectOption3, "incorrectOption3", "4", null);
           }
           //for add new Question
-          else return textField("3");
+          else
+            return textField(
+              setIncorrectOption3,
+              "incorrectOption3",
+              "4",
+              null,
+            );
         },
       },
     ],
@@ -240,11 +262,11 @@ export default function QuestionBankTable({
               }),
             onRowUpdate: (newData, oldData) =>
               new Promise(resolve => {
-                handleUpdate(newData);
+                handleUpdate(oldData, newData);
               }),
             onRowDelete: oldData =>
               new Promise(resolve => {
-                handleDelete(oldData["id"]);
+                handleDelete(oldData);
               }),
           }}
         />

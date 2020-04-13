@@ -36,9 +36,9 @@ const structure = [
   },
   {
     id: 2,
-    label: "Quizzes",
-    link: "/app/quizzes",
-    icon: <ClassIcon />,
+    label: "Syllabus",
+    link: "/app/syllabus",
+    icon: <MenuBookIcon />,
   },
   {
     id: 3,
@@ -48,9 +48,9 @@ const structure = [
   },
   {
     id: 4,
-    label: "Syllabus",
-    link: "/app/syllabus",
-    icon: <MenuBookIcon />,
+    label: "Quizzes",
+    link: "/app/quizzes",
+    icon: <ClassIcon />,
   },
   {
     id: 5,

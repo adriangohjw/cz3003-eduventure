@@ -4,6 +4,7 @@ import { useTheme } from "@material-ui/styles";
 import useStyles from "./styles";
 
 // components
+import { Button } from "@material-ui/core";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 import { url } from "../../context/UserContext";
@@ -178,5 +179,45 @@ export default function Syllabus() {
   //   retrieveQuizzes();
   // }, []);
 
-  return <>{isLoading ? <CircularProgress /> : <h2>Hello World</h2>}</>;
+  const [currentlyEditedOptions, setCurrentlyEditedOptions] = useState({
+    correctOption: {
+      id: "",
+      description: "",
+    },
+    incorrectOption1: {
+      id: "",
+      description: "",
+    },
+    incorrectOption2: {
+      id: "",
+      description: "",
+    },
+    incorrectOption3: {
+      id: "",
+      description: "",
+    },
+  });
+  const somefunc = () => {
+    setCurrentlyEditedOptions({
+      ...currentlyEditedOptions,
+      incorrectOption1: {
+        id: 1,
+        description: 2,
+      },
+    });
+    console.log("ceo", currentlyEditedOptions);
+  };
+  return (
+    <>
+      {isLoading ? <CircularProgress /> : <h2>Hello World</h2>}
+      <Button variant="contained" onClick={somefunc}>
+        Default
+      </Button>
+
+      <div>1 {currentlyEditedOptions.incorrectOption1.id}</div>
+      <div>2 {currentlyEditedOptions.incorrectOption1.description}</div>
+      <div>3 {currentlyEditedOptions.incorrectOption2.id}</div>
+      <div>4 {currentlyEditedOptions.incorrectOption2.description}</div>
+    </>
+  );
 }
