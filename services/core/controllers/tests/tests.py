@@ -4,6 +4,7 @@ sys.path.append(getcwd())
 
 import unittest
 
+from services.core.controllers.tests.test_LessonsController import Test_lessonsController
 from services.core.controllers.tests.test_StudentsController import Test_studentsController
 from services.core.controllers.tests.test_StudentsController import Test_studentsController
 from services.core.controllers.tests.test_TopicsController import Test_topicsController
