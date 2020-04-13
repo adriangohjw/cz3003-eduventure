@@ -56,9 +56,10 @@ class Staff(User):
         return {
             'id': self.id,
             'email': self.email,
+            'name': self.name,
             'count_courses': len(self.courses),
             'courses': [c.to_json() for c in self.courses],
-            'quizzes': self.quizzes
+            'quizzes': [q.asdict() for q in self.quizzes]
         }
 
 class Student(User):
