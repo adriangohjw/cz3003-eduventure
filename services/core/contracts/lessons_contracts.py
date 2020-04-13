@@ -36,10 +36,6 @@ def validate_content(content):
         raise ValueError("Content is empty")
 
 def validate_url_link(url_link):
-    # if no 'url_link' found in params
-    if (url_link is None):
-        raise TypeError("Request params (url_link) not found")
-
     # if url_link params is empty
     if not url_link: 
         raise ValueError("url_link is empty")
@@ -69,7 +65,9 @@ def lessonCreateContract(request):
     validate_topic_id(topic_id)
     validate_name(name)
     validate_content(content)
-    validate_url_link(url_link)
+
+    if url_link is not None:
+        validate_url_link(url_link)
     
     return {
         'topic_id': topic_id,
