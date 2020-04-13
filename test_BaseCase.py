@@ -15,12 +15,12 @@ from models import \
     Rs_lesson_quiz_contain, Rs_quiz_course_assign, Rs_quiz_question_contain, Rs_student_course_enrol
 from services.core.operations.users_operations import encrypt
 
-import ast
+import json 
 
 
 def res_to_dict(response):
     dict_str = response.data.decode("UTF-8")
-    mydata = ast.literal_eval(dict_str)
+    mydata = json.loads(dict_str)
     return mydata
 
 
