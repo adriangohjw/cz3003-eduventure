@@ -45,6 +45,9 @@ class Staff(User):
         return {
             'id': self.id,
             'email': self.email,
+            'encrypted_password': self.encrypted_password,
+            'name': self.name,
+            'created_at': self.created_at,
             'count_quizzes': len(self.quizzes),
             'quizzes': [q.to_json() for q in self.quizzes]
         }
