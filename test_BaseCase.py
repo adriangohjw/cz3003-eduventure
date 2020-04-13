@@ -11,7 +11,7 @@ app.app_context().push()
 db.init_app(app)
 
 from models import \
-    User, Student, Staff, Topic, Lesson, Quiz, QuizAttempt, Question, Course,\
+    User, Student, Staff, Topic, Lesson, Quiz, QuizAttempt, Question, Course, Challenge, \
     Rs_lesson_quiz_contain, Rs_quiz_course_assign, Rs_quiz_question_contain, Rs_student_course_enrol, \
     Rs_staff_course_teach
 from services.core.operations.users_operations import encrypt
@@ -133,5 +133,13 @@ class Test_BaseCase(unittest.TestCase):
         db.session.add(Rs_quiz_course_assign_2)
         Rs_quiz_course_assign_3 = Rs_quiz_course_assign(3, 'cz1005')
         db.session.add(Rs_quiz_course_assign_3)
+
+        # adding challenges
+        challenge_1 = Challenge(1, 2, 1)
+        db.session.add(challenge_1)
+        challenge_2 = Challenge(1, 2, 2)
+        db.session.add(challenge_2)
+        challenge_3 = Challenge(2, 1, 1)
+        db.session.add(challenge_3)
 
         db.session.commit()
