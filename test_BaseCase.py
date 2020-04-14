@@ -75,15 +75,15 @@ class Test_BaseCase(unittest.TestCase):
         db.session.add(quiz_3)
 
         # adding questions
-        question_1 = Question(1, 1, 'description')
+        question_1 = Question(1, 1, 'description_1')
         db.session.add(question_1)
-        question_2 = Question(1, 1, 'description')
+        question_2 = Question(1, 1, 'description_2')
         db.session.add(question_2)
-        question_3 = Question(1, 3, 'description')
+        question_3 = Question(1, 3, 'description_3')
         db.session.add(question_3)
-        question_4 = Question(1, 3, 'description')
+        question_4 = Question(1, 3, 'description_4')
         db.session.add(question_4)
-        question_5 = Question(1, 3, 'description')
+        question_5 = Question(1, 3, 'description_5')
         db.session.add(question_5)
 
         # assign questions to quiz
