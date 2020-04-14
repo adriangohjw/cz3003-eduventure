@@ -78,6 +78,7 @@ from services.quiz.operations.tests.test_quizzes_operations import Test_quizzes_
 from services.quiz.operations.tests.test_rs_quiz_course_assigns_operations import Test_rs_quiz_course_assigns_operations
 from services.quiz.operations.tests.test_rs_quiz_question_contains_operations import Test_rs_quiz_question_contains_operations
 
+from services.quiz.controllers.tests.test_QuestionChoicesController import Test_questionChoicesController
 from services.quiz.controllers.tests.test_QuestionsController import Test_questionsController
 from services.quiz.controllers.tests.test_QuizzesController import Test_quizzesController
 
