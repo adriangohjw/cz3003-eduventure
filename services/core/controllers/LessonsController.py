@@ -229,6 +229,6 @@ class QuizManagerAPI(Resource):
         # success case
         return make_response(
             jsonify(
-                message = 'Successfully deleted question choice'
+                message = 'Successfully deleted rs'
             ), 200
         )

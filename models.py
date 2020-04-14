@@ -45,6 +45,9 @@ class Staff(User):
         return {
             'id': self.id,
             'email': self.email,
+            'encrypted_password': self.encrypted_password,
+            'name': self.name,
+            'created_at': self.created_at,
             'count_quizzes': len(self.quizzes),
             'quizzes': [q.to_json() for q in self.quizzes]
         }
@@ -53,9 +56,10 @@ class Staff(User):
         return {
             'id': self.id,
             'email': self.email,
+            'name': self.name,
             'count_courses': len(self.courses),
             'courses': [c.to_json() for c in self.courses],
-            'quizzes': self.quizzes
+            'quizzes': [q.asdict() for q in self.quizzes]
         }
 
 class Student(User):
@@ -85,6 +89,7 @@ class Student(User):
         return {
             'id': self.id,
             'email': self.email,
+            'name': self.name,
             'count_courses': len(self.courses),
             'courses': [c.to_json() for c in self.courses]
         }

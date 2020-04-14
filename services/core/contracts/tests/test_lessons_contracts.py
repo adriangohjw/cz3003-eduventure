@@ -52,9 +52,6 @@ class Test_lessons_contracts(unittest.TestCase):
 
     def test_validate_url_link(self):
 
-        with self.assertRaises(TypeError):
-            validate_url_link(None)
-
         with self.assertRaises(ValueError):
             validate_url_link("")
             validate_url_link("www.google.com")

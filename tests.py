@@ -48,6 +48,18 @@ from services.core.operations.tests.test_student_operations import Test_students
 from services.core.operations.tests.test_topics_operations import Test_topics_operations
 from services.core.operations.tests.test_users_operations import Test_users_operations
 
+from services.core.controllers.tests.test_ChallengesController import Test_challengesController
+from services.core.controllers.tests.test_CoursesController import Test_coursesController
+from services.core.controllers.tests.test_LessonsController import Test_lessonsController
+from services.core.controllers.tests.test_ProgressesController import Test_progressesController
+from services.core.controllers.tests.test_QuestionAttemptsController import Test_questionAttemptsController
+from services.core.controllers.tests.test_QuizAttemptsController import Test_quizAttemptsController
+from services.core.controllers.tests.test_StaffsController import Test_staffsController
+from services.core.controllers.tests.test_StatisticsController import Test_statisticsController
+from services.core.controllers.tests.test_StudentsController import Test_studentsController
+from services.core.controllers.tests.test_TopicsController import Test_topicsController
+from services.core.controllers.tests.test_UsersController import Test_usersController
+
 from services.quiz.dao.tests.test_QuizzesDao import Test_quizzes_dao
 from services.quiz.dao.tests.test_QuestionsDAO import Test_QuestionsDAO
 from services.quiz.dao.tests.test_QuestionChoicesDAO import Test_QuestionChoicesDAO
@@ -66,6 +78,9 @@ from services.quiz.operations.tests.test_quizzes_operations import Test_quizzes_
 from services.quiz.operations.tests.test_rs_quiz_course_assigns_operations import Test_rs_quiz_course_assigns_operations
 from services.quiz.operations.tests.test_rs_quiz_question_contains_operations import Test_rs_quiz_question_contains_operations
 
+from services.quiz.controllers.tests.test_QuestionChoicesController import Test_questionChoicesController
+from services.quiz.controllers.tests.test_QuestionsController import Test_questionsController
+from services.quiz.controllers.tests.test_QuizzesController import Test_quizzesController
 
 if __name__ == '__main__':
     unittest.main()
