@@ -268,31 +268,15 @@ export default function QuestionBank() {
 
     if (isEmpty(correctOption)) {
       _correct = oldData["choices"].find(choice => choice["id"] == "1");
-      // setCorrectOption({
-      //   id: _correct.id,
-      //   description: _correct.description,
-      // });
     } else _correct = correctOption;
     if (isEmpty(incorrectOption1)) {
       _incorrect1 = oldData.choices.find(choice => choice.id == 2);
-      // setIncorrectOption1({
-      //   id: _incorrect1.id,
-      //   description: _incorrect1.description,
-      // });
     } else _incorrect1 = incorrectOption1;
     if (isEmpty(incorrectOption2)) {
       _incorrect2 = oldData.choices.find(choice => choice.id == 3);
-      // setIncorrectOption2({
-      //   id: _incorrect2.id,
-      //   description: _incorrect2.description,
-      // });
     } else _incorrect2 = incorrectOption2;
     if (isEmpty(incorrectOption3)) {
       _incorrect3 = oldData.choices.find(choice => choice.id == 4);
-      // setIncorrectOption3({
-      //   id: _incorrect3.id,
-      //   description: _incorrect3.description,
-      // });
     } else _incorrect3 = incorrectOption3;
     Promise.all([
       fetch(
@@ -300,10 +284,6 @@ export default function QuestionBank() {
         { method: "PUT" },
       ),
       fetch(
-        // url +
-        //   `question_choices/?question_id=${newData.id}&questionChoice_id=${
-        //     correctOption.id
-        //   }&description=${correctOption.description}&is_correct=${true}`,
         url +
           `question_choices/?question_id=${newData.id}&questionChoice_id=${
             _correct.id
@@ -311,10 +291,6 @@ export default function QuestionBank() {
         { method: "PUT" },
       ),
       fetch(
-        // url +
-        //   `question_choices/?question_id=${newData.id}&questionChoice_id=${
-        //     incorrectOption1.id
-        //   }&description=${incorrectOption1.description}&is_correct=${false}`,
         url +
           `question_choices/?question_id=${newData.id}&questionChoice_id=${
             _incorrect1.id
@@ -322,10 +298,6 @@ export default function QuestionBank() {
         { method: "PUT" },
       ),
       fetch(
-        // url +
-        //   `question_choices/?question_id=${newData.id}&questionChoice_id=${
-        //     incorrectOption2.id
-        //   }&description=${incorrectOption2.description}&is_correct=${false}`,
         url +
           `question_choices/?question_id=${newData.id}&questionChoice_id=${
             _incorrect2.id
@@ -333,10 +305,6 @@ export default function QuestionBank() {
         { method: "PUT" },
       ),
       fetch(
-        // url +
-        //   `question_choices/?question_id=${newData.id}&questionChoice_id=${
-        //     incorrectOption3.id
-        //   }&description=${incorrectOption3.description}&is_correct=${false}`,
         url +
           `question_choices/?question_id=${newData.id}&questionChoice_id=${
             _incorrect3.id

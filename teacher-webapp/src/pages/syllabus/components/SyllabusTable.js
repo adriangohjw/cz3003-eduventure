@@ -1,4 +1,4 @@
-import React, { forwardRef, useState, setState } from "react";
+import React, { forwardRef, useState, setState, useEffect } from "react";
 import { Paper } from "@material-ui/core";
 import {
   AddBox,
@@ -18,12 +18,9 @@ import {
   ViewColumn,
 } from "@material-ui/icons/";
 
-import AssignmentIcon from "@material-ui/icons/Assignment";
+import SchoolIcon from "@material-ui/icons/School";
 
 import MaterialTable from "material-table";
-import QuestionsTable from "./QuestionsTable";
-
-import { url } from "../../../../context/UserContext";
 
 // import { useTheme } from "@material-ui/styles";
 
@@ -49,13 +46,10 @@ const tableIcons = {
   SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
   ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
-  Assignment: forwardRef((props, ref) => (
-    <AssignmentIcon {...props} ref={ref} />
-  )),
 };
 
-export default function QuizzesTable({
-  quizzes,
+export default function SyllabusTable({
+  data,
   handleDelete,
   handleUpdate,
   handleCreate,
@@ -63,57 +57,71 @@ export default function QuizzesTable({
 }) {
   const [state, setState] = useState({
     isLoading: true,
-    columns: [
+    topicColumns: [
       { title: "ID", field: "id", editable: "never", deafultSort: "desc" },
       { title: "Name", field: "name" },
-      { title: "Setter", field: "staff.name", editable: "never" },
-      {
-        title: "Quiz Type",
-        field: "is_fast",
-        lookup: { true: "Fast", false: "Normal" },
-      },
-      { title: "Attempts", field: "attempts.length", editable: "never" },
-      { title: "Average", field: "average_score", editable: "never" },
-      { title: "Highest", field: "highest_score", editable: "never" },
-      { title: "Lowest", field: "lowest_score", editable: "never" },
-      { title: "Starts On", field: "date_start", type: "date" },
-      { title: "Ends On", field: "date_end", type: "date" },
     ],
-    data: quizzes,
+    lessonColumns: [
+      { title: "ID", field: "id", editable: "never", deafultSort: "desc" },
+      { title: "Name", field: "name" },
+      { title: "Content", field: "content" },
+      { title: "Further Learning", field: "url_link" },
+    ],
   });
 
   return (
     <React.Fragment>
-      <Paper className={classes.quizTable}>
+      <Paper className={classes.topicsTable}>
         <MaterialTable
-          title="Quizzes"
-          columns={state.columns}
-          data={state.data}
+          title="Topics"
+          columns={state.topicColumns}
+          data={data.topics}
           icons={tableIcons}
           editable={{
             onRowAdd: newData =>
               new Promise(resolve => {
-                handleCreate(newData);
+                handleCreate("topic", newData);
               }),
             onRowUpdate: (newData, oldData) =>
               new Promise(resolve => {
-                handleUpdate(newData);
+                handleUpdate("topic", newData);
               }),
             onRowDelete: oldData =>
               new Promise(resolve => {
-                handleDelete(oldData["id"]);
+                handleDelete("topic", oldData["id"]);
               }),
-          }}
-          onRowClick={(event, rowData, togglePanel) => {
-            togglePanel();
           }}
           detailPanel={[
             {
-              icon: () => <AssignmentIcon />,
-
-              tooltip: "Questions",
+              icon: () => <SchoolIcon />,
+              tooltip: "Lessons",
               render: rowData => {
-                return <QuestionsTable classes={classes} quizData={rowData} />;
+                return (
+                  <Paper className={classes.lessonsTable}>
+                    <MaterialTable
+                      title="Lessons"
+                      columns={state.lessonColumns}
+                      data={data.lessons.filter(
+                        lesson => lesson.topic_id == rowData.id,
+                      )}
+                      icons={tableIcons}
+                      editable={{
+                        onRowAdd: newData =>
+                          new Promise(resolve => {
+                            handleCreate("lesson", newData, rowData.id);
+                          }),
+                        onRowUpdate: (newData, oldData) =>
+                          new Promise(resolve => {
+                            handleUpdate("lesson", newData, rowData.id);
+                          }),
+                        onRowDelete: oldData =>
+                          new Promise(resolve => {
+                            handleDelete("lesson", oldData["id"], rowData.id);
+                          }),
+                      }}
+                    />
+                  </Paper>
+                );
               },
             },
           ]}

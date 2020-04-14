@@ -11,6 +11,13 @@ export default makeStyles(theme => ({
   table: {
     minWidth: 750,
   },
+  topicsTable: {
+    width: "100%",
+    marginBottom: theme.spacing(2),
+  },
+  lessonsTable: {
+    margin: "0px 20px 20px 20px",
+  },
   visuallyHidden: {
     border: 0,
     clip: "rect(0 0 0 0)",

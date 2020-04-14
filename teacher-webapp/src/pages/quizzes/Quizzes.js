@@ -84,14 +84,6 @@ export default function Quizzes() {
   };
 
   const formatDate = date => {
-    // console.log("dategetutcfullyear", date.getUTCFullYear());
-    // let result =
-    //   date.getUTCFullYear() +
-    //   "-" +
-    //   (date.getUTCMonth() + 1) +
-    //   "-" +
-    //   date.getUTCDate();
-    // console.log("result", result);
     let result = new Date(date);
     result = result.toISOString().split("T")[0];
     return result;

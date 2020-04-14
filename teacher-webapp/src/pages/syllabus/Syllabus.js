@@ -4,220 +4,151 @@ import { useTheme } from "@material-ui/styles";
 import useStyles from "./styles";
 
 // components
-import { Button } from "@material-ui/core";
+import SyllabusTable from "./components/SyllabusTable";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 import { url } from "../../context/UserContext";
 
-export default function Syllabus() {
-  const [id, setID] = useState([]);
-  var [isLoading, setIsLoading] = useState(false);
+export default function Quizzes() {
+  const [data, setData] = useState({
+    topics: [],
+    lessons: [],
+  });
+  var [isLoading, setIsLoading] = useState(true);
 
   var classes = useStyles();
 
-  var email = localStorage.getItem("email"); //should take from profile after
-
-  // const retrieveQuizzes = () => {
-  //   fetch(url + `staffs/?email=${email}`, {
-  //     method: "GET",
-  //   })
-  //     .then(res => {
-  //       if (res.ok) {
-  //         return res.json();
-  //       } else {
-  //         setIsLoading(false);
-  //         setIsQuizFound(false);
-  //         throw new Error("No Quizzes Found for this Staff ID");
-  //       }
-  //     })
-  //     .then(response => {
-  //       setID(response.id);
-  //       return response.quizzes.map(quiz => quiz.id);
-  //     })
-  //     .then(allQuizIDs => {
-  //       return Promise.all(
-  //         allQuizIDs.map(id =>
-  //           fetch(url + `quizzes/overall?id=${id}`, {
-  //             method: "GET",
-  //           })
-  //             .then(res => res.json())
-  //             .then(response => {
-  //               return response;
-  //             })
-  //             .catch(error => {
-  //               console.log(error);
-  //             }),
-  //         ),
-  //       );
-  //     })
-  //     .then(result => {
-  //       return result;
-  //     })
-  //     .then(allQuizDetails => {
-  //       setQuizzes(allQuizDetails);
-  //       setIsLoading(false);
-  //       setIsQuizFound(true);
-  //     })
-  //     .catch(error => console.log(error));
-  // };
-
-  // const deleteQuiz = id => {
-  //   setIsLoading(true);
-  //   fetch(url + `quizzes/?id=${id}`, {
-  //     method: "DELETE",
-  //   })
-  //     .then(response => {
-  //       if (response.ok) {
-  //         response.json();
-  //       } else {
-  //         retrieveQuizzes();
-  //         throw new Error("Couldn't delete!");
-  //       }
-  //     })
-  //     .then(() => {
-  //       retrieveQuizzes();
-  //       alert("Deleted successfully");
-  //     })
-  //     .catch(error => {
-  //       console.error("Error:", error);
-  //       alert("something went wrong");
-  //     });
-  // };
-
-  // const formatDate = date => {
-  //   // console.log("dategetutcfullyear", date.getUTCFullYear());
-  //   // let result =
-  //   //   date.getUTCFullYear() +
-  //   //   "-" +
-  //   //   (date.getUTCMonth() + 1) +
-  //   //   "-" +
-  //   //   date.getUTCDate();
-  //   // console.log("result", result);
-  //   let result = new Date(date);
-  //   result = result.toISOString().split("T")[0];
-  //   return result;
-  // };
-
-  // const updateQuiz = newData => {
-  //   setIsLoading(true);
-  //   var keys = [];
-  //   const uneditable_keys = [
-  //     "id",
-  //     "staff",
-  //     "attempts",
-  //     "average_score",
-  //     "lowest_score",
-  //     "highest_score",
-  //   ];
-  //   for (var key in newData) {
-  //     if (newData.hasOwnProperty(key) && !uneditable_keys.includes(key)) {
-  //       keys.push(key);
-  //     }
-  //   }
-  //   let quiz_id = newData["id"];
-  //   console.log("keys", keys);
-  //   // newData["is_fast"] = newData["is_fast"] ? "True" : "False";
-  //   Promise.all(
-  //     keys.map(key => {
-  //       let value = newData[key];
-  //       if (key == "date_start" || key == "date_end") {
-  //         value = formatDate(value);
-  //       }
-  //       fetch(url + `quizzes/?id=${quiz_id}&col=${key}&value=${value}`, {
-  //         method: "PUT",
-  //       })
-  //         .then(response => {
-  //           if (response.ok) {
-  //             response.json();
-  //           } else {
-  //             throw new Error("Server Error!");
-  //           }
-  //         })
-  //         .catch(error => {
-  //           console.error("Error:", error);
-  //           alert("something went wrong");
-  //         });
-  //     }),
-  //   ).then(() => {
-  //     // retrieveQuizzes();
-  //     alert("Updated successfully");
-  //   });
-  // };
-
-  // const createQuiz = newData => {
-  //   let { name, is_fast, date_start, date_end } = newData;
-  //   setIsLoading(true);
-  //   is_fast = is_fast == true ? "True" : "False";
-  //   date_start = formatDate(date_start);
-  //   date_end = formatDate(date_end);
-  //   fetch(
-  //     url +
-  //       `quizzes/?staff_id=${id}&name=${name}&is_fast=${is_fast}&date_start=${date_start}&date_end=${date_end}`,
-  //     {
-  //       method: "POST",
-  //     },
-  //   )
-  //     .then(response => {
-  //       if (response.ok) {
-  //         response.json();
-  //       } else {
-  //         retrieveQuizzes();
-  //         throw new Error("Server Error!");
-  //       }
-  //     })
-  //     .then(() => {
-  //       retrieveQuizzes();
-  //       alert("Created successfully");
-  //     })
-  //     .catch(error => {
-  //       console.error("Error:", error);
-  //       alert("something went wrong");
-  //     });
-  // };
-
-  // useEffect(() => {
-  //   retrieveQuizzes();
-  // }, []);
-
-  const [currentlyEditedOptions, setCurrentlyEditedOptions] = useState({
-    correctOption: {
-      id: "",
-      description: "",
-    },
-    incorrectOption1: {
-      id: "",
-      description: "",
-    },
-    incorrectOption2: {
-      id: "",
-      description: "",
-    },
-    incorrectOption3: {
-      id: "",
-      description: "",
-    },
-  });
-  const somefunc = () => {
-    setCurrentlyEditedOptions({
-      ...currentlyEditedOptions,
-      incorrectOption1: {
-        id: 1,
-        description: 2,
-      },
-    });
-    console.log("ceo", currentlyEditedOptions);
+  const retrieveData = () => {
+    Promise.all([
+      fetch(url + `topics/all`, {
+        method: "GET",
+      }),
+      fetch(url + `lessons/all`, {
+        method: "GET",
+      }),
+    ])
+      .then(responses => {
+        if (responses.find(res => !res.ok) == undefined) {
+          return Promise.all(responses.map(res => res.json()));
+        } else {
+          setIsLoading(false);
+          throw new Error("couldn't connect to server!");
+        }
+      })
+      .then(([topicResponse, lessonResponse]) => {
+        setData({
+          topics: topicResponse.topics,
+          lessons: lessonResponse.lessons,
+        });
+        setIsLoading(false);
+      })
+      .catch(error => console.log(error));
   };
+
+  const handleDelete = (type, delete_id, topic_id) => {
+    // when called from topic delete, delete_id is actually topic_id
+    setIsLoading(true);
+    const final_url =
+      type == "topic"
+        ? url + ``
+        : url + `lessons/?topic_id=${topic_id}&lesson_id=${delete_id}`;
+    fetch(final_url, {
+      method: "DELETE",
+    })
+      .then(response => {
+        if (response.ok) {
+          response.json();
+        } else {
+          retrieveData();
+          throw new Error("Couldn't delete!");
+        }
+      })
+      .then(() => {
+        retrieveData();
+        alert("Deleted successfully");
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        alert("something went wrong");
+      });
+  };
+
+  const handleUpdate = (type, newData, topic_id) => {
+    setIsLoading(true);
+    let { name, content, url_link } = newData;
+    const final_url =
+      type == "topic"
+        ? url + `topics/?name=${name}`
+        : url +
+          `lessons/?topic_id=${topic_id}&name=${name}&content=${content}&url_link=${url_link}`;
+    fetch(final_url, {
+      method: "PUT",
+    })
+      .then(response => {
+        if (response.ok) {
+          response.json();
+        } else {
+          retrieveData();
+          throw new Error("Server Error!");
+        }
+      })
+      .then(() => {
+        retrieveData();
+        alert("Created successfully");
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        alert("something went wrong");
+      });
+  };
+
+  const handleCreate = (type, newData, topic_id) => {
+    let { name, content, url_link } = newData;
+    setIsLoading(true);
+    const final_url =
+      type == "topic"
+        ? url + `topics/?name=${name}`
+        : url +
+          `lessons/?topic_id=${topic_id}&name=${name}&content=${content}&url_link=${url_link}`;
+    fetch(final_url, {
+      method: "POST",
+    })
+      .then(response => {
+        if (response.ok) {
+          response.json();
+        } else {
+          retrieveData();
+          throw new Error("Server Error!");
+        }
+      })
+      .then(() => {
+        retrieveData();
+        alert("Created successfully");
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        alert("something went wrong");
+      });
+  };
+
+  useEffect(() => {
+    retrieveData();
+  }, []);
+
   return (
     <>
-      {isLoading ? <CircularProgress /> : <h2>Hello World</h2>}
-      <Button variant="contained" onClick={somefunc}>
-        Default
-      </Button>
-
-      <div>1 {currentlyEditedOptions.incorrectOption1.id}</div>
-      <div>2 {currentlyEditedOptions.incorrectOption1.description}</div>
-      <div>3 {currentlyEditedOptions.incorrectOption2.id}</div>
-      <div>4 {currentlyEditedOptions.incorrectOption2.description}</div>
+      {isLoading ? (
+        <CircularProgress />
+      ) : (
+        <SyllabusTable
+          data={data}
+          handleDelete={handleDelete}
+          handleCreate={handleCreate}
+          handleUpdate={handleUpdate}
+          classes={classes}
+          theme={useTheme}
+        />
+      )}
     </>
   );
 }
