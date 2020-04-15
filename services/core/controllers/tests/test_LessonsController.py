@@ -60,7 +60,7 @@ class Test_lessonsController(Test_BaseCase):
         self.assertEqual(res['url_link'], 'https://www.google.com')
 
 
-    def test_LessonListAPI_PUT(self):
+    def test_LessonAPI_PUT(self):
 
         # invalid params input
         response = self.app.put('/lessons?topic_id=1&lesson_id=1&col=wrong_value&value=hello')
@@ -87,7 +87,7 @@ class Test_lessonsController(Test_BaseCase):
         self.assertEqual(res['url_link'], 'https://www.facebook.com')
 
     
-    def test_LessonListAPI_DELETE(self):
+    def test_LessonAPI_DELETE(self):
         
         # invalid params input
         response = self.app.delete('/lessons?topic_id=2&lesson_id=')

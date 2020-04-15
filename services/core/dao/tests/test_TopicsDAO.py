@@ -12,7 +12,7 @@ db.init_app(app)
 
 from services.core.operations.users_operations import encrypt
 from services.core.dao.TopicsDAO import \
-    topicCreate, topicRead, topicUpdate, topiclistRead
+    topicCreate, topicRead, topicUpdate, topicDelete, topiclistRead
 
 
 class Test_TopicsDAO(unittest.TestCase):
@@ -58,13 +58,24 @@ class Test_TopicsDAO(unittest.TestCase):
         db.session.add(top)
         db.session.commit()
 
-        name_original =top.name
         top.name = 'srs'
-
         topicUpdate()
 
         top = Topic.query.filter_by(id=1).first()
-        self.assertNotEqual(name_original, top.name)
+        self.assertEqual('srs', top.name)
+
+
+    def test_topicDelete(self):
+
+        topic = Topic(name="architecture")
+        db.session.add(topic)
+        db.session.commit()
+
+        self.assertEqual(len(Topic.query.all()), 1)
+
+        topicDelete(1)
+
+        self.assertEqual(len(Topic.query.all()), 0)
 
 
     def test_topiclistRead(self):
