@@ -5,12 +5,8 @@ from ..dao.StaffsDAO import staffRead, staffCreate
 from exceptions import ErrorWithCode
 
 def initializeStaff(email, password, name):
-    user = initializeUser(email, password)
-    if (user):
-        user.name = name
-        return Staff(user)
-    else:
-        return False
+    user = initializeUser(email, password, name)
+    return Staff(user)
 
 def staffReadOperation(email):
     staff = staffRead(col='email', value=email)

@@ -4,12 +4,9 @@ from .users_operations import initializeUser
 from ..dao.StudentsDAO import studentRead, studentCreate
 from exceptions import ErrorWithCode
 
-def initializeStudent(email, password, matriculation_number):
-    user = initializeUser(email, password)
-    if (user and (matriculation_number is not None)):
-        return Student(user, matriculation_number)
-    else:
-        return False
+def initializeStudent(email, password, matriculation_number, name):
+    user = initializeUser(email, password, name)
+    return Student(user, matriculation_number)
 
 def studentReadOperation(email):
     student = studentRead(col='email', value=email)
@@ -21,14 +18,14 @@ def studentReadOperation(email):
     # success case
     return student
 
-def studentCreateOperation(email, password, matriculation_number):
+def studentCreateOperation(email, password, matriculation_number, name):
     student = studentRead(col='email', value=email)
 
     # if student exist found
     if student:
         raise ErrorWithCode(412, "Existing student")
 
-    student = initializeStudent(email, password, matriculation_number)
+    student = initializeStudent(email, password, matriculation_number, name)
     if studentCreate(student) == False:
         raise ErrorWithCode(400, "Unsuccessful")
 
