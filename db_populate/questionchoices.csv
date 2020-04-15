@@ -1,0 +1,217 @@
+question_id,id,description,is_correct
+1,1,A. Maintainability,FALSE
+1,2,B. Portability,FALSE
+1,3,C. Robustness,FALSE
+1,4,D. None of the mentioned,TRUE
+2,1,A. Availability,FALSE
+2,2,B. Testability,TRUE
+2,3,C. Usability,FALSE
+2,4,D. Flexibility,FALSE
+3,1,A. Functional,TRUE
+3,2,B. Non-Functional,FALSE
+3,3,C. Known Requirement,FALSE
+3,4,D. None of the mentioned,FALSE
+4,1,A. It is a degree to which software running on one platform can easily be converted to run on another platform,TRUE
+4,2,"B. It cannot be enhanced by using languages, OS’ and tools that are universally available and standardized",FALSE
+4,3,C. The ability of the system to behave consistently in a user-acceptable manner when operating within the environment for which the system was intended,FALSE
+4,4,D. None of the mentioned,FALSE
+5,1,A. Product-oriented Approach – Focus on system (or software) quality,FALSE
+5,2,B. Process-oriented Approach – Focus on how NFRs can be used in the design process,FALSE
+5,3,C. Quantitative Approach – Find measurable scales for the functionality attributes,TRUE
+5,4,D. Qualitative Approach – Study various relationships between quality goals,FALSE
+6,1,"A. Usability, Reliability, Security, Flexibility",
+6,2,"B. Availability, Reliability, Maintainability, Security",FALSE
+6,3,"C. Availability, Reliability, Security, Safety",TRUE
+6,4,"D. Security, Safety, Testability, Usability",FALSE
+7,1,A. Identifying Stakeholder,TRUE
+7,2,B. Listing out Requirements,FALSE
+7,3,C. Requirements Gathering,FALSE
+7,4,D. All of the mentioned,FALSE
+8,1,"A. Known, Unknown, Undreamed",FALSE
+8,2,"B. User, Developer",FALSE
+8,3,"C. Functional, Non-Functional",FALSE
+8,4,"D. Normal, Expected, Exciting",TRUE
+9,1,A. Object Oriented Design (by Booch),FALSE
+9,2,B. Use Cases (by Jacobson),TRUE
+9,3,C. Fusion (by Coleman),FALSE
+9,4,D. Object Modeling Technique (by Rumbaugh),FALSE
+10,1,A. Three,FALSE
+10,2,B. Four,FALSE
+10,3,C. Six,FALSE
+10,4,D. Nine,TRUE
+11,1,A. Context Model,FALSE
+11,2,B. Behavioral Model,TRUE
+11,3,C. Data Model,FALSE
+11,4,D. Object Model,FALSE
+12,1,A. Behavioral Model,FALSE
+12,2,B. Context Model,FALSE
+12,3,C. Data Model,FALSE
+12,4,D. Structural Model,TRUE
+13,1,A. Structural perspective,TRUE
+13,2,B. Behavioral perspective,FALSE
+13,3,C. External perspective,FALSE
+13,4,D. All of the mentioned,FALSE
+14,1,A. Deployment,FALSE
+14,2,B. Collaboration,FALSE
+14,3,C. State chart,TRUE
+14,4,D. All of the mentioned,FALSE
+15,1,A. Activity,FALSE
+15,2,B. Data Flow Diagram (DFD),TRUE
+15,3,C. State Chart,FALSE
+15,4,D. Component,FALSE
+16,1,A. Realization,FALSE
+16,2,B. Aggregation,FALSE
+16,3,C. Generalization,TRUE
+16,4,D. dependency,FALSE
+17,1,"A. Use Case, Sequence",TRUE
+17,2,"B. Class, Object",FALSE
+17,3,"C. Activity, State Chart",FALSE
+17,4,D. All of the mentioned,FALSE
+18,1,A. Level 1,FALSE
+18,2,B. Level 2,TRUE
+18,3,C. Level 3,FALSE
+18,4,D. Level 4,FALSE
+19,1,A. Finding broken code,FALSE
+19,2,B. Evaluating deliverable to find errors,TRUE
+19,3,C. A stage of all projects,FALSE
+19,4,D. None of the above,FALSE
+20,1,A. Black box testing,FALSE
+20,2,B. White box testing,TRUE
+20,3,C. Yellow box testing,FALSE
+20,4,D. Green box testing,FALSE
+21,1,A. Run chart,TRUE
+21,2,B. Bar chart,FALSE
+21,3,C. Control chart,FALSE
+21,4,D. None of the mentioned,FALSE
+22,1,A. Retesting,FALSE
+22,2,B. Sanity testing,FALSE
+22,3,C. Breadth test and depth test,TRUE
+22,4,D. Confirmation testing,FALSE
+23,1,A. Design based testing,FALSE
+23,2,B. Structural testing,TRUE
+23,3,C. Error guessing technique,FALSE
+23,4,D. None of the mentioned,FALSE
+24,1,A. Developer’s end,TRUE
+24,2,B. User’s end,FALSE
+24,3,C. Developer’s & User’s end,FALSE
+24,4,D. None of the mentioned,FALSE
+25,1,A. Statement Testing,FALSE
+25,2,B. Decision Testing,FALSE
+25,3,C. Condition Coverage,FALSE
+25,4,D. All of the mentioned,TRUE
+26,1,A. Unit Testing,FALSE
+26,2,B. System Testing,FALSE
+26,3,C. Integration Testing,FALSE
+26,4,D. All of the mentioned,TRUE
+27,1,A. White Box Testing,FALSE
+27,2,B. Black Box Testing,TRUE
+27,3,C. White Box & Black Box Testing,FALSE
+27,4,D. None of the mentioned,FALSE
+28,1,A. Analysis,FALSE
+28,2,B. Design,FALSE
+28,3,C. Problem/Opportunity Identification,TRUE
+28,4,D. Development and Documentation,FALSE
+29,1,A. Program flowchart,TRUE
+29,2,B. Structure chart,FALSE
+29,3,C. Data-flow diagram,FALSE
+29,4,D. Module,FALSE
+30,1,A. Sequential structure,FALSE
+30,2,B. A List,FALSE
+30,3,C. A plan,FALSE
+30,4,D. An Algorithm,TRUE
+31,1,A. documentation,FALSE
+31,2,B. flowchart,FALSE
+31,3,C. program specification,TRUE
+31,4,D. design,FALSE
+32,1,A. Maintenance and Evaluation,FALSE
+32,2,B. Design,FALSE
+32,3,C. Analysis,FALSE
+32,4,D. Development and Documentation,TRUE
+33,1,A. Programmers,FALSE
+33,2,B. Project managers,FALSE
+33,3,C. Technical writers,FALSE
+33,4,D. Database administrators,TRUE
+34,1,A. Project design,FALSE
+34,2,B. Installation,FALSE
+34,3,C. Systems analysis,FALSE
+34,4,D. Programming,TRUE
+35,1,A. creating program code,FALSE
+35,2,B. finding and correcting errors in the program code,TRUE
+35,3,C. identifying the task to be computerized,FALSE
+35,4,D. creating the algorithm,FALSE
+36,1,A. Architecture,FALSE
+36,2,B. Data,FALSE
+36,3,C. Interface,FALSE
+36,4,D. All of the mentioned,TRUE
+37,1,A. Error corrections,FALSE
+37,2,B. Enhancements of capabilities,FALSE
+37,3,C. Deletion of obsolete capabilities,FALSE
+37,4,D. All of the mentioned,TRUE
+38,1,A. two,FALSE
+38,2,B. three,FALSE
+38,3,C. four,TRUE
+38,4,D. five,FALSE
+39,1,A. Corrective,FALSE
+39,2,B. Adaptive,TRUE
+39,3,C. Perfective,FALSE
+39,4,D. Preventive,FALSE
+40,1,A. six,FALSE
+40,2,B. seven,FALSE
+40,3,C. eight,TRUE
+40,4,D. nine,FALSE
+41,1,A. Regression Testing,TRUE
+41,2,B. System Testing,FALSE
+41,3,C. Integration Testing,FALSE
+41,4,D. Unit Testing,FALSE
+42,1,A. two,FALSE
+42,2,B. three,TRUE
+42,3,C. four,FALSE
+42,4,D. five,FALSE
+43,1,A. Coverage,FALSE
+43,2,B. Minimization,FALSE
+43,3,C. Safe,TRUE
+43,4,D. Maximization,FALSE
+44,1,A. Efficiency,FALSE
+44,2,B. Precision,FALSE
+44,3,C. Generality,TRUE
+44,4,D. Inclusiveness,FALSE
+45,1,A. Efficiency,FALSE
+45,2,B. Precision,FALSE
+45,3,C. Generality,FALSE
+45,4,D. Inclusiveness,TRUE
+46,1,A. Collaboration,FALSE
+46,2,B. Use case,TRUE
+46,3,C. State chart,FALSE
+46,4,D. Activity,FALSE
+47,1,A. Sequence Diagram,FALSE
+47,2,B. Collaboration Diagram,FALSE
+47,3,C. Class Diagram,FALSE
+47,4,D. Object Diagram,TRUE
+48,1,A. Sequence Diagram + Collaboration Diagram,TRUE
+48,2,B. Activity Diagram + State Chart Diagram,FALSE
+48,3,C. Deployment Diagram + Collaboration Diagram,FALSE
+48,4,D. None of the mentioned,FALSE
+49,1,A. Collaboration,FALSE
+49,2,B. Sequence,TRUE
+49,3,C. Activity,FALSE
+49,4,D. None of the mentioned,FALSE
+50,1,A. six,FALSE
+50,2,B. seven,FALSE
+50,3,C. eight,FALSE
+50,4,D. nine,TRUE
+51,1,A. system context model,FALSE
+51,2,B. interaction model,TRUE
+51,3,C. environmental model,FALSE
+51,4,D. both system context and interaction,FALSE
+52,1,A. system context model,TRUE
+52,2,B. interaction model,FALSE
+52,3,C. environmental model,FALSE
+52,4,D. both system context and interaction,FALSE
+53,1,A. Reconfigure,FALSE
+53,2,B. Shutdown,FALSE
+53,3,C. Powersave,FALSE
+53,4,D. All of the mentioned,TRUE
+54,1,A. tangible entities,FALSE
+54,2,B. scenario-based analysis,TRUE
+54,3,C. design-based analysis,FALSE
+54,4,D. none of the mentioned,FALSE
