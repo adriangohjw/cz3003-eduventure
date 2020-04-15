@@ -1,0 +1,55 @@
+topic_id,lesson_id,description
+1,1,Which one of the following is a functional requirement ?
+1,1,Which one of the following is a requirement that fits in a developer’s module ?
+1,1,"Consider a system where, a heat sensor detects an intrusion and alerts the security company. What kind of a requirement the system is providing ?"
+1,2,Which of the following statements explains portability in non-functional requirements?
+1,2,Choose the incorrect statement with respect to Non-Functional Requirement(NFR).
+1,2,What are the four dimensions of Dependability ?
+1,3,What is the first step of requirement elicitation ?
+1,3,What are the types of requirement in Quality Function Deployment(QFD) ?
+1,3,What kind of approach was introduced for elicitation and modelling to give a functional view of the system ?
+2,1,The Unified Modeling Language (UML) has become an effective standard for software modelling.How many different notations does it have ?
+2,1,Which model in system modelling depicts the dynamic behaviour of the system ?
+2,1,Which model in system modelling depicts the static nature of the system ?
+2,2,Which perspective in system modelling shows the system or data architecture.
+2,2,The UML supports event-based modeling using ____________ diagrams.
+2,2,Which of the following diagram is not supported by UML considering Data-driven modeling ?
+2,3,_____ allows us to infer that different members of classes have some common characteristics.
+2,3,___ & ___ diagrams of UML represent Interaction modeling.
+2,3,Which level of Entity Relationship Diagram (ERD) models all entities and relationships ?
+3,1,Which of the following term describes testing?
+3,1,What is Cyclomatic complexity?
+3,1,Lower and upper limits are present in which chart?
+3,2,Maintenance testing is performed using which methodology?
+3,2,White Box techniques are also classified as
+3,2,Alpha testing is done at
+3,3,Which of the following is/are White box technique?
+3,3,What are the various Testing Levels?
+3,3,Boundary value analysis belong to?
+4,1,Which is the first step in the software development life cycle ?
+4,1,Which tool is use for structured designing ?
+4,1,A step by step instruction used to solve a problem is known as
+4,2,"In the Analysis phase, the development of the ____ occurs, which is a clear statement of the goals and objectives of the project."
+4,2,Actual programming of software code is done during the _____ step in the SDLC.
+4,2,Who designs and implement database structures.
+4,3,_____ is the process of translating a task into a series of commands that a computer will use to perform that task.
+4,3,Debugging is:
+4,3,"In Design phase, which is the primary area of concern ?"
+5,1,Software Maintenance includes
+5,1,Maintenance is classified into how many categories ?
+5,1,"The modification of the software to match changes in the ever changing environment, falls under which category of software maintenance?"
+5,2,How many phases are there in Taute Maintenance Model?
+5,2,What type of software testing is generally used in Software Maintenance?
+5,2,Selective retest techniques may be more economical than the “retest-all”technique.How many selective retest techniques are there?
+5,3,Which selective retest technique selects every test case that causes a modified program to produce a different output than its original version?
+5,3,______ measures the ability of a regression test selection technique to handle realistic applications.
+5,3,Which regression test selection technique exposes faults caused by modifications?
+6,1,Which of the following UML diagrams has a static view?
+6,1,Which diagram in UML shows a complete or partial view of the structure of a modeled system at a specific time?
+6,1,Sequence Diagram + Collaboration Diagram
+6,2,Which of the following diagram is time oriented?
+6,2,How many diagrams are here in Unified Modelling Language?
+6,2,Which of the following is a dynamic model that shows how the system interacts with its environment as it is used?
+6,3,Which of the following is a structural model that demonstrates the other systems in the environment of the system being developed?
+6,3,Which of the following come under system control?
+6,3,We use _____ where various parts of system use are identified and analyzed in turn.

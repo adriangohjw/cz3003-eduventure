@@ -1,0 +1,8 @@
+from_student_id,to_student_id,quiz_id,winner_id,is_completed
+6,7,1,6,TRUE
+6,8,1,,FALSE
+11,7,1,7,TRUE
+11,9,1,9,TRUE
+9,7,1,,FALSE
+9,8,1,9,TRUE
+6,7,2,,FALSE
