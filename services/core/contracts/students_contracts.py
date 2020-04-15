@@ -1,6 +1,6 @@
 from flask import request
 
-from .users_contracts import validate_email, validate_password
+from .users_contracts import validate_email, validate_password, validate_name
 
 def validate_matriculation_number(matriculation_number):
     # if no 'matriculation_number' found in params
@@ -24,13 +24,17 @@ def studentCreateContract(request):
     email = request.args.get('email')
     password = request.args.get('password')
     matriculation_number = request.args.get('matriculation_number')
+    name = request.args.get('name')
     
     validate_email(email)
     validate_password(password)
     validate_matriculation_number(matriculation_number)
+    if name is not None:
+        validate_name(name)
     
     return {
         'email': email,
         'password': password,
-        'matriculation_number': matriculation_number
+        'matriculation_number': matriculation_number,
+        'name': name
     }

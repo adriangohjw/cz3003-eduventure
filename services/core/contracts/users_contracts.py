@@ -25,6 +25,15 @@ def validate_password(password):
     if not password: 
         raise ValueError("Password is empty")
 
+def validate_name(name):
+    # if no 'name' found in params
+    if (name is None):
+        raise TypeError("Request params (name) not found")
+
+    # if name params is empty
+    if not name: 
+        raise ValueError("Name is empty")
+
 def userReadContract(request):    
     email = request.args.get('email')
 
