@@ -39,7 +39,7 @@ def topicUpdateOperation(id, name):
 
     # if topic not found
     if topic is None:
-        raise ErrorWithCode(412, "No topic found")
+        raise ErrorWithCode(404, "No topic found")
 
     topic.name = name
 
@@ -55,7 +55,7 @@ def topicDeleteOperation(id):
 
     # if topic not found
     if topic is None:
-        raise ErrorWithCode(412, "No topic found")
+        raise ErrorWithCode(404, "No topic found")
 
     lessons = lessonListRead()
     for lesson in lessons:
