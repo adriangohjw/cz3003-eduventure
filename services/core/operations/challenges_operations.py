@@ -13,10 +13,6 @@ def challengeReadOperation(from_student_id, to_student_id, quiz_id, is_completed
 
     challenges = challengeRead(from_student_id, to_student_id, quiz_id, is_completed)
 
-    # challenge is not found
-    if len(challenges) == 0:
-        raise ErrorWithCode(409, "No challenge found")
-
     # success case
     return challenges
 

@@ -35,3 +35,13 @@ def create_app():
     app.register_blueprint(questionchoice_bp, url_prefix='/question_choices')
 
     return app
+
+if __name__ == "__main__":
+
+    app = create_app()
+
+    from models import db 
+    db.init_app(app)
+
+    app.run(port=5000, debug=True)
+    

@@ -66,3 +66,11 @@ In Windows CMD, ensure you are in the folder of your repository
 ## Running test scripts
 
 `python tests.py`
+
+## Do load testing using Locust
+
+1. In console #1, run your local server using `python run_test.py`
+2. In console #2, start locust server using `locust --host=http://localhost:5000`
+3. Open web browser and go to `http://localhost:8089/`
+4. Enter `number of users` and `hatch rate` (e.g. 100, 10)
+5. Start load testing by clicking `Start swarming`
