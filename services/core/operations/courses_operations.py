@@ -14,7 +14,7 @@ def courseReadOperation(index):
 
     # course is not found
     if course is None:
-        raise ErrorWithCode(404, "No course found")
+        raise ErrorWithCode(409, "No course found")
 
     # success case
     return course
@@ -24,11 +24,11 @@ def courseCreateOperation(index):
 
     # if course exist found
     if course:
-        raise ErrorWithCode(412, "Existing course")
+        raise ErrorWithCode(409, "Existing course")
 
     course = initializeCourse(index)
     if courseCreate(course) == False:
-        raise ErrorWithCode(400, "Unsuccessful")
+        raise ErrorWithCode(503, "Unsuccessful")
 
     # success case
     return course

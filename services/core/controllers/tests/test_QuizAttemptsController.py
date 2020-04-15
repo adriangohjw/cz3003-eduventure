@@ -27,8 +27,7 @@ class Test_quizAttemptsController(Test_BaseCase):
         # record not found
         response = self.app.get('quiz_attempts/list?student_id=1&quiz_id=2')
         res = res_to_dict(response)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(res['list']), 0)
+        self.assertEqual(response.status_code, 409)
         
         # success case
         response = self.app.get('quiz_attempts/list?student_id=1&quiz_id=1')

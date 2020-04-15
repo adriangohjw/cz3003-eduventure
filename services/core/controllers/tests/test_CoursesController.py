@@ -22,7 +22,7 @@ class Test_coursesController(Test_BaseCase):
 
         # record not found
         response = self.app.get('/courses?index=cz3003')
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 409)
         
         # success case
         response = self.app.get('/courses?index=cz1005')
@@ -35,7 +35,7 @@ class Test_coursesController(Test_BaseCase):
 
         # existing record
         response = self.app.post('/courses?index=cz1005')
-        self.assertEqual(response.status_code, 412)
+        self.assertEqual(response.status_code, 409)
 
          # success case
         response = self.app.post('/courses?index=cz3003')
@@ -48,7 +48,7 @@ class Test_coursesController(Test_BaseCase):
 
         # record not found
         response = self.app.get('/courses/students/all?course_index=cz3003')
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 409)
 
         # success case (students found in class)
         response = self.app.get('/courses/students/all?course_index=cz1005')

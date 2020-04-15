@@ -15,7 +15,7 @@ def topicReadOperation(id):
 
     # topic is not found
     if topic is None:
-        raise ErrorWithCode(404, "No topic found")
+        raise ErrorWithCode(409, "No topic found")
 
     # success case
     return topic
@@ -25,11 +25,11 @@ def topicCreateOperation(name):
 
     # if topic exist found
     if topic:
-        raise ErrorWithCode(412, "Existing topic")
+        raise ErrorWithCode(409, "Existing topic")
 
     topic = initializeTopic(name)
     if topicCreate(topic) == False:
-        raise ErrorWithCode(400, "Unsuccessful")
+        raise ErrorWithCode(503, "Unsuccessful")
 
     # success case
     return topic
@@ -39,12 +39,12 @@ def topicUpdateOperation(id, name):
 
     # if topic not found
     if topic is None:
-        raise ErrorWithCode(404, "No topic found")
+        raise ErrorWithCode(409, "No topic found")
 
     topic.name = name
 
     if topicUpdate() is False:
-        raise ErrorWithCode(400, "Unsuccessful")
+        raise ErrorWithCode(503, "Unsuccessful")
 
     # success case
     return topic
@@ -55,15 +55,15 @@ def topicDeleteOperation(id):
 
     # if topic not found
     if topic is None:
-        raise ErrorWithCode(404, "No topic found")
+        raise ErrorWithCode(409, "No topic found")
 
     lessons = lessonListRead()
     for lesson in lessons:
         if lesson.topic_id == id:
-            raise ErrorWithCode(412, "Topic has lessons assigned to it")
+            raise ErrorWithCode(409, "Topic has lessons assigned to it")
 
     if topicDelete(id) == False:
-        raise ErrorWithCode(400, "Unsuccessful")
+        raise ErrorWithCode(503, "Unsuccessful")
 
     # success case
     return True

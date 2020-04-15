@@ -26,7 +26,7 @@ class Test_topicsController(Test_BaseCase):
 
         # record not found
         response = self.app.get('/topics?id=3')
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 409)
         
         # success case
         response = self.app.get('/topics?id=1')
@@ -43,7 +43,7 @@ class Test_topicsController(Test_BaseCase):
 
         # existing record
         response = self.app.post('/topics?name=topic_1')
-        self.assertEqual(response.status_code, 412)
+        self.assertEqual(response.status_code, 409)
 
          # success case
         response = self.app.post('/topics?name=topic_3')
@@ -63,7 +63,7 @@ class Test_topicsController(Test_BaseCase):
 
         # record not found
         response = self.app.put('/topics?id=3&name=new_name')
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 409)
 
         # success case
         response = self.app.put('/topics?id=1&name=new_name')
@@ -80,11 +80,11 @@ class Test_topicsController(Test_BaseCase):
 
         # record not found
         response = self.app.delete('/topics?id=3')
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 409)
 
         # record is a dependency
         response = self.app.delete('/topics?id=2') 
-        self.assertEqual(response.status_code, 412)
+        self.assertEqual(response.status_code, 409)
 
         # success case
         from models import Lesson 

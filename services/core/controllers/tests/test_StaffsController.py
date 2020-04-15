@@ -26,7 +26,7 @@ class Test_staffsController(Test_BaseCase):
 
         # record not found
         response = self.app.get('/staffs?email=staff_2@gmail.com')
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 409)
         
         # success case
         from models import Staff
@@ -44,7 +44,7 @@ class Test_staffsController(Test_BaseCase):
 
         # existing record
         response = self.app.post('/staffs?email=staff_1@gmail.com&password=password&name=staff_1')
-        self.assertEqual(response.status_code, 412)
+        self.assertEqual(response.status_code, 409)
 
          # success case
         response = self.app.post('/staffs?email=staff_2@gmail.com&password=password&name=staff_2')
@@ -61,7 +61,7 @@ class Test_staffsController(Test_BaseCase):
 
         # record not found
         response = self.app.get('/staffs/courses?user_email=staff_2@gmail.com')
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 409)
 
         # success case
         response = self.app.get('/staffs/courses?user_email=staff_1@gmail.com')
@@ -78,11 +78,11 @@ class Test_staffsController(Test_BaseCase):
 
         # dependency record not found
         response = self.app.post('/staffs/courses?user_email=staff_1@gmail.com&course_index=cz1003')
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 409)
 
         # existing record found
         response = self.app.post('/staffs/courses?user_email=staff_1@gmail.com&course_index=cz1005')
-        self.assertEqual(response.status_code, 412)
+        self.assertEqual(response.status_code, 409)
 
         # success case
         from models import Course

@@ -16,7 +16,7 @@ def courseMngReadOperation(user_email):
 
     # student is not found
     if student is None:
-        raise ErrorWithCode(404, "No student found")
+        raise ErrorWithCode(409, "No student found")
 
     # success case
     return student
@@ -27,21 +27,21 @@ def courseMngCreateOperation(user_email, course_index):
 
     # student is not found
     if student is None:
-        raise ErrorWithCode(404, "No student found")
+        raise ErrorWithCode(409, "No student found")
 
     # course is not found
     if course is None:
-        raise ErrorWithCode(404, "No course found")
+        raise ErrorWithCode(409, "No course found")
 
     rs = rsStudentCourseEnrolRead(student.id, course.index)
 
     # if rs exist
     if rs is not None:
-        raise ErrorWithCode(412, "Existing rs")
+        raise ErrorWithCode(409, "Existing rs")
 
     rs = initializeRsStudentCourseEnrol(student.id, course.index)
     if rsStudentCourseEnrolCreate(rs) == False:
-        raise ErrorWithCode(400, "Unsuccessful")
+        raise ErrorWithCode(503, "Unsuccessful")
 
     # success case
     return rs
@@ -53,7 +53,7 @@ def courseClasslistReadOperation(course_index):
 
     # course is not found
     if courseRead(course_index) is None:
-        raise ErrorWithCode(404, "No course found")
+        raise ErrorWithCode(409, "No course found")
 
     rss = rsCourseEnrolRead(course_index)
 

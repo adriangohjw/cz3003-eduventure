@@ -11,7 +11,7 @@ def progressReadOperation(student_id):
 
     # student is not found
     if student is None:
-        raise ErrorWithCode(404, "No student found")
+        raise ErrorWithCode(409, "No student found")
 
     # success case
     progresses = progressRead(student_id)

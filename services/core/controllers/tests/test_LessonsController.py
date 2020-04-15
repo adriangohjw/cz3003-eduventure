@@ -27,7 +27,7 @@ class Test_lessonsController(Test_BaseCase):
 
         # record not found
         response = self.app.get('/lessons?topic_id=3&lesson_id=1')
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 409)
         
         # success case
         response = self.app.get('/lessons?topic_id=1&lesson_id=1')
@@ -44,7 +44,7 @@ class Test_lessonsController(Test_BaseCase):
 
         # existing record
         response = self.app.post('/lessons?topic_id=1&name=lesson_1&content=content&url_link=https%3A%2F%2Fwww.google.com')
-        self.assertEqual(response.status_code, 412)
+        self.assertEqual(response.status_code, 409)
 
          # success case
         response = self.app.post('/lessons?topic_id=2&name=lesson_5&content=content')
@@ -68,7 +68,7 @@ class Test_lessonsController(Test_BaseCase):
 
         # record not found
         response = self.app.put('/lessons?topic_id=3&lesson_id=1&col=name&value=lesson_10')
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 409)
 
         # success case
         response = self.app.put('/lessons?topic_id=1&lesson_id=1&col=name&value=lesson_10')
@@ -95,7 +95,7 @@ class Test_lessonsController(Test_BaseCase):
 
         # record not found
         response = self.app.delete('/lessons?topic_id=2&lesson_id=2')
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 409)
 
         # success case
         response = self.app.delete('/lessons?topic_id=2&lesson_id=1')
@@ -127,12 +127,12 @@ class Test_lessonsController(Test_BaseCase):
 
         # dependencies record not found
         response = self.app.get('/lessons/quizzes?topic_id=2&lesson_id=2')
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 409)
 
         # relationship record not found
         response = self.app.get('/lessons/quizzes?topic_id=1&lesson_id=2')
         res = res_to_dict(response)
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 409)
         self.assertEqual(res['error'], 'No rs found')
         
         # success case
@@ -150,11 +150,11 @@ class Test_lessonsController(Test_BaseCase):
 
         # dependencies record not found
         response = self.app.post('/lessons/quizzes?topic_id=2&lesson_id=2&quiz_id=1')
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 409)
 
         # existing record found
         response = self.app.post('/lessons/quizzes?topic_id=1&lesson_id=1&quiz_id=1')
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 409)
         db.session.rollback()
 
         # success case 
@@ -178,7 +178,7 @@ class Test_lessonsController(Test_BaseCase):
 
         # record not found
         response = self.app.delete('/lessons/quizzes?id=4')
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 409)
 
         # success case
         response = self.app.delete('/lessons/quizzes?id=1')

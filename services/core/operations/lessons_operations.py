@@ -17,7 +17,7 @@ def lessonReadOperation(topic_id, lesson_id):
 
     # lesson is not found
     if lesson is None:
-        raise ErrorWithCode(404, "No lesson found")
+        raise ErrorWithCode(409, "No lesson found")
 
     # success case
     return lesson
@@ -27,11 +27,11 @@ def lessonCreateOperation(topic_id, name, content, url_link):
 
     # if lesson exist found
     if lesson:
-        raise ErrorWithCode(412, "Existing lesson")
+        raise ErrorWithCode(409, "Existing lesson")
 
     lesson = initializeLesson(topic_id=topic_id, name=name, content=content, url_link=url_link)
     if lessonCreate(lesson) == False:
-        raise ErrorWithCode(400, "Unsuccessful")
+        raise ErrorWithCode(503, "Unsuccessful")
 
     # success case
     return lesson
@@ -41,7 +41,7 @@ def lessonUpdateOperation(topic_id, lesson_id, col, value):
 
     # lesson is not found
     if lesson is None:
-        raise ErrorWithCode(404, "No lesson found")
+        raise ErrorWithCode(409, "No lesson found")
 
     if (col == 'name'):
         lesson.name = value
@@ -51,7 +51,7 @@ def lessonUpdateOperation(topic_id, lesson_id, col, value):
         lesson.url_link = value
 
     if lessonUpdate() == False:
-        raise ErrorWithCode(400, "Unsuccessful")
+        raise ErrorWithCode(503, "Unsuccessful")
 
     # success case
     return lesson
@@ -61,10 +61,10 @@ def lessonDeleteOperation(topic_id, lesson_id):
     
     # lesson is not found
     if lesson is None:
-        raise ErrorWithCode(404, "No lesson found")
+        raise ErrorWithCode(409, "No lesson found")
 
     if lessonDelete(topic_id, lesson_id) == False:
-        raise ErrorWithCode(400, "Unsuccessful")
+        raise ErrorWithCode(503, "Unsuccessful")
 
     # success case
     return True

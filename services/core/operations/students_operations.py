@@ -13,7 +13,7 @@ def studentReadOperation(email):
 
     # student is not found
     if student is None:
-        raise ErrorWithCode(404, "No student found")
+        raise ErrorWithCode(409, "No student found")
 
     # success case
     return student
@@ -23,11 +23,11 @@ def studentCreateOperation(email, password, matriculation_number, name):
 
     # if student exist found
     if student:
-        raise ErrorWithCode(412, "Existing student")
+        raise ErrorWithCode(409, "Existing student")
 
     student = initializeStudent(email, password, matriculation_number, name)
     if studentCreate(student) == False:
-        raise ErrorWithCode(400, "Unsuccessful")
+        raise ErrorWithCode(503, "Unsuccessful")
 
     # success case
     return student

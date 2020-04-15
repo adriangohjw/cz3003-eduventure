@@ -21,19 +21,19 @@ def questionAttemptListReadOperation(student_id, question_id):
 
     # student is not found
     if student is None:
-        raise ErrorWithCode(404, "No student found")
+        raise ErrorWithCode(409, "No student found")
 
     question = questionRead(question_id)
 
     # question is not found
     if question is None:
-        raise ErrorWithCode(404, "No question found")
+        raise ErrorWithCode(409, "No question found")
 
     questionAttemptList = questionAttemptListRead(student_id, question_id)
 
     # questionAttempt is not found
-    if questionAttemptList is None:
-        raise ErrorWithCode(404, "No questionAttempt found")
+    if len(questionAttemptList) == 0:
+        raise ErrorWithCode(409, "No questionAttempt found")
 
     # success case
     return questionAttemptList
@@ -42,7 +42,7 @@ def questionAttemptCreateOperation(student_id, question_id, is_correct, duration
 
     questionAttempt = initializeQuestionAttempt(student_id, question_id, is_correct, duration_ms)
     if questionAttemptCreate(questionAttempt) == False:
-        raise ErrorWithCode(400, "Unsuccessful")
+        raise ErrorWithCode(503, "Unsuccessful")
 
     # success case
     return questionAttempt

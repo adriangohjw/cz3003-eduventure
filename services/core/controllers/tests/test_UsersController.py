@@ -28,7 +28,7 @@ class Test_usersController(Test_BaseCase):
 
         # user not found
         response = self.app.get('/users?email=staff_2@gmail.com')
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 409)
         
         # success case
         response = self.app.get('/users?email=staff_1@gmail.com')
@@ -45,7 +45,7 @@ class Test_usersController(Test_BaseCase):
 
         # existing user
         response = self.app.post('/users?email=staff_1@gmail.com&password=password')
-        self.assertEqual(response.status_code, 412)
+        self.assertEqual(response.status_code, 409)
 
          # success case
         response = self.app.post('/users?email=staff_2@gmail.com&password=password')
@@ -66,7 +66,7 @@ class Test_usersController(Test_BaseCase):
 
         # user not found
         response = self.app.put('/users?email=staff_2@gmail.com&old_password=password&new_password=password')
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 409)
 
         # success case
         response = self.app.put('/users?email=staff_1@gmail.com&old_password=password&new_password=password2')
@@ -87,7 +87,7 @@ class Test_usersController(Test_BaseCase):
 
         # user not found
         response = self.app.get('/users/auth?email=staff_2@gmail.com&password=password')
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 409)
 
         # success case
         response = self.app.get('/users/auth?email=staff_1@gmail.com&password=password')

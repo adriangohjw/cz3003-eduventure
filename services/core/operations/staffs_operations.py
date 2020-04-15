@@ -13,7 +13,7 @@ def staffReadOperation(email):
 
     # staff is not found
     if staff is None:
-        raise ErrorWithCode(404, "No staff found")
+        raise ErrorWithCode(409, "No staff found")
 
     # success case
     return staff
@@ -23,11 +23,11 @@ def staffCreateOperation(email, password, name):
 
     # if staff exist found
     if staff:
-        raise ErrorWithCode(412, "Existing staff")
+        raise ErrorWithCode(409, "Existing staff")
 
     staff = initializeStaff(email, password, name)
     if staffCreate(staff) == False:
-        raise ErrorWithCode(400, "Unsuccessful")
+        raise ErrorWithCode(503, "Unsuccessful")
 
     # success case
     return staff

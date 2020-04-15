@@ -26,7 +26,7 @@ class Test_challengesController(Test_BaseCase):
 
         # challenge not found
         response = self.app.get('/challenges?from_student_id=2&to_student_id=1&quiz_id=2')
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 409)
         
         # success case
         response = self.app.get('/challenges?from_student_id=1&to_student_id=2')
@@ -43,7 +43,7 @@ class Test_challengesController(Test_BaseCase):
 
         # existing challenge
         response = self.app.post('/challenges?from_student_id=1&to_student_id=2&quiz_id=1')
-        self.assertEqual(response.status_code, 412)
+        self.assertEqual(response.status_code, 409)
 
          # success case
         response = self.app.post('/challenges?from_student_id=2&to_student_id=1&quiz_id=2')
@@ -63,7 +63,7 @@ class Test_challengesController(Test_BaseCase):
 
         # challenge not found
         response = self.app.put('/challenges?from_student_id=2&to_student_id=1&quiz_id=2&winner_id=2')
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 409)
 
         # success case
         response = self.app.put('/challenges?from_student_id=1&to_student_id=2&quiz_id=1&winner_id=1')

@@ -27,8 +27,7 @@ class Test_questionAttemptsController(Test_BaseCase):
         # record not found
         response = self.app.get('question_attempts/list?student_id=2&question_id=1')
         res = res_to_dict(response)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(res['list']), 0)
+        self.assertEqual(response.status_code, 409)
         
         # success case
         response = self.app.get('question_attempts/list?student_id=1&question_id=1')
@@ -49,7 +48,6 @@ class Test_questionAttemptsController(Test_BaseCase):
         res = res_to_dict(response)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(res['duration_ms'], 50)
-
 
 
 if __name__ == '__main__':

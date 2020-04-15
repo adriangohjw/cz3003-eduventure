@@ -26,7 +26,7 @@ class Test_studentsController(Test_BaseCase):
 
         # user not found
         response = self.app.get('/students?email=student_3@gmail.com')
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 409)
         
         # success case
         response = self.app.get('/students?email=student_1@gmail.com')
@@ -43,7 +43,7 @@ class Test_studentsController(Test_BaseCase):
 
         # existing record
         response = self.app.post('/students?email=student_1@gmail.com&password=password&matriculation_number=U00000000A')
-        self.assertEqual(response.status_code, 412)
+        self.assertEqual(response.status_code, 409)
 
          # success case
         response = self.app.post('/students?email=student_3@gmail.com&password=password&matriculation_number=U00000000C')
@@ -60,7 +60,7 @@ class Test_studentsController(Test_BaseCase):
 
         # record not found
         response = self.app.get('/students/courses?user_email=student_3@gmail.com')
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 409)
 
         # success case
         response = self.app.get('/students/courses?user_email=student_1@gmail.com')
@@ -77,11 +77,11 @@ class Test_studentsController(Test_BaseCase):
 
         # dependency record not found
         response = self.app.post('/students/courses?user_email=student_1@gmail.com&course_index=cz1003')
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 409)
 
         # existing record found
         response = self.app.post('/students/courses?user_email=student_1@gmail.com&course_index=cz1005')
-        self.assertEqual(response.status_code, 412)
+        self.assertEqual(response.status_code, 409)
 
         # success case
         from models import Course
