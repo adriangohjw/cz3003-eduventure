@@ -12,7 +12,7 @@ app.app_context().push()
 db.init_app(app)
 
 from services.core.contracts.topics_contracts import \
-    validate_name, validate_id, topicCreateContract, topicReadContract
+    validate_name, validate_id, topicCreateContract, topicUpdateContract, topicDeleteContract, topicReadContract
 
 
 class Test_topics_contracts(unittest.TestCase):
@@ -71,6 +71,37 @@ class Test_topics_contracts(unittest.TestCase):
 
         with app.test_request_context('/?name=', method='POST'):
             self.assertRaises(ValueError, topicCreateContract, request)
+    
+    def test_topicUpdateContract(self):
+        with app.test_request_context('/?id=1&name=topic_1', method='PUT'):
+            self.assertEqual(
+                topicUpdateContract(request), 
+                {
+                    'id': 1,
+                    'name':'topic_1'
+                }
+            )
+
+        with app.test_request_context('/?id=1&name=', method='PUT'):
+            self.assertRaises(ValueError, topicUpdateContract, request)
+
+        with app.test_request_context('/?id=&name=topic_1', method='PUT'):
+            self.assertRaises(TypeError, topicUpdateContract, request)
+
+    def test_topicDeleteContract(self):
+        with app.test_request_context('/?id=1', method='DELETE'):
+            self.assertEqual(
+                topicDeleteContract(request), 
+                {
+                    'id': 1                
+                }
+            )
+
+        with app.test_request_context('/?id=', method='DELETE'):
+            self.assertRaises(TypeError, topicDeleteContract, request)
+
+        with app.test_request_context('/?id=hello', method='DELETE'):
+            self.assertRaises(TypeError, topicDeleteContract, request)
 
 
 if __name__ == '__main__':
