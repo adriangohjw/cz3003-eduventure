@@ -57,7 +57,19 @@ class Test_students_contracts(unittest.TestCase):
                 {
                     'email': 'joe@gmail.com',
                     'password': '12345',
-                    'matriculation_number': 'u1722'
+                    'matriculation_number': 'u1722',
+                    'name': None
+                }
+            )
+        
+        with app.test_request_context('/?email=joe@gmail.com&password=12345&matriculation_number=u1722&name=Joe', method='POST'):
+            self.assertEqual(
+                studentCreateContract(request), 
+                {
+                    'email': 'joe@gmail.com',
+                    'password': '12345',
+                    'matriculation_number': 'u1722',
+                    'name': 'Joe'
                 }
             )
 
