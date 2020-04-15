@@ -25,6 +25,16 @@ def topicUpdate():
         print(e)
         return False
 
+def topicDelete(id):
+    topic = Topic.query.filter_by(id=id).first()
+    db.session.delete(topic)
+    try:
+        db.session.commit()
+        return True
+    except Exception as e:
+        print(e)
+        return False
+
 def topiclistRead():
     return Topic.query.all()
     

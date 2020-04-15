@@ -1,6 +1,7 @@
 from models import Topic
 
-from ..dao.TopicsDAO import topicCreate, topicRead, topicUpdate, topiclistRead
+from ..dao.TopicsDAO import topicCreate, topicRead, topicUpdate, topicDelete, topiclistRead
+from services.core.dao.LessonsDAO import lessonListRead
 from exceptions import ErrorWithCode
 
 def initializeTopic(name):
@@ -48,6 +49,24 @@ def topicUpdateOperation(id, name):
     # success case
     return topic
 
+def topicDeleteOperation(id):
+
+    topic = topicRead(col='id', value=id)
+
+    # if topic not found
+    if topic is None:
+        raise ErrorWithCode(412, "No topic found")
+
+    lessons = lessonListRead()
+    for lesson in lessons:
+        if lesson.topic_id == id:
+            raise ErrorWithCode(412, "Topic has lessons assigned to it")
+
+    if topicDelete(id) == False:
+        raise ErrorWithCode(400, "Unsuccessful")
+
+    # success case
+    return True
 
 def topiclistReadOperation():
     return topiclistRead()

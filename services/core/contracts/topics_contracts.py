@@ -51,3 +51,12 @@ def topicUpdateContract(request):
         'id': id,
         'name': name,
     }
+
+def topicDeleteContract(request):
+    id = request.args.get('id', type=int)
+
+    validate_id(id)
+
+    return {
+        'id': id
+    }
