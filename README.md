@@ -52,6 +52,12 @@ In Windows CMD, ensure you are in the folder of your repository
 ## To run the application
 `python run.py`
 
+## To populate the database with mock data
+`python db_populate\db_populate.py`
+
+- WARNING: It will wipe the entire local test DB clean, before populating it with mock data
+- To populate in local actual DB, replace `from run_test import create_app` with `from run import create_app`, save the file and execute the same command
+
 ## Testing the API endpoints
 
 1. Download and install [Postman](https://www.postman.com/downloads/)
