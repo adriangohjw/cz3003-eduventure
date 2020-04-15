@@ -50,7 +50,9 @@ class StudentAPI(Resource):
 
         # operations
         try:
-            student = studentCreateOperation(s['email'], s['password'], s['matriculation_number'])
+            student = studentCreateOperation(
+                s['email'], s['password'], s['matriculation_number'], s['name']
+            )
         except ErrorWithCode as e:
             return make_response(
                 jsonify (
