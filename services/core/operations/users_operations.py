@@ -10,18 +10,16 @@ def encrypt(plaintext_password):
 def authenticate(plaintext_password, encrypted_password):
     return bcrypt.checkpw(bytes(plaintext_password, "utf-8"), bytes(encrypted_password, "utf-8"))
 
-def initializeUser(email, password):
+def initializeUser(email, password, name=None):
     email_split = email.split('@')
-    name = email_split[0]
+    if name is None:
+        name = email_split[0]
     encrypted_password = encrypt(password)
-    if (len(email_split) == 2) and (password is not None):
-        return User(
-            email=email, 
-            name=name, 
-            encrypted_password=encrypted_password
-        )
-    else:
-        return False
+    return User(
+        email=email, 
+        name=name, 
+        encrypted_password=encrypted_password
+    )
 
 def userReadOperation(email):
     user = userRead(col='email', value=email)
