@@ -1,6 +1,6 @@
 from models import Topic
 
-from ..dao.TopicsDAO import topicCreate, topicRead, topiclistRead
+from ..dao.TopicsDAO import topicCreate, topicRead, topicUpdate, topiclistRead
 from exceptions import ErrorWithCode
 
 def initializeTopic(name):
@@ -32,6 +32,22 @@ def topicCreateOperation(name):
 
     # success case
     return topic
+
+def topicUpdateOperation(id, name):
+    topic = topicRead(col='id', value=id)
+
+    # if topic not found
+    if topic is None:
+        raise ErrorWithCode(412, "No topic found")
+
+    topic.name = name
+
+    if topicUpdate() is False:
+        raise ErrorWithCode(400, "Unsuccessful")
+
+    # success case
+    return topic
+
 
 def topiclistReadOperation():
     return topiclistRead()

@@ -39,3 +39,15 @@ def topicCreateContract(request):
     return {
         'name': name,
     }
+
+def topicUpdateContract(request):
+    id = request.args.get('id', type=int)
+    name = request.args.get('name')
+    
+    validate_id(id)
+    validate_name(name)
+    
+    return {
+        'id': id,
+        'name': name,
+    }
