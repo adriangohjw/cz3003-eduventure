@@ -58,11 +58,11 @@ export default function SyllabusTable({
   const [state, setState] = useState({
     isLoading: true,
     topicColumns: [
-      { title: "ID", field: "id", editable: "never", deafultSort: "desc" },
+      { title: "ID", field: "id", editable: "never", defaultSort: "asc" },
       { title: "Name", field: "name" },
     ],
     lessonColumns: [
-      { title: "ID", field: "id", editable: "never", deafultSort: "desc" },
+      { title: "ID", field: "id", editable: "never", defaultSort: "asc" },
       { title: "Name", field: "name" },
       { title: "Content", field: "content" },
       { title: "Further Learning", field: "url_link" },

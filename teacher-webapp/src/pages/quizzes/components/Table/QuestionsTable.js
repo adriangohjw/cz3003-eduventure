@@ -68,7 +68,7 @@ export default function QuestionsTable({ quizData, classes }) {
       title: "ID",
       field: "question.id",
       editable: "never",
-      deafultSort: "desc",
+      defaultSort: "asc",
     },
     {
       title: "Description",

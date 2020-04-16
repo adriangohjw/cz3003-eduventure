@@ -86,7 +86,7 @@ export default function QuestionBank() {
 
   const [state, setState] = useState({
     columns: [
-      { title: "ID", field: "id", editable: "never", deafultSort: "desc" },
+      { title: "ID", field: "id", editable: "never", defaultSort: "asc" },
       {
         title: "Topic",
         field: "topic_name",
