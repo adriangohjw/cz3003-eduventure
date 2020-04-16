@@ -41,8 +41,12 @@ class Test_QuestionAttemptsDAO(unittest.TestCase):
         lesson = Lesson(topic_id=1, id=1, name='se', content='test')
         db.session.add(lesson)
 
-        qn = Question(1, 1,'easy')
-        db.session.add(qn)
+        qn_1 = Question(1, 1,'easy')
+        db.session.add(qn_1)
+
+        qn_2 = Question(1, 1,'medium')
+        db.session.add(qn_2)
+        
         db.session.commit()
 
 
@@ -62,11 +66,15 @@ class Test_QuestionAttemptsDAO(unittest.TestCase):
 
         self.assertEqual(len(questionAttemptListRead(student_id=1, question_id=1)), 0)
 
-        qnAttempt = QuestionAttempt(student_id=1, question_id=1, is_correct=True, duration_ms=20)
-        db.session.add(qnAttempt)
+        qnAttempt_1 = QuestionAttempt(student_id=1, question_id=1, is_correct=True, duration_ms=20)
+        db.session.add(qnAttempt_1)
+        qnAttempt_2 = QuestionAttempt(student_id=1, question_id=2, is_correct=True, duration_ms=20)
+        db.session.add(qnAttempt_2)
         db.session.commit()
 
         self.assertEqual(questionAttemptListRead(student_id=1, question_id=1)[0].duration_ms, 20)
+        self.assertEqual(len(questionAttemptListRead(student_id=1, question_id=1)), 1)
+        self.assertEqual(len(questionAttemptListRead(student_id=1)), 2)
 
 
 if __name__ == '__main__':
