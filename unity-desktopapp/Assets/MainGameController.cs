@@ -100,8 +100,6 @@ public class MainGameController : MonoBehaviour
     }
     public void LogOut()
     {
-        //TO DO
-        //save the game to database or something
         Application.Quit();
     }
     public void Settings()
@@ -186,6 +184,10 @@ public class MainGameController : MonoBehaviour
     public void SetVolume(float vol)
     {
         PlayerPrefs.SetFloat("volume",vol);
+    }
+    public void StartChallenge()
+    {
+        SceneManager.LoadScene("ChallengeScene");
     }
 }
 [Serializable]

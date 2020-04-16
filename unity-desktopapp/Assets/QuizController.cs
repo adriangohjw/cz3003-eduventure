@@ -120,7 +120,6 @@ public class QuizController : MonoBehaviour
             yield return webRequest.SendWebRequest();
         }
     }
-
 }
 [Serializable]
 public class QuestionDetails

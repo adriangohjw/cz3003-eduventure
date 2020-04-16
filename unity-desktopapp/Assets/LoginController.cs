@@ -55,7 +55,8 @@ public class LoginController : MonoBehaviour
         else
         {
             PlayerPrefs.SetString("userID",userDets.id);
-            SceneManager.LoadScene("MainGame");
+            PlayerPrefs.SetString("userEmail",userDets.email);
+            StartCoroutine(GetCourse());
         }
     }
     public void SignUpStart()
@@ -119,6 +120,18 @@ public class LoginController : MonoBehaviour
             errorMsg.text = "Completed Sign Up, You can now log in.";
         }
     }
+    IEnumerator GetCourse()
+    {
+        string url = "http://127.0.0.1:5000/students/courses?user_email=" + PlayerPrefs.GetString("userEmail");
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
+        {
+            yield return webRequest.SendWebRequest();
+            CourseDetails courseDet = JsonUtility.FromJson<CourseDetails>(webRequest.downloadHandler.text);
+            PlayerPrefs.SetString("userCourse",courseDet.courses[0].course_index);
+            SceneManager.LoadScene("MainGame");
+        }
+    }
+    
 }
 [Serializable]
 public class UserDetails
@@ -131,4 +144,18 @@ public class UserDetails
     public string error;
     public string matriculation_number;
 }
-
+[Serializable]
+public class CourseDetails
+{
+    public string count_courses;
+    public CoursesDetails[] courses;
+    public string email;
+    public int id;
+    public string name;
+}
+[Serializable]
+public class CoursesDetails
+{
+    public string course_index;
+    public string created_at;
+}
