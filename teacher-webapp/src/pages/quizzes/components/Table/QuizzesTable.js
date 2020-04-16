@@ -64,7 +64,7 @@ export default function QuizzesTable({
   const [state, setState] = useState({
     isLoading: true,
     columns: [
-      { title: "ID", field: "id", editable: "never", deafultSort: "desc" },
+      { title: "ID", field: "id", editable: "never", defaultSort: "asc" },
       { title: "Name", field: "name" },
       { title: "Setter", field: "staff.name", editable: "never" },
       {

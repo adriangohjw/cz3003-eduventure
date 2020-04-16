@@ -50,7 +50,7 @@ export default function Quizzes() {
     setIsLoading(true);
     const final_url =
       type == "topic"
-        ? url + ``
+        ? url + `topics/?id=${delete_id}`
         : url + `lessons/?topic_id=${topic_id}&lesson_id=${delete_id}`;
     fetch(final_url, {
       method: "DELETE",
@@ -75,10 +75,10 @@ export default function Quizzes() {
 
   const handleUpdate = (type, newData, topic_id) => {
     setIsLoading(true);
-    let { name, content, url_link } = newData;
+    let { id, name, content, url_link } = newData;
     const final_url =
       type == "topic"
-        ? url + `topics/?name=${name}`
+        ? url + `topics/?id=${id}&name=${name}`
         : url +
           `lessons/?topic_id=${topic_id}&name=${name}&content=${content}&url_link=${url_link}`;
     fetch(final_url, {
@@ -94,7 +94,7 @@ export default function Quizzes() {
       })
       .then(() => {
         retrieveData();
-        alert("Created successfully");
+        alert("Updated successfully");
       })
       .catch(error => {
         console.error("Error:", error);

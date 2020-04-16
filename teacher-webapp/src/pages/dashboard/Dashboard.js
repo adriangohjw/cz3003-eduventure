@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Grid,
   LinearProgress,
   Select,
   OutlinedInput,
   MenuItem,
+  CircularProgress,
 } from "@material-ui/core";
 import { useTheme } from "@material-ui/styles";
 import {
   ResponsiveContainer,
   ComposedChart,
+  BarChart,
   AreaChart,
   LineChart,
   Line,
@@ -19,6 +21,8 @@ import {
   Cell,
   YAxis,
   XAxis,
+  Bar,
+  Tooltip,
 } from "recharts";
 
 // styles
@@ -33,7 +37,8 @@ import Dot from "../../components/Sidebar/components/Dot";
 import Table from "./components/Table/Table";
 import BigStat from "./components/BigStat/BigStat";
 
-const mainChartData = getMainChartData();
+import { url } from "../../context/UserContext";
+
 const PieChartData = [
   { name: "Group A", value: 400, color: "primary" },
   { name: "Group B", value: 300, color: "secondary" },
@@ -41,12 +46,115 @@ const PieChartData = [
   { name: "Group D", value: 200, color: "success" },
 ];
 
+const colors = [
+  "#D27370",
+  "#D07483",
+  "#C77895",
+  "#B87EA4",
+  "#A486B0",
+  "#8C8EB6",
+  "#7295B7",
+  "#589BB2",
+  "#449FA7",
+  "#3CA299",
+  "#44A487",
+  "#55A474",
+  "#6AA262",
+  "#7F9F52",
+  "#959B47",
+  "#A99642",
+  "#BC8F44",
+];
+
 export default function Dashboard(props) {
   var classes = useStyles();
   var theme = useTheme();
 
   // local
-  var [mainChartState, setMainChartState] = useState("monthly");
+  var [mainChartState, setMainChartState] = useState("");
+  var [ss1ChartData, setss1ChartData] = useState([]);
+  var [ss2ChartData, setss2ChartData] = useState({
+    selectedss2: 0,
+    ss2Options: [],
+    data: [],
+  });
+  var [isLoading, setIsLoading] = useState({
+    ss1: true,
+    ss2: true,
+  });
+
+  const getss1ChartData = () => {
+    fetch(url + `statistics/stat`, {
+      method: "GET",
+    })
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          setIsLoading({
+            ...isLoading,
+            ss1: false,
+          });
+          throw new Error(res.error);
+        }
+      })
+      .then(response => {
+        setss1ChartData(response.stats);
+        setIsLoading({
+          ...isLoading,
+          ss1: false,
+        });
+      })
+      .catch(error => console.log(error));
+  };
+
+  const getss2ChartData = () => {
+    fetch(url + `statistics/lesson_completed`, {
+      method: "GET",
+    })
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          setIsLoading({
+            ...isLoading,
+            ss2: false,
+          });
+          throw new Error(res.error);
+        }
+      })
+      .then(response => {
+        const [formattedData, options] = formatss2Data(response.courses);
+        setss2ChartData({
+          ...ss2ChartData,
+          data: formattedData,
+          ss2Options: options,
+        });
+        setIsLoading({
+          ...isLoading,
+          ss2: false,
+        });
+      })
+      .catch(error => console.log(error));
+  };
+
+  const formatss2Data = data => {
+    var options = [];
+    data.map(course => {
+      options.push(course.course_index);
+      var flattened_lessons = [];
+      course.progress.map(topic => {
+        flattened_lessons.push(...topic.lessons);
+      });
+      course.progress = flattened_lessons;
+    });
+    return [data, options];
+  };
+
+  useEffect(() => {
+    getss1ChartData();
+    getss2ChartData();
+  }, []);
 
   return (
     <>
@@ -292,92 +400,102 @@ export default function Dashboard(props) {
             </Grid>
           </Widget>
         </Grid>
-        <Grid item xs={12}>
-          <Widget
-            bodyClass={classes.mainChartBody}
-            header={
-              <div className={classes.mainChartHeader}>
-                <Typography
-                  variant="h5"
-                  color="text"
-                  colorBrightness="secondary"
-                >
-                  Daily Line Chart
-                </Typography>
-                <div className={classes.mainChartHeaderLabels}>
-                  <div className={classes.mainChartHeaderLabel}>
-                    <Dot color="warning" />
-                    <Typography className={classes.mainChartLegentElement}>
-                      Tablet
-                    </Typography>
+        {/* <Grid item xs={12}>
+          {isLoading.ss1 == true ? (
+            <CircularProgress />
+          ) : (
+            <Widget
+              bodyClass={classes.mainChartBody}
+              header={
+                <div className={classes.mainChartHeader}>
+                  <Typography
+                    variant="h5"
+                    color="text"
+                    colorBrightness="secondary"
+                  >
+                    Daily Line Chart
+                  </Typography>
+                  <div className={classes.mainChartHeaderLabels}>
+                    <div className={classes.mainChartHeaderLabel}>
+                      <Dot color="warning" />
+                      <Typography className={classes.mainChartLegentElement}>
+                        Tablet
+                      </Typography>
+                    </div>
+                    <div className={classes.mainChartHeaderLabel}>
+                      <Dot color="primary" />
+                      <Typography className={classes.mainChartLegentElement}>
+                        Mobile
+                      </Typography>
+                    </div>
+                    <div className={classes.mainChartHeaderLabel}>
+                      <Dot color="primary" />
+                      <Typography className={classes.mainChartLegentElement}>
+                        Desktop
+                      </Typography>
+                    </div>
                   </div>
-                  <div className={classes.mainChartHeaderLabel}>
-                    <Dot color="primary" />
-                    <Typography className={classes.mainChartLegentElement}>
-                      Mobile
-                    </Typography>
-                  </div>
-                  <div className={classes.mainChartHeaderLabel}>
-                    <Dot color="primary" />
-                    <Typography className={classes.mainChartLegentElement}>
-                      Desktop
-                    </Typography>
-                  </div>
+                  <Select
+                    value={mainChartState}
+                    onChange={e => setMainChartState(e.target.value)}
+                    input={
+                      <OutlinedInput
+                        labelWidth={0}
+                        classes={{
+                          notchedOutline: classes.mainChartSelectRoot,
+                          input: classes.mainChartSelect,
+                        }}
+                      />
+                    }
+                    autoWidth
+                  >
+                    <MenuItem value="avg_score">Average Score</MenuItem>
+                    <MenuItem value="max_score">Highest Score</MenuItem>
+                    <MenuItem value="min_score">Lowest Score</MenuItem>
+                  </Select>
                 </div>
-                <Select
-                  value={mainChartState}
-                  onChange={e => setMainChartState(e.target.value)}
-                  input={
-                    <OutlinedInput
-                      labelWidth={0}
-                      classes={{
-                        notchedOutline: classes.mainChartSelectRoot,
-                        input: classes.mainChartSelect,
-                      }}
-                    />
-                  }
-                  autoWidth
+              }
+            >
+              <ResponsiveContainer width="100%" minWidth={500} height={350}>
+                <ComposedChart
+                  margin={{ top: 0, right: -15, left: -15, bottom: 0 }}
+                  data={ss1ChartData[0].progress}
                 >
-                  <MenuItem value="daily">Daily</MenuItem>
-                  <MenuItem value="weekly">Weekly</MenuItem>
-                  <MenuItem value="monthly">Monthly</MenuItem>
-                </Select>
-              </div>
-            }
-          >
-            <ResponsiveContainer width="100%" minWidth={500} height={350}>
-              <ComposedChart
-                margin={{ top: 0, right: -15, left: -15, bottom: 0 }}
-                data={mainChartData}
-              >
-                <YAxis
-                  ticks={[0, 2500, 5000, 7500]}
-                  tick={{ fill: theme.palette.text.hint + "80", fontSize: 14 }}
-                  stroke={theme.palette.text.hint + "80"}
-                  tickLine={false}
-                />
-                <XAxis
-                  tickFormatter={i => i + 1}
-                  tick={{ fill: theme.palette.text.hint + "80", fontSize: 14 }}
-                  stroke={theme.palette.text.hint + "80"}
-                  tickLine={false}
-                />
-                <Area
+                  <YAxis
+                    // ticks={[0, 2500, 5000, 7500]}
+                    tick={{
+                      fill: theme.palette.text.hint + "80",
+                      fontSize: 14,
+                    }}
+                    stroke={theme.palette.text.hint + "80"}
+                    tickLine={false}
+                  />
+                  <XAxis
+                    // tickFormatter={i => i + 1}
+                    tick={{
+                      fill: theme.palette.text.hint + "80",
+                      fontSize: 14,
+                    }}
+                    stroke={theme.palette.text.hint + "80"}
+                    tickLine={false}
+                    dataKey="quizzes.name"
+                  />
+                  <Area
                   type="natural"
                   dataKey="desktop"
                   fill={theme.palette.background.light}
                   strokeWidth={0}
                   activeDot={false}
                 />
-                <Line
-                  type="natural"
-                  dataKey="mobile"
-                  stroke={theme.palette.primary.main}
-                  strokeWidth={2}
-                  dot={false}
-                  activeDot={false}
-                />
-                <Line
+                  <Line
+                    type="natural"
+                    dataKey="avg_score"
+                    stroke={theme.palette.primary.main}
+                    strokeWidth={2}
+                    dot={false}
+                    activeDot={false}
+                  />
+                  <Line
                   type="linear"
                   dataKey="tablet"
                   stroke={theme.palette.warning.main}
@@ -388,9 +506,99 @@ export default function Dashboard(props) {
                     fill: theme.palette.warning.main,
                   }}
                 />
-              </ComposedChart>
-            </ResponsiveContainer>
-          </Widget>
+                </ComposedChart>
+              </ResponsiveContainer>
+            </Widget>
+          )}
+        </Grid> */}
+        <Grid item xs={12}>
+          {isLoading.ss2 == true ? (
+            <CircularProgress />
+          ) : (
+            <Widget
+              bodyClass={classes.mainChartBody}
+              header={
+                <div className={classes.mainChartHeader}>
+                  <Typography
+                    variant="h5"
+                    color="text"
+                    colorBrightness="secondary"
+                  >
+                    Lesson Progress Chart
+                  </Typography>
+                  <div className={classes.mainChartHeaderLabels}>
+                    <div className={classes.mainChartHeaderLabel}>
+                      <Typography className={classes.mainChartLegentElement}>
+                        {ss2ChartData.ss2Options[ss2ChartData.selectedss2]}
+                      </Typography>
+                    </div>
+                  </div>
+                  <Select
+                    value={ss2ChartData.selectedss2}
+                    onChange={e => {
+                      setss2ChartData({
+                        ...ss2ChartData,
+                        selectedss2: e.target.value,
+                      });
+                    }}
+                    displayEmpty
+                    input={
+                      <OutlinedInput
+                        labelWidth={0}
+                        classes={{
+                          notchedOutline: classes.mainChartSelectRoot,
+                          input: classes.mainChartSelect,
+                        }}
+                      />
+                    }
+                    autoWidth
+                  >
+                    {ss2ChartData.ss2Options.map((option, index) => {
+                      return (
+                        <MenuItem value={index} key={index}>
+                          {option}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </div>
+              }
+            >
+              <ResponsiveContainer width="100%" minWidth={500} height={350}>
+                <BarChart
+                  margin={{ top: 0, right: -15, left: -15, bottom: 0 }}
+                  data={ss2ChartData.data[ss2ChartData.selectedss2].progress} // set it as 0 first until we can dynamically set it
+                >
+                  <YAxis
+                    // ticks={[0, 2500, 5000, 7500]}
+                    tick={{
+                      fill: theme.palette.text.hint + "80",
+                      fontSize: 14,
+                    }}
+                    stroke={theme.palette.text.hint + "80"}
+                    tickLine={false}
+                  />
+                  <XAxis dataKey="lesson_name" allowDataOverflow={false} />
+                  <Tooltip
+                    formatter={(value, name, props) => {
+                      return [value, "Completed"];
+                    }}
+                  />
+                  <Bar
+                    dataKey="count_completed"
+                    isAnimationActive={true}
+                    background={true}
+                  >
+                    {ss2ChartData.data[ss2ChartData.selectedss2].progress.map(
+                      (entry, index) => (
+                        <Cell key={`cell-${index}`} fill={colors[index]} />
+                      ),
+                    )}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </Widget>
+          )}
         </Grid>
         {mock.bigStat.map(stat => (
           <Grid item md={4} sm={6} xs={12} key={stat.product}>
@@ -432,21 +640,4 @@ function getRandomData(length, min, max, multiplier = 10, maxDiff = 10) {
 
     return { value: randomValue };
   });
-}
-
-function getMainChartData() {
-  var resultArray = [];
-  var tablet = getRandomData(31, 3500, 6500, 7500, 1000);
-  var desktop = getRandomData(31, 1500, 7500, 7500, 1500);
-  var mobile = getRandomData(31, 1500, 7500, 7500, 1500);
-
-  for (let i = 0; i < tablet.length; i++) {
-    resultArray.push({
-      tablet: tablet[i].value,
-      desktop: desktop[i].value,
-      mobile: mobile[i].value,
-    });
-  }
-
-  return resultArray;
 }
