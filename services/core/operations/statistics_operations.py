@@ -156,10 +156,11 @@ def lessonCompletedReadOperation():
         i_dict = item._asdict()
         if (i_dict['student_id'] is not None) and (i_dict['score'] == i_dict['count_questions']):
             for course in stat_dict['courses']:
-                for topic in course['progress']:
-                    for lesson in topic['lessons']:
-                        if (topic['topic_id'] == i_dict['topic_id']) and (lesson['lesson_id'] == i_dict['lesson_id']):
-                            lesson['count_completed'] += 1
+                if (course['course_index'] == i_dict['course_index']):
+                    for topic in course['progress']:
+                        for lesson in topic['lessons']:
+                            if (topic['topic_id'] == i_dict['topic_id']) and (lesson['lesson_id'] == i_dict['lesson_id']):
+                                lesson['count_completed'] += 1
                             
     return stat_dict
 
