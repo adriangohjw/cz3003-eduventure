@@ -27,7 +27,7 @@ public class ChallengeController : MonoBehaviour
             classmateText[i] = classmate[i].GetComponentInChildren<TMP_Text>();
             classmateText[i].text = s;
         }
-        StartCoroutine(GetPoints("TODO"));
+        StartCoroutine(GetPoints());
 
     }
     public void StartChallenge()
@@ -36,14 +36,19 @@ public class ChallengeController : MonoBehaviour
         //TODO
         //INITIALIZE QUIZ (Use QuizController and Scene?)
     }
-    private IEnumerator GetPoints(string url)
+    private IEnumerator GetPoints()
     {
+        string url = "http://127.0.0.1:5000/statistics/student_score?student_id=" + PlayerPrefs.GetString("userID");
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
             yield return webRequest.SendWebRequest();
             PointsDetails pointsDets = JsonUtility.FromJson<PointsDetails>(webRequest.downloadHandler.text);
-            pointsText.text = pointsDets.points;
+            float total_points = 0;
+            foreach (PointQuizDetails quiz in pointsDets.students[0].quizzes)
+            {
+                total_points += quiz.score;
+            }
+            pointsText.text = total_points.ToString()+ " Points";
         }
-
     }
 }

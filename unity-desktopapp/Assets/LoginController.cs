@@ -54,7 +54,7 @@ public class LoginController : MonoBehaviour
         }
         else
         {
-            UserController.userID = userDets.id;
+            PlayerPrefs.SetString("userID",userDets.id);
             SceneManager.LoadScene("MainGame");
         }
     }
