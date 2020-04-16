@@ -43,20 +43,19 @@ class Test_challenge_contracts(unittest.TestCase):
 
     def test_challengeCreateContract(self):
         
-        with app.test_request_context('/?from_student_id=2&to_student_id=3&quiz_id=4', method='POST'):
+        with app.test_request_context('/?from_student_id=2&to_student_id=3', method='POST'):
             self.assertEqual(
                 challengeCreateContract(request), 
                 {
                     'from_student_id': 2,
-                    'to_student_id': 3,
-                    'quiz_id': 4
+                    'to_student_id': 3
                 }
             )
 
-        with app.test_request_context('/?from_student_id=2&to_student_id=3', method='POST'):
+        with app.test_request_context('/?from_student_id=2&to_student_id=', method='POST'):
             self.assertRaises(TypeError, challengeCreateContract, request)
 
-        with app.test_request_context('/?from_student_id=2&to_student_id=3&quiz_id=hello', method='POST'):
+        with app.test_request_context('/?from_student_id=2&to_student_id=hello', method='POST'):
             self.assertRaises(TypeError, challengeCreateContract, request)
         
 

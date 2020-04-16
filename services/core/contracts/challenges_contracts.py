@@ -78,16 +78,13 @@ def challengeReadContract(request):
 def challengeCreateContract(request):
     from_student_id = request.args.get('from_student_id', type=int)
     to_student_id = request.args.get('to_student_id', type=int)
-    quiz_id = request.args.get('quiz_id', type=int)
 
     validate_student_id(from_student_id)
     validate_student_id(to_student_id)
-    validate_quiz_id(quiz_id)
 
     return {
         'from_student_id': from_student_id,
-        'to_student_id': to_student_id,
-        'quiz_id': quiz_id
+        'to_student_id': to_student_id
     }
 
 
