@@ -57,7 +57,7 @@ class ChallengeAPI(Resource):
         # operations
         try:
             challenge = challengeCreateOperation(
-                c['from_student_id'], c['to_student_id'], c['quiz_id']
+                c['from_student_id'], c['to_student_id']
             )
         except ErrorWithCode as e:
             return make_response(
@@ -67,8 +67,31 @@ class ChallengeAPI(Resource):
             )
         
         # success case
+        res = {
+            'from_student_id': challenge.from_student_id,
+            'to_student_id': challenge.to_student_id,
+            'quiz': {
+                'id': challenge.quiz_id,
+                'questions': []
+            },
+            'is_completed': challenge.is_completed,
+            'winner_id': challenge.winner_id,
+            'created_at': challenge.created_at
+        }
+        for q in challenge.quiz.questions:
+            question = q.question
+            res['quiz']['questions'].append(
+                {
+                    'id': question.id,
+                    'topic_id': question.topic_id,
+                    'lesson_id': question.lesson_id,
+                    'description': question.description,
+                    'count_choices': len(question.choices),
+                    'choices': [z.to_json() for z in question.choices]
+                }
+            )
         return make_response(
-            jsonify(challenge.asdict()), 200
+            jsonify(res), 200
         )
 
 
