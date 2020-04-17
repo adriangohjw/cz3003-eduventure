@@ -477,7 +477,7 @@ export default function Dashboard(props) {
                   color="text"
                   colorBrightness="secondary"
                 >
-                  Quiz Score Bands by Course
+                  Overall Course Score by Course
                 </Typography>
                 <div className={classes.mainChartHeaderLabels}>
                   <div className={classes.mainChartHeaderLabel}>
