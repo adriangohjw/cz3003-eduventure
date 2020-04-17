@@ -52,12 +52,12 @@ const structure = [
     link: "/app/quizzes",
     icon: <ClassIcon />,
   },
-  {
-    id: 5,
-    label: "Settings",
-    link: "/app/settings",
-    icon: <SettingsIcon />,
-  },
+  // {
+  //   id: 5,
+  //   label: "Settings",
+  //   link: "/app/settings",
+  //   icon: <SettingsIcon />,
+  // },
 ];
 
 function Sidebar({ location }) {

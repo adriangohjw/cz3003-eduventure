@@ -85,20 +85,24 @@ export default function QuestionBank() {
   };
 
   const [state, setState] = useState({
-    options: { pageSize: 50 },
+    options: { pageSize: 20 },
     columns: [
       { title: "ID", field: "id", editable: "never", defaultSort: "asc" },
       {
         title: "Topic",
         field: "topic_name",
-        editable: "onAdd",
-        editComponent: () => TopicLessonDropDown("topic", setSelectedTopicID),
+        editable: "never",
       },
       {
         title: "Lesson",
         field: "lesson_name",
         editable: "onAdd",
-        editComponent: () => TopicLessonDropDown("lesson", setSelectedLessonID),
+        editComponent: () =>
+          TopicLessonDropDown(
+            "lesson",
+            setSelectedLessonID,
+            setSelectedTopicID,
+          ),
       },
       { title: "Description", field: "description" },
       {

@@ -5,7 +5,11 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 
 import { url } from "../../../context/UserContext";
 
-export default function TopicLessonDropDown(type, setFunction) {
+export default function TopicLessonDropDown(
+  type,
+  setSelectedLessonID,
+  setSelectedTopicID,
+) {
   const [open, setOpen] = React.useState(false);
   const [options, setOptions] = React.useState([]);
   const loading = open && options.length === 0;
@@ -63,7 +67,8 @@ export default function TopicLessonDropDown(type, setFunction) {
       getOptionSelected={(option, value) => option.id === value.id}
       onChange={(event, value) => {
         if (value != null) {
-          setFunction(value.id);
+          setSelectedLessonID(value.id);
+          setSelectedTopicID(value.topic_id);
         }
       }}
       getOptionLabel={option => option.name}
