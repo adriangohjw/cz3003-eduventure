@@ -1,57 +1,40 @@
 import React, { useEffect, useState } from "react";
-import { Grid } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 
 // styles
 import useStyles from "./styles";
 import { url } from "../../context/UserContext";
 
 // components
-import Widget from "../../components/Widget";
 import PageTitle from "../../components/PageTitle";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import Table from "./components/Table/Table";
+import LeaderboardTable from "./components/Table/LeaderboardTable";
 
 export default function Leaderboards() {
   var [isLoading, setIsLoading] = useState(true);
-  const [quiz_attempts, setQuizAttempts] = useState([]);
-
-  useEffect(() => {
-    fetch(url + `quiz_attempts/leaderboard`, {
+  const [leaderboard, setLeaderboard] = useState([]);
+  var classes = useStyles();
+  const retrieveLeaderboard = () => {
+    fetch(url + `statistics/leaderboard`, {
       method: "GET",
     })
       .then(response => response.json())
       .then(data => {
-        setQuizAttempts(data.students);
+        setLeaderboard(data.scores);
         setIsLoading(false);
-      });
-  }, []);
-  const sortBy = key => {
-    console.log("sortBy called with ", key);
-
-    this.setState(prevState => ({
-      data: this.state.data.sort(
-        this.state.scoreAsc === true
-          ? (a, b) => a[key.toLowerCase()] < b[key.toLowerCase()]
-          : (a, b) => b[key.toLowerCase()] < a[key.toLowerCase()],
-      ),
-      scoreAsc: !prevState.scoreAsc,
-    }));
-    //console.log(this.state.data);
+      })
+      .catch(error => console.log(error));
   };
+  useEffect(() => {
+    retrieveLeaderboard();
+  }, []);
 
   return (
     <div>
-      <PageTitle title="Leaderboard" button="Latest Reports" />
       {isLoading ? (
         <CircularProgress />
       ) : (
-        <Grid container spacing={4}>
-          <Grid item xs={12}>
-            <Widget title="Quiz " upperTitle noBodyPadding>
-              <Table data={quiz_attempts} sortBy={sortBy} />
-            </Widget>
-          </Grid>
-        </Grid>
+        <LeaderboardTable leaderboard={leaderboard} classes={classes} />
       )}
     </div>
   );
