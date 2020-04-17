@@ -44,23 +44,22 @@ const PieChartData = [
 ];
 
 const colors = [
-  "#D27370",
-  "#D07483",
-  "#C77895",
-  "#B87EA4",
-  "#A486B0",
-  "#8C8EB6",
-  "#7295B7",
-  "#589BB2",
-  "#449FA7",
-  "#3CA299",
-  "#44A487",
-  "#55A474",
-  "#6AA262",
-  "#7F9F52",
-  "#959B47",
-  "#A99642",
-  "#BC8F44",
+  "#DD7173",
+  "#DD758D",
+  "#D47DA6",
+  "#C389BB",
+  "#A996CC",
+  "#89A3D5",
+  "#65AFD5",
+  "#3FB9CD",
+  "#26C0BD",
+  "#34C6A8",
+  "#56C98F",
+  "#79CA77",
+  "#9CC961",
+  "#BFC651",
+  "#E0C04C",
+  "#000000",
 ];
 
 export default function Dashboard(props) {
@@ -217,7 +216,6 @@ export default function Dashboard(props) {
       })
       .then(response => {
         const [formattedData, options] = formatss7Data(response.courses);
-        console.log("ss7", formattedData);
         setss7ChartData({
           ...ss7ChartData,
           data: formattedData,
@@ -241,6 +239,25 @@ export default function Dashboard(props) {
     return [data, courses];
   };
 
+  const CustomizedAxisTick = props => {
+    const { x, y, stroke, payload } = props;
+
+    return (
+      <g transform={`translate(${x},${y})`}>
+        <text
+          x={0}
+          y={0}
+          dy={16}
+          textAnchor="end"
+          fill="#666"
+          transform="rotate(-35)"
+        >
+          {payload.value}
+        </text>
+      </g>
+    );
+  };
+
   useEffect(() => {
     getss1ChartData();
     getss2ChartData();
@@ -250,247 +267,6 @@ export default function Dashboard(props) {
   return (
     <>
       <PageTitle title="Dashboard" />
-      {/*<Grid container spacing={4}>
-        <Grid item lg={3} md={4} sm={6} xs={12}>
-          <Widget
-            title="Visits Today"
-            upperTitle
-            bodyClass={classes.fullHeightBody}
-            className={classes.card}
-          >
-            <div className={classes.visitsNumberContainer}>
-              <Typography size="xl" weight="medium">
-                12, 678
-              </Typography>
-              <LineChart
-                width={55}
-                height={30}
-                data={[
-                  { value: 10 },
-                  { value: 15 },
-                  { value: 10 },
-                  { value: 17 },
-                  { value: 18 },
-                ]}
-                margin={{ left: theme.spacing(2) }}
-              >
-                <Line
-                  type="natural"
-                  dataKey="value"
-                  stroke={theme.palette.success.main}
-                  strokeWidth={2}
-                  dot={false}
-                />
-              </LineChart>
-            </div>
-            <Grid
-              container
-              direction="row"
-              justify="space-between"
-              alignItems="center"
-            >
-              <Grid item>
-                <Typography color="text" colorBrightness="secondary">
-                  Registrations
-                </Typography>
-                <Typography size="md">860</Typography>
-              </Grid>
-              <Grid item>
-                <Typography color="text" colorBrightness="secondary">
-                  Sign Out
-                </Typography>
-                <Typography size="md">32</Typography>
-              </Grid>
-              <Grid item>
-                <Typography color="text" colorBrightness="secondary">
-                  Rate
-                </Typography>
-                <Typography size="md">3.25%</Typography>
-              </Grid>
-            </Grid>
-          </Widget>
-        </Grid>
-        <Grid item lg={3} md={8} sm={6} xs={12}>
-          <Widget
-            title="App Performance"
-            upperTitle
-            className={classes.card}
-            bodyClass={classes.fullHeightBody}
-          >
-            <div className={classes.performanceLegendWrapper}>
-              <div className={classes.legendElement}>
-                <Dot color="warning" />
-                <Typography
-                  color="text"
-                  colorBrightness="secondary"
-                  className={classes.legendElementText}
-                >
-                  Integration
-                </Typography>
-              </div>
-              <div className={classes.legendElement}>
-                <Dot color="primary" />
-                <Typography
-                  color="text"
-                  colorBrightness="secondary"
-                  className={classes.legendElementText}
-                >
-                  SDK
-                </Typography>
-              </div>
-            </div>
-            <div className={classes.progressSection}>
-              <Typography
-                size="md"
-                color="text"
-                colorBrightness="secondary"
-                className={classes.progressSectionTitle}
-              >
-                Integration
-              </Typography>
-              <LinearProgress
-                variant="determinate"
-                value={30}
-                classes={{ barColorPrimary: classes.progressBar }}
-                className={classes.progress}
-              />
-            </div>
-            <div>
-              <Typography
-                size="md"
-                color="text"
-                colorBrightness="secondary"
-                className={classes.progressSectionTitle}
-              >
-                SDK
-              </Typography>
-              <LinearProgress
-                variant="determinate"
-                value={55}
-                classes={{ barColorPrimary: classes.progressBar }}
-                className={classes.progress}
-              />
-            </div>
-          </Widget>
-        </Grid>
-        <Grid item lg={3} md={8} sm={6} xs={12}>
-          <Widget
-            title="Server Overview"
-            upperTitle
-            className={classes.card}
-            bodyClass={classes.fullHeightBody}
-          >
-            <div className={classes.serverOverviewElement}>
-              <Typography
-                color="text"
-                colorBrightness="secondary"
-                className={classes.serverOverviewElementText}
-              >
-                60% / 37°С / 3.3 Ghz
-              </Typography>
-              <div className={classes.serverOverviewElementChartWrapper}>
-                <ResponsiveContainer height={50} width="99%">
-                  <AreaChart data={getRandomData(10)}>
-                    <Area
-                      type="natural"
-                      dataKey="value"
-                      stroke={theme.palette.secondary.main}
-                      fill={theme.palette.secondary.light}
-                      strokeWidth={2}
-                      fillOpacity="0.25"
-                    />
-                  </AreaChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-            <div className={classes.serverOverviewElement}>
-              <Typography
-                color="text"
-                colorBrightness="secondary"
-                className={classes.serverOverviewElementText}
-              >
-                54% / 31°С / 3.3 Ghz
-              </Typography>
-              <div className={classes.serverOverviewElementChartWrapper}>
-                <ResponsiveContainer height={50} width="99%">
-                  <AreaChart data={getRandomData(10)}>
-                    <Area
-                      type="natural"
-                      dataKey="value"
-                      stroke={theme.palette.primary.main}
-                      fill={theme.palette.primary.light}
-                      strokeWidth={2}
-                      fillOpacity="0.25"
-                    />
-                  </AreaChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-            <div className={classes.serverOverviewElement}>
-              <Typography
-                color="text"
-                colorBrightness="secondary"
-                className={classes.serverOverviewElementText}
-              >
-                57% / 21°С / 3.3 Ghz
-              </Typography>
-              <div className={classes.serverOverviewElementChartWrapper}>
-                <ResponsiveContainer height={50} width="99%">
-                  <AreaChart data={getRandomData(10)}>
-                    <Area
-                      type="natural"
-                      dataKey="value"
-                      stroke={theme.palette.warning.main}
-                      fill={theme.palette.warning.light}
-                      strokeWidth={2}
-                      fillOpacity="0.25"
-                    />
-                  </AreaChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-          </Widget>
-        </Grid>
-        <Grid item lg={3} md={4} sm={6} xs={12}>
-          <Widget title="Revenue Breakdown" upperTitle className={classes.card}>
-            <Grid container spacing={2}>
-              <Grid item xs={6}>
-                <ResponsiveContainer width="100%" height={144}>
-                  <PieChart margin={{ left: theme.spacing(2) }}>
-                    <Pie
-                      data={PieChartData}
-                      innerRadius={45}
-                      outerRadius={60}
-                      dataKey="value"
-                    >
-                      {PieChartData.map((entry, index) => (
-                        <Cell
-                          key={`cell-${index}`}
-                          fill={theme.palette[entry.color].main}
-                        />
-                      ))}
-                    </Pie>
-                  </PieChart>
-                </ResponsiveContainer>
-              </Grid>
-              <Grid item xs={6}>
-                <div className={classes.pieChartLegendWrapper}>
-                  {PieChartData.map(({ name, value, color }, index) => (
-                    <div key={color} className={classes.legendItemContainer}>
-                      <Dot color={color} />
-                      <Typography style={{ whiteSpace: "nowrap" }}>
-                        &nbsp;{name}&nbsp;
-                      </Typography>
-                      <Typography color="text" colorBrightness="secondary">
-                        &nbsp;{value}
-                      </Typography>
-                    </div>
-                  ))}
-                </div>
-              </Grid>
-            </Grid>
-          </Widget>
-        </Grid> */}
       <Grid item xs={12}>
         {ss1ChartData.isLoading == true ? (
           <CircularProgress />
@@ -508,6 +284,7 @@ export default function Dashboard(props) {
                 </Typography>
                 <div className={classes.mainChartHeaderLabel}>
                   <Typography className={classes.mainChartLegentElement}>
+                    Statistic:{" "}
                     {ss1ChartData.options[ss1ChartData.selectedss1].label}
                   </Typography>
                 </div>
@@ -575,13 +352,17 @@ export default function Dashboard(props) {
                   dataKey="name"
                 />
                 {ss1ChartData.courses.map((course, index) => {
+                  const _index = (
+                    ((colors.length - 1) / ss1ChartData.courses.length) *
+                    index
+                  ).toFixed(0);
                   return (
                     <Line
                       key={index}
-                      type="natural"
+                      type="monotone"
                       dataKey={course}
-                      stroke={colors[index]}
-                      strokeWidth={2}
+                      stroke={colors[_index]}
+                      strokeWidth={3}
                       dot={true}
                       activeDot={{ r: 8 }}
                     />
@@ -610,6 +391,7 @@ export default function Dashboard(props) {
                 <div className={classes.mainChartHeaderLabels}>
                   <div className={classes.mainChartHeaderLabel}>
                     <Typography className={classes.mainChartLegentElement}>
+                      Course Group:{" "}
                       {ss2ChartData.options[ss2ChartData.selectedss2]}
                     </Typography>
                   </div>
@@ -695,11 +477,12 @@ export default function Dashboard(props) {
                   color="text"
                   colorBrightness="secondary"
                 >
-                  Quiz Scores by Course
+                  Quiz Score Bands by Course
                 </Typography>
                 <div className={classes.mainChartHeaderLabels}>
                   <div className={classes.mainChartHeaderLabel}>
                     <Typography className={classes.mainChartLegentElement}>
+                      Course Group:{" "}
                       {ss7ChartData.options[ss7ChartData.selectedss7]}
                     </Typography>
                   </div>
@@ -737,7 +520,7 @@ export default function Dashboard(props) {
           >
             <ResponsiveContainer width="100%" minWidth={500} height={350}>
               <BarChart
-                margin={{ top: 0, right: -15, left: -15, bottom: 0 }}
+                margin={{ top: 10, right: 5, left: 5, bottom: 40 }}
                 data={ss7ChartData.data[ss7ChartData.selectedss7].scores}
               >
                 <defs>
@@ -750,12 +533,26 @@ export default function Dashboard(props) {
                     <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
                   </linearGradient>
                 </defs>
-                <XAxis dataKey="name" />
-                <YAxis />
+                <XAxis
+                  dataKey="name"
+                  tick={CustomizedAxisTick}
+                  label={{
+                    value: "Score (100%)",
+                    position: "insideBottom",
+                    offset: -30,
+                  }}
+                />
+                <YAxis
+                  label={{
+                    value: "Number of Students",
+                    angle: -90,
+                    position: "insideLeft",
+                  }}
+                />
                 <CartesianGrid strokeDasharray="3 3" />
                 <Tooltip
                   formatter={(value, name, props) => {
-                    return [value, "%"];
+                    return [value, "Number of Students"];
                   }}
                 />
                 <Bar
@@ -770,23 +567,6 @@ export default function Dashboard(props) {
           </Widget>
         )}
       </Grid>
-      {/*
-        {mock.bigStat.map(stat => (
-          <Grid item md={4} sm={6} xs={12} key={stat.product}>
-            <BigStat {...stat} />
-          </Grid>
-        ))}
-        <Grid item xs={12}>
-          <Widget
-            title="Support Requests"
-            upperTitle
-            noBodyPadding
-            bodyClass={classes.tableWidget}
-          >
-            <Table data={mock.table} />
-          </Widget>
-        </Grid>
-      </Grid> */}
     </>
   );
 }

@@ -85,6 +85,7 @@ export default function QuestionBank() {
   };
 
   const [state, setState] = useState({
+    options: { pageSize: 50 },
     columns: [
       { title: "ID", field: "id", editable: "never", defaultSort: "asc" },
       {
@@ -451,6 +452,7 @@ export default function QuestionBank() {
           columns={state.columns}
           data={questions}
           icons={tableIcons}
+          options={state.options}
           editable={{
             onRowAdd: newData =>
               new Promise(resolve => {
