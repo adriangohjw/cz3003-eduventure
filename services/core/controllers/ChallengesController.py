@@ -38,8 +38,14 @@ class ChallengeAPI(Resource):
             )
         
         # success case
+        res_dict = []
+        for challenge in challenges:
+            item_to_append = challenge.asdict()
+            item_to_append['from_person_name'] = challenge.from_person.name
+            res_dict.append(item_to_append)
         return make_response(
-            jsonify ([c.asdict() for c in challenges]), 200
+            
+            jsonify (res_dict), 200
         )
 
 
