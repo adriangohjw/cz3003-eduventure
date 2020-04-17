@@ -5,4 +5,5 @@ using UnityEngine;
 public class Challenger : MonoBehaviour
 {
     public int quizID;
+    public int challengerID;
 }

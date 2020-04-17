@@ -49,6 +49,7 @@ public class MainGameController : MonoBehaviour
         StartCoroutine(GetCropProgress());
         StartCoroutine(GetPoints());
         StartCoroutine(CheckChallenge());
+        PlayerPrefs.SetInt("challenge",0);
     }
     void Update()
     {
@@ -191,6 +192,10 @@ public class MainGameController : MonoBehaviour
         {
             yield return webRequest.SendWebRequest();
             studentProgress = JsonUtility.FromJson<ProgressDetails>(webRequest.downloadHandler.text);
+            for (int i=0;i<6;i++)
+            {
+                crops[i].GetComponent<Crop>().topicID = i+1;
+            }
         }
     }
     private IEnumerator CheckChallenge()
@@ -229,6 +234,7 @@ public class MainGameController : MonoBehaviour
                     break;
                 }
                 challengersText[i].text = "You received a challenge from "+ challenge.from_person_name;
+                challengers[i].GetComponent<Challenger>().quizID = challenge.from_student_id;
                 challengers[i].GetComponent<Challenger>().quizID = challenge.quiz_id;
                 i++;
             }
@@ -261,8 +267,10 @@ public class MainGameController : MonoBehaviour
     public void AcceptChallenge()
     {
         int quizID = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Challenger>().quizID;
+        int challengerID = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Challenger>().challengerID;
         PlayerPrefs.SetInt("challenge",2);
         PlayerPrefs.SetInt("challengeQuizID",quizID);
+        PlayerPrefs.SetInt("challengerID",challengerID);
         SceneManager.LoadScene("QuizScene");
     }
 }
@@ -319,6 +327,7 @@ public class ProgressTopicDetails
     public int completed_lessons;
     public ProgressLessonDetails[] lessons;
     public bool completion_status;
+    public string topic_name;
 }
 [Serializable]
 public class ProgressLessonDetails
