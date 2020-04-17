@@ -72,6 +72,17 @@ class Test_challenge_contracts(unittest.TestCase):
                 }
             )
 
+        with app.test_request_context('/?from_student_id=2&to_student_id=3&quiz_id=4', method='PUT'):
+            self.assertEqual(
+                challengeUpdateCompletedContract(request), 
+                {
+                    'from_student_id': 2,
+                    'to_student_id': 3,
+                    'quiz_id': 4,
+                    'winner_id': None
+                }
+            )
+
         with app.test_request_context('/?from_student_id=2&to_student_id=3', method='PUT'):
             self.assertRaises(TypeError, challengeUpdateCompletedContract, request)
 
