@@ -36,7 +36,10 @@ public class ChallengeController : MonoBehaviour
     }
     public void StartChallenge()
     {
-        string classmateSelected = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<TMP_Text>().text;
+        string classmateSelected = EventSystem.current.currentSelectedGameObject.GetComponent<Classmates>().classmateId.ToString();
+        PlayerPrefs.SetString("challengeID",classmateSelected);
+        PlayerPrefs.SetInt("challenge",1);
+        SceneManager.LoadScene("QuizScene");
         //TODO
         //INITIALIZE QUIZ (Use QuizController and Scene?)
     }
@@ -78,6 +81,7 @@ public class ChallengeController : MonoBehaviour
                 }
             }
             classmateText[i].text = courseList.students[classIndexNo].name;
+            classmate[i].GetComponent<Classmates>().classmateId = courseList.students[classIndexNo].id;
             classIndexNo++;
             if (classIndexNo == courseList.students.Length)
             {
@@ -155,5 +159,5 @@ public class StudentDetails
 {
     public string email;
     public string name;
-    public string id;
+    public int id;
 }

@@ -15,6 +15,9 @@ public class MainGameController : MonoBehaviour
     public GameObject pointsMenu;
     public GameObject eventMenu;
     public GameObject settingsMenu;
+    public GameObject challengerButton1;
+    public GameObject challengerButton2;
+    public GameObject challengerButton3;
     private TMP_Text pointsText;
     private Button[] crops;
     private TMP_Text[] cropsText;
@@ -22,20 +25,19 @@ public class MainGameController : MonoBehaviour
     private string lessonSelected;
     public GameObject lessonMenu;
     private ProgressDetails studentProgress;
+    private float time = 0.0f;
+    public float interpolationPeriod = 10.0f;
 
-    // Start is called before the first frame update
     void Start()
     {
         cropMenu.SetActive(false);
         pointsMenu.SetActive(false);
-        eventMenu.SetActive(false);
         lessonMenu.SetActive(false);
         settingsMenu.SetActive(false);
         int i;
         crops = new Button[6];
         cropsText = new TMP_Text[6];
         pointsText = GameObject.Find("PointsText").GetComponent<TMP_Text>();
-        //either hardcode crops and location or replace with a dynamic way
         for (i=0;i<6;i++)
         {
             string s = string.Format("Crop{0}",i+1);
@@ -46,13 +48,23 @@ public class MainGameController : MonoBehaviour
         }
         StartCoroutine(GetCropProgress());
         StartCoroutine(GetPoints());
+        StartCoroutine(CheckChallenge());
+    }
+    void Update()
+    {
+        time += Time.deltaTime;
+
+        if (time >= interpolationPeriod)
+        {
+            time = time - interpolationPeriod;
+            StartCoroutine(CheckChallenge());
+        }
     }
 
     public void CropClick()
     {
         cropMenu.SetActive(true);
-        lessonMenu.SetActive(false);
-        //query database for statistic with Crop name
+        lessonMenu.SetActive(false);    
         topicSelected = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<TMP_Text>().text;
         Button[] lessons = new Button[3];
         TMP_Text[] lessonText = new TMP_Text[3];
@@ -133,7 +145,7 @@ public class MainGameController : MonoBehaviour
     }
     private IEnumerator GetPoints()
     {
-        string url = "http://127.0.0.1:5000/statistics/student_score?student_id=6";// + PlayerPrefs.GetString("userID");
+        string url = "http://127.0.0.1:5000/statistics/student_score?student_id=" + PlayerPrefs.GetString("userID");
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
             yield return webRequest.SendWebRequest();
@@ -174,11 +186,64 @@ public class MainGameController : MonoBehaviour
     }
     private IEnumerator GetCropProgress()
     {
-        string url = "http://127.0.0.1:5000/progresses/?student_id=6";// + PlayerPrefs.GetString("userID");
+        string url = "http://127.0.0.1:5000/progresses/?student_id=" + PlayerPrefs.GetString("userID");
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
             yield return webRequest.SendWebRequest();
             studentProgress = JsonUtility.FromJson<ProgressDetails>(webRequest.downloadHandler.text);
+        }
+    }
+    private IEnumerator CheckChallenge()
+    {
+        string url = "http://127.0.0.1:5000/challenges/?to_student_id=" + PlayerPrefs.GetString("userID");
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
+        {
+            yield return webRequest.SendWebRequest();
+            ChallengerList challenges = JsonUtility.FromJson<ChallengerList>("{\"users\":" + webRequest.downloadHandler.text + "}");
+            processChallenges(challenges);
+        }
+    }
+    private void processChallenges(ChallengerList challenges)
+    {
+        int i = 0;
+        Button[] challengers = new Button[3];
+        TMP_Text[] challengersText = new TMP_Text[3];
+        eventMenu.SetActive(true);
+        challengerButton1.SetActive(true);
+        challengerButton2.SetActive(true);
+        challengerButton3.SetActive(true);
+        challengers[0] = challengerButton1.GetComponent<Button>();
+        challengers[1] = challengerButton2.GetComponent<Button>();
+        challengers[2] = challengerButton3.GetComponent<Button>();
+        for (i=0;i<3;i++)
+        {
+            challengersText[i] = challengers[i].GetComponentInChildren<TMP_Text>();
+        }
+        i = 0;
+        foreach (ChallengerDetails challenge in challenges.users)
+        {
+            if (!challenge.is_completed)
+            {
+                if (i==3)
+                {
+                    break;
+                }
+                challengersText[i].text = "You received a challenge from "+ challenge.from_person_name;
+                challengers[i].GetComponent<Challenger>().quizID = challenge.quiz_id;
+                i++;
+            }
+        }
+        if (i == 0)
+        {
+            eventMenu.SetActive(false);
+        }
+        else if (i<3)
+        {
+            for (int j=2;j>i-1;j--)
+            {
+                GameObject button = GameObject.Find(string.Format("Challenger{0}",j));
+                button.SetActive(false);
+            }
         }
     }
     public void SetVolume(float vol)
@@ -189,7 +254,19 @@ public class MainGameController : MonoBehaviour
     {
         SceneManager.LoadScene("ChallengeScene");
     }
+    public void LoginTwitter()
+    {
+        Application.OpenURL("https://twitter.com/login");
+    }
+    public void AcceptChallenge()
+    {
+        int quizID = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Challenger>().quizID;
+        PlayerPrefs.SetInt("challenge",2);
+        PlayerPrefs.SetInt("challengeQuizID",quizID);
+        SceneManager.LoadScene("QuizScene");
+    }
 }
+#region JSON Classes
 [Serializable]
 public class PointsDetails
 {
@@ -261,3 +338,19 @@ public class ProgressQuizDetails
     public string id;
 
 }
+[Serializable]
+public class ChallengerDetails
+{
+    public string created_at;
+    public int from_student_id;
+    public string from_person_name;
+    public bool is_completed;
+    public int quiz_id;
+    public int to_student_id;
+    public int winner_id;
+}
+public class ChallengerList
+{
+    public ChallengerDetails[] users;
+}
+#endregion
