@@ -36,6 +36,7 @@ class Test_progressesController(Test_BaseCase):
                     "completed_lessons": 2,
                     "completion_status": False,
                     "id": 1,
+                    'name': 'topic_1',
                     "lessons": [
                         {
                         "completed_quizzes": 1,
@@ -85,6 +86,7 @@ class Test_progressesController(Test_BaseCase):
                     "completed_lessons": 1,
                     "completion_status": True,
                     "id": 2,
+                    'name': 'topic_2',
                     "lessons": [
                         {
                         "completed_quizzes": 0,

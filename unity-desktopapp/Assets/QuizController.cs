@@ -96,6 +96,21 @@ public class QuizController : MonoBehaviour
         using (UnityWebRequest webRequest = UnityWebRequest.Post(url,"null"))
         {
             yield return webRequest.SendWebRequest();
+<<<<<<< HEAD
+=======
+            if (PlayerPrefs.GetInt("challenge")==2)
+            {
+                StartCoroutine(FinishChallenge());
+            }
+        }
+    }
+    private IEnumerator FinishChallenge()
+    {
+        string url = string.Format("http://127.0.0.1:5000/challenges/?from_student_id={0}&to_student_id={1}&quiz_id={2}&is_completed=true",PlayerPrefs.GetInt("challengerID"),PlayerPrefs.GetString("userID"),PlayerPrefs.GetInt("challengeQuizID"));
+        using (UnityWebRequest webRequest = UnityWebRequest.Put(url,"null"))
+        {
+            yield return webRequest.SendWebRequest();
+>>>>>>> d0611bb9ae3e4613598581fed37d662a0cd14062
         }
     }
     private void updateQuestion()
@@ -305,8 +320,13 @@ public class ChallengeDetails
 [Serializable]
 public class QuizDetails
 {
+<<<<<<< HEAD
     public int id {get;set;}
     public QuestionDetails[] questions {get;set;}
+=======
+    public int id;
+    public QuestionDetails[] questions;
+>>>>>>> d0611bb9ae3e4613598581fed37d662a0cd14062
 }
 [Serializable]
 public class QuizDetails1

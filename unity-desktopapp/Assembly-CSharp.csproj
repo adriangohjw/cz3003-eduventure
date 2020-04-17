@@ -48,6 +48,7 @@
      <Compile Include="Assets\ChallengeController.cs" />
      <Compile Include="Assets\Challenger.cs" />
      <Compile Include="Assets\Classmates.cs" />
+     <Compile Include="Assets\Crop.cs" />
      <Compile Include="Assets\FacebookSDK\Examples\Scripts\ConsoleBase.cs" />
      <Compile Include="Assets\FacebookSDK\Examples\Scripts\LogView.cs" />
      <Compile Include="Assets\FacebookSDK\Examples\Scripts\MenuBase.cs" />
@@ -59,6 +60,7 @@
      <Compile Include="Assets\FacebookSDK\Examples\Scripts\SubMenus\GraphRequest.cs" />
      <Compile Include="Assets\FacebookSDK\Examples\Scripts\SubMenus\MainMenu.cs" />
      <Compile Include="Assets\FacebookSDK\Examples\Scripts\SubMenus\Pay.cs" />
+     <Compile Include="Assets\Lesson.cs" />
      <Compile Include="Assets\LoginController.cs" />
      <Compile Include="Assets\MainGameController.cs" />
      <Compile Include="Assets\Option.cs" />
