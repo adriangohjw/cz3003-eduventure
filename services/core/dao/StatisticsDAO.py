@@ -1,4 +1,4 @@
-from sqlalchemy import asc, desc, cast, Float, func, Numeric, Date
+from sqlalchemy import asc, desc, cast, Float, func, Numeric, Date, and_
 from sqlalchemy.sql.functions import count, max
 
 from models import \
@@ -13,21 +13,26 @@ def statRead():
     relationships = Rs_lesson_quiz_contain.query.all()
     quizzes_list = [rs.quiz_id for rs in relationships]
 
-    return \
+    query = \
         db.session.query(
             Rs_quiz_course_assign.course_index.label('course_index'),
             Quiz.id.label('quiz_id'),
             Quiz.name.label('quiz_name'),
+            Rs_student_course_enrol.student_id.label('student_id'),
             QuizAttempt.score.label('attempt_score'),
         )\
         .select_from(Rs_quiz_course_assign)\
-        .outerjoin(Quiz)\
-        .outerjoin(QuizAttempt)\
+        .outerjoin(Quiz, Quiz.id == Rs_quiz_course_assign.quiz_id)\
+        .outerjoin(Rs_student_course_enrol, Rs_quiz_course_assign.course_index == Rs_student_course_enrol.course_index)\
+        .outerjoin(QuizAttempt, and_(Quiz.id == QuizAttempt.quiz_id, Rs_student_course_enrol.student_id == QuizAttempt.student_id))\
         .filter(Quiz.id.in_(quizzes_list))\
         .order_by(
-            asc(Quiz.id)
-        )\
-        .all()
+            asc(Rs_quiz_course_assign.course_index),
+            asc(Quiz.id),
+            asc(Rs_student_course_enrol.student_id) 
+        )   
+
+    return query.all()
 
 
 def lessonCompletedRead():
