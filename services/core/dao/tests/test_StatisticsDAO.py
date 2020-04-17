@@ -136,10 +136,12 @@ class Test_StatisticsDAO(unittest.TestCase):
         self.assertEqual(
             statRead(),
             [
-                ('cz1005', 1, 'quiz_1', 0),
-                ('cz1005', 2, 'quiz_2', None),
-                ('cz1005', 3, 'quiz_3', 2),
-                ('cz1005', 3, 'quiz_3', 3)
+                ('cz1005', 1, 'quiz_1', 1, 0),
+                ('cz1005', 1, 'quiz_1', 2, None),
+                ('cz1005', 2, 'quiz_2', 1, None),
+                ('cz1005', 2, 'quiz_2', 2, None),
+                ('cz1005', 3, 'quiz_3', 1, 3),
+                ('cz1005', 3, 'quiz_3', 2, 2)
             ]
         )
 
