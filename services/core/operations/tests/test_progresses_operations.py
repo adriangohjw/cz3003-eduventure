@@ -27,6 +27,9 @@ class Test_progresses_operations(unittest.TestCase):
 
 
     def setUp(self):
+
+        self.maxDiff = None
+
         db.session.remove()
         db.drop_all()
         db.create_all()
@@ -119,6 +122,7 @@ class Test_progresses_operations(unittest.TestCase):
                     "completed_lessons": 2,
                     "completion_status": False,
                     "id": 1,
+                    'name': 'topic_1',
                     "lessons": [
                         {
                         "completed_quizzes": 1,
@@ -168,6 +172,7 @@ class Test_progresses_operations(unittest.TestCase):
                     "completed_lessons": 1,
                     "completion_status": True,
                     "id": 2,
+                    'name': 'topic_2',
                     "lessons": [
                         {
                         "completed_quizzes": 0,
