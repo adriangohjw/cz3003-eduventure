@@ -174,8 +174,8 @@ class Test_statistics_operations(unittest.TestCase):
                         "75th_percentile": 2.75,
                         "95th_percentile": 2.95,
                         "attempts": [
-                            2,
-                            3
+                            3,
+                            2
                         ],
                         "avg_score": 2.5,
                         "id": 3,
