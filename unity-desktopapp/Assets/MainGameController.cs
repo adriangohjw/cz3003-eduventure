@@ -15,6 +15,9 @@ public class MainGameController : MonoBehaviour
     public GameObject pointsMenu;
     public GameObject eventMenu;
     public GameObject settingsMenu;
+    public GameObject challengerButton1;
+    public GameObject challengerButton2;
+    public GameObject challengerButton3;
     private TMP_Text pointsText;
     private Button[] crops;
     private TMP_Text[] cropsText;
@@ -22,6 +25,8 @@ public class MainGameController : MonoBehaviour
     private string lessonSelected;
     public GameObject lessonMenu;
     private ProgressDetails studentProgress;
+    private float time = 0.0f;
+    public float interpolationPeriod = 10.0f;
 
     void Start()
     {
@@ -44,6 +49,16 @@ public class MainGameController : MonoBehaviour
         StartCoroutine(GetCropProgress());
         StartCoroutine(GetPoints());
         StartCoroutine(CheckChallenge());
+    }
+    void Update()
+    {
+        time += Time.deltaTime;
+
+        if (time >= interpolationPeriod)
+        {
+            time = time - interpolationPeriod;
+            StartCoroutine(CheckChallenge());
+        }
     }
 
     public void CropClick()
@@ -194,10 +209,14 @@ public class MainGameController : MonoBehaviour
         Button[] challengers = new Button[3];
         TMP_Text[] challengersText = new TMP_Text[3];
         eventMenu.SetActive(true);
+        challengerButton1.SetActive(true);
+        challengerButton2.SetActive(true);
+        challengerButton3.SetActive(true);
+        challengers[0] = challengerButton1.GetComponent<Button>();
+        challengers[1] = challengerButton2.GetComponent<Button>();
+        challengers[2] = challengerButton3.GetComponent<Button>();
         for (i=0;i<3;i++)
         {
-            string s = string.Format("Challenger{0}",i);
-            challengers[i] = GameObject.Find(s).GetComponent<Button>();
             challengersText[i] = challengers[i].GetComponentInChildren<TMP_Text>();
         }
         i = 0;
