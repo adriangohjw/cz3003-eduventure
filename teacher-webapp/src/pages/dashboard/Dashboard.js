@@ -10,7 +10,7 @@ import {
 import { useTheme } from "@material-ui/styles";
 import {
   ResponsiveContainer,
-  ComposedChart,
+  CartesianGrid,
   BarChart,
   AreaChart,
   LineChart,
@@ -72,15 +72,26 @@ export default function Dashboard(props) {
 
   // local
   var [mainChartState, setMainChartState] = useState("");
-  var [ss1ChartData, setss1ChartData] = useState([]);
-  var [ss2ChartData, setss2ChartData] = useState({
-    selectedss2: 0,
-    ss2Options: [],
+  var [ss1ChartData, setss1ChartData] = useState({
+    isLoading: true,
+    selectedss1: 0,
+    options: [
+      { value: "avg_score", label: "Average Score" },
+      { value: "max_score", label: "Highest Score" },
+      { value: "min_score", label: "Lowest Score" },
+      { value: "stdev", label: "Standard Deviation" },
+      { value: "25th_percentile", label: "25th Percentile" },
+      { value: "75th_percentile", label: "75th Percentile" },
+      { value: "95th_percentile", label: "95th Percentile" },
+    ],
+    courses: [],
     data: [],
   });
-  var [isLoading, setIsLoading] = useState({
-    ss1: true,
-    ss2: true,
+  var [ss2ChartData, setss2ChartData] = useState({
+    isLoading: true,
+    selectedss2: 0,
+    options: [],
+    data: [],
   });
 
   const getss1ChartData = () => {
@@ -91,21 +102,60 @@ export default function Dashboard(props) {
         if (res.ok) {
           return res.json();
         } else {
-          setIsLoading({
-            ...isLoading,
-            ss1: false,
+          setss1ChartData({
+            ...ss1ChartData,
+            isLoading: false,
           });
           throw new Error(res.error);
         }
       })
       .then(response => {
-        setss1ChartData(response.stats);
-        setIsLoading({
-          ...isLoading,
-          ss1: false,
+        const [formattedData, courses] = formatss1Data(response);
+        setss1ChartData({
+          ...ss1ChartData,
+          data: formattedData,
+          isLoading: false,
+          courses: courses,
         });
       })
       .catch(error => console.log(error));
+  };
+
+  const formatss1Data = data => {
+    const courses = [];
+    const quiz_names = [];
+    data.stats.map(course => {
+      courses.push(course.course_index); //gets list of all course_index
+    });
+
+    data.stats[0].quizzes.map(quiz => {
+      quiz_names.push(quiz.name); //gets list of all quiz_names
+    });
+
+    ss1ChartData.options.map(option => {
+      data[option.value] = [];
+    }); //sets empty object for each stat
+
+    ss1ChartData.options.map(option => {
+      quiz_names.map(q => {
+        var _stat = {};
+        _stat["name"] = q;
+
+        courses.map(c => {
+          _stat[c] = data.stats
+            .find(course => {
+              return course.course_index == c;
+            })
+            .quizzes.find(quiz => {
+              return quiz.name == q;
+            })[option.value];
+        });
+
+        data[option.value].push(_stat);
+      });
+    });
+    delete data.stats;
+    return [data, courses];
   };
 
   const getss2ChartData = () => {
@@ -116,9 +166,9 @@ export default function Dashboard(props) {
         if (res.ok) {
           return res.json();
         } else {
-          setIsLoading({
-            ...isLoading,
-            ss2: false,
+          setss2ChartData({
+            ...ss2ChartData,
+            isLoading: false,
           });
           throw new Error(res.error);
         }
@@ -128,11 +178,8 @@ export default function Dashboard(props) {
         setss2ChartData({
           ...ss2ChartData,
           data: formattedData,
-          ss2Options: options,
-        });
-        setIsLoading({
-          ...isLoading,
-          ss2: false,
+          options: options,
+          isLoading: false,
         });
       })
       .catch(error => console.log(error));
@@ -400,8 +447,8 @@ export default function Dashboard(props) {
             </Grid>
           </Widget>
         </Grid>
-        {/* <Grid item xs={12}>
-          {isLoading.ss1 == true ? (
+        <Grid item xs={12}>
+          {ss1ChartData.isLoading == true ? (
             <CircularProgress />
           ) : (
             <Widget
@@ -413,31 +460,22 @@ export default function Dashboard(props) {
                     color="text"
                     colorBrightness="secondary"
                   >
-                    Daily Line Chart
+                    Quiz Statistics
                   </Typography>
-                  <div className={classes.mainChartHeaderLabels}>
-                    <div className={classes.mainChartHeaderLabel}>
-                      <Dot color="warning" />
-                      <Typography className={classes.mainChartLegentElement}>
-                        Tablet
-                      </Typography>
-                    </div>
-                    <div className={classes.mainChartHeaderLabel}>
-                      <Dot color="primary" />
-                      <Typography className={classes.mainChartLegentElement}>
-                        Mobile
-                      </Typography>
-                    </div>
-                    <div className={classes.mainChartHeaderLabel}>
-                      <Dot color="primary" />
-                      <Typography className={classes.mainChartLegentElement}>
-                        Desktop
-                      </Typography>
-                    </div>
+                  <div className={classes.mainChartHeaderLabel}>
+                    <Typography className={classes.mainChartLegentElement}>
+                      {ss1ChartData.options[ss1ChartData.selectedss1].label}
+                    </Typography>
                   </div>
                   <Select
-                    value={mainChartState}
-                    onChange={e => setMainChartState(e.target.value)}
+                    value={ss1ChartData.selectedss1}
+                    onChange={e => {
+                      setss1ChartData({
+                        ...ss1ChartData,
+                        selectedss1: e.target.value,
+                      });
+                    }}
+                    displayEmpty
                     input={
                       <OutlinedInput
                         labelWidth={0}
@@ -449,70 +487,69 @@ export default function Dashboard(props) {
                     }
                     autoWidth
                   >
-                    <MenuItem value="avg_score">Average Score</MenuItem>
-                    <MenuItem value="max_score">Highest Score</MenuItem>
-                    <MenuItem value="min_score">Lowest Score</MenuItem>
+                    {ss1ChartData.options.map((option, index) => {
+                      return (
+                        <MenuItem value={index} key={index}>
+                          {option.label}
+                        </MenuItem>
+                      );
+                    })}
                   </Select>
                 </div>
               }
             >
               <ResponsiveContainer width="100%" minWidth={500} height={350}>
-                <ComposedChart
-                  margin={{ top: 0, right: -15, left: -15, bottom: 0 }}
-                  data={ss1ChartData[0].progress}
+                <LineChart
+                  margin={{ top: 10, right: 5, left: 5, bottom: 5 }}
+                  data={
+                    ss1ChartData.data[
+                      ss1ChartData.options[ss1ChartData.selectedss1].value
+                    ]
+                  }
                 >
+                  <Tooltip />
+                  <CartesianGrid strokeDasharray="3 3" />
                   <YAxis
                     // ticks={[0, 2500, 5000, 7500]}
                     tick={{
-                      fill: theme.palette.text.hint + "80",
+                      fill: theme.palette.text.hint + "140",
                       fontSize: 14,
                     }}
-                    stroke={theme.palette.text.hint + "80"}
+                    padding={{ top: 40 }}
+                    stroke={theme.palette.text.hint + "140"}
                     tickLine={false}
                   />
+
                   <XAxis
                     // tickFormatter={i => i + 1}
                     tick={{
-                      fill: theme.palette.text.hint + "80",
+                      fill: theme.palette.text.hint + "140",
                       fontSize: 14,
                     }}
-                    stroke={theme.palette.text.hint + "80"}
+                    stroke={theme.palette.text.hint + "140"}
                     tickLine={false}
-                    dataKey="quizzes.name"
+                    dataKey="name"
                   />
-                  <Area
-                  type="natural"
-                  dataKey="desktop"
-                  fill={theme.palette.background.light}
-                  strokeWidth={0}
-                  activeDot={false}
-                />
-                  <Line
-                    type="natural"
-                    dataKey="avg_score"
-                    stroke={theme.palette.primary.main}
-                    strokeWidth={2}
-                    dot={false}
-                    activeDot={false}
-                  />
-                  <Line
-                  type="linear"
-                  dataKey="tablet"
-                  stroke={theme.palette.warning.main}
-                  strokeWidth={2}
-                  dot={{
-                    stroke: theme.palette.warning.dark,
-                    strokeWidth: 2,
-                    fill: theme.palette.warning.main,
-                  }}
-                />
-                </ComposedChart>
+                  {ss1ChartData.courses.map((course, index) => {
+                    return (
+                      <Line
+                        key={index}
+                        type="natural"
+                        dataKey={course}
+                        stroke={colors[index]}
+                        strokeWidth={2}
+                        dot={true}
+                        activeDot={{ r: 8 }}
+                      />
+                    );
+                  })}
+                </LineChart>
               </ResponsiveContainer>
             </Widget>
           )}
-        </Grid> */}
+        </Grid>
         <Grid item xs={12}>
-          {isLoading.ss2 == true ? (
+          {ss2ChartData.isLoading == true ? (
             <CircularProgress />
           ) : (
             <Widget
@@ -524,12 +561,12 @@ export default function Dashboard(props) {
                     color="text"
                     colorBrightness="secondary"
                   >
-                    Lesson Progress Chart
+                    Completed Lessons by Course Group
                   </Typography>
                   <div className={classes.mainChartHeaderLabels}>
                     <div className={classes.mainChartHeaderLabel}>
                       <Typography className={classes.mainChartLegentElement}>
-                        {ss2ChartData.ss2Options[ss2ChartData.selectedss2]}
+                        {ss2ChartData.options[ss2ChartData.selectedss2]}
                       </Typography>
                     </div>
                   </div>
@@ -553,7 +590,7 @@ export default function Dashboard(props) {
                     }
                     autoWidth
                   >
-                    {ss2ChartData.ss2Options.map((option, index) => {
+                    {ss2ChartData.options.map((option, index) => {
                       return (
                         <MenuItem value={index} key={index}>
                           {option}
@@ -572,10 +609,11 @@ export default function Dashboard(props) {
                   <YAxis
                     // ticks={[0, 2500, 5000, 7500]}
                     tick={{
-                      fill: theme.palette.text.hint + "80",
+                      fill: theme.palette.text.hint + "140",
                       fontSize: 14,
                     }}
-                    stroke={theme.palette.text.hint + "80"}
+                    padding={{ top: 40 }}
+                    stroke={theme.palette.text.hint + "140"}
                     tickLine={false}
                   />
                   <XAxis dataKey="lesson_name" allowDataOverflow={false} />
