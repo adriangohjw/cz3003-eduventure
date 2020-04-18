@@ -140,7 +140,7 @@ export default function Header(props) {
           Teacher Webportal
         </Typography>
         <div className={classes.grow} />
-        <div
+        {/* <div
           className={classNames(classes.search, {
             [classes.searchFocused]: isSearchOpen,
           })}
@@ -160,7 +160,7 @@ export default function Header(props) {
               input: classes.inputInput,
             }}
           />
-        </div>
+        </div> */}
         <IconButton
           color="inherit"
           aria-haspopup="true"
@@ -249,7 +249,7 @@ export default function Header(props) {
               </div>
             </MenuItem>
           ))}
-          <Fab
+          {/* <Fab
             variant="extended"
             color="primary"
             aria-label="Add"
@@ -257,7 +257,7 @@ export default function Header(props) {
           >
             Send New Message
             <SendIcon className={classes.sendButtonIcon} />
-          </Fab>
+          </Fab> */}
         </Menu>
         <Menu
           id="notifications-menu"
@@ -298,7 +298,7 @@ export default function Header(props) {
               CZ2006 Professor
             </Typography>
           </div>
-          <MenuItem
+          {/* <MenuItem
             className={classNames(
               classes.profileMenuItem,
               classes.headerMenuItem,
@@ -321,7 +321,7 @@ export default function Header(props) {
             )}
           >
             <AccountIcon className={classes.profileMenuIcon} /> Messages
-          </MenuItem>
+          </MenuItem> */}
           <div className={classes.profileMenuUser}>
             <Typography
               className={classes.profileMenuLink}

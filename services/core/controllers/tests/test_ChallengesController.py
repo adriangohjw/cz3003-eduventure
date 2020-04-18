@@ -73,15 +73,22 @@ class Test_challengesController(Test_BaseCase):
     def test_challengeAPI_PUT(self):
 
         # invalid params input
-        response = self.app.put('/challenges?from_student_id=1&to_student_id=2&quiz_id=1&winner_id=')
+        response = self.app.put('/challenges?from_student_id=1&to_student_id=2&quiz_id=')
         self.assertEqual(response.status_code, 400)
 
         # challenge not found
         response = self.app.put('/challenges?from_student_id=2&to_student_id=1&quiz_id=2&winner_id=2')
         self.assertEqual(response.status_code, 409)
 
-        # success case
-        response = self.app.put('/challenges?from_student_id=1&to_student_id=2&quiz_id=1&winner_id=1')
+        # success case (without winner_id)
+        response = self.app.put('/challenges?from_student_id=1&to_student_id=2&quiz_id=1')
+        res = res_to_dict(response)
+        self.assertEqual(response.status_code, 200)
+        self.assertIsNone(res['winner_id'])
+        self.assertTrue(res['is_completed'])
+
+        # success case (with winner_id)
+        response = self.app.put('/challenges?from_student_id=1&to_student_id=2&quiz_id=2&winner_id=1')
         res = res_to_dict(response)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(res['winner_id'], 1)

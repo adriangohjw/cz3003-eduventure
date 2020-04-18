@@ -49,7 +49,10 @@ public class MainGameController : MonoBehaviour
         StartCoroutine(GetCropProgress());
         StartCoroutine(GetPoints());
         StartCoroutine(CheckChallenge());
+<<<<<<< HEAD
+=======
         PlayerPrefs.SetInt("challenge",0);
+>>>>>>> d0611bb9ae3e4613598581fed37d662a0cd14062
     }
     void Update()
     {
@@ -260,6 +263,59 @@ public class MainGameController : MonoBehaviour
             }
         }
     }
+    private IEnumerator CheckChallenge()
+    {
+        string url = "http://127.0.0.1:5000/challenges/?to_student_id=" + PlayerPrefs.GetString("userID");
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
+        {
+            yield return webRequest.SendWebRequest();
+            ChallengerList challenges = JsonUtility.FromJson<ChallengerList>("{\"users\":" + webRequest.downloadHandler.text + "}");
+            processChallenges(challenges);
+        }
+    }
+    private void processChallenges(ChallengerList challenges)
+    {
+        int i = 0;
+        Button[] challengers = new Button[3];
+        TMP_Text[] challengersText = new TMP_Text[3];
+        eventMenu.SetActive(true);
+        challengerButton1.SetActive(true);
+        challengerButton2.SetActive(true);
+        challengerButton3.SetActive(true);
+        challengers[0] = challengerButton1.GetComponent<Button>();
+        challengers[1] = challengerButton2.GetComponent<Button>();
+        challengers[2] = challengerButton3.GetComponent<Button>();
+        for (i=0;i<3;i++)
+        {
+            challengersText[i] = challengers[i].GetComponentInChildren<TMP_Text>();
+        }
+        i = 0;
+        foreach (ChallengerDetails challenge in challenges.users)
+        {
+            if (!challenge.is_completed)
+            {
+                if (i==3)
+                {
+                    break;
+                }
+                challengersText[i].text = "You received a challenge from "+ challenge.from_person_name;
+                challengers[i].GetComponent<Challenger>().quizID = challenge.quiz_id;
+                i++;
+            }
+        }
+        if (i == 0)
+        {
+            eventMenu.SetActive(false);
+        }
+        else if (i<3)
+        {
+            for (int j=2;j>i-1;j--)
+            {
+                GameObject button = GameObject.Find(string.Format("Challenger{0}",j));
+                button.SetActive(false);
+            }
+        }
+    }
     public void SetVolume(float vol)
     {
         PlayerPrefs.SetFloat("volume",vol);
@@ -275,10 +331,15 @@ public class MainGameController : MonoBehaviour
     public void AcceptChallenge()
     {
         int quizID = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Challenger>().quizID;
+<<<<<<< HEAD
+        PlayerPrefs.SetInt("challenge",2);
+        PlayerPrefs.SetInt("challengeQuizID",quizID);
+=======
         int challengerID = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Challenger>().challengerID;
         PlayerPrefs.SetInt("challenge",2);
         PlayerPrefs.SetInt("challengeQuizID",quizID);
         PlayerPrefs.SetInt("challengerID",challengerID);
+>>>>>>> d0611bb9ae3e4613598581fed37d662a0cd14062
         SceneManager.LoadScene("QuizScene");
     }
 }

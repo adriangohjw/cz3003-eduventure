@@ -97,7 +97,9 @@ def challengeUpdateCompletedContract(request):
     validate_student_id(from_student_id)
     validate_student_id(to_student_id)
     validate_quiz_id(quiz_id)
-    validate_winner_id(from_student_id, to_student_id, winner_id)
+
+    if winner_id is not None:
+        validate_winner_id(from_student_id, to_student_id, winner_id)
 
     return {
         'from_student_id': from_student_id,

@@ -27,6 +27,7 @@ def progressReadOperation(student_id):
         progress_dict['topics_temp'].append(
             {
                 'id': p_dict['topic_id'],
+                'name': p_dict['topic_name'],
                 'lessons_temp': []
             }
         )    
