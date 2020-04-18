@@ -21,8 +21,8 @@ public class MainGameController : MonoBehaviour
     private TMP_Text pointsText;
     private Button[] crops;
     private TMP_Text[] cropsText;
-    private string topicSelected;
-    private string lessonSelected;
+    private int topicSelected;
+    private int lessonSelected;
     public GameObject lessonMenu;
     private ProgressDetails studentProgress;
     private float time = 0.0f;
@@ -66,38 +66,42 @@ public class MainGameController : MonoBehaviour
     {
         cropMenu.SetActive(true);
         lessonMenu.SetActive(false);    
-        topicSelected = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<TMP_Text>().text;
+        string topic = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<TMP_Text>().text;
+        topicSelected = EventSystem.current.currentSelectedGameObject.GetComponent<Crop>().topicID;
         Button[] lessons = new Button[3];
         TMP_Text[] lessonText = new TMP_Text[3];
+        TMP_Text plantTitle = GameObject.Find("PlantTitle").GetComponent<TMP_Text>();
+        plantTitle.text = topic;
         for (int i=0;i<3;i++)
         {
             string s = string.Format("Lesson{0}",i);
             Button _lesson = GameObject.Find(s).GetComponent<Button>();
             lessons[i] = _lesson;
             lessonText[i] = lessons[i].GetComponentInChildren<TMP_Text>();
-            lessonText[i].text = (i).ToString();
+            lessons[i].GetComponent<Lesson>().lessonID = i;
+            lessonText[i].text = "Lesson "+ (i+1).ToString();
         }
     }
     public void LessonClick()
     {
         lessonMenu.SetActive(true);
-        lessonSelected = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<TMP_Text>().text;
+        lessonSelected = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Lesson>().lessonID;
         TMP_Text plantStats = GameObject.Find("PlantStats").GetComponent<TMP_Text>();
         TMP_Text pastAttempts = GameObject.Find("PastAttempts").GetComponent<TMP_Text>();
         string displayText = "";
         string attemptsText = "";
-        if (Int32.Parse(lessonSelected)>studentProgress.topics[Int32.Parse(topicSelected)].completed_lessons)
+        if (lessonSelected>studentProgress.topics[topicSelected].completed_lessons)
         {
             displayText+="You have not completed the previous lesson to be able to access this lesson!";
         }
         else
         {
-            displayText += "Completed Quizzes: "+studentProgress.topics[Int32.Parse(topicSelected)].lessons[Int32.Parse(lessonSelected)].completed_quizzes;
-            displayText += "\nTotal Quizzes: "+studentProgress.topics[Int32.Parse(topicSelected)].lessons[Int32.Parse(lessonSelected)].total_quizes;
-            if (Int32.Parse(studentProgress.topics[Int32.Parse(topicSelected)].lessons[Int32.Parse(lessonSelected)].quizzes[0].max_score)>0)
+            displayText += "Completed Quizzes: "+studentProgress.topics[topicSelected].lessons[lessonSelected].completed_quizzes;
+            displayText += "\nTotal Quizzes: "+studentProgress.topics[topicSelected].lessons[lessonSelected].total_quizes;
+            if (studentProgress.topics[topicSelected].lessons[lessonSelected].quizzes[0].max_score>0)
             {
                 int i=1;
-                foreach (ProgressQuizDetails quiz in studentProgress.topics[Int32.Parse(topicSelected)].lessons[Int32.Parse(lessonSelected)].quizzes)
+                foreach (ProgressQuizDetails quiz in studentProgress.topics[topicSelected].lessons[lessonSelected].quizzes)
                 {
                     attemptsText += "Quiz "+i.ToString()+": "+quiz.max_score.ToString()+"/"+quiz.total_questions.ToString()+"\n";
                     i++;
@@ -138,8 +142,8 @@ public class MainGameController : MonoBehaviour
     }
     public void QuizStart()
     {
-        int topicID = Int32.Parse(topicSelected) + 1;
-        int lessonID = Int32.Parse(lessonSelected) +1;
+        int topicID = topicSelected + 1;
+        int lessonID = lessonSelected +1;
         PlayerPrefs.SetString("topicID",topicID.ToString());
         PlayerPrefs.SetString("lessonID",lessonID.ToString());
         SceneManager.LoadScene("QuizScene");
@@ -194,7 +198,8 @@ public class MainGameController : MonoBehaviour
             studentProgress = JsonUtility.FromJson<ProgressDetails>(webRequest.downloadHandler.text);
             for (int i=0;i<6;i++)
             {
-                crops[i].GetComponent<Crop>().topicID = studentProgress.topics[i].id;
+                crops[i].GetComponent<Crop>().topicID = studentProgress.topics[i].id-1;
+                cropsText[i].text = studentProgress.topics[i].name;
                 if (studentProgress.topics[i].completed_lessons==0)
                     crops[i].GetComponent<Image>().sprite = crops[i].GetComponent<Crop>().zeroImage;
                 else if (studentProgress.topics[i].completed_lessons==1)
@@ -242,7 +247,7 @@ public class MainGameController : MonoBehaviour
                     break;
                 }
                 challengersText[i].text = "You received a challenge from "+ challenge.from_person_name;
-                challengers[i].GetComponent<Challenger>().quizID = challenge.from_student_id;
+                challengers[i].GetComponent<Challenger>().challengerID = challenge.from_student_id;
                 challengers[i].GetComponent<Challenger>().quizID = challenge.quiz_id;
                 i++;
             }
@@ -335,7 +340,7 @@ public class ProgressTopicDetails
     public int completed_lessons;
     public ProgressLessonDetails[] lessons;
     public bool completion_status;
-    public string topic_name;
+    public string name;
 }
 [Serializable]
 public class ProgressLessonDetails
@@ -349,7 +354,7 @@ public class ProgressLessonDetails
 [Serializable]
 public class ProgressQuizDetails
 {
-    public string max_score;
+    public int max_score;
     public bool completion_status;
     public string total_questions;
     public string id;
