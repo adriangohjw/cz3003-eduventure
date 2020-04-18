@@ -70,3 +70,4 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 /Library/ArtifactDB
 /Assets/Pictures/*
+/Assets/Pictures.meta

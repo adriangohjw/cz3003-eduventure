@@ -290,6 +290,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   quizID: 0
+  challengerID: 0
 --- !u!1 &43541684
 GameObject:
   m_ObjectHideFlags: 0
@@ -521,8 +522,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -475, y: 66.95}
-  m_SizeDelta: {x: 240, y: 320}
+  m_AnchoredPosition: {x: 178, y: -92}
+  m_SizeDelta: {x: 240, y: 262}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &71720610
 MonoBehaviour:
@@ -596,9 +597,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
+  m_Sprite: {fileID: 21300000, guid: f7dd27688bda7cd4a8955b14637d76f8, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -627,6 +628,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   topicID: 0
+  zeroImage: {fileID: 21300000, guid: 4c2e0909442d9e04ea95e686bda65e7f, type: 3}
+  firstImage: {fileID: 21300000, guid: f7dd27688bda7cd4a8955b14637d76f8, type: 3}
+  secondImage: {fileID: 21300000, guid: 31f0510d2a2d94c48bc4101a072e9343, type: 3}
+  thirdImage: {fileID: 21300000, guid: f7389271b5c946c4e9a023d2a349d999, type: 3}
 --- !u!1 &118336184
 GameObject:
   m_ObjectHideFlags: 0
@@ -819,8 +824,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -174, y: 66.95}
-  m_SizeDelta: {x: 240, y: 320}
+  m_AnchoredPosition: {x: 570, y: -229}
+  m_SizeDelta: {x: 240, y: 262}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &133616478
 MonoBehaviour:
@@ -894,9 +899,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
+  m_Sprite: {fileID: 21300000, guid: 5a2526ed7988ce94c8d5ec2333ea2828, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -925,6 +930,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   topicID: 0
+  zeroImage: {fileID: 21300000, guid: c08a95afe8a647c4dbdb4afa6405a28c, type: 3}
+  firstImage: {fileID: 21300000, guid: 5a2526ed7988ce94c8d5ec2333ea2828, type: 3}
+  secondImage: {fileID: 21300000, guid: 04388c1a293019b4aa46841d87c0e6fa, type: 3}
+  thirdImage: {fileID: 21300000, guid: 512b6041dcbe24743af59982da49058d, type: 3}
 --- !u!1 &259801946
 GameObject:
   m_ObjectHideFlags: 0
@@ -1641,8 +1650,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -776, y: 66.94999}
-  m_SizeDelta: {x: 240, y: 320}
+  m_AnchoredPosition: {x: -174, y: 73}
+  m_SizeDelta: {x: 240, y: 262}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &571509879
 MonoBehaviour:
@@ -1716,9 +1725,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
+  m_Sprite: {fileID: 21300000, guid: 5feafedc36494c14b9ee27d56a8c57e2, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -1747,6 +1756,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   topicID: 0
+  zeroImage: {fileID: 21300000, guid: bd3b5b54ce07cfa4187c9242f9dae5bc, type: 3}
+  firstImage: {fileID: 21300000, guid: 5bd720dbb0e0b954183c301f30f11135, type: 3}
+  secondImage: {fileID: 21300000, guid: 7979d458ba7d881419993781dfbd8929, type: 3}
+  thirdImage: {fileID: 21300000, guid: 5feafedc36494c14b9ee27d56a8c57e2, type: 3}
 --- !u!1 &573768070
 GameObject:
   m_ObjectHideFlags: 0
@@ -2530,8 +2543,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -174, y: -297}
-  m_SizeDelta: {x: 240, y: 320}
+  m_AnchoredPosition: {x: 178, y: -387}
+  m_SizeDelta: {x: 240, y: 262}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &694988635
 MonoBehaviour:
@@ -2605,9 +2618,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
+  m_Sprite: {fileID: 21300000, guid: 275d65951872f9544a4c84cc55032d19, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -2636,6 +2649,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   topicID: 0
+  zeroImage: {fileID: 21300000, guid: da88132208d066d4387c3b43b22bbecd, type: 3}
+  firstImage: {fileID: 21300000, guid: a9a80c3d66ecb5c408c59fc7e64462a6, type: 3}
+  secondImage: {fileID: 21300000, guid: 437bebd9057b9624eb67c5ed2ab93d31, type: 3}
+  thirdImage: {fileID: 21300000, guid: 275d65951872f9544a4c84cc55032d19, type: 3}
 --- !u!1 &706704250
 GameObject:
   m_ObjectHideFlags: 0
@@ -2934,6 +2951,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   quizID: 0
+  challengerID: 0
 --- !u!1 &814467420
 GameObject:
   m_ObjectHideFlags: 0
@@ -3024,7 +3042,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_textAlignment: 514
+  m_textAlignment: 1026
   m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0
@@ -4300,8 +4318,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -776, y: -297}
-  m_SizeDelta: {x: 240, y: 320}
+  m_AnchoredPosition: {x: -475, y: -92}
+  m_SizeDelta: {x: 240, y: 262}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1174248296
 MonoBehaviour:
@@ -4375,9 +4393,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
+  m_Sprite: {fileID: 21300000, guid: d007abf9ce3de5642be3a011fe4d2b0f, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -4406,6 +4424,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   topicID: 0
+  zeroImage: {fileID: 21300000, guid: 0422fece8722ead408e39797884bf02c, type: 3}
+  firstImage: {fileID: 21300000, guid: d007abf9ce3de5642be3a011fe4d2b0f, type: 3}
+  secondImage: {fileID: 21300000, guid: d5262c4a2fc96334ca2d1d226eef9ff6, type: 3}
+  thirdImage: {fileID: 21300000, guid: d1bb30caa1e3f3e41aeb7d251ad60f95, type: 3}
 --- !u!1 &1174896196
 GameObject:
   m_ObjectHideFlags: 0
@@ -4496,7 +4518,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_textAlignment: 514
+  m_textAlignment: 1026
   m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0
@@ -4740,6 +4762,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   quizID: 0
+  challengerID: 0
 --- !u!1 &1198300897
 GameObject:
   m_ObjectHideFlags: 0
@@ -5269,7 +5292,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_textAlignment: 514
+  m_textAlignment: 1026
   m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0
@@ -5833,7 +5856,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_textAlignment: 514
+  m_textAlignment: 1026
   m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0
@@ -5962,13 +5985,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 92d4ff590ad38a64da01ae5f054d58ad, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -6222,6 +6245,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   quizID: 0
+  challengerID: 0
 --- !u!1 &1573955981
 GameObject:
   m_ObjectHideFlags: 0
@@ -6259,8 +6283,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -475, y: -297}
-  m_SizeDelta: {x: 240, y: 320}
+  m_AnchoredPosition: {x: -174, y: -260}
+  m_SizeDelta: {x: 240, y: 262}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1573955983
 MonoBehaviour:
@@ -6334,9 +6358,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
+  m_Sprite: {fileID: 21300000, guid: 2d3b353131a414c44a632cb2095ec3bd, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -6365,6 +6389,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   topicID: 0
+  zeroImage: {fileID: 21300000, guid: 93229a78a32afe942ae1974dc437fe4d, type: 3}
+  firstImage: {fileID: 21300000, guid: 348f5cefc74290a40bfc5f3a0e0d6bb8, type: 3}
+  secondImage: {fileID: 21300000, guid: 9ede9f8d592b3454cbafb4efc0c8a524, type: 3}
+  thirdImage: {fileID: 21300000, guid: 2d3b353131a414c44a632cb2095ec3bd, type: 3}
 --- !u!1 &1575324504
 GameObject:
   m_ObjectHideFlags: 0
@@ -8116,7 +8144,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_textAlignment: 514
+  m_textAlignment: 1026
   m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0
@@ -8414,7 +8442,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_textAlignment: 514
+  m_textAlignment: 1026
   m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0

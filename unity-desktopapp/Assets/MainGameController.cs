@@ -194,7 +194,15 @@ public class MainGameController : MonoBehaviour
             studentProgress = JsonUtility.FromJson<ProgressDetails>(webRequest.downloadHandler.text);
             for (int i=0;i<6;i++)
             {
-                crops[i].GetComponent<Crop>().topicID = i+1;
+                crops[i].GetComponent<Crop>().topicID = studentProgress.topics[i].id;
+                if (studentProgress.topics[i].completed_lessons==0)
+                    crops[i].GetComponent<Image>().sprite = crops[i].GetComponent<Crop>().zeroImage;
+                else if (studentProgress.topics[i].completed_lessons==1)
+                    crops[i].GetComponent<Image>().sprite = crops[i].GetComponent<Crop>().firstImage;
+                else if (studentProgress.topics[i].completed_lessons==2)
+                    crops[i].GetComponent<Image>().sprite = crops[i].GetComponent<Crop>().secondImage;
+                else if (studentProgress.topics[i].completed_lessons==3)
+                    crops[i].GetComponent<Image>().sprite = crops[i].GetComponent<Crop>().thirdImage;
             }
         }
     }
@@ -322,7 +330,7 @@ public class ProgressDetails
 [Serializable]
 public class ProgressTopicDetails
 {
-    public string id;
+    public int id;
     public string total_lessons;
     public int completed_lessons;
     public ProgressLessonDetails[] lessons;
