@@ -154,8 +154,9 @@ def courseScoreRead():
                 0
             ).label('quiz_score_percentage')
         )\
-        .select_from(QuizAttempt)\
-        .outerjoin(Rs_student_course_enrol, QuizAttempt.student_id == Rs_student_course_enrol.student_id)\
+        .select_from(Rs_student_course_enrol)\
+        .outerjoin(Rs_quiz_course_assign, Rs_student_course_enrol.course_index == Rs_quiz_course_assign.course_index)\
+        .outerjoin(QuizAttempt, and_(Rs_student_course_enrol.student_id == QuizAttempt.student_id,Rs_quiz_course_assign.quiz_id == QuizAttempt.quiz_id))\
         .outerjoin(Rs_quiz_question_contain, QuizAttempt.quiz_id == Rs_quiz_question_contain.quiz_id)\
         .outerjoin(Question, Rs_quiz_question_contain.question_id == Question.id)\
         .filter(QuizAttempt.quiz_id.in_(quiz_list))\
@@ -166,6 +167,7 @@ def courseScoreRead():
             QuizAttempt.score
         )\
         .order_by(
+            asc(Rs_student_course_enrol.course_index),
             asc(QuizAttempt.student_id)
         )
 

@@ -364,7 +364,6 @@ def courseScoreReadOperation(course_index):
                     course['scores']['81-90'] += 1
                 else:
                     course['scores']['91-100'] += 1
-            break
                 
     # return different results based on inputs
     if course_index is None:
