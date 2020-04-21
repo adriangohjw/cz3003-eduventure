@@ -89,30 +89,18 @@ public class MainGameController : MonoBehaviour
     {
         lessonMenu.SetActive(true);
         lessonSelected = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Lesson>().lessonID;
-        TMP_Text plantStats = GameObject.Find("PlantStats").GetComponent<TMP_Text>();
         TMP_Text pastAttempts = GameObject.Find("PastAttempts").GetComponent<TMP_Text>();
-        string displayText = "";
-        string attemptsText = "";
         if (lessonSelected>studentProgress.topics[topicSelected].completed_lessons)
         {
-            displayText+="You have not completed the previous lesson to be able to access this lesson!";
+            pastAttempts.text ="You have not completed the previous lesson to be able to access this lesson!";
         }
         else
         {
-            displayText += "Completed Quizzes: "+studentProgress.topics[topicSelected].lessons[lessonSelected].completed_quizzes;
-            displayText += "\nTotal Quizzes: "+studentProgress.topics[topicSelected].lessons[lessonSelected].total_quizes;
-            if (studentProgress.topics[topicSelected].lessons[lessonSelected].quizzes[0].max_score>0)
-            {
-                int i=1;
-                foreach (ProgressQuizDetails quiz in studentProgress.topics[topicSelected].lessons[lessonSelected].quizzes)
-                {
-                    attemptsText += "Quiz "+i.ToString()+": "+quiz.max_score.ToString()+"/"+quiz.total_questions.ToString()+"\n";
-                    i++;
-                }
-            }
+            int topic = topicSelected+1;
+            int lesson = lessonSelected+1;
+            int quizID = (lesson+3*(topic-1));
+            StartCoroutine(GetPastAttempts(quizID));
         }
-        plantStats.text = displayText;
-        pastAttempts.text = attemptsText;
     }
     public void CropMenuClose()
     {
@@ -142,8 +130,8 @@ public class MainGameController : MonoBehaviour
         TMP_Text pointsTitle = GameObject.Find("PointsTitle").GetComponent<TMP_Text>();
         RectTransform pointsText = GameObject.Find("PointsContent").GetComponent<RectTransform>();
         RectTransform pointsText2 = GameObject.Find("PointsNumbers").GetComponent<RectTransform>();
-        pointsText.sizeDelta = new Vector2(678,750);
-        pointsText2.sizeDelta = new Vector2(73,750);
+        pointsText.sizeDelta = new Vector2(666,707);
+        pointsText2.sizeDelta = new Vector2(73,707);
         string displayText = "Progress:\n";
         string numberText = "\n";
         foreach (ProgressTopicDetails topic in studentProgress.topics)
@@ -196,6 +184,35 @@ public class MainGameController : MonoBehaviour
             pointsText.text = total_points.ToString()+ " Points";
         }
     }
+    private IEnumerator GetPastAttempts(int quizID)
+    {
+        string url = string.Format("http://127.0.0.1:5000/quiz_attempts/list?student_id={0}&quiz_id={1}",PlayerPrefs.GetString("userID"),quizID);
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
+        {
+            yield return webRequest.SendWebRequest();
+            AttemptDetail attemptDets = JsonUtility.FromJson<AttemptDetail>(webRequest.downloadHandler.text);
+            TMP_Text pastAttempts = GameObject.Find("PastAttempts").GetComponent<TMP_Text>();
+            if (attemptDets.error == null)
+            {
+                string attemptsText = "\nLast 3 Attempts:";
+                for (int i =1;i<attemptDets.list.Length+1;i++)
+                { 
+                    attemptsText += "\n";
+                    attemptsText += "  Done on: " + attemptDets.list[attemptDets.list.Length-i].created_at +"\n";
+                    attemptsText += "  Score: " + attemptDets.list[attemptDets.list.Length-i].score.ToString() + "/3\n";
+                    if (i>2)
+                    {
+                        break;
+                    }
+                }
+                pastAttempts.text = attemptsText;
+            }
+            else
+            {
+                pastAttempts.text = "No previous attempts yet.";
+            }
+        }
+    }
     private IEnumerator UpdatePointsMenu()
     {
         string url = "http://127.0.0.1:5000/statistics/leaderboard";
@@ -204,8 +221,8 @@ public class MainGameController : MonoBehaviour
             yield return webRequest.SendWebRequest();
             RectTransform pointsText = GameObject.Find("PointsContent").GetComponent<RectTransform>();
             RectTransform pointsText2 = GameObject.Find("PointsNumbers").GetComponent<RectTransform>();
-            pointsText.sizeDelta = new Vector2(678,850);
-            pointsText2.sizeDelta = new Vector2(73,850);
+            pointsText.sizeDelta = new Vector2(666,800);
+            pointsText2.sizeDelta = new Vector2(73,800);
             TMP_Text pointsContent = GameObject.Find("PointsContent").GetComponent<TMP_Text>();
             TMP_Text pointsNumbers = GameObject.Find("PointsNumbers").GetComponent<TMP_Text>();
             TMP_Text pointsTitle = GameObject.Find("PointsTitle").GetComponent<TMP_Text>();
@@ -410,8 +427,24 @@ public class ChallengerDetails
     public int to_student_id;
     public int winner_id;
 }
+[Serializable]
 public class ChallengerList
 {
     public ChallengerDetails[] users;
+}
+[Serializable]
+public class AttemptDetail
+{
+    public AttemptDetails[] list;
+    public string error;
+}
+[Serializable]
+public class AttemptDetails
+{
+    public string created_at;
+    public int id;
+    public int quiz_id;
+    public int score;
+    public int student_id;
 }
 #endregion
