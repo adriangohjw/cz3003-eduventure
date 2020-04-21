@@ -20,4 +20,4 @@ from services.core.contracts.tests.test_topics_contracts import Test_topics_cont
 from services.core.contracts.tests.test_users_contracts import Test_user_contracts
 
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main(verbosity=2)
