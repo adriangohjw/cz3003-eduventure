@@ -37,6 +37,18 @@ def quizAttemptListReadOperation(student_id, quiz_id):
 
 def quizAttemptCreateOperation(student_id, quiz_id, score):
 
+    student = studentRead(col='id', value=student_id)
+
+    # student is not found
+    if student is None:
+        raise ErrorWithCode(409, "No student found")
+
+    quiz = quizRead(quiz_id)
+
+    # quiz is not found
+    if quiz is None:
+        raise ErrorWithCode(409, "No quiz found")
+
     quizAttempt = initializeQuizAttempt(student_id, quiz_id, score)
     if quizAttemptCreate(quizAttempt) == False:
         raise ErrorWithCode(503, "Unsuccessful")
