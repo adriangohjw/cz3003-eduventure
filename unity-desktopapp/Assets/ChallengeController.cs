@@ -40,8 +40,6 @@ public class ChallengeController : MonoBehaviour
         PlayerPrefs.SetString("challengeID",classmateSelected);
         PlayerPrefs.SetInt("challenge",1);
         SceneManager.LoadScene("QuizScene");
-        //TODO
-        //INITIALIZE QUIZ (Use QuizController and Scene?)
     }
     private IEnumerator GetPoints()
     {

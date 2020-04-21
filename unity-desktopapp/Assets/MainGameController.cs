@@ -18,6 +18,7 @@ public class MainGameController : MonoBehaviour
     public GameObject challengerButton1;
     public GameObject challengerButton2;
     public GameObject challengerButton3;
+    public GameObject leaderboardButton;
     private TMP_Text pointsText;
     private Button[] crops;
     private TMP_Text[] cropsText;
@@ -71,6 +72,8 @@ public class MainGameController : MonoBehaviour
         Button[] lessons = new Button[3];
         TMP_Text[] lessonText = new TMP_Text[3];
         TMP_Text plantTitle = GameObject.Find("PlantTitle").GetComponent<TMP_Text>();
+        TMP_Text topicProgress = GameObject.Find("TopicProgress").GetComponent<TMP_Text>();
+        topicProgress.text = "Completed: "+studentProgress.topics[topicSelected].completed_lessons.ToString()+"/"+studentProgress.topics[topicSelected].total_lessons.ToString()+" Lessons";
         plantTitle.text = topic;
         for (int i=0;i<3;i++)
         {
@@ -133,12 +136,42 @@ public class MainGameController : MonoBehaviour
     public void PointsClick()
     {
         pointsMenu.SetActive(true);
+        leaderboardButton.SetActive(true);
+        TMP_Text pointsContent = GameObject.Find("PointsContent").GetComponent<TMP_Text>();
+        TMP_Text pointsNumbers = GameObject.Find("PointsNumbers").GetComponent<TMP_Text>();
         TMP_Text pointsTitle = GameObject.Find("PointsTitle").GetComponent<TMP_Text>();
-        StartCoroutine(UpdatePointsMenu());
+        RectTransform pointsText = GameObject.Find("PointsContent").GetComponent<RectTransform>();
+        RectTransform pointsText2 = GameObject.Find("PointsNumbers").GetComponent<RectTransform>();
+        pointsText.sizeDelta = new Vector2(678,750);
+        pointsText2.sizeDelta = new Vector2(73,750);
+        string displayText = "Progress:\n";
+        string numberText = "\n";
+        foreach (ProgressTopicDetails topic in studentProgress.topics)
+        {
+            displayText += "  "+topic.name +"\n";
+            displayText += "    Completed Lessons:\n";
+            numberText += "\n";
+            numberText += topic.completed_lessons.ToString() + "/" + topic.total_lessons.ToString() +"\n";
+            int i =0;
+            foreach (ProgressLessonDetails lesson in topic.lessons)
+            {
+                displayText += "      Quiz "+i.ToString()+":\n";
+                numberText += lesson.quizzes[0].max_score.ToString()+"/"+lesson.quizzes[0].total_questions.ToString()+"\n";
+                i++;
+            }
+        }
+        pointsTitle.text = "Student Profile";
+        pointsContent.text = displayText;
+        pointsNumbers.text = numberText;
     }
     public void PointsClickOut()
     {
         pointsMenu.SetActive(false);
+    }
+    public void LeaderboardClick()
+    {
+        leaderboardButton.SetActive(false);
+        StartCoroutine(UpdatePointsMenu());
     }
     public void QuizStart()
     {
@@ -169,8 +202,13 @@ public class MainGameController : MonoBehaviour
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
             yield return webRequest.SendWebRequest();
+            RectTransform pointsText = GameObject.Find("PointsContent").GetComponent<RectTransform>();
+            RectTransform pointsText2 = GameObject.Find("PointsNumbers").GetComponent<RectTransform>();
+            pointsText.sizeDelta = new Vector2(678,850);
+            pointsText2.sizeDelta = new Vector2(73,850);
             TMP_Text pointsContent = GameObject.Find("PointsContent").GetComponent<TMP_Text>();
             TMP_Text pointsNumbers = GameObject.Find("PointsNumbers").GetComponent<TMP_Text>();
+            TMP_Text pointsTitle = GameObject.Find("PointsTitle").GetComponent<TMP_Text>();
             LeaderboardDetails leaderboard = JsonUtility.FromJson<LeaderboardDetails>(webRequest.downloadHandler.text);
             string displayText ="";
             string numberText = "";
@@ -185,6 +223,7 @@ public class MainGameController : MonoBehaviour
                     break;
                 }
             }
+            pointsTitle.text = "Leaderboard";
             pointsContent.text = displayText;
             pointsNumbers.text = numberText;
         }
@@ -336,7 +375,7 @@ public class ProgressDetails
 public class ProgressTopicDetails
 {
     public int id;
-    public string total_lessons;
+    public int total_lessons;
     public int completed_lessons;
     public ProgressLessonDetails[] lessons;
     public bool completion_status;

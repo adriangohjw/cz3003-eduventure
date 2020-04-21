@@ -50,7 +50,6 @@ public class LoginController : MonoBehaviour
             incorrect.SetActive(true);
             TMP_Text incorrectText = GameObject.Find("IncorrectText").GetComponent<TMP_Text>();
             incorrectText.text = userDets.error;
-            
         }
         else
         {
