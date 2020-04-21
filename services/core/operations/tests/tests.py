@@ -20,4 +20,4 @@ from services.core.operations.tests.test_topics_operations import Test_topics_op
 from services.core.operations.tests.test_users_operations import Test_users_operations
 
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main(verbosity=2)

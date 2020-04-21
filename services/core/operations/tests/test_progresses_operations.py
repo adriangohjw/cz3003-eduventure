@@ -12,27 +12,34 @@ app = create_app()
 app.app_context().push()
 db.init_app(app)
 
-from models import \
-    User, Student, Staff, Topic, Lesson, Quiz, Question, QuizAttempt, \
+from models import (
+    User, Student, Staff, Topic, Lesson, Quiz, Question, QuizAttempt, 
     Rs_lesson_quiz_contain, Rs_quiz_question_contain
+)
 from services.core.operations.users_operations import encrypt
 from services.core.operations.progresses_operations import progressReadOperation
 
 
+"""
+This is a TestCase object to test the functions in progresses_operations.py
+"""
 class Test_progresses_operations(unittest.TestCase):
-    
     @classmethod
     def setUpClass(cls):
         print("\n\n{}: starting test...".format(path.basename(__file__)))
 
 
+    # this will run before every test
+    # it will ensure that every test start with a fresh database
     def setUp(self):
-
-        self.maxDiff = None
-
+        print('\r')
+        # drop all tables in the database
         db.session.remove()
         db.drop_all()
+        # crete all tables in the database
         db.create_all()
+
+        self.maxDiff = None
 
         # adding students
         user_1 = User('student_1@gmail.com', encrypt('password'), 'student_1')
@@ -111,9 +118,11 @@ class Test_progresses_operations(unittest.TestCase):
 
         db.session.commit()
 
-
+    # test the function progressReadOperation
     def test_progressReadOperation(self):
 
+        # check that when successful, result returned by function is correct
+        print('--- check that when successful, result returned by function is correct')
         self.assertEqual(
             progressReadOperation(1),
             {
@@ -190,4 +199,4 @@ class Test_progresses_operations(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main(verbosity=2)
