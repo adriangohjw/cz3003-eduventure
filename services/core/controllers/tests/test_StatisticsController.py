@@ -283,7 +283,44 @@ class Test_statisticsController(Test_BaseCase):
         self.assertEqual(response.status_code, 200)
         # check if JSON returned is correct
         print('--- successful (no params passed in) check if JSON returned is correct')
-        self.assertEqual(len(res['courses']), 1)
+        self.assertEqual(len(res['courses']), 2)
+        self.assertEqual(
+            res,
+            {
+                "courses": [
+                    {
+                        "course_index": "cz1005",
+                        "scores": {
+                            "0-10": 1,
+                            "11-20": 0,
+                            "21-30": 0,
+                            "31-40": 0,
+                            "41-50": 0,
+                            "51-60": 0,
+                            "61-70": 1,
+                            "71-80": 0,
+                            "81-90": 0,
+                            "91-100": 1
+                        }
+                    },
+                    {
+                        "course_index": "all",
+                        "scores": {
+                            "0-10": 1,
+                            "11-20": 0,
+                            "21-30": 0,
+                            "31-40": 0,
+                            "41-50": 0,
+                            "51-60": 0,
+                            "61-70": 1,
+                            "71-80": 0,
+                            "81-90": 0,
+                            "91-100": 1
+                        }
+                    }
+                ]
+            }
+        )
 
         # success case (no course found)
         response = self.app.get('/statistics/course_score?course_index=')
@@ -315,52 +352,19 @@ class Test_statisticsController(Test_BaseCase):
             {
                 "courses": [
                     {
-                    "course_index": "cz1005",
-                    "scores": {
-                        "0-10": 1,
-                        "11-20": 0,
-                        "21-30": 0,
-                        "31-40": 0,
-                        "41-50": 0,
-                        "51-60": 0,
-                        "61-70": 1,
-                        "71-80": 0,
-                        "81-90": 0,
-                        "91-100": 1
-                    }
-                    }
-                ]
-            }
-        )
-
-        # success case (course == 'all')
-        response = self.app.get('/statistics/course_score?course_index=all')
-        res = res_to_dict(response) # convert response to dictionary
-        # check if status code is correct
-        print('--- successful (course_index == \'all\') check if status code is correct')
-        self.assertEqual(response.status_code, 200)
-        # check if JSON returned is correct
-        print('--- successful (course_index == \'all\')  check if JSON returned is correct')
-        self.assertEqual(res['courses'][0]['course_index'], 'all')
-        self.assertEqual(len(res['courses']), 1)
-        self.assertEqual(
-            res,
-            {
-                "courses": [
-                    {
-                    "course_index": "all",
-                    "scores": {
-                        "0-10": 1,
-                        "11-20": 0,
-                        "21-30": 0,
-                        "31-40": 0,
-                        "41-50": 0,
-                        "51-60": 0,
-                        "61-70": 1,
-                        "71-80": 0,
-                        "81-90": 0,
-                        "91-100": 1
-                    }
+                        "course_index": "cz1005",
+                        "scores": {
+                            "0-10": 1,
+                            "11-20": 0,
+                            "21-30": 0,
+                            "31-40": 0,
+                            "41-50": 0,
+                            "51-60": 0,
+                            "61-70": 1,
+                            "71-80": 0,
+                            "81-90": 0,
+                            "91-100": 1
+                        }
                     }
                 ]
             }
