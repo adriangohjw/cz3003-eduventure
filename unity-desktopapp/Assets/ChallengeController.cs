@@ -17,6 +17,9 @@ public class ChallengeController : MonoBehaviour
     private TMP_Text[] classmateText;
     private CourseList courseList;
     private int classIndexNo=0;
+    public AudioSource mainTrack;
+    public AudioSource clickSound;
+    public AudioSource closeSound;
 
     void Start()
     {
@@ -33,6 +36,12 @@ public class ChallengeController : MonoBehaviour
         StartCoroutine(GetPoints());
         StartCoroutine(GetClassmates());
 
+    }
+    void Update()
+    {
+        mainTrack.volume = PlayerPrefs.GetFloat("volume");
+        clickSound.volume = PlayerPrefs.GetFloat("volume");
+        closeSound.volume = PlayerPrefs.GetFloat("volume");        
     }
     public void StartChallenge()
     {
@@ -68,6 +77,7 @@ public class ChallengeController : MonoBehaviour
     }
     public void updateClassmates()
     {
+        clickSound.Play();
         for (int i =0;i<4;i++)
         {
             if (courseList.students[classIndexNo].email == PlayerPrefs.GetString("userEmail"))
@@ -89,6 +99,7 @@ public class ChallengeController : MonoBehaviour
     }
     public void Settings()
     {
+        clickSound.Play();
         settingsMenu.SetActive(true);
         float volume = PlayerPrefs.GetFloat("volume");
         Slider slider = GameObject.Find("VolumeSlider").GetComponent<Slider>();
@@ -96,6 +107,7 @@ public class ChallengeController : MonoBehaviour
     }
     public void SettingsOut()
     {
+        closeSound.Play();
         settingsMenu.SetActive(false);
     }
     public void SetVolume(float vol)
@@ -112,6 +124,7 @@ public class ChallengeController : MonoBehaviour
     }
     public void PointsClick()
     {
+        clickSound.Play();
         pointsMenu.SetActive(true);
         TMP_Text pointsTitle = GameObject.Find("PointsTitle").GetComponent<TMP_Text>();
         StartCoroutine(UpdatePointsMenu());
@@ -144,6 +157,7 @@ public class ChallengeController : MonoBehaviour
     }
     public void PointsClickOut()
     {
+        closeSound.Play();
         pointsMenu.SetActive(false);
     }
 }

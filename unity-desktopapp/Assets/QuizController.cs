@@ -14,6 +14,7 @@ public class QuizController : MonoBehaviour
     public GameObject lesson;
     public GameObject endMenu;
     public GameObject retryButton;
+    public GameObject settingsMenu;
     private TMP_Text quizTitle;
     private TMP_Text quizQuestion;
     private Button[] options;
@@ -23,6 +24,10 @@ public class QuizController : MonoBehaviour
     private ChallengeDetails challengeDetails;
     private int questionNum;
     private int score;
+    public AudioSource mainTrack;
+    public AudioSource clickSound;
+    public AudioSource closeSound;
+    public AudioSource quizDone;
 
     void Start()
     {
@@ -55,10 +60,17 @@ public class QuizController : MonoBehaviour
             StartCoroutine(GetLesson());
         }
     }
-
+    void Update()
+    {
+        mainTrack.volume = PlayerPrefs.GetFloat("volume");
+        clickSound.volume = PlayerPrefs.GetFloat("volume");
+        closeSound.volume = PlayerPrefs.GetFloat("volume"); 
+        quizDone.volume = PlayerPrefs.GetFloat("volume");
+    }
     #region quizQuestions
     public void SelectOption()
     {
+        clickSound.Play();
         int elapsedTime = (int) ((Time.time - startTime)*1000);
         startTime = Time.time;
         bool optionSelected = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Option>().answer;
@@ -119,6 +131,7 @@ public class QuizController : MonoBehaviour
             {
                 StartCoroutine(DoneQuiz());
                 endMenu.SetActive(true);
+                quizDone.Play();
                 TMP_Text endMenuText = GameObject.Find("Score").GetComponent<TMP_Text>();
                 endMenuText.text ="Your Score: "+ score.ToString() + "/"+questionNum.ToString();
             }
@@ -194,6 +207,7 @@ public class QuizController : MonoBehaviour
     }
     public void RetryButton()
     {
+        clickSound.Play();
         Start();
     }
     public void BackButton()
@@ -203,8 +217,30 @@ public class QuizController : MonoBehaviour
     }
     public void DoneLesson()
     {
+        clickSound.Play();
         lesson.SetActive(false);
         startTime = Time.time;
+    }
+    public void LogOut()
+    {
+        Application.Quit();
+    }
+    public void Settings()
+    {
+        clickSound.Play();
+        settingsMenu.SetActive(true);
+        float volume = PlayerPrefs.GetFloat("volume");
+        Slider slider = GameObject.Find("VolumeSlider").GetComponent<Slider>();
+        slider.value = volume;
+    }
+    public void SettingsOut()
+    {
+        closeSound.Play();
+        settingsMenu.SetActive(false);
+    }
+    public void SetVolume(float vol)
+    {
+        PlayerPrefs.SetFloat("volume",vol);
     }
     #endregion
 

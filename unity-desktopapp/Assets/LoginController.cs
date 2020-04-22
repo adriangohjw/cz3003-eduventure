@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class LoginController : MonoBehaviour
 {
@@ -14,6 +15,9 @@ public class LoginController : MonoBehaviour
     public GameObject incorrect;
     public GameObject signup;
     public GameObject signupFailed;
+    private AudioSource main_audio;
+    public AudioSource clickSound;
+    public AudioSource closeSound;
 
     void Start()
     {
@@ -22,15 +26,23 @@ public class LoginController : MonoBehaviour
         incorrect.SetActive(false);
         signup.SetActive(false);
         signupFailed.SetActive(false);
+        main_audio = GameObject.Find("Background").GetComponent<AudioSource>();
     }
-
+    void Update()
+    {
+        main_audio.volume = PlayerPrefs.GetFloat("volume");
+        clickSound.volume = PlayerPrefs.GetFloat("volume");
+        closeSound.volume = PlayerPrefs.GetFloat("volume");
+    }
     public void Login()
     {
+        clickSound.Play();
         StartCoroutine(GetRequest("http://127.0.0.1:5000/users/auth?email="+userField.text+"&password="+passField.text));
     }
 
     public void IncorrectDismiss()
     {
+        closeSound.Play();
         incorrect.SetActive(false);
     }
 
@@ -60,10 +72,12 @@ public class LoginController : MonoBehaviour
     }
     public void SignUpStart()
     {
+        clickSound.Play();
         signup.SetActive(true);
     }
     public void SignUpClose()
     {
+        closeSound.Play();
         signup.SetActive(false);
     }
     public void SignUpComplete()
@@ -91,6 +105,7 @@ public class LoginController : MonoBehaviour
     }
     public void SignUpFailedClose()
     {
+        closeSound.Play();
         signupFailed.SetActive(false);
     }
     IEnumerator SignUp(string user,string pass,string matric)

@@ -28,6 +28,12 @@ public class MainGameController : MonoBehaviour
     private ProgressDetails studentProgress;
     private float time = 0.0f;
     public float interpolationPeriod = 10.0f;
+    public AudioSource main_track;
+    public AudioSource notification;
+    public AudioSource clickSound;
+    public AudioSource fieldSound;
+    public AudioSource closeSound;
+    public AudioSource acceptChallenge;
 
     void Start()
     {
@@ -54,6 +60,12 @@ public class MainGameController : MonoBehaviour
     }
     void Update()
     {
+        acceptChallenge.volume = PlayerPrefs.GetFloat("volume");
+        main_track.volume = PlayerPrefs.GetFloat("volume");
+        notification.volume = PlayerPrefs.GetFloat("volume");
+        clickSound.volume = PlayerPrefs.GetFloat("volume");
+        fieldSound.volume = PlayerPrefs.GetFloat("volume");
+        closeSound.volume = PlayerPrefs.GetFloat("volume");
         time += Time.deltaTime;
 
         if (time >= interpolationPeriod)
@@ -65,6 +77,7 @@ public class MainGameController : MonoBehaviour
 
     public void CropClick()
     {
+        fieldSound.Play();
         cropMenu.SetActive(true);
         lessonMenu.SetActive(false);    
         string topic = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<TMP_Text>().text;
@@ -87,6 +100,7 @@ public class MainGameController : MonoBehaviour
     }
     public void LessonClick()
     {
+        clickSound.Play();
         lessonMenu.SetActive(true);
         lessonSelected = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Lesson>().lessonID;
         TMP_Text pastAttempts = GameObject.Find("PastAttempts").GetComponent<TMP_Text>();
@@ -104,6 +118,7 @@ public class MainGameController : MonoBehaviour
     }
     public void CropMenuClose()
     {
+        closeSound.Play();
         cropMenu.SetActive(false);
     }
     public void LogOut()
@@ -112,6 +127,7 @@ public class MainGameController : MonoBehaviour
     }
     public void Settings()
     {
+        clickSound.Play();
         settingsMenu.SetActive(true);
         float volume = PlayerPrefs.GetFloat("volume");
         Slider slider = GameObject.Find("VolumeSlider").GetComponent<Slider>();
@@ -119,10 +135,12 @@ public class MainGameController : MonoBehaviour
     }
     public void SettingsOut()
     {
+        closeSound.Play();
         settingsMenu.SetActive(false);
     }
     public void PointsClick()
     {
+        clickSound.Play();
         pointsMenu.SetActive(true);
         leaderboardButton.SetActive(true);
         TMP_Text pointsContent = GameObject.Find("PointsContent").GetComponent<TMP_Text>();
@@ -154,15 +172,18 @@ public class MainGameController : MonoBehaviour
     }
     public void PointsClickOut()
     {
+        closeSound.Play();
         pointsMenu.SetActive(false);
     }
     public void LeaderboardClick()
     {
+        clickSound.Play();
         leaderboardButton.SetActive(false);
         StartCoroutine(UpdatePointsMenu());
     }
     public void QuizStart()
     {
+        clickSound.Play();
         int topicID = topicSelected + 1;
         int lessonID = lessonSelected +1;
         PlayerPrefs.SetString("topicID",topicID.ToString());
@@ -320,6 +341,10 @@ public class MainGameController : MonoBehaviour
                 button.SetActive(false);
             }
         }
+        if (i>0)
+        {
+            notification.Play();
+        }
     }
     public void SetVolume(float vol)
     {
@@ -337,6 +362,7 @@ public class MainGameController : MonoBehaviour
     {
         int quizID = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Challenger>().quizID;
         int challengerID = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Challenger>().challengerID;
+        acceptChallenge.Play();
         PlayerPrefs.SetInt("challenge",2);
         PlayerPrefs.SetInt("challengeQuizID",quizID);
         PlayerPrefs.SetInt("challengerID",challengerID);
