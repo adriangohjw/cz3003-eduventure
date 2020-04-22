@@ -193,6 +193,7 @@ export default function QuestionsTable({ quizData, classes }) {
                 }),
             }}
             detailPanel={[
+              //show options
               {
                 icon: () => <QuestionAnswerIcon />,
                 tooltip: "Choices",

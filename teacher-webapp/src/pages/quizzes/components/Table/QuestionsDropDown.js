@@ -52,12 +52,15 @@ export default function QuestionsDropDown(setSelectedQuestionID) {
         setOpen(true);
       }}
       onClose={(event, reason) => {
+        //drop down closes
         setOpen(false);
       }}
       getOptionSelected={(option, value) =>
+        // check option selected is valid
         option.description === value.description
       }
       onChange={(event, value) => {
+        // save selected question id
         if (value != null) {
           setSelectedQuestionID(value.id);
         }

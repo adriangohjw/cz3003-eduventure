@@ -89,6 +89,7 @@ const notifications = [
   },
 ];
 
+//icons for mail and notification are disabled because they currently lack functionality and are only use as visual props. To be improved in future work.
 export default function Header(props) {
   var classes = useStyles();
 

@@ -20,6 +20,7 @@ export default function Quizzes() {
   var email = localStorage.getItem("email");
 
   const retrieveQuizzes = () => {
+    //first fetch quiz ids of the teacher
     fetch(url + `staffs/?email=${email}`, {
       method: "GET",
     })
@@ -37,6 +38,7 @@ export default function Quizzes() {
         return response.quizzes.map(quiz => quiz.id);
       })
       .then(allQuizIDs => {
+        //for all quiz ids of the teacher, retrieve quiz details from API
         return Promise.all(
           allQuizIDs.map(id =>
             fetch(url + `quizzes/overall?id=${id}`, {
@@ -74,6 +76,7 @@ export default function Quizzes() {
         }
       })
       .then(() => {
+        //refresh quiz table after deleting quiz
         retrieveQuizzes();
         alert("Deleted successfully");
       })
@@ -84,6 +87,7 @@ export default function Quizzes() {
   };
 
   const formatDate = date => {
+    //to format data from input component into acceptable format for database
     let result = new Date(date);
     result = result.toISOString().split("T")[0];
     return result;

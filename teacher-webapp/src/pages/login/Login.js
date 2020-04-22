@@ -23,6 +23,7 @@ import cover from "../../images/cover.jpg";
 // context
 import { useUserDispatch, loginUser, signUp } from "../../context/UserContext";
 
+//login entry page
 function Login(props) {
   var classes = useStyles();
 

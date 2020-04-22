@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
   Grid,
-  LinearProgress,
   Select,
   OutlinedInput,
   MenuItem,
@@ -14,34 +13,22 @@ import {
   BarChart,
   LineChart,
   Line,
-  Area,
-  AreaChart,
   Cell,
   YAxis,
   XAxis,
   Bar,
   Tooltip,
-  Legend,
 } from "recharts";
 
 // styles
 import useStyles from "./styles";
 
 // components
-import mock from "./mock";
 import Widget from "../../components/Widget";
 import PageTitle from "../../components/PageTitle";
 import { Typography } from "../../components/Wrappers";
-import BigStat from "./components/BigStat/BigStat";
 
 import { url } from "../../context/UserContext";
-
-const PieChartData = [
-  { name: "Group A", value: 400, color: "primary" },
-  { name: "Group B", value: 300, color: "secondary" },
-  { name: "Group C", value: 300, color: "warning" },
-  { name: "Group D", value: 200, color: "success" },
-];
 
 const colors = [
   "#DD7173",
@@ -66,12 +53,12 @@ export default function Dashboard(props) {
   var classes = useStyles();
   var theme = useTheme();
 
-  // local
-  var [mainChartState, setMainChartState] = useState("");
+  // manage data for first chart
   var [ss1ChartData, setss1ChartData] = useState({
-    isLoading: true,
-    selectedss1: 0,
+    isLoading: true, //whether data has been successfully retrieved
+    selectedss1: 0, //index of option selected from dropdown menu
     options: [
+      //options available in dropdown menu
       { value: "avg_score", label: "Average Score" },
       { value: "max_score", label: "Highest Score" },
       { value: "min_score", label: "Lowest Score" },
@@ -80,9 +67,10 @@ export default function Dashboard(props) {
       { value: "75th_percentile", label: "75th Percentile" },
       { value: "95th_percentile", label: "95th Percentile" },
     ],
-    courses: [],
-    data: [],
+    courses: [], //course group names
+    data: [], //data points of chart
   });
+  //manage data for second chart
   var [ss2ChartData, setss2ChartData] = useState({
     isLoading: true,
     selectedss2: 0,
@@ -111,7 +99,7 @@ export default function Dashboard(props) {
         }
       })
       .then(response => {
-        const [formattedData, courses] = formatss1Data(response);
+        const [formattedData, courses] = formatss1Data(response); //response data is different from format needed
         setss1ChartData({
           ...ss1ChartData,
           data: formattedData,
@@ -155,7 +143,7 @@ export default function Dashboard(props) {
         data[option.value].push(_stat);
       });
     });
-    delete data.stats;
+    delete data.stats; //deletes the stats attribute in the object because we have already converted it
     return [data, courses];
   };
 
@@ -187,6 +175,7 @@ export default function Dashboard(props) {
   };
 
   const formatss2Data = data => {
+    //flattening the response array
     var options = [];
     data.map(course => {
       options.push(course.course_index);
@@ -227,6 +216,7 @@ export default function Dashboard(props) {
   };
 
   const formatss7Data = data => {
+    //slightly changing the object structure so that key and values both become their own attributes
     const courses = [];
     data.map(c => {
       courses.push(c.course_index);
@@ -240,6 +230,7 @@ export default function Dashboard(props) {
   };
 
   const CustomizedAxisTick = props => {
+    //create rotated x-axis ticks
     const { x, y, stroke, payload } = props;
 
     return (
@@ -331,7 +322,6 @@ export default function Dashboard(props) {
                 <Tooltip />
                 <CartesianGrid strokeDasharray="3 3" />
                 <YAxis
-                  // ticks={[0, 2500, 5000, 7500]}
                   tick={{
                     fill: theme.palette.text.hint + "140",
                     fontSize: 14,
@@ -342,7 +332,6 @@ export default function Dashboard(props) {
                 />
 
                 <XAxis
-                  // tickFormatter={i => i + 1}
                   tick={{
                     fill: theme.palette.text.hint + "140",
                     fontSize: 14,
@@ -430,10 +419,9 @@ export default function Dashboard(props) {
             <ResponsiveContainer width="100%" minWidth={500} height={350}>
               <BarChart
                 margin={{ top: 0, right: -15, left: -15, bottom: 0 }}
-                data={ss2ChartData.data[ss2ChartData.selectedss2].progress} // set it as 0 first until we can dynamically set it
+                data={ss2ChartData.data[ss2ChartData.selectedss2].progress}
               >
                 <YAxis
-                  // ticks={[0, 2500, 5000, 7500]}
                   tick={{
                     fill: theme.palette.text.hint + "140",
                     fontSize: 14,

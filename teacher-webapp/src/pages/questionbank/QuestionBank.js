@@ -1,8 +1,5 @@
 import React, { useEffect, useState, forwardRef } from "react";
-import { useTheme } from "@material-ui/styles";
 import { TextField } from "@material-ui/core";
-// styles
-import useStyles from "./styles";
 
 // components
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -63,12 +60,14 @@ export default function QuestionBank() {
   var [isLoading, setIsLoading] = useState(true);
   const [selectedTopicID, setSelectedTopicID] = useState(0);
   const [selectedLessonID, setSelectedLessonID] = useState(0);
+  //sets description for options
   const [correctOption, setCorrectOption] = useState({});
   const [incorrectOption1, setIncorrectOption1] = useState({});
   const [incorrectOption2, setIncorrectOption2] = useState({});
   const [incorrectOption3, setIncorrectOption3] = useState({});
 
   const textField = (setFunction, name, id, defaultValue) => {
+    //text field used to render the options
     return (
       <TextField
         id={id}
@@ -98,6 +97,7 @@ export default function QuestionBank() {
         field: "lesson_name",
         editable: "onAdd",
         editComponent: () =>
+          //custom edit component
           TopicLessonDropDown(
             "lesson",
             setSelectedLessonID,
@@ -110,6 +110,7 @@ export default function QuestionBank() {
         field: "choices",
         sorting: false,
         cellStyle: {
+          //highlighted in green to depict correct option
           color: "#10a100",
         },
         render: rowData => {
@@ -138,6 +139,7 @@ export default function QuestionBank() {
           color: "#b01020",
         },
         render: rowData => {
+          //render incorrect option and custom edit component
           if (rowData.choices.length > 1) {
             return rowData.choices.find(choice => choice.id == 2).description;
           } else return null;
@@ -230,6 +232,7 @@ export default function QuestionBank() {
     setIsLoading(true);
     let { id, choices } = oldData;
     Promise.all(
+      //have to delete all question options first before deleting question itself if not API will throw error
       choices.map(choice => {
         fetch(
           url +
@@ -284,6 +287,7 @@ export default function QuestionBank() {
       _incorrect3 = oldData.choices.find(choice => choice.id == 4);
     } else _incorrect3 = incorrectOption3;
     Promise.all([
+      //calls API to update question description and all 4 options singularly since there is no batch update function in API for now
       fetch(
         url + `questions/?id=${newData.id}&description=${newData.description}`,
         { method: "PUT" },
@@ -330,6 +334,7 @@ export default function QuestionBank() {
 
   const createQuestion = newData => {
     let { description } = newData;
+    //set options to have a reminder if teacher does not fill it in
     const _correctOption =
       correctOption.description != ""
         ? correctOption.description
@@ -363,6 +368,7 @@ export default function QuestionBank() {
         }
       })
       .then(response => {
+        //have to nest the subsequent post requests as the question must be created before options can be created for it
         const id = response.id;
         fetch(
           url +

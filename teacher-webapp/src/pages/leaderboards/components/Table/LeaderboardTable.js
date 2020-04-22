@@ -1,4 +1,4 @@
-import React, { forwardRef, useState, setState } from "react";
+import React, { forwardRef, useState } from "react";
 import { Paper } from "@material-ui/core";
 import {
   AddBox,
@@ -21,8 +21,6 @@ import {
 import AssignmentIcon from "@material-ui/icons/Assignment";
 
 import MaterialTable from "material-table";
-
-import { url } from "../../../../context/UserContext";
 
 // import { useTheme } from "@material-ui/styles";
 
@@ -66,12 +64,13 @@ export default function LeaderboardTable({ leaderboard, classes }) {
         editable: "never",
         defaultSort: "desc",
         cellStyle: {
+          //emphasize score column
           color: "#0000A0",
           fontWeight: "bold",
         },
       },
     ],
-    options: { pageSize: leaderboard.length < 20 ? leaderboard.length : 20 },
+    options: { pageSize: leaderboard.length < 20 ? leaderboard.length : 20 }, // shows only required rows if less than 20
     data: leaderboard,
   });
 
@@ -89,32 +88,3 @@ export default function LeaderboardTable({ leaderboard, classes }) {
     </React.Fragment>
   );
 }
-
-// setTimeout(() => {
-//   resolve();
-//   setState(prevState => {
-//     const data = [...prevState.data];
-//     data.push(newData);
-//     return { ...prevState, data };
-//   });
-// }, 600);
-
-// setTimeout(() => {
-//   resolve();
-//   setState(prevState => {
-//     const data = [...prevState.data];
-//     data.splice(data.indexOf(oldData), 1);
-//     return { ...prevState, data };
-//   });
-// }, 600);
-
-// setTimeout(() => {
-//   resolve();
-//   if (oldData) {
-//     setState(prevState => {
-//       const data = [...prevState.data];
-//       data[data.indexOf(oldData)] = newData;
-//       return { ...prevState, data };
-//     });
-//   }
-// }, 600);

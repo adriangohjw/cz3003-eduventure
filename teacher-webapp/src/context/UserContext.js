@@ -3,7 +3,7 @@ import React from "react";
 var UserStateContext = React.createContext();
 var UserDispatchContext = React.createContext();
 
-const url = new URL("http://127.0.0.1:5000/");
+const url = new URL("http://127.0.0.1:5000/"); //localhost
 
 function userReducer(state, action) {
   switch (action.type) {
@@ -78,6 +78,7 @@ function loginUser(dispatch, email, password, history, setIsLoading, setError) {
       }
     })
     .then(response => {
+      //for easy retrieval by the header
       localStorage.setItem("id", response.id);
       localStorage.setItem("name", response.name);
       localStorage.setItem("email", response.email);
@@ -88,7 +89,7 @@ function loginUser(dispatch, email, password, history, setIsLoading, setError) {
     })
     .catch(error => {
       console.error("Error:", error);
-      alert("something went wrong");
+      alert("Invalid Credentials");
     });
 }
 
@@ -105,7 +106,7 @@ function signUp(
   setIsLoading(true);
   fetch(url + `staffs/?email=${email}&password=${password}&name=${name}`, {
     method: "POST",
-  }) //should use this after Adrian changes API
+  })
     .then(response => {
       if (response.ok) {
         return response.json();
@@ -117,12 +118,12 @@ function signUp(
     })
     .then(response => {
       localStorage.setItem("id", response.id);
-      localStorage.setItem("name", response.name); //response doesn't contain name yet
+      localStorage.setItem("name", response.name);
       localStorage.setItem("email", response.email);
       setError(null);
       setIsLoading(false);
       dispatch({ type: "LOGIN_SUCCESS" });
-      history.push("/app/dashboard");
+      history.push("/app/dashboard"); //automatically login after creating a new account
     })
     .catch(error => {
       console.error("Error:", error);
@@ -131,7 +132,7 @@ function signUp(
 }
 
 function signOut(dispatch, history) {
-  localStorage.removeItem("id_token");
+  localStorage.removeItem("id"); //remove previously set id
   dispatch({ type: "SIGN_OUT_SUCCESS" });
   history.push("/login");
 }
