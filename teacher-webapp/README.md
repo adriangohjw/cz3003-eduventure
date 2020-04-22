@@ -42,11 +42,11 @@ You can create a new account or utilize the data from the test db. Take note tha
 
 You can use this sample account (case-sensitive):
 
-Username: leeJohn@ntu.edu.sg
+Username: leeJohn@ntu.edu.sg  
 Password: password_1
 
 ## References:
-React Material Admin — (Material-UI Dashboard Template): https://github.com/flatlogic/react-material-admin
-Material UI Library: https://github.com/mui-org/material-ui
-Material Table: https://github.com/mbrn/material-table
+React Material Admin — (Material-UI Dashboard Template): https://github.com/flatlogic/react-material-admin  
+Material UI Library: https://github.com/mui-org/material-ui  
+Material Table: https://github.com/mbrn/material-table  
 RECharts: https://recharts.org/en-US/api
