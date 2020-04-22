@@ -1,4 +1,4 @@
-# CZ3003 Teacher's Portal Webapp (Referenced from React Material Admin — Material-UI Dashboard Template)
+# Teacher's Portal Webapp
 
 Built with [React](https://facebook.github.io/react/), [Material-UI](https://material-ui.com), [React Router](https://reacttraining.com/react-router/).
 
@@ -44,4 +44,8 @@ You can use this sample account (case-sensitive):
 Username: leeJohn@ntu.edu.sg
 Password: password_1
 
-
+## References:
+React Material Admin — (Material-UI Dashboard Template): https://github.com/flatlogic/react-material-admin
+Material UI Library: https://github.com/mui-org/material-ui
+Material Table: https://github.com/mbrn/material-table
+RECharts: https://recharts.org/en-US/api
