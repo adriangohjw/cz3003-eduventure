@@ -17,4 +17,4 @@ from services.core.controllers.tests.test_TopicsController import Test_topicsCon
 from services.core.controllers.tests.test_UsersController import Test_usersController
 
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main(verbosity=2)
