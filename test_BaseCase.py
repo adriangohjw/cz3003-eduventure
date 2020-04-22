@@ -27,15 +27,19 @@ def res_to_dict(response):
 
 class Test_BaseCase(unittest.TestCase):
 
+    # this will run before every test
+    # it will ensure that every test start with a fresh database
     def setUp(self):
+        print('\r')
+        # drop all tables in the database
+        db.session.remove()
+        db.drop_all()
+        # crete all tables in the database
+        db.create_all()
 
         self.maxDiff = None
 
         self.app = app.test_client()
-
-        db.session.remove()
-        db.drop_all()
-        db.create_all()
 
         # adding students
         user_1 = User('student_1@gmail.com', encrypt('password'), 'student_1')
