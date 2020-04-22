@@ -16,7 +16,7 @@ Built with [React](https://facebook.github.io/react/), [Material-UI](https://mat
 
 #### 1. Clone this repo and start up the database as per the instructions on the main README
 
-#### 2. CD into the teacher-weapp folder and run `yarn install` from command prompt
+#### 2. CD into the teacher-webapp folder and run `yarn install` from command prompt
 
 This will install both run-time project dependencies and developer tools listed
 in [package.json](package.json) file.
@@ -41,6 +41,7 @@ Your app is ready to be deployed!
 You can create a new account or utilize the data from the test db. Take note that the test db is started with ```python run_test.py``` instead of ```python run.py```.
 
 You can use this sample account (case-sensitive):
+
 Username: leeJohn@ntu.edu.sg
 Password: password_1
 
