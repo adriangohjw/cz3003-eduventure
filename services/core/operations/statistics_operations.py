@@ -113,6 +113,14 @@ def lessonCompletedReadOperation():
                     'progress': []
                 }
             )
+    
+    # add 'course_index': 'all'
+    stat_dict['courses'].append(
+        {
+            'course_index': 'all',
+            'progress': []
+        }
+    )
 
     # add topic to progress of every course
     topic_list = []
@@ -150,7 +158,6 @@ def lessonCompletedReadOperation():
                     topic['lessons'].append(x)
             del topic['lessons_temp']
 
-
     # add completion status
     for item in raw_stats:
         i_dict = item._asdict()
@@ -161,7 +168,13 @@ def lessonCompletedReadOperation():
                         for lesson in topic['lessons']:
                             if (topic['topic_id'] == i_dict['topic_id']) and (lesson['lesson_id'] == i_dict['lesson_id']):
                                 lesson['count_completed'] += 1
-                            
+                # adding for 'course_index': 'all'
+                if (course['course_index'] == 'all'):
+                    for topic in course['progress']:
+                        for lesson in topic['lessons']:
+                            if (topic['topic_id'] == i_dict['topic_id']) and (lesson['lesson_id'] == i_dict['lesson_id']):
+                                lesson['count_completed'] += 1
+      
     return stat_dict
 
 
