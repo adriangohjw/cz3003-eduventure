@@ -328,35 +328,30 @@ def courseScoreReadOperation(course_index):
     stat_dict = {}
     stat_dict['courses'] = []
 
-    # add unique courses to end result
-    course_list = []
-    for item in raw_stats:
-        item_course = item._asdict()['course_index']
-        if (item_course not in course_list) and (item_course is not None):
-            course_list.append(item_course)
-            stat_dict['courses'].append(
-                {
-                    'course_index': item_course,
-                    'scores': {
-                        '0-10': 0,
-                        '11-20': 0,
-                        '21-30': 0,
-                        '31-40': 0,
-                        '41-50': 0,
-                        '51-60': 0,
-                        '61-70': 0,
-                        '71-80': 0,
-                        '81-90': 0,
-                        '91-100': 0
-                    }
+    if course_index == 'all':
+        # add course to end result
+        stat_dict['courses'].append(
+            {
+                'course_index': 'all',
+                'scores': {
+                    '0-10': 0,
+                    '11-20': 0,
+                    '21-30': 0,
+                    '31-40': 0,
+                    '41-50': 0,
+                    '51-60': 0,
+                    '61-70': 0,
+                    '71-80': 0,
+                    '81-90': 0,
+                    '91-100': 0
                 }
-            )
+            }
+        )
 
-    # add score history to courses
-    for item in raw_stats:
-        item_dict = item._asdict()
-        for course in stat_dict['courses']:
-            if (item_dict['course_index'] == course['course_index']):
+        # add score history
+        for item in raw_stats:
+            item_dict = item._asdict()
+            for course in stat_dict['courses']:
                 if item_dict['quiz_score_percentage'] <= 10:
                     course['scores']['0-10'] += 1
                 elif item_dict['quiz_score_percentage'] <= 20:
@@ -377,14 +372,67 @@ def courseScoreReadOperation(course_index):
                     course['scores']['81-90'] += 1
                 else:
                     course['scores']['91-100'] += 1
-                
-    # return different results based on inputs
-    if course_index is None:
+
         return stat_dict
+
     else:
-        return {
-            'courses': [i for i in stat_dict['courses'] if i['course_index'] == course_index] 
-        }
+        # add unique courses to end result
+        course_list = []
+        for item in raw_stats:
+            item_course = item._asdict()['course_index']
+            if (item_course not in course_list) and (item_course is not None):
+                course_list.append(item_course)
+                stat_dict['courses'].append(
+                    {
+                        'course_index': item_course,
+                        'scores': {
+                            '0-10': 0,
+                            '11-20': 0,
+                            '21-30': 0,
+                            '31-40': 0,
+                            '41-50': 0,
+                            '51-60': 0,
+                            '61-70': 0,
+                            '71-80': 0,
+                            '81-90': 0,
+                            '91-100': 0
+                        }
+                    }
+                )
+
+        # add score history to courses
+        for item in raw_stats:
+            item_dict = item._asdict()
+            for course in stat_dict['courses']:
+                if (item_dict['course_index'] == course['course_index']):
+                    if item_dict['quiz_score_percentage'] <= 10:
+                        course['scores']['0-10'] += 1
+                    elif item_dict['quiz_score_percentage'] <= 20:
+                        course['scores']['11-20'] += 1
+                    elif item_dict['quiz_score_percentage'] <= 30:
+                        course['scores']['21-30'] += 1
+                    elif item_dict['quiz_score_percentage'] <= 40:
+                        course['scores']['31-40'] += 1
+                    elif item_dict['quiz_score_percentage'] <= 50:
+                        course['scores']['41-50'] += 1
+                    elif item_dict['quiz_score_percentage'] <= 60:
+                        course['scores']['51-60'] += 1
+                    elif item_dict['quiz_score_percentage'] <= 70:
+                        course['scores']['61-70'] += 1
+                    elif item_dict['quiz_score_percentage'] <= 80:
+                        course['scores']['71-80'] += 1
+                    elif item_dict['quiz_score_percentage'] <= 90:
+                        course['scores']['81-90'] += 1
+                    else:
+                        course['scores']['91-100'] += 1
+                    
+        # return different results based on inputs
+        if course_index is None:
+            return stat_dict
+        else:
+            return {
+                'courses': [i for i in stat_dict['courses'] if i['course_index'] == course_index] 
+            }
 
 
 def activityReadOperation(date_start, date_end, student_id):
