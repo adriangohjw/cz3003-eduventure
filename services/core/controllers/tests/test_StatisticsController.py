@@ -11,19 +11,25 @@ from run_test import create_app
 from test_BaseCase import Test_BaseCase, res_to_dict
 
 
+"""
+This is a TestCase object to test the functions in statisticsController.py
+"""
 class Test_statisticsController(Test_BaseCase):
-
     @classmethod
     def setUpClass(cls):
         print("\n\n{}: starting test...".format(path.basename(__file__)))
 
-    
+    # test the GET request for StatsAPI
     def test_Stats_API_GET(self):
         
         # success case
         response = self.app.get('/statistics/stat')
-        res = res_to_dict(response)
+        res = res_to_dict(response) # convert response to dictionary
+        # check if status code is correct
+        print('---  successful, check if status code is correct')
         self.assertEqual(response.status_code, 200)
+        # check if JSON returned is correct
+        print('--- successful, check if JSON returned is correct')
         self.assertEqual(
             res,
             {
@@ -78,13 +84,17 @@ class Test_statisticsController(Test_BaseCase):
             }
         )
 
-
+    # test the GET request for LessonCompletionAPI
     def test_Lesson_Completion_API_GET(self):
 
         # success case
         response = self.app.get('/statistics/lesson_completed')
-        res = res_to_dict(response)
+        res = res_to_dict(response) # convert response to dictionary
+        # check if status code is correct
+        print('--- successful, check if status code is correct')
         self.assertEqual(response.status_code, 200)
+        # check if JSON returned is correct
+        print('--- successful, check if JSON returned is correct')
         self.assertTrue(
             {
                 "courses": [
@@ -129,19 +139,27 @@ class Test_statisticsController(Test_BaseCase):
             }
         )
 
-
+    # test the GET request for LeaderboardAPI
     def test_LeaderBoard_API_GET(self):
 
         # success case (return all students if no proper params passed)
         response = self.app.get('/statistics/leaderboard?student_id=')
-        res = res_to_dict(response)
+        res = res_to_dict(response) # convert response to dictionary
+        # check if status code is correct
+        print('--- successful (no params passed in) check if status code is correct')
         self.assertEqual(response.status_code, 200)
+        # check if JSON returned is correct
+        print('--- successful (no params passed in) check if JSON returned is correct')
         self.assertEqual(len(res['scores']), 2)
 
         # success case (no student found)
         response = self.app.get('/statistics/leaderboard?student_id=3')
-        res = res_to_dict(response)
+        res = res_to_dict(response) # convert response to dictionary
+        # check if status code is correct
+        print('--- successful (params passed in, but no student found) check if status code is correct')
         self.assertEqual(response.status_code, 200)
+        # check if JSON returned is correct
+        print('--- successful (params passed in, but no student found) check if JSON returned is correct')
         self.assertEqual(
             res,
             {
@@ -151,28 +169,44 @@ class Test_statisticsController(Test_BaseCase):
 
         # success case (student found)
         response = self.app.get('/statistics/leaderboard?student_id=1')
-        res = res_to_dict(response)
+        res = res_to_dict(response) # convert response to dictionary
+        # check if status code is correct
+        print('--- successful (params passed in and student found - 1) check if status code is correct')
         self.assertEqual(response.status_code, 200)
+        # check if JSON returned is correct
+        print('--- successful (params passed in and student found - 1) check if JSON returned is correct')
         self.assertEqual(res['scores'][0]['score'], 3)
 
         response = self.app.get('/statistics/leaderboard?student_id=2')
-        res = res_to_dict(response)
+        res = res_to_dict(response) # convert response to dictionary
+        # check if status code is correct
+        print('--- successful (params passed in and student found - 2) check if status code is correct')
         self.assertEqual(response.status_code, 200)
+        # check if JSON returned is correct
+        print('--- successful (params passed in and student found - 2) heck if JSON returned is correct')
         self.assertEqual(res['scores'][0]['score'], 2)
 
-
+    # test the GET request for StudentScoreAPI
     def test_StudentScore_API_GET(self):
 
         # success case (return all students if no proper params passed)
         response = self.app.get('/statistics/student_score?student_id=')
-        res = res_to_dict(response)
+        res = res_to_dict(response) # convert response to dictionary
+        # check if status code is correct
+        print('--- successful (no params passed in) check if status code is correct')
         self.assertEqual(response.status_code, 200)
+        # check if JSON returned is correct
+        print('--- successful (no params passed in) check if JSON returned is correct')
         self.assertEqual(len(res['students']), 2)
         
         # success case (no student found)
         response = self.app.get('/statistics/student_score?student_id=3')
-        res = res_to_dict(response)
+        res = res_to_dict(response) # convert response to dictionary
+        # check if status code is correct
+        print('--- successful (params passed in, but no student found) check if status code is correct')
         self.assertEqual(response.status_code, 200)
+        # check if JSON returned is correct
+        print('--- successful (params passed in, but no student found) check if JSON returned is correct')
         self.assertEqual(
             res,
             {
@@ -182,30 +216,46 @@ class Test_statisticsController(Test_BaseCase):
         
         # success case (student found)
         response = self.app.get('/statistics/student_score?student_id=1')
-        res = res_to_dict(response)
+        res = res_to_dict(response) # convert response to dictionary
+        # check if status code is correct
+        print('--- successful (params passed in and student found - 1) check if status code is correct')
         self.assertEqual(response.status_code, 200)
+        # check if JSON returned is correct
+        print('--- successful (params passed in and student found - 1) check if JSON returned is correct')
         self.assertEqual(res['students'][0]['name'], 'student_1')
         self.assertEqual(len(res['students'][0]['quizzes']), 2)
 
         response = self.app.get('/statistics/student_score?student_id=2')
-        res = res_to_dict(response)
+        res = res_to_dict(response) # convert response to dictionary
+        # check if status code is correct
+        print('--- successful (params passed in and student found - 2) check if status code is correct')
         self.assertEqual(response.status_code, 200)
+        # check if JSON returned is correct
+        print('--- successful (params passed in and student found - 2) heck if JSON returned is correct')
         self.assertEqual(res['students'][0]['name'], 'student_2')
         self.assertEqual(len(res['students'][0]['quizzes']), 1)
 
-
+    # test the GET request for CourseScoreAPI
     def test_CourseScore_API_GET(self):
 
-        # success case
+        # success case (return all courses if no proper params passed in)
         response = self.app.get('/statistics/course_score')
-        res = res_to_dict(response)
+        res = res_to_dict(response) # convert response to dictionary
+        # check if status code is correct
+        print('--- successful (no params passed in) check if status code is correct')
         self.assertEqual(response.status_code, 200)
+        # check if JSON returned is correct
+        print('--- successful (no params passed in) check if JSON returned is correct')
         self.assertEqual(len(res['courses']), 1)
 
         # success case (no course found)
         response = self.app.get('/statistics/course_score?course_index=')
-        res = res_to_dict(response)
+        res = res_to_dict(response) # convert response to dictionary
+        # check if status code is correct
+        print('--- successful (params passed in, but no course found) check if status code is correct')
         self.assertEqual(response.status_code, 200)
+        # check if JSON returned is correct
+        print('--- successful (params passed in, but no course found) check if JSON returned is correct')
         self.assertEqual(
             res,
             {
@@ -215,8 +265,12 @@ class Test_statisticsController(Test_BaseCase):
         
         # success case (course found)
         response = self.app.get('/statistics/course_score?course_index=cz1005')
-        res = res_to_dict(response)
+        res = res_to_dict(response) # convert response to dictionary
+        # check if status code is correct
+        print('--- successful (params passed in and student found) check if status code is correct')
         self.assertEqual(response.status_code, 200)
+        # check if JSON returned is correct
+        print('--- successful (params passed in and student found) check if JSON returned is correct')
         self.assertEqual(res['courses'][0]['course_index'], 'cz1005')
         self.assertEqual(len(res['courses']), 1)
         self.assertEqual(
@@ -242,7 +296,7 @@ class Test_statisticsController(Test_BaseCase):
             }
         )
 
-    
+    # test the GET request for ActivityAPI
     def test_Activity_API_GET(self):
 
         import datetime
@@ -260,8 +314,12 @@ class Test_statisticsController(Test_BaseCase):
                 date_end = date_yesterday_str
             )
         )
-        res = res_to_dict(response)
+        res = res_to_dict(response) # convert response to dictionary
+        # check if status code is correct
+        print('--- successful (no record found) check if status code is correct')
         self.assertEqual(response.status_code, 200)
+        # check if JSON returned is correct
+        print('--- successful (no record found) check if JSON returned is correct')
         self.assertEqual(len(res['attempts']), 0)
 
         # success case
@@ -271,8 +329,12 @@ class Test_statisticsController(Test_BaseCase):
                 date_end = date_tomorrow_str
             )
         )
-        res = res_to_dict(response)
+        res = res_to_dict(response) # convert response to dictionary
+        # check if status code is correct
+        print('--- successful (record found - 1) check if status code is correct')
         self.assertEqual(response.status_code, 200)
+        # check if JSON returned is correct
+        print('--- successful (record found - 1) check if JSON returned is correct')
         self.assertEqual(res['attempts'][0][date_today_str], 2)
 
         # success case
@@ -282,11 +344,15 @@ class Test_statisticsController(Test_BaseCase):
                 date_end = date_today_str
             )
         )
-        res = res_to_dict(response)
+        res = res_to_dict(response) # convert response to dictionary
+        # check if status code is correct
+        print('--- successful (record found - 2) check if status code is correct')
         self.assertEqual(response.status_code, 200)
+        # check if JSON returned is correct
+        print('--- successful (record found - 2) check if JSON returned is correct')
         self.assertEqual(res['attempts'][0][date_today_str], 2)
 
 
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main(verbosity=2)
     

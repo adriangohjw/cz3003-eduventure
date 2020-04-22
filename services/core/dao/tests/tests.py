@@ -21,4 +21,4 @@ from services.core.dao.tests.test_UsersDao import Test_users_dao
 
 
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main(verbosity=2)

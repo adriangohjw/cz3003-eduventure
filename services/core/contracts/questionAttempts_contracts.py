@@ -6,9 +6,10 @@ def validate_student_id(student_id):
     if (student_id is None):
         raise TypeError("Request params (student_id) not found")
 
-    # if student_id params is empty
-    if not student_id: 
-        raise ValueError("student_id is empty")
+    # check if student_id is a boolean
+    # to check if bool before int because isinstance(student_id, int) returns True if student_id is bool
+    if isinstance(student_id, bool):
+        raise TypeError("student_id is not an integer")
 
     # check if type is integer
     if not isinstance(student_id, int):
@@ -19,9 +20,10 @@ def validate_question_id(question_id):
     if (question_id is None):
         raise TypeError("Request params (question_id) not found")
 
-    # if question_id params is empty
-    if not question_id: 
-        raise ValueError("question_id is empty")
+    # check if question_id is a boolean
+    # to check if bool before int because isinstance(question_id, int) returns True if question_id is bool
+    if isinstance(question_id, bool):
+        raise TypeError("question_id is not an integer")
 
     # check if type is integer
     if not isinstance(question_id, int):
@@ -32,9 +34,10 @@ def validate_duration_ms(duration_ms):
     if (duration_ms is None):
         raise TypeError("Request params (duration_ms) not found")
 
-    # if duration params is empty
-    if not duration_ms: 
-        raise ValueError("duration_ms is empty")
+    # check if duration_ms is a boolean
+    # to check if bool before int because isinstance(duration_ms, int) returns True if duration_ms is bool
+    if isinstance(duration_ms, bool):
+        raise TypeError("duration_ms is not an integer")
 
     # check if duration is integer
     if not isinstance(duration_ms, int):

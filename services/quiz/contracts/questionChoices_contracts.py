@@ -8,9 +8,10 @@ def validate_questionChoice_id(questionChoice_id):
     if (questionChoice_id is None):
         raise TypeError("Request params (questionChoice_id) not found")
 
-    # if 'questionChoice_id' params is empty
-    if not questionChoice_id: 
-        raise ValueError("questionChoice_id is empty")
+    # check if questionChoice_id is a boolean
+    # to check if bool before int because isinstance(questionChoice_id, int) returns True if questionChoice_id is bool
+    if isinstance(questionChoice_id, bool):
+        raise TypeError("questionChoice_id is not an integer")
 
     # check if type is integer
     if not isinstance(questionChoice_id, int):

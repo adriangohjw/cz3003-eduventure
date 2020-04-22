@@ -9,9 +9,10 @@ def validate_lesson_id(lesson_id):
     if (lesson_id is None):
         raise TypeError("Request params (lesson_id) not found")
 
-    # if lesson_id params is empty
-    if not lesson_id: 
-        raise ValueError("Lesson_id is empty")
+    # check if lesson_id is a boolean
+    # to check if bool before int because isinstance(lesson_id, int) returns True if lesson_id is bool
+    if isinstance(lesson_id, bool):
+        raise TypeError("lesson_id is not an integer")
 
     # check if type is integer
     if not isinstance(lesson_id, int):

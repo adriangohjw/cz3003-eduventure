@@ -11,23 +11,31 @@ from run_test import create_app
 from test_BaseCase import Test_BaseCase, res_to_dict
 
 
+"""
+This is a TestCase object to test the functions in progressesController.py
+"""
 class Test_progressesController(Test_BaseCase):
-
     @classmethod
     def setUpClass(cls):
         print("\n\n{}: starting test...".format(path.basename(__file__)))
 
-    
+    # test the GET request for ProgressAPI
     def test_ProgressAPI_GET(self):
 
-        # invalid params input
+        # request has invalid params input
         response = self.app.get('/progresses?student_id=')
+        # check if status code is correct
+        print('--- check if status code is correct (invalid params input)')
         self.assertEqual(response.status_code, 400)
         
         # success case
         response = self.app.get('/progresses?student_id=1')
-        res = res_to_dict(response)
+        res = res_to_dict(response) # convert response to dictionary
+        # check if status code is correct
+        print('--- successful, check if status code is correct')
         self.assertEqual(response.status_code, 200)
+        # check if JSON returned is correct
+        print('--- successful, check if JSON returned is correct')
         self.assertEqual(
             res,
             {
@@ -104,5 +112,5 @@ class Test_progressesController(Test_BaseCase):
     
 
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main(verbosity=2)
     

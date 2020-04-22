@@ -5,9 +5,10 @@ def validate_student_id(student_id):
     if (student_id is None):
         raise TypeError("Request params (student_id) not found")
 
-    # if student_id params is empty
-    if not student_id: 
-        raise ValueError("student_id is empty")
+    # check if student_id is a boolean
+    # to check if bool before int because isinstance(student_id, int) returns True if student_id is bool
+    if isinstance(student_id, bool):
+        raise TypeError("student_id is not an integer")
 
     # check if type is integer
     if not isinstance(student_id, int):
@@ -18,9 +19,10 @@ def validate_quiz_id(quiz_id):
     if (quiz_id is None):
         raise TypeError("Request params (quiz_id) not found")
 
-    # if quiz_id params is empty
-    if not quiz_id: 
-        raise ValueError("quiz_id is empty")
+    # check if quiz_id is a boolean
+    # to check if bool before int because isinstance(quiz_id, int) returns True if quiz_id is bool
+    if isinstance(quiz_id, bool):
+        raise TypeError("quiz_id is not an integer")
 
     # check if type is integer
     if not isinstance(quiz_id, int):
@@ -31,9 +33,10 @@ def validate_score(score):
     if (score is None):
         raise TypeError("Request params (score) not found")
 
-    # if score params is empty
-    if not score: 
-        raise ValueError("score is empty")
+    # check if score is a boolean
+    # to check if bool before int because isinstance(score, int) returns True if score is bool
+    if isinstance(score, bool):
+        raise TypeError("score is not an integer")
 
     # check if type is integer
     if not isinstance(score, int):

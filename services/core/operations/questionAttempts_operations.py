@@ -40,6 +40,18 @@ def questionAttemptListReadOperation(student_id, question_id):
 
 def questionAttemptCreateOperation(student_id, question_id, is_correct, duration_ms):
 
+    student = studentRead(col='id', value=student_id)
+
+    # student is not found
+    if student is None:
+        raise ErrorWithCode(409, "No student found")
+
+    question = questionRead(question_id)
+
+    # question is not found
+    if question is None:
+        raise ErrorWithCode(409, "No question found")
+
     questionAttempt = initializeQuestionAttempt(student_id, question_id, is_correct, duration_ms)
     if questionAttemptCreate(questionAttempt) == False:
         raise ErrorWithCode(503, "Unsuccessful")

@@ -10,13 +10,14 @@ def validate_id(id):
     if (id is None):
         raise TypeError("Request params (id) not found")
 
-    # if id params is empty
-    if not id: 
-        raise ValueError("id is empty")
+    # check if id is a boolean
+    # to check if bool before int because isinstance(id, int) returns True if id is bool
+    if isinstance(id, bool):
+        raise TypeError("Id is not an integer")
 
     # check if type is integer
     if not isinstance(id, int):
-        raise TypeError("id is not an integer")
+        raise TypeError("Id is not an integer")
 
 
 def quizMngReadContract(request):

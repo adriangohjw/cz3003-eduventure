@@ -8,9 +8,10 @@ def validate_id(id):
     if (id is None):
         raise TypeError("Request params (id) not found")
 
-    # if 'id' params is empty
-    if not id: 
-        raise ValueError("id is empty")
+    # check if id is a boolean
+    # to check if bool before int because isinstance(id, int) returns True if id is bool
+    if isinstance(id, bool):
+        raise TypeError("id is not an integer")
 
     # check if type is integer
     if not isinstance(id, int):
@@ -21,9 +22,10 @@ def validate_staff_id(staff_id):
     if (staff_id is None):
         raise TypeError("Request params (staff_id) not found")
 
-    # if 'staff_id' params is empty
-    if not staff_id: 
-        raise ValueError("staff_id is empty")
+    # check if staff_id is a boolean
+    # to check if bool before int because isinstance(staff_id, int) returns True if staff_id is bool
+    if isinstance(staff_id, bool):
+        raise TypeError("staff_id is not an integer")
 
     # check if type is integer
     if not isinstance(staff_id, int):

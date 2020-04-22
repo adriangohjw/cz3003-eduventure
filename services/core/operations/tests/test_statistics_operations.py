@@ -14,15 +14,24 @@ db.init_app(app)
 
 import datetime
 
-from models import \
-    User, Student, Staff, Topic, Lesson, Quiz, QuizAttempt, Question, Course,\
+from models import (
+    User, Student, Staff, Topic, Lesson, Quiz, QuizAttempt, Question, Course,
     Rs_lesson_quiz_contain, Rs_quiz_course_assign, Rs_quiz_question_contain, Rs_student_course_enrol
+)
 from services.core.operations.users_operations import encrypt
-from services.core.operations.statistics_operations import \
-    statReadOperation, lessonCompletedReadOperation, leaderboardReadOperation, studentScoreReadOperation, \
-    courseScoreReadOperation, activityReadOperation
+from services.core.operations.statistics_operations import (
+    statReadOperation, 
+    lessonCompletedReadOperation, 
+    leaderboardReadOperation, 
+    studentScoreReadOperation,
+    courseScoreReadOperation, 
+    activityReadOperation
+)
 
 
+"""
+This is a TestCase object to test the functions in statistics_operations.py
+"""
 class Test_statistics_operations(unittest.TestCase):
     
     @classmethod
@@ -30,13 +39,17 @@ class Test_statistics_operations(unittest.TestCase):
         print("\n\n{}: starting test...".format(path.basename(__file__)))
 
 
+    # this will run before every test
+    # it will ensure that every test start with a fresh database
     def setUp(self):
-
-        self.maxDiff = None
-
+        print('\r')
+        # drop all tables in the database
         db.session.remove()
         db.drop_all()
+        # crete all tables in the database
         db.create_all()
+
+        self.maxDiff = None
 
         # adding students
         user_1 = User('student_1@gmail.com', encrypt('password'), 'student_1')
@@ -133,9 +146,11 @@ class Test_statistics_operations(unittest.TestCase):
 
         db.session.commit()
 
-
+    # test the function statReadOperation
     def test_statReadOperation(self):
 
+        # check that when successful, result returned by function is correct
+        print('--- check that when successful, result returned by function is correct')
         self.assertEqual(
             statReadOperation(),
             {
@@ -190,9 +205,11 @@ class Test_statistics_operations(unittest.TestCase):
             }
         )
 
-    
+    # test the function lessonCompletedReadOperation
     def test_lessonCompletedReadOperation(self):
 
+        # check that when successful, result returned by function is correct
+        print('--- check that when successful, result returned by function is correct')
         self.assertEqual(
             lessonCompletedReadOperation(),
             {
@@ -238,9 +255,11 @@ class Test_statistics_operations(unittest.TestCase):
             }
         )
 
-    
+    # test the function leaderboardReadOperation
     def test_leaderboardReadOperation(self):
 
+        # check that when successful, result returned by function is correct (1)
+        print('--- check that when successful, result returned by function is correct (1)')
         self.assertEqual(
             leaderboardReadOperation(None),
             {
@@ -261,6 +280,8 @@ class Test_statistics_operations(unittest.TestCase):
             }
         )
 
+        # check that when successful, result returned by function is correct (2)
+        print('--- check that when successful, result returned by function is correct (2)')
         self.assertEqual(
             leaderboardReadOperation(1),
             {
@@ -275,9 +296,11 @@ class Test_statistics_operations(unittest.TestCase):
             }
         )
 
-    
+    # test the function studentScoreReadOperation
     def test_studentScoreReadOperation(self):
 
+        # check that when successful, result returned by function is correct (1)
+        print('--- check that when successful, result returned by function is correct (1)')
         self.assertEqual(
             studentScoreReadOperation(None),
             {
@@ -313,6 +336,8 @@ class Test_statistics_operations(unittest.TestCase):
             }
         )
 
+        # check that when successful, result returned by function is correct (2)
+        print('--- check that when successful, result returned by function is correct (2)')
         self.assertEqual(
             studentScoreReadOperation(1),
             {
@@ -337,9 +362,11 @@ class Test_statistics_operations(unittest.TestCase):
             }
         )
 
-    
+    # test the function courseScoreReadOperation
     def test_courseScoreReadOperation(self):
 
+        # check that when successful, result returned by function is correct (1)
+        print('--- check that when successful, result returned by function is correct (1)')
         self.assertEqual(
             courseScoreReadOperation(None),
             {
@@ -363,6 +390,8 @@ class Test_statistics_operations(unittest.TestCase):
             }   
         )
 
+        # check that when successful, result returned by function is correct (2)
+        print('--- check that when successful, result returned by function is correct (2)')
         self.assertEqual(
             courseScoreReadOperation('cz1005'),
             {
@@ -386,6 +415,8 @@ class Test_statistics_operations(unittest.TestCase):
             }   
         )
 
+        # check that when successful, result returned by function is correct (3)
+        print('--- check that when successful, result returned by function is correct (3)')
         self.assertEqual(
             courseScoreReadOperation('cz1003'),
             {
@@ -393,12 +424,14 @@ class Test_statistics_operations(unittest.TestCase):
             }   
         )
 
-
+    # test the function activityReadOperation
     def test_activityReadOperation(self):
 
         date_today = datetime.date.today()
         date_today_str = date_today.strftime('%Y-%m-%d')
         
+        # check that when successful, result returned by function is correct (1)
+        print('--- check that when successful, result returned by function is correct (1)')
         self.assertEqual(
             activityReadOperation(date_today, date_today, 1),
             {
@@ -410,6 +443,8 @@ class Test_statistics_operations(unittest.TestCase):
             }
         )
 
+        # check that when successful, result returned by function is correct (2)
+        print('--- check that when successful, result returned by function is correct (2)')
         self.assertEqual(
             activityReadOperation(
                 date_today + datetime.timedelta(days=10), 
@@ -422,4 +457,4 @@ class Test_statistics_operations(unittest.TestCase):
         
 
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main(verbosity=2)

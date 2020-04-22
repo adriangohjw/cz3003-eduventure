@@ -10,23 +10,30 @@ app = create_app()
 app.app_context().push()
 db.init_app(app)
 
-from models import \
-    User, Student, Staff, Topic, Lesson, Quiz, Question, QuizAttempt, \
+from models import (
+    User, Student, Staff, Topic, Lesson, Quiz, Question, QuizAttempt, 
     Rs_lesson_quiz_contain, Rs_quiz_question_contain
+)
 from services.core.operations.users_operations import encrypt
 from services.core.dao.ProgressesDAO import progressRead
 
 
+"""
+This is a TestCase object to test the functions in ProgressesDAO.py
+"""
 class Test_ProgressesDAO(unittest.TestCase):
-
     @classmethod
     def setUpClass(cls):
         print("\n\n{}: starting test...".format(path.basename(__file__)))
 
-
+    # this will run before every test
+    # it will ensure that every test start with a fresh database
     def setUp(self):
+        print('\r')
+        # drop all tables in the database
         db.session.remove()
         db.drop_all()
+        # crete all tables in the database
         db.create_all()
 
         # adding students
@@ -106,9 +113,11 @@ class Test_ProgressesDAO(unittest.TestCase):
 
         db.session.commit()
 
-
+    # test the function progressRead
     def test_progressRead(self):
 
+        # check res returned by func is correct
+        print('--- test if result returned is correct')
         self.assertEqual(
             progressRead(1),
             [
@@ -122,4 +131,4 @@ class Test_ProgressesDAO(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main(verbosity=2)

@@ -11,4 +11,4 @@ from services.quiz.contracts.tests.test_rs_quiz_course_assigns_contracts import 
 from services.quiz.contracts.tests.test_rs_quiz_question_contains_contracts import Test_rs_quiz_question_contains_contracts
 
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main(verbosity=2)

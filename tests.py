@@ -83,4 +83,4 @@ from services.quiz.controllers.tests.test_QuestionsController import Test_questi
 from services.quiz.controllers.tests.test_QuizzesController import Test_quizzesController
 
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main(verbosity=2)
