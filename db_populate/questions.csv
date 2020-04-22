@@ -15,7 +15,7 @@ topic_id,lesson_id,description
 2,2,The UML supports event-based modeling using ____________ diagrams.
 2,2,Which of the following diagram is not supported by UML considering Data-driven modeling ?
 2,3,_____ allows us to infer that different members of classes have some common characteristics.
-2,3,___ & ___ diagrams of UML represent Interaction modeling.
+2,3,___ and ___ diagrams of UML represent Interaction modeling.
 2,3,Which level of Entity Relationship Diagram (ERD) models all entities and relationships ?
 3,1,Which of the following term describes testing?
 3,1,What is Cyclomatic complexity?
