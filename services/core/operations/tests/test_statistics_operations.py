@@ -409,19 +409,34 @@ class Test_statistics_operations(unittest.TestCase):
             {
                 "courses": [
                     {
-                    "course_index": "cz1005",
-                    "scores": {
-                        "0-10": 1,
-                        "11-20": 0,
-                        "21-30": 0,
-                        "31-40": 0,
-                        "41-50": 0,
-                        "51-60": 0,
-                        "61-70": 1,
-                        "71-80": 0,
-                        "81-90": 0,
-                        "91-100": 1
-                    }
+                        "course_index": "cz1005",
+                        "scores": {
+                            "0-10": 1,
+                            "11-20": 0,
+                            "21-30": 0,
+                            "31-40": 0,
+                            "41-50": 0,
+                            "51-60": 0,
+                            "61-70": 1,
+                            "71-80": 0,
+                            "81-90": 0,
+                            "91-100": 1
+                        }
+                    },
+                    {
+                        "course_index": "all",
+                        "scores": {
+                            "0-10": 1,
+                            "11-20": 0,
+                            "21-30": 0,
+                            "31-40": 0,
+                            "41-50": 0,
+                            "51-60": 0,
+                            "61-70": 1,
+                            "71-80": 0,
+                            "81-90": 0,
+                            "91-100": 1
+                        }
                     }
                 ]
             }   
@@ -434,19 +449,19 @@ class Test_statistics_operations(unittest.TestCase):
             {
                 "courses": [
                     {
-                    "course_index": "cz1005",
-                    "scores": {
-                        "0-10": 1,
-                        "11-20": 0,
-                        "21-30": 0,
-                        "31-40": 0,
-                        "41-50": 0,
-                        "51-60": 0,
-                        "61-70": 1,
-                        "71-80": 0,
-                        "81-90": 0,
-                        "91-100": 1
-                    }
+                        "course_index": "cz1005",
+                        "scores": {
+                            "0-10": 1,
+                            "11-20": 0,
+                            "21-30": 0,
+                            "31-40": 0,
+                            "41-50": 0,
+                            "51-60": 0,
+                            "61-70": 1,
+                            "71-80": 0,
+                            "81-90": 0,
+                            "91-100": 1
+                        }
                     }
                 ]
             }   
@@ -458,31 +473,6 @@ class Test_statistics_operations(unittest.TestCase):
             courseScoreReadOperation('cz1003'),
             {
                 "courses": []
-            }   
-        )
-
-        # check that when successful, result returned by function is correct (4)
-        print('--- check that when successful, result returned by function is correct (4)')
-        self.assertEqual(
-            courseScoreReadOperation('all'),
-            {
-                "courses": [
-                    {
-                    "course_index": "all",
-                    "scores": {
-                        "0-10": 1,
-                        "11-20": 0,
-                        "21-30": 0,
-                        "31-40": 0,
-                        "41-50": 0,
-                        "51-60": 0,
-                        "61-70": 1,
-                        "71-80": 0,
-                        "81-90": 0,
-                        "91-100": 1
-                    }
-                    }
-                ]
             }   
         )
 
