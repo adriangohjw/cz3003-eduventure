@@ -215,41 +215,78 @@ class Test_statistics_operations(unittest.TestCase):
             {
                 "courses": [
                     {
-                    "course_index": "cz1005",
-                    "progress": [
-                        {
-                        "lessons": [
+                        "course_index": "cz1005",
+                        "progress": [
                             {
-                            "count_completed": 0,
-                            "lesson_id": 1,
-                            "lesson_name": "lesson_1"
+                                "lessons": [
+                                    {
+                                        "count_completed": 0,
+                                        "lesson_id": 1,
+                                        "lesson_name": "lesson_1"
+                                    },
+                                    {
+                                        "count_completed": 0,
+                                        "lesson_id": 2,
+                                        "lesson_name": "lesson_2"
+                                    },
+                                    {
+                                        "count_completed": 1,
+                                        "lesson_id": 3,
+                                        "lesson_name": "lesson_3"
+                                    }
+                                ],
+                                "topic_id": 1,
+                                "topic_name": "topic_1"
                             },
                             {
-                            "count_completed": 0,
-                            "lesson_id": 2,
-                            "lesson_name": "lesson_2"
+                                "lessons": [
+                                    {
+                                        "count_completed": 0,
+                                        "lesson_id": 1,
+                                        "lesson_name": "lesson_4"
+                                    }
+                                ],
+                                "topic_id": 2,
+                                "topic_name": "topic_2"
+                            }
+                        ]
+                    },
+                    {
+                        "course_index": "all",
+                        "progress": [
+                            {
+                                "lessons": [
+                                    {
+                                        "count_completed": 0,
+                                        "lesson_id": 1,
+                                        "lesson_name": "lesson_1"
+                                    },
+                                    {
+                                        "count_completed": 0,
+                                        "lesson_id": 2,
+                                        "lesson_name": "lesson_2"
+                                    },
+                                    {
+                                        "count_completed": 1,
+                                        "lesson_id": 3,
+                                        "lesson_name": "lesson_3"
+                                    }
+                                ],
+                                "topic_id": 1,
+                                "topic_name": "topic_1"
                             },
                             {
-                            "count_completed": 1,
-                            "lesson_id": 3,
-                            "lesson_name": "lesson_3"
+                                "lessons": [
+                                    {
+                                        "count_completed": 0,
+                                        "lesson_id": 1,
+                                        "lesson_name": "lesson_4"
+                                    }
+                                ],
+                                "topic_id": 2,
+                                "topic_name": "topic_2"
                             }
-                        ],
-                        "topic_id": 1,
-                        "topic_name": "topic_1"
-                        },
-                        {
-                        "lessons": [
-                            {
-                            "count_completed": 0,
-                            "lesson_id": 1,
-                            "lesson_name": "lesson_4"
-                            }
-                        ],
-                        "topic_id": 2,
-                        "topic_name": "topic_2"
-                        }
-                    ]
+                        ]
                     }
                 ]
             }
