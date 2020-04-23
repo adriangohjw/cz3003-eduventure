@@ -5029,7 +5029,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 776162509}
         m_MethodName: LoginTwitter
         m_Mode: 1
         m_Arguments:

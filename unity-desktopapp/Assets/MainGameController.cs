@@ -37,6 +37,7 @@ public class MainGameController : MonoBehaviour
 
     void Start()
     {
+        //Initialize all variables and perform starting checks for points and progress
         cropMenu.SetActive(false);
         pointsMenu.SetActive(false);
         lessonMenu.SetActive(false);
@@ -60,6 +61,7 @@ public class MainGameController : MonoBehaviour
     }
     void Update()
     {
+        //set volume on all sounds and perform Challenge checks every 10seconds
         acceptChallenge.volume = PlayerPrefs.GetFloat("volume");
         main_track.volume = PlayerPrefs.GetFloat("volume");
         notification.volume = PlayerPrefs.GetFloat("volume");
@@ -74,9 +76,10 @@ public class MainGameController : MonoBehaviour
             StartCoroutine(CheckChallenge());
         }
     }
-
+    #region Crops and Topics
     public void CropClick()
     {
+        //Open crop menu and show progress of the lessons
         fieldSound.Play();
         cropMenu.SetActive(true);
         lessonMenu.SetActive(false);    
@@ -100,6 +103,7 @@ public class MainGameController : MonoBehaviour
     }
     public void LessonClick()
     {
+        //Open lesson and display past attempts
         clickSound.Play();
         lessonMenu.SetActive(true);
         lessonSelected = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Lesson>().lessonID;
@@ -116,97 +120,9 @@ public class MainGameController : MonoBehaviour
             StartCoroutine(GetPastAttempts(quizID));
         }
     }
-    public void CropMenuClose()
-    {
-        closeSound.Play();
-        cropMenu.SetActive(false);
-    }
-    public void LogOut()
-    {
-        Application.Quit();
-    }
-    public void Settings()
-    {
-        clickSound.Play();
-        settingsMenu.SetActive(true);
-        float volume = PlayerPrefs.GetFloat("volume");
-        Slider slider = GameObject.Find("VolumeSlider").GetComponent<Slider>();
-        slider.value = volume;
-    }
-    public void SettingsOut()
-    {
-        closeSound.Play();
-        settingsMenu.SetActive(false);
-    }
-    public void PointsClick()
-    {
-        clickSound.Play();
-        pointsMenu.SetActive(true);
-        leaderboardButton.SetActive(true);
-        TMP_Text pointsContent = GameObject.Find("PointsContent").GetComponent<TMP_Text>();
-        TMP_Text pointsNumbers = GameObject.Find("PointsNumbers").GetComponent<TMP_Text>();
-        TMP_Text pointsTitle = GameObject.Find("PointsTitle").GetComponent<TMP_Text>();
-        RectTransform pointsText = GameObject.Find("PointsContent").GetComponent<RectTransform>();
-        RectTransform pointsText2 = GameObject.Find("PointsNumbers").GetComponent<RectTransform>();
-        pointsText.sizeDelta = new Vector2(666,707);
-        pointsText2.sizeDelta = new Vector2(73,707);
-        string displayText = "Progress:\n";
-        string numberText = "\n";
-        foreach (ProgressTopicDetails topic in studentProgress.topics)
-        {
-            displayText += "  "+topic.name +"\n";
-            displayText += "    Completed Lessons:\n";
-            numberText += "\n";
-            numberText += topic.completed_lessons.ToString() + "/" + topic.total_lessons.ToString() +"\n";
-            int i =0;
-            foreach (ProgressLessonDetails lesson in topic.lessons)
-            {
-                displayText += "      Quiz "+i.ToString()+":\n";
-                numberText += lesson.quizzes[0].max_score.ToString()+"/"+lesson.quizzes[0].total_questions.ToString()+"\n";
-                i++;
-            }
-        }
-        pointsTitle.text = "Student Profile";
-        pointsContent.text = displayText;
-        pointsNumbers.text = numberText;
-    }
-    public void PointsClickOut()
-    {
-        closeSound.Play();
-        pointsMenu.SetActive(false);
-    }
-    public void LeaderboardClick()
-    {
-        clickSound.Play();
-        leaderboardButton.SetActive(false);
-        StartCoroutine(UpdatePointsMenu());
-    }
-    public void QuizStart()
-    {
-        clickSound.Play();
-        int topicID = topicSelected + 1;
-        int lessonID = lessonSelected +1;
-        PlayerPrefs.SetString("topicID",topicID.ToString());
-        PlayerPrefs.SetString("lessonID",lessonID.ToString());
-        SceneManager.LoadScene("QuizScene");
-    }
-    private IEnumerator GetPoints()
-    {
-        string url = "http://127.0.0.1:5000/statistics/student_score?student_id=" + PlayerPrefs.GetString("userID");
-        using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
-        {
-            yield return webRequest.SendWebRequest();
-            PointsDetails pointsDets = JsonUtility.FromJson<PointsDetails>(webRequest.downloadHandler.text);
-            float total_points = 0;
-            foreach (PointQuizDetails quiz in pointsDets.students[0].quizzes)
-            {
-                total_points += quiz.score;
-            }
-            pointsText.text = total_points.ToString()+ " Points";
-        }
-    }
     private IEnumerator GetPastAttempts(int quizID)
     {
+        //Call API to get past attempts on particular quiz
         string url = string.Format("http://127.0.0.1:5000/quiz_attempts/list?student_id={0}&quiz_id={1}",PlayerPrefs.GetString("userID"),quizID);
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
@@ -234,8 +150,107 @@ public class MainGameController : MonoBehaviour
             }
         }
     }
+    public void QuizStart()
+    {
+        //Start quiz button
+        clickSound.Play();
+        int topicID = topicSelected + 1;
+        int lessonID = lessonSelected +1;
+        PlayerPrefs.SetString("topicID",topicID.ToString());
+        PlayerPrefs.SetString("lessonID",lessonID.ToString());
+        SceneManager.LoadScene("QuizScene");
+    }
+    public void CropMenuClose()
+    {
+        //Close the crops menu
+        closeSound.Play();
+        cropMenu.SetActive(false);
+    }
+    #endregion
+
+    #region Settings
+    public void Settings()
+    {
+        //Open the settings menu
+        clickSound.Play();
+        settingsMenu.SetActive(true);
+        float volume = PlayerPrefs.GetFloat("volume");
+        Slider slider = GameObject.Find("VolumeSlider").GetComponent<Slider>();
+        slider.value = volume;
+    }
+    public void LogOut()
+    {
+        //Close the game
+        Application.Quit();
+    }
+    public void SettingsOut()
+    {
+        //Close the settings menu
+        closeSound.Play();
+        settingsMenu.SetActive(false);
+    }
+    public void SetVolume(float vol)
+    {
+        //Take slider value and save it
+        PlayerPrefs.SetFloat("volume",vol);
+    }
+    public void LoginTwitter()
+    {
+        //Open twitter login url
+        Application.OpenURL("https://twitter.com/login");
+    }
+    #endregion
+    
+    #region Leadboard and Profile
+    public void PointsClick()
+    {
+        //Get student profile and open Profile menu
+        clickSound.Play();
+        pointsMenu.SetActive(true);
+        leaderboardButton.SetActive(true);
+        TMP_Text pointsContent = GameObject.Find("PointsContent").GetComponent<TMP_Text>();
+        TMP_Text pointsNumbers = GameObject.Find("PointsNumbers").GetComponent<TMP_Text>();
+        TMP_Text pointsTitle = GameObject.Find("PointsTitle").GetComponent<TMP_Text>();
+        RectTransform pointsText = GameObject.Find("PointsContent").GetComponent<RectTransform>();
+        RectTransform pointsText2 = GameObject.Find("PointsNumbers").GetComponent<RectTransform>();
+        pointsText.sizeDelta = new Vector2(666,707);
+        pointsText2.sizeDelta = new Vector2(73,707);
+        string displayText = "Progress:\n";
+        string numberText = "\n";
+        foreach (ProgressTopicDetails topic in studentProgress.topics)
+        {
+            displayText += "  "+topic.name +"\n";
+            displayText += "    Completed Lessons:\n";
+            numberText += "\n";
+            numberText += topic.completed_lessons.ToString() + "/" + topic.total_lessons.ToString() +"\n";
+            int i =1;
+            foreach (ProgressLessonDetails lesson in topic.lessons)
+            {
+                displayText += "      Quiz "+i.ToString()+":\n";
+                numberText += lesson.quizzes[0].max_score.ToString()+"/"+lesson.quizzes[0].total_questions.ToString()+"\n";
+                i++;
+            }
+        }
+        pointsTitle.text = "Student Profile";
+        pointsContent.text = displayText;
+        pointsNumbers.text = numberText;
+    }
+    public void PointsClickOut()
+    {
+        //Close profile/Leaderboard menu
+        closeSound.Play();
+        pointsMenu.SetActive(false);
+    }
+    public void LeaderboardClick()
+    {
+        //Open Leaderboard
+        clickSound.Play();
+        leaderboardButton.SetActive(false);
+        StartCoroutine(UpdatePointsMenu());
+    }
     private IEnumerator UpdatePointsMenu()
     {
+        //Get leaderboard from API and display
         string url = "http://127.0.0.1:5000/statistics/leaderboard";
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
@@ -266,8 +281,48 @@ public class MainGameController : MonoBehaviour
             pointsNumbers.text = numberText;
         }
     }
+    #endregion
+
+    #region Challenge System
+    public void StartChallenge()
+    {
+        //Open challenge scene
+        SceneManager.LoadScene("ChallengeScene");
+    }
+    public void AcceptChallenge()
+    {
+        //Accept an incoming challenge
+        int quizID = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Challenger>().quizID;
+        int challengerID = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Challenger>().challengerID;
+        acceptChallenge.Play();
+        PlayerPrefs.SetInt("challenge",2);
+        PlayerPrefs.SetInt("challengeQuizID",quizID);
+        PlayerPrefs.SetInt("challengerID",challengerID);
+        SceneManager.LoadScene("QuizScene");
+    }
+    #endregion
+
+    #region Background/Initial Processes
+    private IEnumerator GetPoints()
+    {
+        //Get user points to display on the top bar
+        string url = "http://127.0.0.1:5000/statistics/student_score?student_id=" + PlayerPrefs.GetString("userID");
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
+        {
+            yield return webRequest.SendWebRequest();
+            PointsDetails pointsDets = JsonUtility.FromJson<PointsDetails>(webRequest.downloadHandler.text);
+            float total_points = 0;
+            foreach (PointQuizDetails quiz in pointsDets.students[0].quizzes)
+            {
+                total_points += quiz.score;
+            }
+            pointsText.text = total_points.ToString()+ " Points";
+        }
+    }
+
     private IEnumerator GetCropProgress()
     {
+        //Get users progress to display appropriate stage of crop
         string url = "http://127.0.0.1:5000/progresses/?student_id=" + PlayerPrefs.GetString("userID");
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
@@ -290,6 +345,7 @@ public class MainGameController : MonoBehaviour
     }
     private IEnumerator CheckChallenge()
     {
+        //Check if any incoming challenge is received
         string url = "http://127.0.0.1:5000/challenges/?to_student_id=" + PlayerPrefs.GetString("userID");
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
@@ -300,6 +356,7 @@ public class MainGameController : MonoBehaviour
     }
     private void processChallenges(ChallengerList challenges)
     {
+        //Process any challenges that are received
         int i = 0;
         Button[] challengers = new Button[3];
         TMP_Text[] challengersText = new TMP_Text[3];
@@ -346,28 +403,7 @@ public class MainGameController : MonoBehaviour
             notification.Play();
         }
     }
-    public void SetVolume(float vol)
-    {
-        PlayerPrefs.SetFloat("volume",vol);
-    }
-    public void StartChallenge()
-    {
-        SceneManager.LoadScene("ChallengeScene");
-    }
-    public void LoginTwitter()
-    {
-        Application.OpenURL("https://twitter.com/login");
-    }
-    public void AcceptChallenge()
-    {
-        int quizID = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Challenger>().quizID;
-        int challengerID = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Challenger>().challengerID;
-        acceptChallenge.Play();
-        PlayerPrefs.SetInt("challenge",2);
-        PlayerPrefs.SetInt("challengeQuizID",quizID);
-        PlayerPrefs.SetInt("challengerID",challengerID);
-        SceneManager.LoadScene("QuizScene");
-    }
+    #endregion
 }
 #region JSON Classes
 [Serializable]

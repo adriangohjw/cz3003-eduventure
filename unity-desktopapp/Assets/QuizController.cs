@@ -31,6 +31,7 @@ public class QuizController : MonoBehaviour
 
     void Start()
     {
+        //Initialize Quiz Screen
         lesson.SetActive(true);
         endMenu.SetActive(false);
         score =0;
@@ -62,14 +63,47 @@ public class QuizController : MonoBehaviour
     }
     void Update()
     {
+        //Set volume of sound effects
         mainTrack.volume = PlayerPrefs.GetFloat("volume");
         clickSound.volume = PlayerPrefs.GetFloat("volume");
         closeSound.volume = PlayerPrefs.GetFloat("volume"); 
         quizDone.volume = PlayerPrefs.GetFloat("volume");
     }
-    #region quizQuestions
+    #region Lesson
+    private IEnumerator GetLesson()
+    {
+        //Get the lesson of the selected topic
+        string url = string.Format("http://127.0.0.1:5000/lessons/?topic_id={0}&lesson_id={1}",PlayerPrefs.GetString("topicID"),PlayerPrefs.GetString("lessonID"));
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
+        {
+            yield return webRequest.SendWebRequest();
+            lessonDetails = JsonUtility.FromJson<LessonDetails>(webRequest.downloadHandler.text);
+            UpdateLesson();
+        }
+    }
+    private void UpdateLesson()
+    {
+        //Update the scene to display the lesson got from database
+        TMP_Text lessonTitle = GameObject.Find("LessonTitle").GetComponent<TMP_Text>();
+        TMP_Text lessonContent = GameObject.Find("LessonContent").GetComponent<TMP_Text>();
+        VideoPlayer videoPlayer = GameObject.Find("Video Player").GetComponent<VideoPlayer>();
+        //videoPlayer.url = lessonDetails.url_link;
+        lessonTitle.text = lessonDetails.name;
+        lessonContent.text = lessonDetails.content;
+        quizTitle.text = lessonDetails.name;
+        quizQuestion.text = lessonDetails.questions[questionNum].description;
+        for (int i=0;i<4;i++)
+        {
+            options[i].GetComponent<Option>().answer = lessonDetails.questions[questionNum].choices[i].is_correct;
+            answers[i].text = lessonDetails.questions[questionNum].choices[i].description;
+        }
+    }   
+    #endregion
+
+    #region Quiz questions
     public void SelectOption()
     {
+        //triggered when choosing an option during quiz
         clickSound.Play();
         int elapsedTime = (int) ((Time.time - startTime)*1000);
         startTime = Time.time;
@@ -86,44 +120,15 @@ public class QuizController : MonoBehaviour
     }
     private IEnumerator PostOption(string url)
     {
+        //submit the selected answer to database
         using (UnityWebRequest webRequest = UnityWebRequest.Post(url,"null"))
-        {
-            yield return webRequest.SendWebRequest();
-        }
-    }
-    private IEnumerator DoneQuiz()
-    {
-        string quizID;
-        if (!(PlayerPrefs.GetInt("challenge")>0))
-        {
-            int topic = Int32.Parse(PlayerPrefs.GetString("topicID"));
-            int lesson = Int32.Parse(PlayerPrefs.GetString("lessonID"));
-            quizID = (lesson+3*(topic-1)).ToString();
-        }
-        else
-        {
-            quizID = challengeDetails.quiz.id.ToString();
-        }
-        string url = string.Format("http://127.0.0.1:5000/quiz_attempts/?student_id={0}&quiz_id={1}&score={2}",PlayerPrefs.GetString("userID"),quizID,score);
-        using (UnityWebRequest webRequest = UnityWebRequest.Post(url,"null"))
-        {
-            yield return webRequest.SendWebRequest();
-            if (PlayerPrefs.GetInt("challenge")==2)
-            {
-                StartCoroutine(FinishChallenge());
-            }
-        }
-    }
-    private IEnumerator FinishChallenge()
-    {
-        string url = string.Format("http://127.0.0.1:5000/challenges/?from_student_id={0}&to_student_id={1}&quiz_id={2}&is_completed=true",PlayerPrefs.GetInt("challengerID"),PlayerPrefs.GetString("userID"),PlayerPrefs.GetInt("challengeQuizID"));
-        using (UnityWebRequest webRequest = UnityWebRequest.Put(url,"null"))
         {
             yield return webRequest.SendWebRequest();
         }
     }
     private void updateQuestion()
-    {   
+    {
+        //Update the question when completing each question
         questionNum++;
         if (!(PlayerPrefs.GetInt("challenge")>0))
         {
@@ -168,65 +173,82 @@ public class QuizController : MonoBehaviour
             }
         }
     }
-    private IEnumerator GetLesson()
+    private IEnumerator DoneQuiz()
     {
-        string url = string.Format("http://127.0.0.1:5000/lessons/?topic_id={0}&lesson_id={1}",PlayerPrefs.GetString("topicID"),PlayerPrefs.GetString("lessonID"));
-        using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
+        //Triggered when quiz is done to post quiz final result to database
+        string quizID;
+        if (!(PlayerPrefs.GetInt("challenge")>0))
+        {
+            int topic = Int32.Parse(PlayerPrefs.GetString("topicID"));
+            int lesson = Int32.Parse(PlayerPrefs.GetString("lessonID"));
+            quizID = (lesson+3*(topic-1)).ToString();
+        }
+        else
+        {
+            quizID = challengeDetails.quiz.id.ToString();
+        }
+        string url = string.Format("http://127.0.0.1:5000/quiz_attempts/?student_id={0}&quiz_id={1}&score={2}",PlayerPrefs.GetString("userID"),quizID,score);
+        using (UnityWebRequest webRequest = UnityWebRequest.Post(url,"null"))
         {
             yield return webRequest.SendWebRequest();
-            lessonDetails = JsonUtility.FromJson<LessonDetails>(webRequest.downloadHandler.text);
-            UpdateLesson();
+            if (PlayerPrefs.GetInt("challenge")==2)
+            {
+                StartCoroutine(FinishChallenge());
+            }
         }
     }
-    private void UpdateLesson()
+    private IEnumerator FinishChallenge()
     {
-        TMP_Text lessonTitle = GameObject.Find("LessonTitle").GetComponent<TMP_Text>();
-        TMP_Text lessonContent = GameObject.Find("LessonContent").GetComponent<TMP_Text>();
-        VideoPlayer videoPlayer = GameObject.Find("Video Player").GetComponent<VideoPlayer>();
-        //Unable to play Youtube Videos TODO
-        //videoPlayer.url = lessonDetails.url_link;
-        lessonTitle.text = lessonDetails.name;
-        lessonContent.text = lessonDetails.content;
-        quizTitle.text = lessonDetails.name;
-        quizQuestion.text = lessonDetails.questions[questionNum].description;
-        for (int i=0;i<4;i++)
+        //Triggered when challenge quiz is done to post final result to database
+        string url = string.Format("http://127.0.0.1:5000/challenges/?from_student_id={0}&to_student_id={1}&quiz_id={2}&is_completed=true",PlayerPrefs.GetInt("challengerID"),PlayerPrefs.GetString("userID"),PlayerPrefs.GetInt("challengeQuizID"));
+        using (UnityWebRequest webRequest = UnityWebRequest.Put(url,"null"))
         {
-            options[i].GetComponent<Option>().answer = lessonDetails.questions[questionNum].choices[i].is_correct;
-            answers[i].text = lessonDetails.questions[questionNum].choices[i].description;
+            yield return webRequest.SendWebRequest();
         }
-    }   
+    }
     #endregion
 
-    #region Buttons
+    #region Settings and buttons
     public void ShareTwitter()
     {
+        //Share the question on twitter
         string question = quizQuestion.text;
         string pretext = "I have a problem with this question: ";
         string urlText = System.Uri.EscapeUriString(pretext + question);
         Application.OpenURL("https://twitter.com/intent/tweet?text="+urlText);
     }
+    public void LoginTwitter()
+    {
+        //Log in to twitter
+        Application.OpenURL("https://twitter.com/login");
+    }   
     public void RetryButton()
     {
+        //Retry quiz
         clickSound.Play();
         Start();
     }
     public void BackButton()
     {
+        //Finish quiz return to main
         SceneManager.LoadScene("MainGame");
         PlayerPrefs.SetInt("challenge",0);
     }
     public void DoneLesson()
     {
+        //Triggered when finished lesson to start quiz
         clickSound.Play();
         lesson.SetActive(false);
         startTime = Time.time;
     }
     public void LogOut()
     {
+        //Quit application
         Application.Quit();
     }
     public void Settings()
     {
+        //Open settings menu
         clickSound.Play();
         settingsMenu.SetActive(true);
         float volume = PlayerPrefs.GetFloat("volume");
@@ -235,11 +257,13 @@ public class QuizController : MonoBehaviour
     }
     public void SettingsOut()
     {
+        //Close settings menu
         closeSound.Play();
         settingsMenu.SetActive(false);
     }
     public void SetVolume(float vol)
     {
+        //Save volume slider value as volume
         PlayerPrefs.SetFloat("volume",vol);
     }
     #endregion
@@ -247,6 +271,7 @@ public class QuizController : MonoBehaviour
     #region ChallengeLogic
     IEnumerator GetChallenge()
     {
+        //Get challenge quiz if issuing challenge to another classmate
         string url = string.Format("http://127.0.0.1:5000/challenges/?from_student_id={0}&to_student_id={1}",PlayerPrefs.GetString("userID"),PlayerPrefs.GetString("challengeID"));
         using (UnityWebRequest webRequest = UnityWebRequest.Post(url,"null"))
         {
@@ -257,6 +282,7 @@ public class QuizController : MonoBehaviour
     }
     IEnumerator GetChallenged()
     {
+        //Get challenge quiz if challenge has been issued by another classmate
         string url = string.Format("http://127.0.0.1:5000/quizzes/questions?quiz_id={0}", PlayerPrefs.GetInt("challengeQuizID"));
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
@@ -281,6 +307,7 @@ public class QuizController : MonoBehaviour
     }
     private void UpdateChallenge()
     {
+        //Update lesson page for challenge quiz
         TMP_Text lessonTitle = GameObject.Find("LessonTitle").GetComponent<TMP_Text>();
         TMP_Text lessonContent = GameObject.Find("LessonContent").GetComponent<TMP_Text>();
         lessonTitle.text = "This is a challenge quiz!";
