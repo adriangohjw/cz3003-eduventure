@@ -15,9 +15,11 @@ Built with [React](https://facebook.github.io/react/), [Material-UI](https://mat
 ## Quick Start
 
 #### 1. Clone this repo and start up the database as per the instructions on the main README
+use ```python run_test.py``` to load up the sample database with pre-populated data.  
+use ```python run.py``` to run a blank database.
 
 #### 2. CD into the teacher-webapp folder and run `yarn install` from command prompt
-
+You only have to run this step the first time this repo is cloned or if any requirements have changed.  
 This will install both run-time project dependencies and developer tools listed
 in [package.json](package.json) file.
 
@@ -45,6 +47,7 @@ You can use this sample account (case-sensitive):
 Username: leeJohn@ntu.edu.sg  
 Password: password_1
 
+More user data can be found in the Google Drive or by contacting one of the contributers of this repo.
 ## References:
 React Material Admin — (Material-UI Dashboard Template): https://github.com/flatlogic/react-material-admin  
 Material UI Library: https://github.com/mui-org/material-ui  
