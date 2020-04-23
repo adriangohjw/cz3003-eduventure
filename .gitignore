@@ -136,3 +136,6 @@ node_modules/
 
 # migrations
 migrations/versions/
+
+# svn
+.svn
