@@ -1,0 +1,112 @@
+Microsoft Windows [Version 10.0.18363.778]
+(c) 2019 Microsoft Corporation. All rights reserved.
+
+C:\Users\adria\desktop\cz3003-eduventure>c:/Users/adria/desktop/cz3003-eduventure/venv/Scripts/activate.bat
+
+(venv) C:\Users\adria\desktop\cz3003-eduventure>c:/Users/adria/desktop/cz3003-eduventure/venv/Scripts/python.exe c:/Users/adria/desktop/cz3003-eduventure/services/quiz/operations/tests/tests.py
+
+
+test_questionChoices_operations.py: starting test...
+test_questionChoiceCreateOperation (services.quiz.operations.tests.test_questionChoices_operations.Test_questionChoices_operations) ... 
+--- check that error raised when record (question) does not exist
+--- check that when successful, result returned by function is of the correct type
+--- check that when successful, result returned by function is correct
+ok
+test_questionChoiceDeleteOperation (services.quiz.operations.tests.test_questionChoices_operations.Test_questionChoices_operations) ... 
+--- check that error raised when record does not exist
+--- check that record has been deleted (-1 number of record in database)
+ok
+test_questionChoiceReadOperation (services.quiz.operations.tests.test_questionChoices_operations.Test_questionChoices_operations) ... 
+--- check that error raised when record does not exist
+--- check that when successful, result returned by function is of the correct type
+--- check that when successful, result returned by function is correct
+ok
+test_questionChoiceUpdateOperation (services.quiz.operations.tests.test_questionChoices_operations.Test_questionChoices_operations) ...
+--- check that error raised when record does not exist
+--- check that when successful, result returned by function is correct
+ok
+
+
+test_questions_operations.py: starting test...
+test_questionCreateOperation (services.quiz.operations.tests.test_questions_operations.Test_questions_operations) ...
+--- check that error raised when record (topic) does not exist
+--- check that error raised when record (lesson) does not exist
+--- check that when successful, result returned by function is of the correct type
+--- check that when successful, result returned by function is correct
+ok
+test_questionDeleteOperation (services.quiz.operations.tests.test_questions_operations.Test_questions_operations) ...
+--- check that error raised when record does not exist
+--- check that record has been deleted (-1 number of record in database)
+ok
+test_questionGetAllReadOperation (services.quiz.operations.tests.test_questions_operations.Test_questions_operations) ... 
+--- check that when successful, result returned by function is correct
+ok
+test_questionReadOperation (services.quiz.operations.tests.test_questions_operations.Test_questions_operations) ...
+--- check that error raised when record does not exist
+--- check that when successful, result returned by function is of the correct type
+--- check that when successful, result returned by function is correct
+ok
+test_questionUpdateOperation (services.quiz.operations.tests.test_questions_operations.Test_questions_operations) ...
+--- check that error raised when record does not exist
+--- check that when successful, result returned by function is correct
+ok
+
+
+test_quizzes_operations.py: starting test...
+test_quizCreateOperation (services.quiz.operations.tests.test_quizzes_operations.Test_quizzes_operations) ...
+--- check that error raised when record (staff) does not exist
+--- check that when successful, result returned by function is of the correct type
+--- check that when successful, result returned by function is correct
+ok
+test_quizDeleteOperation (services.quiz.operations.tests.test_quizzes_operations.Test_quizzes_operations) ...
+--- check that error raised when record does not exist
+--- check that record has been deleted (-1 number of record in database)
+ok
+test_quizReadOperation (services.quiz.operations.tests.test_quizzes_operations.Test_quizzes_operations) ... 
+--- check that error raised when record does not exist
+--- check that when successful, result returned by function is of the correct type
+--- check that when successful, result returned by function is correct
+ok
+test_quizUpdateOperation (services.quiz.operations.tests.test_quizzes_operations.Test_quizzes_operations) ...
+--- check that error raised when record does not exist
+--- check that when successful, result returned by function is correct
+ok
+
+
+test_rs_quiz_course_assigns_operations.py: starting test...
+test_courseMngCreateOperation (services.quiz.operations.tests.test_rs_quiz_course_assigns_operations.Test_rs_quiz_course_assigns_operations) ...
+--- check that error raised when record (course) does not exist
+--- check that error raised when record (quiz) does not exist
+--- check that error raised when record already exist
+--- check that when successful, result returned by function is of the correct type
+--- check that when successful, result returned by function is correct
+ok
+test_courseMngReadOperation (services.quiz.operations.tests.test_rs_quiz_course_assigns_operations.Test_rs_quiz_course_assigns_operations) ...
+--- check that error raised when record does not exist
+--- check that when successful, result returned by function is of the correct type
+--- check that when successful, result returned by function is correct
+ok
+
+
+test_rs_quiz_question_contains_operations.py: starting test...
+test_questionMngCreateOperation (services.quiz.operations.tests.test_rs_quiz_question_contains_operations.Test_rs_quiz_question_contains_operations) ...
+--- check that error raised when record (question) does not exist
+--- check that error raised when record (quiz) does not exist
+--- check that error raised when record already exist
+--- check that when successful, result returned by function is of the correct type
+--- check that when successful, result returned by function is correct
+ok
+test_questionMngDeleteOperation (services.quiz.operations.tests.test_rs_quiz_question_contains_operations.Test_rs_quiz_question_contains_operations) ...
+--- check that error raised when record does not exist
+--- check that record has been deleted (-1 number of record in database)
+ok
+test_questionMngReadOperation (services.quiz.operations.tests.test_rs_quiz_question_contains_operations.Test_rs_quiz_question_contains_operations) ...
+--- check that error raised when record (quiz) does not exist
+--- check that when successful, result returned by function is of the correct type
+--- check that when successful, result returned by function is correct
+ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 15.064s
+
+OK

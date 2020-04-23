@@ -1,0 +1,90 @@
+Microsoft Windows [Version 10.0.18363.778]
+(c) 2019 Microsoft Corporation. All rights reserved.
+
+C:\Users\adria\desktop\cz3003-eduventure>c:/Users/adria/desktop/cz3003-eduventure/venv/Scripts/activate.bat
+
+(venv) C:\Users\adria\desktop\cz3003-eduventure>c:/Users/adria/desktop/cz3003-eduventure/venv/Scripts/python.exe c:/Users/adria/desktop/cz3003-eduventure/services/quiz/dao/tests/tests.py
+
+
+test_QuestionChoicesDAO.py: starting test...
+test_getLastQuestionChoiceID (services.quiz.dao.tests.test_QuestionChoicesDAO.Test_QuestionChoicesDAO) ... 
+--- check that function returns the right result (when number of record = 0)
+--- check that function returns the right result (when number of record = 2)
+ok
+test_questionChoiceCreate (services.quiz.dao.tests.test_QuestionChoicesDAO.Test_QuestionChoicesDAO) ... 
+--- check that the number of record added is correct
+--- check that the value(s) of the QuestionChoice object added is correct
+ok
+test_questionChoiceDelete (services.quiz.dao.tests.test_QuestionChoicesDAO.Test_QuestionChoicesDAO) ... 
+--- check that record has been deleted (-1 number of record in database)
+ok
+test_questionChoiceRead (services.quiz.dao.tests.test_QuestionChoicesDAO.Test_QuestionChoicesDAO) ... 
+--- check that the record retrieved is correct
+ok
+test_questionChoiceUpdate (services.quiz.dao.tests.test_QuestionChoicesDAO.Test_QuestionChoicesDAO) ... 
+--- check if value of QuestionChoice object has been updated
+ok
+
+
+test_QuestionsDAO.py: starting test...
+test_questionCreate (services.quiz.dao.tests.test_QuestionsDAO.Test_QuestionsDAO) ...
+--- check that the number of record added is correct
+--- check that the value(s) of the Question object added is correct
+ok
+test_questionDelete (services.quiz.dao.tests.test_QuestionsDAO.Test_QuestionsDAO) ...
+--- check that record has been deleted (-1 number of record in database)
+ok
+test_questionGetAllRead (services.quiz.dao.tests.test_QuestionsDAO.Test_QuestionsDAO) ... 
+--- check that function returns the right result (when number of record = 0)
+--- check that function returns the right result (when number of record = 3)
+ok
+test_questionRead (services.quiz.dao.tests.test_QuestionsDAO.Test_QuestionsDAO) ...
+--- check that the record retrieved is correct
+ok
+test_questionUpdate (services.quiz.dao.tests.test_QuestionsDAO.Test_QuestionsDAO) ... 
+--- check if value of Question object has been updated
+ok
+
+
+test_RsQuizCourseAssignDAO.py: starting test...
+test_rsQuizCourseAssignCreate (services.quiz.dao.tests.test_RsQuizCourseAssignDAO.Test_RsQuizCourseAssignDAO) ...
+--- check that the number of record added is correct
+--- check that the value(s) of the relationship object added is correct
+ok
+test_rsQuizCourseAssignRead (services.quiz.dao.tests.test_RsQuizCourseAssignDAO.Test_RsQuizCourseAssignDAO) ...
+--- check that the record retrieved is correct
+ok
+
+
+test_RsQuizQuestionContainDAO.py: starting test...
+test_rsQuizQuestionContainCreate (services.quiz.dao.tests.test_RsQuizQuestionContainDAO.Test_RsQuizQuestionContainDAO) ...
+--- check that the number of record added is correct
+--- check that the value(s) of the relationship object added is correct
+ok
+test_rsQuizQuestionContainDelete (services.quiz.dao.tests.test_RsQuizQuestionContainDAO.Test_RsQuizQuestionContainDAO) ...
+--- check that function returns the right result (when number of record = 1)
+ok
+test_rsQuizQuestionContainRead (services.quiz.dao.tests.test_RsQuizQuestionContainDAO.Test_RsQuizQuestionContainDAO) ...
+--- check that the record retrieved is correct
+ok
+
+
+test_QuizzesDao.py: starting test...
+test_quizCreate (services.quiz.dao.tests.test_QuizzesDao.Test_quizzes_dao) ...
+--- check that the number of record added is correct
+--- check that the value(s) of the Quiz object added is correct
+ok
+test_quizDelete (services.quiz.dao.tests.test_QuizzesDao.Test_quizzes_dao) ...
+--- check that record has been deleted (-1 number of record in database)
+ok
+test_quizRead (services.quiz.dao.tests.test_QuizzesDao.Test_quizzes_dao) ...
+--- check that the record retrieved is correct
+ok
+test_quizUpdate (services.quiz.dao.tests.test_QuizzesDao.Test_quizzes_dao) ...
+--- check if value of Quiz object has been updated
+ok
+
+----------------------------------------------------------------------
+Ran 19 tests in 13.444s
+
+OK

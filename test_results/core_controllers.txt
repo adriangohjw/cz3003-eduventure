@@ -1,0 +1,311 @@
+Microsoft Windows [Version 10.0.18363.778]
+(c) 2019 Microsoft Corporation. All rights reserved.
+
+C:\Users\adria\desktop\cz3003-eduventure>c:/Users/adria/desktop/cz3003-eduventure/venv/Scripts/activate.bat
+
+(venv) C:\Users\adria\desktop\cz3003-eduventure>c:/Users/adria/desktop/cz3003-eduventure/venv/Scripts/python.exe c:/Users/adria/desktop/cz3003-eduventure/services/core/controllers/tests/tests.py
+
+
+test_ChallengesController.py: starting test...
+test_challengeAPI_GET (services.core.controllers.tests.test_ChallengesController.Test_challengesController) ... 
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (record not found)
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+test_challengeAPI_POST (services.core.controllers.tests.test_ChallengesController.Test_challengesController) ... 
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (both students have less than 3 common question attempts)
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+test_challengeAPI_PUT (services.core.controllers.tests.test_ChallengesController.Test_challengesController) ...
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (record already exist)
+--- successful (no winner yet), check if status code is correct
+--- successful (no winner yet), check if JSON returned is correct
+--- successful (winner decided), check if status code is correct
+--- successful (winner decided), check if JSON returned is correct
+ok
+
+
+test_CoursesController.py: starting test...
+test_CourseClasslistAPI_GET (services.core.controllers.tests.test_CoursesController.Test_coursesController) ...
+--- check if status code is correct (record not found)
+--- successful (students found in class), check if status code is correct
+--- successful (students found in class), check if JSON returned is correct
+--- successful (students not found in class), check if status code is correct
+--- successful (students not found in class), check if JSON returned is correct
+ok
+test_courseAPI_GET (services.core.controllers.tests.test_CoursesController.Test_coursesController) ...
+--- check if status code is correct (record not found)
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+test_courseAPI_POST (services.core.controllers.tests.test_CoursesController.Test_coursesController) ...
+--- check if status code is correct (record already exist)
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+
+
+test_LessonsController.py: starting test...
+test_LessonAPI_DELETE (services.core.controllers.tests.test_LessonsController.Test_lessonsController) ...
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (record not found)
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+test_LessonAPI_GET (services.core.controllers.tests.test_LessonsController.Test_lessonsController) ...
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (record not found)
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+test_LessonAPI_POST (services.core.controllers.tests.test_LessonsController.Test_lessonsController) ...
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (record already exist)
+--- successful (1), check if status code is correct
+--- successful (1), check if JSON returned is correct
+--- successful (2), check if status code is correct
+--- successful (2), check if JSON returned is correct
+ok
+test_LessonAPI_PUT (services.core.controllers.tests.test_LessonsController.Test_lessonsController) ...
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (record not found)
+--- successful (1), check if status code is correct
+--- successful (1), check if JSON returned is correct
+--- successful (2), check if status code is correct
+--- successful (2), check if JSON returned is correct
+--- successful (3), check if status code is correct
+--- successful (3), check if JSON returned is correct
+ok
+test_LessonListAPI_GET (services.core.controllers.tests.test_LessonsController.Test_lessonsController) ...
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+test_lesson_QuizManagerAPI_DELETE (services.core.controllers.tests.test_LessonsController.Test_lessonsController) ...
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (record not found)
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+test_lesson_QuizManagerAPI_GET (services.core.controllers.tests.test_LessonsController.Test_lessonsController) ...
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (dependency record not found)
+--- check if status code is correct (record not found)
+--- successful, check if JSON returned is correct
+ok
+test_lesson_QuizManagerAPI_POST (services.core.controllers.tests.test_LessonsController.Test_lessonsController) ...
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (dependency record not found)
+--- check if status code is correct (record already exist)
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+
+
+test_ProgressesController.py: starting test...
+test_ProgressAPI_GET (services.core.controllers.tests.test_ProgressesController.Test_progressesController) ...
+--- check if status code is correct (invalid params input)
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+
+
+test_QuestionAttemptsController.py: starting test...
+test_QuestionAttemptAPI_POST (services.core.controllers.tests.test_QuestionAttemptsController.Test_questionAttemptsController) ...
+--- check if status code is correct (invalid params input)
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+test_QuestionAttemptListAPI_GET (services.core.controllers.tests.test_QuestionAttemptsController.Test_questionAttemptsController) ...
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (record not found)
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+
+
+test_QuizAttemptsController.py: starting test...
+test_QuizAttemptAPI_POST (services.core.controllers.tests.test_QuizAttemptsController.Test_quizAttemptsController) ...
+--- check if status code is correct (invalid params input)
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+test_QuizAttemptListAPI_GET (services.core.controllers.tests.test_QuizAttemptsController.Test_quizAttemptsController) ...
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (record not found)
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+
+
+test_StaffsController.py: starting test...
+test_StaffAPI_GET (services.core.controllers.tests.test_StaffsController.Test_staffsController) ...
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (record not found)
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+test_StaffAPI_POST (services.core.controllers.tests.test_StaffsController.Test_staffsController) ...
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (record already exist)
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+test_staff_CourseManagerAPI_GET (services.core.controllers.tests.test_StaffsController.Test_staffsController) ...
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (record not found)
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+test_staff_CourseManagerAPI_POST (services.core.controllers.tests.test_StaffsController.Test_staffsController) ...
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (dependency record not found)
+--- check if status code is correct (record already exist)
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+
+
+test_StatisticsController.py: starting test...
+test_Activity_API_GET (services.core.controllers.tests.test_StatisticsController.Test_statisticsController) ...
+--- successful (no record found) check if status code is correct
+--- successful (no record found) check if JSON returned is correct
+--- successful (record found - 1) check if status code is correct
+--- successful (record found - 1) check if JSON returned is correct
+--- successful (record found - 2) check if status code is correct
+--- successful (record found - 2) check if JSON returned is correct
+ok
+test_CourseScore_API_GET (services.core.controllers.tests.test_StatisticsController.Test_statisticsController) ...
+--- successful (no params passed in) check if status code is correct
+--- successful (no params passed in) check if JSON returned is correct
+--- successful (params passed in, but no course found) check if status code is correct
+--- successful (params passed in, but no course found) check if JSON returned is correct
+--- successful (params passed in and course found) check if status code is correct
+--- successful (params passed in and course found) check if JSON returned is correct
+ok
+test_LeaderBoard_API_GET (services.core.controllers.tests.test_StatisticsController.Test_statisticsController) ...
+--- successful (no params passed in) check if status code is correct
+--- successful (no params passed in) check if JSON returned is correct
+--- successful (params passed in, but no student found) check if status code is correct
+--- successful (params passed in, but no student found) check if JSON returned is correct
+--- successful (params passed in and student found - 1) check if status code is correct
+--- successful (params passed in and student found - 1) check if JSON returned is correct
+--- successful (params passed in and student found - 2) check if status code is correct
+--- successful (params passed in and student found - 2) heck if JSON returned is correct
+ok
+test_Lesson_Completion_API_GET (services.core.controllers.tests.test_StatisticsController.Test_statisticsController) ...
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+test_Stats_API_GET (services.core.controllers.tests.test_StatisticsController.Test_statisticsController) ...
+---  successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+test_StudentScore_API_GET (services.core.controllers.tests.test_StatisticsController.Test_statisticsController) ...
+--- successful (no params passed in) check if status code is correct
+--- successful (no params passed in) check if JSON returned is correct
+--- successful (params passed in, but no student found) check if status code is correct
+--- successful (params passed in, but no student found) check if JSON returned is correct
+--- successful (params passed in and student found - 1) check if status code is correct
+--- successful (params passed in and student found - 1) check if JSON returned is correct
+--- successful (params passed in and student found - 2) check if status code is correct
+--- successful (params passed in and student found - 2) heck if JSON returned is correct
+ok
+
+
+test_StudentsController.py: starting test...
+test_StudentAPI_GET (services.core.controllers.tests.test_StudentsController.Test_studentsController) ...
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (record not found)
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+test_StudentAPI_POST (services.core.controllers.tests.test_StudentsController.Test_studentsController) ...
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (record already exist)
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+test_student_CourseManagerAPI_GET (services.core.controllers.tests.test_StudentsController.Test_studentsController) ...
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (record not found)
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+test_student_CourseManagerAPI_POST (services.core.controllers.tests.test_StudentsController.Test_studentsController) ...
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (dependency record not found)
+--- check if status code is correct (record already exist)
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+
+
+test_TopicsController.py: starting test...
+test_TopicAPI_DELETE (services.core.controllers.tests.test_TopicsController.Test_topicsController) ...
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (record not found)
+--- check if status code is correct (record is a dependency)
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+test_TopicAPI_GET (services.core.controllers.tests.test_TopicsController.Test_topicsController) ...
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (record not found)
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+test_TopicAPI_POST (services.core.controllers.tests.test_TopicsController.Test_topicsController) ...
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (record already exist)
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+test_TopicAPI_PUT (services.core.controllers.tests.test_TopicsController.Test_topicsController) ...
+--- check if status code is correct (invalid params input - empty id)
+--- check if status code is correct (invalid params input - empty name)
+--- check if status code is correct (record not found)
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+test_TopicListAPI_GET (services.core.controllers.tests.test_TopicsController.Test_topicsController) ...
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+
+
+test_UsersController.py: starting test...
+test_AuthenticationAPI_GET (services.core.controllers.tests.test_UsersController.Test_usersController) ...
+--- check if status code is correct (provided incorrect password)
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (record not found)
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+test_UserAPI_GET (services.core.controllers.tests.test_UsersController.Test_usersController) ...
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (record not found)
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+test_UserAPI_POST (services.core.controllers.tests.test_UsersController.Test_usersController) ...
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (record already exist)
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+test_UserAPI_PUT (services.core.controllers.tests.test_UsersController.Test_usersController) ...
+--- check if status code is correct (provided incorrect password)
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (record not found)
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+
+----------------------------------------------------------------------
+Ran 42 tests in 82.496s
+
+OK

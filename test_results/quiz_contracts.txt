@@ -1,0 +1,156 @@
+Microsoft Windows [Version 10.0.18363.778]
+(c) 2019 Microsoft Corporation. All rights reserved.
+
+C:\Users\adria\desktop\cz3003-eduventure>c:/Users/adria/desktop/cz3003-eduventure/venv/Scripts/activate.bat
+
+(venv) C:\Users\adria\desktop\cz3003-eduventure>c:/Users/adria/desktop/cz3003-eduventure/venv/Scripts/python.exe c:/Users/adria/desktop/cz3003-eduventure/services/quiz/contracts/tests/tests.py
+
+
+test_questionChoices_contracts.py: starting test...
+test_questionChoiceCreateContract (services.quiz.contracts.tests.test_questionChoices_contracts.Test_questionChoices_contracts) ... 
+--- test acceptable request
+--- test request with unacceptable params value (no value for 'is_correct')
+ok
+test_questionChoiceDeleteContract (services.quiz.contracts.tests.test_questionChoices_contracts.Test_questionChoices_contracts) ... 
+--- test acceptable request
+--- test request with unacceptable params value (no value for 'questionChoice_id')
+ok
+test_questionChoiceReadContract (services.quiz.contracts.tests.test_questionChoices_contracts.Test_questionChoices_contracts) ... 
+--- test acceptable request
+--- test request with unacceptable params value (no value for 'questionChoice_id')
+ok
+test_questionChoiceUpdateContract (services.quiz.contracts.tests.test_questionChoices_contracts.Test_questionChoices_contracts) ...
+--- test acceptable request
+--- test request with missing params ('is_correct')
+--- test request with unacceptable params value (empty string for 'description')
+ok
+test_validate_description (services.quiz.contracts.tests.test_questionChoices_contracts.Test_questionChoices_contracts) ...
+--- test if arg is None type
+--- test if arg is empty string
+ok
+test_validate_is_correct (services.quiz.contracts.tests.test_questionChoices_contracts.Test_questionChoices_contracts) ...
+--- test if arg is None type
+--- test if arg is string type
+--- test if arg is float type
+--- test if arg is float type
+ok
+test_validate_questionChoice_id (services.quiz.contracts.tests.test_questionChoices_contracts.Test_questionChoices_contracts) ...
+--- test if arg is None type
+--- test if arg is string type
+--- test if arg is float type
+--- test if arg is boolean type
+ok
+
+
+test_questions_contracts.py: starting test...
+test_questionCreateContract (services.quiz.contracts.tests.test_questions_contracts.Test_questions_contracts) ...
+--- test acceptable request
+--- test request with unacceptable params value (empty string for 'description')
+ok
+test_questionDeleteContract (services.quiz.contracts.tests.test_questions_contracts.Test_questions_contracts) ...
+--- test acceptable request
+--- test request with unacceptable params value (no value for 'id')
+ok
+test_questionReadContract (services.quiz.contracts.tests.test_questions_contracts.Test_questions_contracts) ... 
+--- test acceptable request
+--- test request with unacceptable params value (no value for 'id')
+ok
+test_questionUpdateContract (services.quiz.contracts.tests.test_questions_contracts.Test_questions_contracts) ... 
+--- test acceptable request
+--- test request with unacceptable params value (empty string for 'description')
+ok
+test_validate_description (services.quiz.contracts.tests.test_questions_contracts.Test_questions_contracts) ...
+--- test if arg is None type
+--- test if arg is empty string
+ok
+test_validate_id (services.quiz.contracts.tests.test_questions_contracts.Test_questions_contracts) ...
+--- test if arg is None type
+--- test if arg is string type
+--- test if arg is float type
+--- test if arg is boolean type
+ok
+
+
+test_quizzes_contracts.py: starting test...
+test_quizCreateContract (services.quiz.contracts.tests.test_quizzes_contracts.Test_quizzes_contracts) ...
+--- test acceptable request
+--- test request with unacceptable params value (wrong format for 'date_end')
+--- test request with unacceptable params value (no value for 'date_end')
+ok
+test_quizDeleteContract (services.quiz.contracts.tests.test_quizzes_contracts.Test_quizzes_contracts) ...
+--- test acceptable request
+--- test request with unacceptable params value (no value for 'id')
+ok
+test_quizReadContract (services.quiz.contracts.tests.test_quizzes_contracts.Test_quizzes_contracts) ...
+--- test acceptable request
+--- test request with unacceptable params value (no value for 'id')
+ok
+test_quizUpdateContract (services.quiz.contracts.tests.test_quizzes_contracts.Test_quizzes_contracts) ...
+--- test acceptable request
+--- test request with missing params
+--- test request with unacceptable params value (no value for 'name')
+--- test request with unacceptable params value (no value for 'date_end')
+ok
+test_validate_date_end (services.quiz.contracts.tests.test_quizzes_contracts.Test_quizzes_contracts) ... 
+--- test if arg is None type
+--- test if arg is empty string
+--- test if arg is in the wrong format
+ok
+test_validate_date_start (services.quiz.contracts.tests.test_quizzes_contracts.Test_quizzes_contracts) ...
+--- test if arg is None type
+--- test if arg is empty string
+--- test if arg is in the wrong format
+ok
+test_validate_id (services.quiz.contracts.tests.test_quizzes_contracts.Test_quizzes_contracts) ...
+--- test if arg is None type
+--- test if arg is string type
+--- test if arg is float type
+--- test if arg is boolean type
+ok
+test_validate_is_fast (services.quiz.contracts.tests.test_quizzes_contracts.Test_quizzes_contracts) ...
+--- test if arg is None type
+--- test if arg is string type
+--- test if arg is float type
+--- test if arg is float type
+ok
+test_validate_name (services.quiz.contracts.tests.test_quizzes_contracts.Test_quizzes_contracts) ...
+--- test if arg is None type
+--- test if arg is empty string
+ok
+test_validate_staff_id (services.quiz.contracts.tests.test_quizzes_contracts.Test_quizzes_contracts) ...
+--- test if arg is None type
+--- test if arg is string type
+--- test if arg is float type
+--- test if arg is boolean type
+ok
+
+
+test_rs_quiz_course_assigns_contracts.py: starting test...
+test_courseMngCreateContract (services.quiz.contracts.tests.test_rs_quiz_course_assigns_contracts.Test_rs_quiz_course_assigns_contracts) ...
+--- test acceptable request
+--- test request with unacceptable params value (no value for 'course_index')
+ok
+test_courseMngReadContract (services.quiz.contracts.tests.test_rs_quiz_course_assigns_contracts.Test_rs_quiz_course_assigns_contracts) ...
+--- test acceptable request
+--- test request with unacceptable params value (no value for 'quiz_id')
+ok
+
+
+test_rs_quiz_question_contains_contracts.py: starting test...
+test_questionMngCreateContract (services.quiz.contracts.tests.test_rs_quiz_question_contains_contracts.Test_rs_quiz_question_contains_contracts) ...
+--- test acceptable request
+--- test request with unacceptable params value (no value for 'question_id')
+ok
+test_questionMngDeleteContract (services.quiz.contracts.tests.test_rs_quiz_question_contains_contracts.Test_rs_quiz_question_contains_contracts) ...
+--- test acceptable request
+--- test request with unacceptable params value (no value for 'question_id')
+ok
+test_questionMngReadContract (services.quiz.contracts.tests.test_rs_quiz_question_contains_contracts.Test_rs_quiz_question_contains_contracts) ...
+--- test acceptable request
+--- test request with unacceptable params value (no value for 'quiz_id')
+ok
+
+----------------------------------------------------------------------
+Ran 28 tests in 0.353s
+
+OK

@@ -1,0 +1,254 @@
+Microsoft Windows [Version 10.0.18363.778]
+(c) 2019 Microsoft Corporation. All rights reserved.
+
+C:\Users\adria\desktop\cz3003-eduventure>c:/Users/adria/desktop/cz3003-eduventure/venv/Scripts/activate.bat
+
+(venv) C:\Users\adria\desktop\cz3003-eduventure>c:/Users/adria/desktop/cz3003-eduventure/venv/Scripts/python.exe c:/Users/adria/desktop/cz3003-eduventure/services/core/operations/tests/tests.py
+
+
+test_challenges_operations.py: starting test...
+test_challengeCreateOperation (services.core.operations.tests.test_challenges_operations.Test_challenges_operations) ... 
+--- check that error raised when record (to_student_id) does not exist
+--- check that error raised when record (from_student_id) does not exist
+--- check that error raised when common question attempted by 2 students are less than 3
+--- check that when successful, result returned by function is of the correct type
+--- check that when successful, result returned by function is correct
+ok
+test_challengeReadOperation (services.core.operations.tests.test_challenges_operations.Test_challenges_operations) ... 
+--- check that when successful, result returned by function is of the correct type (1)
+--- check that when successful, result returned by function is of the correct type (2)
+--- check that when successful, result returned by function is of the correct type (3)
+ok
+test_challengeUpdateCompletedOperation (services.core.operations.tests.test_challenges_operations.Test_challenges_operations) ...
+--- check that error raised when record does not exist
+--- check that when successful, result returned by function is of the correct type
+ok
+
+
+test_courses_operations.py: starting test...
+test_courseCreateOperation (services.core.operations.tests.test_courses_operations.Test_courses_operations) ...
+--- check that error raised when record already exist
+--- check that when successful, result returned by function is of the correct type
+--- check that when successful, result returned by function is correct
+ok
+test_courseReadOperation (services.core.operations.tests.test_courses_operations.Test_courses_operations) ...
+--- check that error raised when record does not exist
+--- check that when successful, result returned by function is of the correct type
+--- check that when successful, result returned by function is correct
+ok
+
+
+test_lessons_operations.py: starting test...
+test_lessonCreateOperation (services.core.operations.tests.test_lessons_operations.Test_lessons_operations) ...
+--- check that error raised when record already exist
+--- check that when successful, result returned by function is of the correct type
+--- check that when successful, result returned by function is correct
+ok
+test_lessonDeleteOperation (services.core.operations.tests.test_lessons_operations.Test_lessons_operations) ...
+--- check that error raised when record does not exist
+--- check that record has been deleted (-1 number of record in database)
+ok
+test_lessonListReadOperation (services.core.operations.tests.test_lessons_operations.Test_lessons_operations) ...
+--- check that function returns the correct number of record (= 1)
+--- check that function returns the right result (when number of record = 1)
+ok
+test_lessonReadOperation (services.core.operations.tests.test_lessons_operations.Test_lessons_operations) ... 
+--- check that error raised when record does not exist
+--- check that when successful, result returned by function is of the correct type
+--- check that when successful, result returned by function is correct
+ok
+test_lessonUpdateOperation (services.core.operations.tests.test_lessons_operations.Test_lessons_operations) ...
+--- check that error raised when record does not exist
+--- check that when successful, result returned by function is of the correct type
+--- check that when successful, result returned by function is correct
+ok
+
+
+test_progresses_operations.py: starting test...
+test_progressReadOperation (services.core.operations.tests.test_progresses_operations.Test_progresses_operations) ...
+--- check that when successful, result returned by function is correct
+ok
+
+
+test_questionAttempts_operations.py: starting test...
+test_questionAttemptCreateOperation (services.core.operations.tests.test_questionAttempts_operations.Test_questionAttempts_operations) ...
+--- check that error raised when record (student) does not exist
+--- check that error raised when record (question) does not exist
+--- check that when successful, result returned by function is of the correct type
+--- check that when successful, result returned by function is correct
+ok
+test_questionAttemptListReadOperation (services.core.operations.tests.test_questionAttempts_operations.Test_questionAttempts_operations) ... 
+--- check that error raised when record (student) does not exist
+--- check that error raised when record (question) does not exist
+--- check that when successful, number of records returned by function is correct
+--- check that when successful, result returned by function is correct
+ok
+
+
+test_quizAttempts_operations.py: starting test...
+test_quizAttemptCreateOperation (services.core.operations.tests.test_quizAttempts_operations.Test_quizAttempts_operations) ...
+--- check that error raised when record (student) does not exist
+--- check that error raised when record (quiz) does not exist
+--- check that when successful, result returned by function is of the correct type
+--- check that when successful, result returned by function is correct
+ok
+test_quizAttemptListReadOperation (services.core.operations.tests.test_quizAttempts_operations.Test_quizAttempts_operations) ... 
+--- check that error raised when record (student) does not exist
+--- check that error raised when record (quiz) does not exist
+--- check that when successful, number of records returned by function is correct
+--- check that when successful, result returned by function is correct
+ok
+
+
+test_rs_lesson_quiz_contains_operations.py: starting test...
+test_quizMngCreateOperation (services.core.operations.tests.test_rs_lesson_quiz_contains_operations.Test_rs_lesson_quiz_contains_operations) ...
+--- check that when successful, number of records returned by function is correct
+ok
+test_quizMngDeleteOperation (services.core.operations.tests.test_rs_lesson_quiz_contains_operations.Test_rs_lesson_quiz_contains_operations) ... 
+--- check that error raised when record does not exist
+--- check that record has been deleted (-1 number of record in database)
+ok
+test_quizMngReadOperation (services.core.operations.tests.test_rs_lesson_quiz_contains_operations.Test_rs_lesson_quiz_contains_operations) ... 
+--- check that error raised when record does not exist
+--- check that error raised when record (lesson_id) does not exist
+--- check that error raised when record (topic_id) does not exist
+--- check that when successful, number of records returned by function is correct
+ok
+
+
+test_rs_staff_course_teaches_operations.py: starting test...
+test_courseMngCreateOperation (services.core.operations.tests.test_rs_staff_course_teaches_operations.Test_rs_staff_course_teaches_operations) ...
+--- check that error raised when record (staff) does not exist
+--- check that error raised when record (course) does not exist
+--- check that error raised when record already exist
+--- check that when successful, result returned by function is of the correct type
+ok
+test_courseMngReadOperation (services.core.operations.tests.test_rs_staff_course_teaches_operations.Test_rs_staff_course_teaches_operations) ...
+--- check that error raised when record does not exist
+--- check that when successful, result returned by function is of the correct type
+--- check that when successful, result returned by function is correct
+ok
+
+
+test_rs_student_course_enrols_operations.py: starting test...
+test_courseClasslistReadOperation (services.core.operations.tests.test_rs_student_course_enrols_operations.Test_rs_student_course_enrols_operations) ...
+--- check that error raised when record does not exist
+--- check that when successful, number of records returned by function is correct
+--- check that when successful, result returned by function is correct
+ok
+test_courseMngCreateOperation (services.core.operations.tests.test_rs_student_course_enrols_operations.Test_rs_student_course_enrols_operations) ...
+--- check that error raised when record (student) does not exist
+--- check that error raised when record (course) does not exist
+--- check that error raised when record already exist
+--- check that when successful, result returned by function is of the correct type
+ok
+test_courseMngReadOperation (services.core.operations.tests.test_rs_student_course_enrols_operations.Test_rs_student_course_enrols_operations) ...
+--- check that error raised when record does not exist
+--- check that when successful, result returned by function is of the correct type
+--- check that when successful, result returned by function is correct
+ok
+
+
+test_staffs_operations.py: starting test...
+test_staffCreateOperation (services.core.operations.tests.test_staffs_operations.Test_staffs_operations) ...
+--- check that error raised when record already exist
+--- check that when successful, result returned by function is of the correct type
+--- check that when successful, result returned by function is correct
+ok
+test_staffReadOperation (services.core.operations.tests.test_staffs_operations.Test_staffs_operations) ... 
+--- check that error raised when record does not exist
+--- check that when successful, result returned by function is of the correct type
+--- check that when successful, result returned by function is correct
+ok
+
+
+test_statistics_operations.py: starting test...
+test_activityReadOperation (services.core.operations.tests.test_statistics_operations.Test_statistics_operations) ...
+--- check that when successful, result returned by function is correct (1)
+--- check that when successful, result returned by function is correct (2)
+ok
+test_courseScoreReadOperation (services.core.operations.tests.test_statistics_operations.Test_statistics_operations) ...
+--- check that when successful, result returned by function is correct (1)
+--- check that when successful, result returned by function is correct (2)
+--- check that when successful, result returned by function is correct (3)
+ok
+test_leaderboardReadOperation (services.core.operations.tests.test_statistics_operations.Test_statistics_operations) ... 
+--- check that when successful, result returned by function is correct (1)
+--- check that when successful, result returned by function is correct (2)
+ok
+test_lessonCompletedReadOperation (services.core.operations.tests.test_statistics_operations.Test_statistics_operations) ...
+--- check that when successful, result returned by function is correct
+ok
+test_statReadOperation (services.core.operations.tests.test_statistics_operations.Test_statistics_operations) ... 
+--- check that when successful, result returned by function is correct
+ok
+test_studentScoreReadOperation (services.core.operations.tests.test_statistics_operations.Test_statistics_operations) ... 
+--- check that when successful, result returned by function is correct (1)
+--- check that when successful, result returned by function is correct (2)
+ok
+
+
+test_student_operations.py: starting test...
+test_studentCreateOperation (services.core.operations.tests.test_student_operations.Test_students_operations) ...
+--- check that error raised when record already exist
+--- check that when successful, result returned by function is of the correct type (name is None)
+--- check that when successful, result returned by function is of the correct type (name is not None)
+ok
+test_studentReadOperation (services.core.operations.tests.test_student_operations.Test_students_operations) ... 
+--- check that error raised when record does not exist
+--- check that when successful, result returned by function is of the correct type
+ok
+
+
+test_topics_operations.py: starting test...
+test_topicCreateOperation (services.core.operations.tests.test_topics_operations.Test_topics_operations) ...
+--- check that error raised when record already exist
+--- check that when successful, result returned by function is of the correct type
+ok
+test_topicDeleteOperation (services.core.operations.tests.test_topics_operations.Test_topics_operations) ... 
+--- check that error raised when unable to delete record due to dependencies
+--- check that record has been deleted (-1 number of record in database)
+ok
+test_topicReadOperation (services.core.operations.tests.test_topics_operations.Test_topics_operations) ... 
+--- check that error raised when record does not exist
+--- check that when successful, result returned by function is of the correct type
+ok
+test_topicUpdateOperation (services.core.operations.tests.test_topics_operations.Test_topics_operations) ...
+--- check that error raised when record does not exist
+--- check that when successful, result returned by function is correct
+ok
+test_topiclistReadOperation (services.core.operations.tests.test_topics_operations.Test_topics_operations) ...
+--- check that function returns the correct number of record (= 1)
+--- check that function returns the right result (when number of record = 1)
+ok
+
+
+test_users_operations.py: starting test...
+test_authOperation (services.core.operations.tests.test_users_operations.Test_users_operations) ...
+--- check that error raised when record does not exist
+--- check that when successful, result returned by function is of the correct type
+--- check that when successful, result returned by function is correct
+ok
+test_encryption (services.core.operations.tests.test_users_operations.Test_users_operations) ... 
+--- check that authenticate function works, with encrypted string
+ok
+test_userCreateOperation (services.core.operations.tests.test_users_operations.Test_users_operations) ...
+--- check that error raised when record already exist
+--- check that when successful, result returned by function is of the correct type
+--- check that when successful, result returned by function is correct
+ok
+test_userReadOperation (services.core.operations.tests.test_users_operations.Test_users_operations) ...
+--- check that error raised when record does not exist
+--- check that when successful, result returned by function is of the correct type
+--- check that when successful, result returned by function is correct
+ok
+test_userUpdateOperation (services.core.operations.tests.test_users_operations.Test_users_operations) ...
+--- check that error raised when record does not exist
+--- check that error raised when old_password is wrong
+--- check that when successful, result returned by function is of the correct type
+ok
+
+----------------------------------------------------------------------
+Ran 43 tests in 43.628s
+
+OK

@@ -1,0 +1,137 @@
+Microsoft Windows [Version 10.0.18363.778]
+(c) 2019 Microsoft Corporation. All rights reserved.
+
+C:\Users\adria\desktop\cz3003-eduventure>c:/Users/adria/desktop/cz3003-eduventure/venv/Scripts/activate.bat
+
+(venv) C:\Users\adria\desktop\cz3003-eduventure>c:/Users/adria/desktop/cz3003-eduventure/venv/Scripts/python.exe c:/Users/adria/desktop/cz3003-eduventure/services/quiz/controllers/tests/tests.py
+
+
+test_QuestionChoicesController.py: starting test...
+test_QuestionChoiceAPI_DELETE (services.quiz.controllers.tests.test_QuestionChoicesController.Test_questionChoicesController) ... 
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (record not found)
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+test_QuestionChoiceAPI_GET (services.quiz.controllers.tests.test_QuestionChoicesController.Test_questionChoicesController) ... 
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (record not found)
+--- successful, check if status code is correct       
+--- successful, check if JSON returned is correct
+ok
+test_QuestionChoiceAPI_POST (services.quiz.controllers.tests.test_QuestionChoicesController.Test_questionChoicesController) ...
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (record not found)
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+test_QuestionChoiceAPI_PUT (services.quiz.controllers.tests.test_QuestionChoicesController.Test_questionChoicesController) ...
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (record not found)
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+
+
+test_QuestionsController.py: starting test...
+test_QuestionAPI_GET (services.quiz.controllers.tests.test_QuestionsController.Test_questionsController) ...
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (record not found)
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+test_QuestionAPI_POST (services.quiz.controllers.tests.test_QuestionsController.Test_questionsController) ...
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (record not found)
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+test_QuestionAPI_PUT (services.quiz.controllers.tests.test_QuestionsController.Test_questionsController) ...
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (record not found)
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+test_QuestionGetAllAPI_GET (services.quiz.controllers.tests.test_QuestionsController.Test_questionsController) ...
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+test_QuizAPI_DELETE (services.quiz.controllers.tests.test_QuestionsController.Test_questionsController) ...
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (record not found)
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+
+
+test_QuizzesController.py: starting test...
+test_QuizAPI_DELETE (services.quiz.controllers.tests.test_QuizzesController.Test_quizzesController) ...
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (record not found)
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+test_QuizAPI_GET (services.quiz.controllers.tests.test_QuizzesController.Test_quizzesController) ...
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (record not found)
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+test_QuizAPI_POST (services.quiz.controllers.tests.test_QuizzesController.Test_quizzesController) ...
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (invalid params input - date_start after date_end)
+--- check if status code is correct (dependency record not found)
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+test_QuizAPI_PUT (services.quiz.controllers.tests.test_QuizzesController.Test_quizzesController) ...
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (record not found)
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+test_QuizOverallAPI_GET (services.quiz.controllers.tests.test_QuizzesController.Test_quizzesController) ...
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (record not found)
+--- successful (2), check if status code is correct
+--- successful (1), check if JSON returned is correct
+--- successful (2), check if status code is correct
+--- successful (2), check if JSON returned is correct
+ok
+test_Quiz_CourseManagerAPI_GET (services.quiz.controllers.tests.test_QuizzesController.Test_quizzesController) ...
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (record not found)
+--- successful (1), check if status code is correct
+--- successful (1), check if JSON returned is correct
+--- successful (2), check if status code is correct
+--- successful (2), check if JSON returned is correct
+ok
+test_Quiz_CourseManagerAPI_POST (services.quiz.controllers.tests.test_QuizzesController.Test_quizzesController) ... 
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (dependency record not found)
+--- successful (2), check if status code is correct
+ok
+test_Quiz_QuestionManagerAPI_DELETE (services.quiz.controllers.tests.test_QuizzesController.Test_quizzesController) ...
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (record not found)
+--- successful, check if status code is correct
+ok
+test_Quiz_QuestionManagerAPI_GET (services.quiz.controllers.tests.test_QuizzesController.Test_quizzesController) ...
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (record not found)
+--- successful (1), check if status code is correct
+--- successful (1), check if JSON returned is correct
+--- successful (2), check if status code is correct
+--- successful (2), check if JSON returned is correct
+ok
+test_Quiz_QuestionManagerAPI_POST (services.quiz.controllers.tests.test_QuizzesController.Test_quizzesController) ...
+--- check if status code is correct (invalid params input)
+--- check if status code is correct (dependency record not found)
+--- successful, check if status code is correct
+--- successful, check if JSON returned is correct
+ok
+
+----------------------------------------------------------------------
+Ran 19 tests in 35.789s
+
+OK

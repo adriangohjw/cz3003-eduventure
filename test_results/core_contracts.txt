@@ -1,0 +1,360 @@
+Microsoft Windows [Version 10.0.18363.778]
+(c) 2019 Microsoft Corporation. All rights reserved.
+
+C:\Users\adria\desktop\cz3003-eduventure>c:/Users/adria/desktop/cz3003-eduventure/venv/Scripts/activate.bat
+
+(venv) C:\Users\adria\desktop\cz3003-eduventure>c:/Users/adria/desktop/cz3003-eduventure/venv/Scripts/python.exe c:/Users/adria/desktop/cz3003-eduventure/services/core/contracts/tests/tests.py
+
+
+test_challenges_contracts.py: starting test...
+test_challengeCreateContract (services.core.contracts.tests.test_challenges_contracts.Test_challenge_contracts) ... 
+--- test acceptable request
+--- test request with unacceptable params value (no value for 'to_student_id')
+--- test request with unacceptable params value (string type for 'student_id')
+ok
+test_challengeReadContract (services.core.contracts.tests.test_challenges_contracts.Test_challenge_contracts) ...   
+--- test acceptable request
+ok
+test_challengeUpdateCompletedContract (services.core.contracts.tests.test_challenges_contracts.Test_challenge_contracts) ... 
+--- test acceptable request (with params winner_id)
+--- test acceptable request (no params winner_id
+--- test request with missing params ('to_student_id')
+--- test request with unacceptable params value (string type for 'quiz_id')
+--- test if winner_id not equal to from_student_id / to_student_id
+ok
+test_validate_student_id (services.core.contracts.tests.test_challenges_contracts.Test_challenge_contracts) ... 
+--- test if arg is None type
+--- test if arg is string type
+--- test if arg is float type
+--- test if arg is boolean type
+ok
+test_validate_winner_id (services.core.contracts.tests.test_challenges_contracts.Test_challenge_contracts) ...
+--- test if winner_id is None type
+--- test if winner_id is string type
+--- test if winner_id is float type
+--- test if winner_id is boolean type
+--- test if winner_id not equal to from_student_id / to_student_id
+ok
+
+
+test_courses_contracts.py: starting test...
+test_courseCreateContract (services.core.contracts.tests.test_courses_contracts.Test_courses_contracts) ... 
+--- test acceptable request
+--- test request with unacceptable params value (empty string for 'index')
+ok
+test_courseReadContract (services.core.contracts.tests.test_courses_contracts.Test_courses_contracts) ... 
+--- test acceptable request
+--- test request with unacceptable params value (empty string for 'index')
+ok
+test_validate_index (services.core.contracts.tests.test_courses_contracts.Test_courses_contracts) ... 
+--- test if arg is None type
+--- test if arg is empty string
+ok
+
+
+test_lessons_contracts.py: starting test...
+test_lessonCreateContract (services.core.contracts.tests.test_lessons_contracts.Test_lessons_contracts) ...
+--- test acceptable request
+--- test request with missing params ('content')
+--- test request with unacceptable params value (empty string for 'content')
+ok
+test_lessonDeleteContract (services.core.contracts.tests.test_lessons_contracts.Test_lessons_contracts) ... 
+--- test acceptable request
+--- test request with missing params ('lesson_id')
+--- test request with unacceptable params value (no value for 'lesson_id')
+ok
+test_lessonReadContract (services.core.contracts.tests.test_lessons_contracts.Test_lessons_contracts) ... 
+--- test acceptable request
+--- test request with unacceptable params value (no value for 'lesson_id')
+ok
+test_lessonUpdateContract (services.core.contracts.tests.test_lessons_contracts.Test_lessons_contracts) ...
+--- test acceptable request
+--- test request with missing params ('value')
+--- test request with unacceptable params value (no value for 'value')
+--- test request with unacceptable params value (string type for 'topic_id')
+ok
+test_validate_content (services.core.contracts.tests.test_lessons_contracts.Test_lessons_contracts) ... 
+--- test if arg is None type
+--- test if arg is empty string
+ok
+test_validate_lesson_id (services.core.contracts.tests.test_lessons_contracts.Test_lessons_contracts) ...
+--- test if arg is None type
+--- test if arg is string type
+--- test if arg is float type
+--- test if arg is boolean type
+ok
+test_validate_name (services.core.contracts.tests.test_lessons_contracts.Test_lessons_contracts) ...
+--- test if arg is None type
+--- test if arg is empty string
+ok
+test_validate_url_link (services.core.contracts.tests.test_lessons_contracts.Test_lessons_contracts) ...
+--- test if arg is empty string
+--- test if arg is in the wrong format (no https://)
+ok
+
+
+test_progresses_contracts.py: starting test...
+test_progressReadContract (services.core.contracts.tests.test_progresses_contracts.Test_progresses_contracts) ...
+--- test acceptable request
+--- test request with unacceptable params value (string type for 'student_id')
+--- test request with unacceptable params value (no value for 'student_id')
+ok
+test_validate_student_id (services.core.contracts.tests.test_progresses_contracts.Test_progresses_contracts) ...
+--- test if arg is None type
+--- test if arg is string type
+--- test if arg is float type
+--- test if arg is boolean type
+ok
+
+
+test_questionAttempts_contracts.py: starting test...
+test_questionAttemptCreateContract (services.core.contracts.tests.test_questionAttempts_contracts.Test_questionAttempts_contracts) ...
+--- test acceptable request
+--- test request with missing params ('duration_ms')
+--- test request with unacceptable params value (float type for 'duration_ms')
+--- test request with unacceptable params value (negative value for 'duration_ms')
+--- test request with unacceptable params value (string type for 'duration_ms')
+ok
+test_questionAttemptListReadContract (services.core.contracts.tests.test_questionAttempts_contracts.Test_questionAttempts_contracts) ...
+--- test acceptable request
+--- test request with unacceptable params value (no value for 'question_id')
+--- test request with unacceptable params value (string type for 'question_id')
+ok
+test_validate_duration_ms (services.core.contracts.tests.test_questionAttempts_contracts.Test_questionAttempts_contracts) ...
+--- test if arg is None type
+--- test if arg is string type
+--- test if arg is float type
+--- test if arg is boolean type
+--- test if arg is negative
+ok
+test_validate_is_correct (services.core.contracts.tests.test_questionAttempts_contracts.Test_questionAttempts_contracts) ...
+--- test if arg is None type
+--- test if arg is string type
+--- test if arg is float type
+--- test if arg is float type
+ok
+test_validate_question_id (services.core.contracts.tests.test_questionAttempts_contracts.Test_questionAttempts_contracts) ...
+--- test if arg is None type
+--- test if arg is string type
+--- test if arg is float type
+--- test if arg is boolean type
+ok
+test_validate_student_id (services.core.contracts.tests.test_questionAttempts_contracts.Test_questionAttempts_contracts) ... 
+--- test if arg is None type
+--- test if arg is string type
+--- test if arg is float type
+--- test if arg is boolean type
+ok
+
+
+test_quizAttempts_contracts.py: starting test...
+test_quizAttemptCreateContract (services.core.contracts.tests.test_quizAttempts_contracts.Test_quizAttempts_contracts) ...
+--- test acceptable request
+--- test request with missing params ('score')
+--- test request with unacceptable params value (negative value for 'score')
+--- test request with unacceptable params value (string type for 'student_id')
+ok
+test_quizAttemptListReadContract (services.core.contracts.tests.test_quizAttempts_contracts.Test_quizAttempts_contracts) ...
+--- test acceptable request
+--- test request with missing params ('quiz_id')
+--- test request with unacceptable params value (no value for 'quiz_id')
+--- test request with unacceptable params value (string type for 'student_id')
+ok
+test_validate_quiz_id (services.core.contracts.tests.test_quizAttempts_contracts.Test_quizAttempts_contracts) ...
+--- test if arg is None type
+--- test if arg is string type
+--- test if arg is float type
+--- test if arg is boolean type
+ok
+test_validate_score (services.core.contracts.tests.test_quizAttempts_contracts.Test_quizAttempts_contracts) ...
+--- test if arg is None type
+--- test if arg is string type
+--- test if arg is float type
+--- test if arg is boolean type
+--- test if arg is negative
+ok
+test_validate_student_id (services.core.contracts.tests.test_quizAttempts_contracts.Test_quizAttempts_contracts) ...
+--- test if arg is None type
+--- test if arg is string type
+--- test if arg is float type
+--- test if arg is boolean type
+ok
+
+
+test_rs_lesson_quiz_contains_contracts.py: starting test...
+test_quizMngCreateContract (services.core.contracts.tests.test_rs_lesson_quiz_contains_contracts.Test_rs_lesson_quiz_contains_contracts) ...
+--- test acceptable request
+--- test request with unacceptable params value (string type for 'quiz_id')
+--- test request with unacceptable params value (no value for 'quiz_id')
+--- test request with missing params ('quiz_id')
+ok
+test_quizMngDeleteContract (services.core.contracts.tests.test_rs_lesson_quiz_contains_contracts.Test_rs_lesson_quiz_contains_contracts) ...
+--- test acceptable request
+--- test request with unacceptable params value (string type for 'id')
+--- test request with unacceptable params value (no value for 'id')
+ok
+test_quizMngReadContract (services.core.contracts.tests.test_rs_lesson_quiz_contains_contracts.Test_rs_lesson_quiz_contains_contracts) ...
+--- test acceptable request
+--- test request with unacceptable params value (string type for 'lesson_id')
+--- test request with unacceptable params value (no value for 'lesson_id')
+--- test request with missing params ('lesson_id')
+ok
+test_validate_id (services.core.contracts.tests.test_rs_lesson_quiz_contains_contracts.Test_rs_lesson_quiz_contains_contracts) ...
+--- test if arg is None type
+--- test if arg is string type
+--- test if arg is float type
+--- test if arg is boolean type
+ok
+
+
+test_rs_staff_course_teaches_contracts.py: starting test...
+test_courseMngCreateContract (services.core.contracts.tests.test_rs_staff_course_teaches_contracts.Test_rs_staff_course_teaches_contracts) ...
+--- test acceptable request
+--- test request with missing params ('user_email')
+--- test request with unacceptable params value (empty string for 'course_index')
+--- test request with unacceptable params value ('user_email' lacking '@')
+ok
+test_courseMngReadContract (services.core.contracts.tests.test_rs_staff_course_teaches_contracts.Test_rs_staff_course_teaches_contracts) ...
+--- test acceptable request
+--- test request with unacceptable params value ('user_email' lacking '@')
+--- test request with unacceptable params value (empty string for 'user_email')
+ok
+
+
+test_rs_student_course_enrols_contracts.py: starting test...
+test_courseClasslistReadContract (services.core.contracts.tests.test_rs_student_course_enrols_contracts.Test_rs_student_course_enrols_contracts) ...
+--- test acceptable request
+--- test request with unacceptable params value (empty string for 'course_index')
+ok
+test_courseMngCreateContract (services.core.contracts.tests.test_rs_student_course_enrols_contracts.Test_rs_student_course_enrols_contracts) ...
+--- test acceptable request
+--- test request with missing params ('course_index')
+--- test request with unacceptable params value (empty string for 'course_index')
+--- test request with unacceptable params value ('email' lacking '@')
+ok
+test_courseMngReadContract (services.core.contracts.tests.test_rs_student_course_enrols_contracts.Test_rs_student_course_enrols_contracts) ...
+--- test acceptable request
+--- test request with unacceptable params value ('email' lacking '@')
+--- test request with unacceptable params value (empty string for 'email')
+ok
+
+
+test_staffs_contracts.py: starting test...
+test_staffCreateContract (services.core.contracts.tests.test_staffs_contracts.Test_staffs_contracts) ...
+--- test acceptable request
+--- test request with unacceptable params value ('email' lacking '@')
+--- test request with unacceptable params value (empty string for 'email')
+--- test request with unacceptable params value (empty string for 'password')
+ok
+test_staffReadContract (services.core.contracts.tests.test_staffs_contracts.Test_staffs_contracts) ...
+--- test acceptable request
+--- test request with unacceptable params value ('email' lacking '@')
+--- test request with unacceptable params value (empty string for 'email')
+ok
+test_validate_name (services.core.contracts.tests.test_staffs_contracts.Test_staffs_contracts) ... 
+--- test if arg is None type
+--- test if arg is empty string
+ok
+
+
+test_statistics_contracts.py: starting test...
+test_activityReadContract (services.core.contracts.tests.test_statistics_contracts.Test_statistics_contracts) ...
+--- test acceptable request
+--- test request with unacceptable params value (no value for 'student_id')
+--- test request with unacceptable params value (incorrect format for 'date_end')
+--- test request with missing params ('student_id')
+ok
+test_courseScoreReadContract (services.core.contracts.tests.test_statistics_contracts.Test_statistics_contracts) ...
+--- test acceptable request
+ok
+test_leaderboardReadContract (services.core.contracts.tests.test_statistics_contracts.Test_statistics_contracts) ...
+--- test acceptable request
+ok
+test_studentScoreReadContract (services.core.contracts.tests.test_statistics_contracts.Test_statistics_contracts) ...
+--- test acceptable request
+ok
+
+
+test_students_contracts.py: starting test...
+test_studentCreateContract (services.core.contracts.tests.test_students_contracts.Test_students_contracts) ...
+--- test acceptable request (No value passed into name params
+--- test acceptable request (Value passed into name params
+--- test request with missing params ('matriculation_number')
+--- test request with unacceptable params value (empty string for 'name')
+--- test request with unacceptable params value (empty string for 'matriculation_number')
+ok
+test_studentReadContract (services.core.contracts.tests.test_students_contracts.Test_students_contracts) ...
+--- test acceptable request
+--- test request with unacceptable params value (empty string for 'email')
+--- test request with unacceptable params value ('email' lacking '@')
+ok
+test_validate_matriculation_number (services.core.contracts.tests.test_students_contracts.Test_students_contracts) ...
+--- test if arg is None type
+--- test if arg is empty string
+ok
+
+
+test_topics_contracts.py: starting test...
+test_topicCreateContract (services.core.contracts.tests.test_topics_contracts.Test_topics_contracts) ...
+--- test acceptable request
+--- test request with unacceptable params value (empty string for 'name')
+ok
+test_topicDeleteContract (services.core.contracts.tests.test_topics_contracts.Test_topics_contracts) ...
+--- test acceptable request
+--- test request with unacceptable params value (no value for 'id')
+--- test request with unacceptable params value (string type for 'id')
+ok
+test_topicReadContract (services.core.contracts.tests.test_topics_contracts.Test_topics_contracts) ...
+--- test acceptable request
+--- test request with unacceptable params value (no value for 'id')
+--- test request with unacceptable params value (string type for 'id')
+ok
+test_topicUpdateContract (services.core.contracts.tests.test_topics_contracts.Test_topics_contracts) ... 
+--- test acceptable request
+--- test request with unacceptable params value (empty string for 'name')
+--- test request with unacceptable params value (no value for 'id')
+ok
+test_validate_id (services.core.contracts.tests.test_topics_contracts.Test_topics_contracts) ...
+--- test if arg is None type
+--- test if arg is string type
+--- test if arg is float type
+--- test if arg is boolean type
+ok
+test_validate_name (services.core.contracts.tests.test_topics_contracts.Test_topics_contracts) ...
+--- test if arg is None type
+--- test if arg is empty string
+ok
+
+
+test_users_contracts.py: starting test...
+test_userCreateContract (services.core.contracts.tests.test_users_contracts.Test_user_contracts) ...
+--- test acceptable request
+--- test request with missing params ('password')
+--- test request with unacceptable params value (empty string for 'password')
+ok
+test_userReadContract (services.core.contracts.tests.test_users_contracts.Test_user_contracts) ...
+--- test acceptable request
+--- test request with unacceptable params value ('email' lacking '@')
+--- test request with unacceptable params value (empty string for 'email')
+ok
+test_userUpdateContract (services.core.contracts.tests.test_users_contracts.Test_user_contracts) ...
+--- test acceptable request
+--- test request with missing params ('new_password')
+--- test request with unacceptable params value (empty string for 'new_password')
+ok
+test_validate_email (services.core.contracts.tests.test_users_contracts.Test_user_contracts) ...
+--- test if arg is None type
+--- test if arg is empty string
+--- test if arg is an email address with no username
+--- test if arg is an email address with no '@'
+--- test if arg is an email address with a domain without a '.'
+ok
+test_validate_password (services.core.contracts.tests.test_users_contracts.Test_user_contracts) ...
+--- test if arg is None type
+--- test if arg is empty string
+ok
+
+----------------------------------------------------------------------
+Ran 59 tests in 0.983s
+
+OK
