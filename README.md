@@ -61,7 +61,7 @@ In Windows CMD, ensure you are in the folder of your repository
 ## Testing the API endpoints
 
 1. Download and install [Postman](https://www.postman.com/downloads/)
-2. Import the collection (cz3003-eduventure.postman_collection.json). Alternatively, import the collection from this [link](https://www.getpostman.com/collections/7df24ad60406f871aa36) for the most updated version
+2. Import the collection (cz3003-eduventure.postman_collection.json) (Note: not the most updated version)
 
 ## Running test scripts
 
